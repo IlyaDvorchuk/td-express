@@ -49,14 +49,7 @@ const InitialModalLogin = ({setCurrentModal}: {setCurrentModal: Dispatch<SetStat
             <div className={'modalLogin__email'}>
                 {isEmailError &&
                     <p className={'warningLogin'}>Вы ввели несуществующий E-mail</p>}
-                <input
-                    value={email}
-                    onChange={changeEmail}
-                    type="email"
-                    className={'modalInput'}
-                    placeholder={'E-mail...'}
-                    autoComplete={'on'}
-                />
+                <input value={email} onChange={changeEmail} type="email" className={'modalInput'} placeholder={'E-mail...'} autoComplete={'on'}/>
             </div>
             <button className={'button button_dark'} onClick={onLogin}>ВОЙТИ</button>
             <button className={'button button_light'} onClick={onRegistry}>ЗАРЕГИСТРИРОВАТЬСЯ</button>
