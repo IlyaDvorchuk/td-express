@@ -61,21 +61,11 @@ const BoxShelterGoods = () => {
             <div className={'goods__selects'}>
                 <div className={'select'}>
                     <span className={'select__label'}>Показать товары:</span>
-                    <Select
-                        options={goodsOptions}
-                        defaultValue={goodsOptions[0]}
-                        className={'select-input select-input_goods'}
-                        classNamePrefix={'select'}
-                    />
+                    <Select options={goodsOptions} defaultValue={goodsOptions[0]} className={'select-input select-input_goods'} classNamePrefix={'select'}/>
                 </div>
                 <div className={'select'}>
                     <span className={'select__label'}>Отсортировать:</span>
-                    <Select
-                        options={filterOptions}
-                        defaultValue={filterOptions[0]}
-                        className={'select-input select-input_filter'}
-                        classNamePrefix={'select'}
-                    />
+                    <Select options={filterOptions} defaultValue={filterOptions[0]} className={'select-input select-input_filter'} classNamePrefix={'select'}/>
                 </div>
                 <button className={'button button_dark goods__button'} onClick={onCreateGood}>Добавить товар</button>
             </div>

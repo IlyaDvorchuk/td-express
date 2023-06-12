@@ -62,7 +62,7 @@ export const loginShelter = (email: string, password: string) => async (dispatch
         dispatch(shelterSlice.actions.setAuth(true))
         dispatch(shelterSlice.actions.setShelter(response.data))
         const accessToken = getAccessTokenFromCookieShelter();
-        console.log('accessToken', accessToken)
+        console.log('accessToken login', accessToken)
         if (accessToken) {
             setAccessTokenShelter(accessToken);
             dispatch(shelterSlice.actions.setLoginSuccess(accessToken));
@@ -116,7 +116,9 @@ export const createProductCard = (good: IProductCard, mainPhoto: File, additiona
         const response = await ShelterService.createGoodCard(formData)
         if (response) {
             dispatch(shelterSlice.actions.setCreateGoodCard(true))
-        } else dispatch(shelterSlice.actions.setCreateGoodCard(false))
+        } else {
+            dispatch(shelterSlice.actions.setCreateGoodCard(false))
+        }
     } catch (e: any) {
         console.log('e', e)
         dispatch(shelterSlice.actions.setCreateGoodCard(false))

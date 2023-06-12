@@ -44,10 +44,7 @@ const InputFile = ({image, setImage, position}: IInputFile) => {
             <label className={image ? 'current' : ''} onClick={() => {
                 if (inputFileRef.current) inputFileRef.current.click()
             }}>
-                <img
-                    src={image ? '/images/svg/input-file-success.svg' : "/images/svg/input-file.svg"}
-                    alt="Прикрепите скан"
-                />
+                <img src={image ? '/images/svg/input-file-success.svg' : "/images/svg/input-file.svg"} alt="Прикрепите скан"/>
                 <span>{image ? 'Загружено' : 'Загрузить'}</span>
             </label>
             <input
