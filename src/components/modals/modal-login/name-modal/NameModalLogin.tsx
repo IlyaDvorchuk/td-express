@@ -25,20 +25,8 @@ const NameModalLogin = ({setCurrentModal}: {setCurrentModal: Dispatch<SetStateAc
     return (
         <div className={'modalName'}>
             <h3 className={'userAuthModal__title modalName__title'}>Введите имя и фамилию</h3>
-            <input
-                value={name}
-                onChange={onChangeName}
-                type="text"
-                className={`modalInput modalName__name`}
-                placeholder={'Имя'}
-            />
-            <input
-                value={family}
-                onChange={onChangeFamily}
-                type="text"
-                className={`modalInput modalName__family`}
-                placeholder={'Фамилия'}
-            />
+            <input value={name} onChange={onChangeName} type="text" className={`modalInput modalName__name`} placeholder={'Имя'}/>
+            <input value={family} onChange={onChangeFamily} type="text" className={`modalInput modalName__family`} placeholder={'Фамилия'}/>
             <button className={'button button_dark'} onClick={onContinue}>ПРОДОЛЖИТЬ</button>
         </div>
     );
