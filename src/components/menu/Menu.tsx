@@ -35,7 +35,7 @@ const Menu = () => {
         console.log('subcat', subcat)
         if (subcat.children.length > 0) {
             setParentName(subcat.alternateName)
-        } else setParentName('')
+        } else {setParentName('')}
 
     }
 

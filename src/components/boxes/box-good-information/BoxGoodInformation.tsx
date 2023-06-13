@@ -17,28 +17,16 @@ const BoxGoodInformation = () => {
     return (
         <div className={'good-additional'}>
             <div className={'good-tabs'}>
-                <h4
-                    className={`good-tabs__item ${activeTab === 0 && 'active'}`}
-                    onClick={() => handleTabClick(0)}
-                >
+                <h4 className={`good-tabs__item ${activeTab === 0 && 'active'}`} onClick={() => handleTabClick(0)}>
                     Описание
                 </h4>
-                <h4
-                    className={`good-tabs__item ${activeTab === 1 && 'active'}`}
-                    onClick={() => handleTabClick(1)}
-                >
+                <h4 className={`good-tabs__item ${activeTab === 1 && 'active'}`} onClick={() => handleTabClick(1)}>
                     Характеристики
                 </h4>
-                <h4
-                    className={`good-tabs__item ${activeTab === 2 && 'active'}`}
-                    onClick={() => handleTabClick(2)}
-                >
+                <h4 className={`good-tabs__item ${activeTab === 2 && 'active'}`} onClick={() => handleTabClick(2)}>
                     Отзывы
                 </h4>
-                <h4
-                    className={`good-tabs__item ${activeTab === 3 && 'active'}`}
-                    onClick={() => handleTabClick(3)}
-                >
+                <h4 className={`good-tabs__item ${activeTab === 3 && 'active'}`} onClick={() => handleTabClick(3)}>
                     Описание
                 </h4>
             </div>

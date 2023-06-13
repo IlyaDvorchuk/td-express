@@ -6,7 +6,7 @@ const Search = () => {
         <div className={'search'}>
             <input className={'search-input'}/>
             <button className={'search-button'}>
-                <img src="/images/svg/search.svg"/>
+                <img src="/images/svg/search.svg" alt={'Поиск товаров'}/>
             </button>
         </div>
     );

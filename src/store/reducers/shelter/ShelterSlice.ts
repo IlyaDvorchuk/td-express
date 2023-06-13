@@ -89,6 +89,7 @@ export const shelterSlice = createSlice({
 
         setLoginSuccess: (state, action: PayloadAction<string>) => {
             state.isAuthenticated = true;
+            console.log('setLoginSuccess', action.payload);
             state.accessToken = action.payload;
         },
 
