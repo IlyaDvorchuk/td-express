@@ -4,6 +4,7 @@ import {useAppDispatch, useAppSelector} from "../../hooks/redux";
 import {fetchCategories} from "../../store/reducers/categories/CategoriesCreators";
 import {ISections, ISubcategories} from "../../models/ICategories";
 import {Link} from "react-router-dom";
+import {API_URL} from "../../http";
 
 const Menu = () => {
     const [isPressed, setIsPressed] = useState(false)
@@ -61,7 +62,7 @@ const Menu = () => {
                                 className={`main-categories__item ${index === activeCategory && 'active'}`}
                                 key={index}
                             >
-                                <img className={'icon'} src={categ.icon} alt=""/>
+                                <img className={'icon'} src={`${API_URL}${categ.icon}`} alt=""/>
                                 <div>
                                     {categ.name}
                                 </div>
