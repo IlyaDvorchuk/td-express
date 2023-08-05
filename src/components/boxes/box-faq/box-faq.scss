@@ -1,0 +1,75 @@
+@import "src/styles/constants";
+@import "src/styles/mixins";
+
+.faq {
+  &__title {
+    margin: 92px 0 46px;
+    font-size: $bigTitleSize;
+    font-weight: 800;
+  }
+
+  &__main {
+    height: 100%;
+    position: relative;
+    margin-bottom: 39px;
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+  }
+
+
+  & .aside {
+    position: sticky;
+    top: 0;
+    height: 336px; & .r {
+    height: 2000px;
+    position: relative;
+  }
+
+    min-width: 305px;
+
+    &__block {
+      margin-bottom: 15px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    &__title {
+      color: $title2Color;
+      font-weight: 400;
+      font-size: $littleMediumSize;
+      cursor: pointer;
+    }
+
+    &__anchor {
+      color: $title3Color;
+      font-size: $mediumLittleSize;
+    }
+  }
+
+  & .information {
+    padding: 16px 22px;
+    border: 1px solid #898989;
+    color: $title2Color;
+
+    &__title {
+      margin-bottom: 20px;
+      font-size: $bigTitleSize;
+    }
+
+    &__subtitle {
+      margin-bottom: 7px;
+      font-size: $subTitleSize;
+    }
+
+    &__p {
+      margin-bottom: 12px;
+
+      font-size: $mediumLittleSize;
+    }
+
+    & ol {
+      padding-left: 12px;
+    }
+  }
+}

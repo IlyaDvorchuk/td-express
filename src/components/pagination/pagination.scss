@@ -1,0 +1,28 @@
+@import "src/styles/constants";
+@import "src/styles/mixins";
+
+.pagination {
+  margin: auto;
+  display: flex;
+  justify-content: center;
+
+  &__item {
+    font-size: $subTitleSize;
+    font-weight: 800;
+    color: $text4Color;
+    border-radius: 50%;
+    @include flex(center, center);
+    @include square(36px);
+    cursor: pointer;
+
+    &.active {
+      color: $backgroundColor;
+      background-color: $additionalColor;
+    }
+  }
+
+  &__img {
+    margin: 0 13px;
+    cursor: pointer;
+  }
+}

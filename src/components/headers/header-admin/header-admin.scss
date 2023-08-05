@@ -1,0 +1,22 @@
+
+@import "../../../styles/constants";
+.header-admin {
+  background: #B6B6B6;
+  padding: 15px 20px 20px;
+  font-size: 20px;
+
+  &__logo {
+    margin-bottom: 19px;
+  }
+
+  &__links {
+    display: flex;
+    column-gap: 50px;
+    row-gap: 10px;
+    flex-wrap: wrap;
+
+    & > div {
+      cursor: pointer;
+    }
+  }
+}

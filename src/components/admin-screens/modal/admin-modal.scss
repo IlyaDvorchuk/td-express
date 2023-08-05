@@ -1,0 +1,35 @@
+@import "../../../styles/constants";
+
+.admin-modal {
+  position: fixed;
+  width: 590px;
+  height: 335px;
+  display: flex;
+  flex-direction: column;
+  padding: 15px;
+  background-color: $backgroundColor;
+  top: calc(50% - 167.5px);
+  left: calc(50% - 295px);
+  z-index: 9999;
+
+  &__title {
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #B6B6B6;
+    font-size: $bigMediumSize;
+    color: #B6B6B6;
+    font-weight: 400;
+  }
+
+  &__textarea {
+    flex: 1;
+    border: none;
+  }
+
+  &__button {
+    width: 129px;
+    margin-top: 15px;
+    margin-left: auto;
+    margin-right: 18px;
+  }
+}

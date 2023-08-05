@@ -1,0 +1,49 @@
+@import "src/styles/constants";
+
+.notification {
+  position: relative;
+  border: 1px solid $text3CColor;
+  border-radius: 16px;
+  padding: 20px 50px 20px 16px;
+  color: $title2Color;
+
+  &__remove {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    top: 15px;
+    right: 13px;
+    cursor: pointer;
+
+    & > p {
+      margin-right: -14px;
+      padding: 9px 85px 9px 10px;
+      font-size: $littleMediumSize;
+      border: 1px solid #C3C3C3;
+      border-radius: 8px;
+    }
+  }
+
+  &__message {
+    margin-bottom: 8px;
+    font-size: $littleMediumSize;
+    leading-trim: both;
+    text-edge: cap;
+  }
+
+  &__date {
+    font-size: $mediumLittleSize;
+  }
+}
+
+.delete-notification {
+  font-size: $littleMediumSize;
+  margin: 8px auto 8px 16px;
+
+  &__cancel {
+    cursor: pointer;
+    color: $linkColor;
+    text-decoration: underline;
+  }
+}
