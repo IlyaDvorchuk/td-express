@@ -17,20 +17,28 @@ export interface IShelter {
 }
 
 export interface IShelterRes {
-    id?: string,
+    _id: string,
     password?: string,
     email: string,
     name: string,
     phone: string,
-    shelterData: {
-        personalData: IPersonalData,
-        closePerson: IClosePerson,
-        entity: IEntity
-    },
+    shelterData: IShelterData,
     imageShop: string,
     shop: IShelterShop,
     deliveryPoints: IDeliveryPoint2[],
-    isVerified: boolean
+    isVerified: boolean,
+    createdAt: Date
+}
+
+export interface IShelterALL {
+    shelter: IShelterRes,
+    unreadCount: number
+}
+
+export interface IShelterData {
+    personalData: IPersonalData,
+    closePerson: IClosePerson,
+    entity: IEntity
 }
 
 export interface IMainShelter {

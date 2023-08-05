@@ -2,18 +2,23 @@ import React, {ChangeEvent, useEffect, useState} from 'react';
 import './forn-registration-data.scss'
 import '../../../styles/elements/inputs.scss'
 import {useAppDispatch, useAppSelector} from "../../../hooks/redux";
-import {IPersonalData} from "../../../models/response/IShelter";
+import {IPersonalData, IShelterData, } from "../../../models/response/IShelter";
 import {shelterSlice} from "../../../store/reducers/shelter/ShelterSlice";
 import {useNavigate} from "react-router-dom";
-import InputFile from "../../inputs/input-file/InputFile";
+import {ShelterService} from "../../../services/ShelterService";
 
-const FormRegistrationData = () => {
+interface IProps {
+    shelterData: IShelterData | null,
+    id: string | null
+}
+
+const FormRegistrationData = ({shelterData, id}: IProps) => {
     const navigate = useNavigate();
     const dispatch = useAppDispatch()
     const {isRegistry} = useAppSelector(state => state.shelterReducer)
     const {shelter} = useAppSelector(state => state.shelterReducer)
     const {setIsRegistry} = shelterSlice.actions
-    const [image, setImage] = useState<File | null>(null)
+    // const [image, setImage] = useState<File | null>(null)
     const [isCompletedInputs, setIsCompletedInputs] = useState(false)
     const [closePerson, setClosePerson] = useState({
         name: '',
@@ -35,60 +40,108 @@ const FormRegistrationData = () => {
         check: ''
     })
 
+    useEffect(() => {
+        if (shelterData) {
+            const {personalData, closePerson, entity} = shelterData
+            setPersonalData({
+                name: personalData.name,
+                birthday: personalData.birthday,
+                family: personalData.family,
+                patronymic: personalData.patronymic
+            })
+            setClosePerson({
+                family: closePerson.family,
+                name: closePerson.name,
+                patronymic: closePerson.patronymic,
+                phoneClose: closePerson.phoneClose
+            })
+            setEntityData({
+                bic: entity.bic,
+                check: entity.check,
+                code: entity.code,
+                isIndividual: entity.isIndividual
+            })
+        }
+    },[shelterData])
 
     useEffect(() => {
-        console.log('isRegistry', isRegistry)
+        const updateShelterData = async () => {
+            if (isRegistry) {
+                let isCompletedFields = true;
 
-        if (isRegistry) {
-            let isCompletedFields = true
-
-            for (let field of Object.values(closePerson)) {
-                if (!field) {
-                    isCompletedFields = false
+                for (let field of Object.values(closePerson)) {
+                    if (!field) {
+                        isCompletedFields = false;
+                    }
                 }
-            }
 
-            for (let field of Object.values(personalData)) {
-                if (!field) {
-                    isCompletedFields = false
+                for (let field of Object.values(personalData)) {
+                    if (!field) {
+                        isCompletedFields = false;
+                    }
                 }
-            }
 
-            for (let field of Object.values(entityData)) {
-                if (!(typeof field === 'boolean') && !field) {
-                    isCompletedFields = false
+                for (let field of Object.values(entityData)) {
+                    if (!(typeof field === 'boolean') && !field) {
+                        isCompletedFields = false;
+                    }
                 }
-            }
 
-            if (!image) {
-                isCompletedFields = false
-            }
+                // if (!image) {
+                //     isCompletedFields = false
+                // }
 
-            if (!isCompletedFields || !image) {
-                setIsCompletedInputs(true)
-                return
-            }
-            localStorage.setItem('shelter-data', JSON.stringify({
-                    closePerson,
-                    personalData,
-                    entity: entityData
-            }))
-            const reader = new FileReader();
-
-            reader.readAsDataURL(image)
-            console.log('image', image)
-            reader.onload = () => {
-                if (reader.result !== null) {
-                    const base64String = reader.result.toString();
-                    localStorage.setItem('image-shelter-data', base64String);
-                } else {
-                    console.error('Не удалось прочитать файл');
+                if (!isCompletedFields) {
+                    setIsCompletedInputs(true);
+                    return;
                 }
+
+                if (id) {
+                    try {
+                        const response = await ShelterService.updateDataShelter(id, {
+                            closePerson,
+                            personalData,
+                            entity: entityData,
+                        });
+                        dispatch(setIsRegistry(false))
+                        if (response.data) {
+                            dispatch(shelterSlice.actions.setShelter(response.data))
+                            navigate('/shelter/main')
+                        }
+                        return
+                    } catch (error) {
+                        console.error('Ошибка при обновлении данных приюта:', error);
+                        return
+                    }
+                }
+
+                localStorage.setItem(
+                    'shelter-data',
+                    JSON.stringify({
+                        closePerson,
+                        personalData,
+                        entity: entityData,
+                    })
+                );
+                const reader = new FileReader();
+
+                // reader.readAsDataURL(image)
+                reader.onload = () => {
+                    if (reader.result !== null) {
+                        const base64String = reader.result.toString();
+                        localStorage.setItem('image-shelter-data', base64String);
+                    } else {
+                        console.error('Не удалось прочитать файл');
+                    }
+                };
+                setIsRegistry(false);
+                navigate('/shop-data');
             }
-            setIsRegistry(false)
-            navigate('/registration-shop')
-        }
-    }, [isRegistry, isCompletedInputs, image, shelter, dispatch, closePerson, personalData, entityData, setIsRegistry, navigate])
+        };
+
+        updateShelterData();
+    }, [isRegistry, isCompletedInputs, shelter, dispatch, closePerson, personalData, entityData, setIsRegistry, navigate, id]);
+
 
     const onSetName = (e: ChangeEvent<HTMLInputElement>) => {
         setPersonalData({...personalData, name: e.target.value})
@@ -273,7 +326,7 @@ const FormRegistrationData = () => {
                             </span>
                             </div>
                         </div>
-                        <InputFile image={image} setImage={setImage} position={'right'}/>
+                        {/*<InputFile image={image} setImage={setImage} position={'right'}/>*/}
                     </div>
 
                     <div className={'reg-field'}>

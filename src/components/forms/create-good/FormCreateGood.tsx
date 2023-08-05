@@ -46,7 +46,6 @@ const FormCreateGood = ({card} : {card: IProductCard | null}) => {
                 points[checkboxField] = true;
             });
 
-            console.log(points);
             methods.reset({
                 name: card.information.name,
                 material: card.additionalInformation.material,

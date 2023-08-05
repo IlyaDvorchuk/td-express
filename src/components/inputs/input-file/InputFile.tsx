@@ -1,14 +1,23 @@
-import React, {ChangeEvent, Dispatch, SetStateAction, useEffect, useRef} from 'react';
+import React, {ChangeEvent, Dispatch, SetStateAction, useEffect, useRef, useState} from 'react';
 import '../../../styles/elements/inputs.scss'
+import {API_URL} from "../../../http";
 
 interface IInputFile {
     image: File | null,
     setImage: Dispatch<SetStateAction<File | null>>,
     position: 'right' | 'bottom',
+    shopImage?: string | null
 }
 
-const InputFile = ({image, setImage, position}: IInputFile) => {
+const InputFile = ({image, setImage, position, shopImage}: IInputFile) => {
+    const [imageUrl, setImageUrl] = useState('')
     const inputFileRef = useRef<HTMLInputElement>(null)
+
+    useEffect(() => {
+        if (shopImage) {
+            setImageUrl(shopImage)
+        }
+    }, [])
 
     const onSubmitFile = (e: ChangeEvent<HTMLInputElement>) => {
         const { files } = e.target;
@@ -32,12 +41,9 @@ const InputFile = ({image, setImage, position}: IInputFile) => {
     }
 
     const onDeleteFile = () => {
+        setImageUrl('')
         setImage(null)
     }
-
-    useEffect(() => {
-        console.log('position', position)
-    }, [position])
 
     return (
         <div className={`input-file ${position}`}>
@@ -45,10 +51,10 @@ const InputFile = ({image, setImage, position}: IInputFile) => {
                 if (inputFileRef.current) inputFileRef.current.click()
             }}>
                 <img
-                    src={image ? '/images/svg/input-file-success.svg' : "/images/svg/input-file.svg"}
+                    src={(image || imageUrl) ? '/images/svg/input-file-success.svg' : "/images/svg/input-file.svg"}
                     alt="Прикрепите скан"
                 />
-                <span>{image ? 'Загружено' : 'Загрузить'}</span>
+                <span>{(image || imageUrl) ? 'Загружено' : 'Загрузить'}</span>
             </label>
             <input
                 type="file"
@@ -67,12 +73,18 @@ const InputFile = ({image, setImage, position}: IInputFile) => {
                 </div>
             }
             {
-                image && (position === 'bottom') &&
+                (image || imageUrl) && (position === 'bottom') &&
                 <>
-                    <img className={'image-user'} src={URL.createObjectURL(image)} alt="Фото"/>
+                    {imageUrl &&
+                        <img className={'image-user'} src={`${API_URL}${imageUrl}`} alt="Фото"/>
+                    }
+                    {image &&
+                       <img className={'image-user'} src={URL.createObjectURL(image)} alt="Фото"/>
+                    }
                     <div className={'name-image'}>
                     <span>
-                        {image.name}
+                        {image && image.name}
+                        {shopImage && shopImage}
                     </span>
                         <img src="/images/svg/close.svg" alt="Убрать фото" onClick={onDeleteFile}/>
                     </div>

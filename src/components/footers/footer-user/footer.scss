@@ -124,8 +124,13 @@
   }
 
   &__text_mobile {
+    display: none;
     margin: 16px 20px;
     font-size: $veryLittleSize;
     max-width: 320px;
+
+    @media screen and (max-width: 425px) {
+      display: block;
+    }
   }
 }

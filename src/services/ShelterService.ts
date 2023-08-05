@@ -1,8 +1,9 @@
 import {AxiosResponse} from "axios";
 import {$apiShelter} from "../http";
-import {IDeliveryPoint2} from "../models/IDeliveryPoint";
+import {IDeliveryPoint, IDeliveryPoint2} from "../models/IDeliveryPoint";
 import {IProductCard, IProductCardRes} from "../models/IProductCard";
-import {IShelterRes} from "../models/response/IShelter";
+import {IShelterALL, IShelterData, IShelterRes, IShelterShop} from "../models/response/IShelter";
+import {INotification} from "../models/INotification";
 
 export class ShelterService {
     static async getPointsIssue(): Promise<AxiosResponse<IDeliveryPoint2[]>> {
@@ -29,15 +30,46 @@ export class ShelterService {
         })
     }
 
-    static async getShelter(): Promise<AxiosResponse<IShelterRes>> {
-        return $apiShelter.get<IShelterRes>(`shelters/`)
+    static async getShelter(): Promise<AxiosResponse<IShelterALL>> {
+        return $apiShelter.get<IShelterALL>(`shelters/`)
     }
 
     static getCardsOfShelter(): Promise<AxiosResponse<IProductCardRes[]>> {
         return $apiShelter.get(`shelters/cards`)
     }
 
+    static getNotificationsOfShelter(): Promise<AxiosResponse<INotification[]>> {
+        return $apiShelter.get(`shelters/notifications`)
+    }
+
+    static readNotificationsOfShelter(): Promise<AxiosResponse<boolean>> {
+        return $apiShelter.get(`shelters/read-notifications`)
+    }
+
+    static deleteNotificationsOfShelter(deleteNotifications: string[]): Promise<AxiosResponse<boolean>> {
+        return $apiShelter.delete(`shelters/notifications`, {
+            data: deleteNotifications
+        })
+    }
+
     static deleteCard(id: string): Promise<AxiosResponse<IProductCard>> {
         return $apiShelter.delete(`product-cards/${id}`)
+    }
+
+    static updateDataShelter(id: string, shelterData: IShelterData): Promise<AxiosResponse<IShelterRes>> {
+        return $apiShelter.put(`shelters/update-data/${id}`, shelterData)
+    }
+
+    static updateShopShelter(
+        id: string,
+        shelterShop: IShelterShop,
+        deliveryPoints: IDeliveryPoint[],
+        imageShop: string,
+    ): Promise<AxiosResponse<IShelterRes>> {
+        return $apiShelter.put(`shelters/update-shop/${id}`, {
+            shelterShop,
+            deliveryPoints,
+            imageShop
+        })
     }
 }

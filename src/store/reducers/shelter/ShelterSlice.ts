@@ -1,5 +1,5 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
-import {IMainShelter, IShelterRes} from "../../../models/response/IShelter";
+import {IMainShelter, IShelterALL, IShelterRes} from "../../../models/response/IShelter";
 import {getAccessTokenShelter, removeAccessTokenShelter} from "../../../utils/tokens";
 import {IDeliveryPoint2} from "../../../models/IDeliveryPoint";
 
@@ -7,6 +7,7 @@ const initialState = {
     shelter: {
 
     } as IShelterRes,
+    unreadCount: 0,
     isAuth: false,
     isLoading: false,
     activationCode: '',
@@ -18,7 +19,8 @@ const initialState = {
     accessToken: getAccessTokenShelter(),
     isHoverTools: false,
     isUpdateCard: false,
-    deliveryPoints: [] as IDeliveryPoint2[]
+    deliveryPoints: [] as IDeliveryPoint2[],
+    isUpdateShopShelter: false
 }
 
 export const shelterSlice = createSlice({
@@ -71,6 +73,15 @@ export const shelterSlice = createSlice({
             state.shelter = action.payload
         },
 
+        setShelterAll: (state, action: PayloadAction<IShelterALL>) => {
+            state.shelter = action.payload.shelter
+            state.unreadCount = action.payload.unreadCount
+        },
+
+        setReadNotifications: (state) => {
+            state.unreadCount = 0
+        },
+
         setEmailShelter: (state, action: PayloadAction<string>) => {
             state.shelter.email = action.payload
         },
@@ -96,6 +107,7 @@ export const shelterSlice = createSlice({
         setLogoutSuccess: (state) => {
             state.isAuthenticated = false;
             state.accessToken = null
+            console.log('state.isAuthenticated ', state.isAuthenticated )
         },
 
         setDeliveryPoints: (state, action: PayloadAction<IDeliveryPoint2[]>) => {
@@ -119,6 +131,9 @@ export const shelterSlice = createSlice({
         },
         updateCardFalse:  (state) => {
             state.isUpdateCard = false
+        },
+        updateShopShelter: (state, action: PayloadAction<boolean>) => {
+            state.isUpdateShopShelter = action.payload
         },
     }
 })

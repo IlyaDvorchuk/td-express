@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import * as yup from 'yup';
 import {useFieldArray, useForm} from "react-hook-form";
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -27,13 +27,21 @@ const DeliveryPointsForm: React.FC<DeliveryPointsProps> = ({deliveryPoints, setD
         register,
         handleSubmit,
         control,
-        formState: { errors },
+        reset
     } = useForm({
         resolver: yupResolver(schema),
         defaultValues: { deliveryPoints },
     });
 
-    const { fields, append, remove } = useFieldArray({
+    useEffect(() => {
+        if (deliveryPoints) {
+            reset({
+                deliveryPoints
+            })
+        }
+    }, [deliveryPoints, reset])
+
+    const { fields, append } = useFieldArray({
         control,
         name: 'deliveryPoints',
     });

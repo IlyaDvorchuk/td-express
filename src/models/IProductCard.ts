@@ -1,3 +1,5 @@
+import {StatusEnum} from "./enums";
+
 export interface IProductCard {
     _id: string;
     categories: {
@@ -42,6 +44,12 @@ export interface IProductCard {
 export interface IProductCardRes extends IProductCard {
     published: boolean
     viewsCount: number
+
+}
+
+export interface IProductCardShelter extends IProductCardRes {
+    countGood: number
+    status: StatusEnum
 
 }
 

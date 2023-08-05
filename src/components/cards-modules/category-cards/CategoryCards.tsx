@@ -24,11 +24,12 @@ const CategoryCards = ({ id, title, limit }: CategoryCardsProps) => {
             const categoryId = id || paramsId;
             if (categoryId) {
                 const response = await GoodsService.getCategoryGoods(categoryId, page, limit);
+                console.log('response.data', response.data)
                 if (prevParamsId !== paramsId) {
 
                     setCategoryCards(response.data.productCards); // Заменяем categoryCards новыми данными
                 } else {
-                    setCategoryCards(prevCards => [...prevCards, ...response.data.productCards]); // Добавляем новые карточки
+                    // setCategoryCards(prevCards => [...prevCards, ...response.data.productCards]); // Добавляем новые карточки
                 }
             }
         } catch (error) {

@@ -1,17 +1,19 @@
 import {AppDispatch} from "../../store";
 import {AuthService} from "../../../services/AuthService";
 import {shelterSlice} from "./ShelterSlice";
-import {IShelter} from "../../../models/response/IShelter";
+import {IShelter, IShelterShop} from "../../../models/response/IShelter";
 import {AuthShelterService} from "../../../services/AuthShelterService";
 import {removeAccessTokenUser, setAccessTokenShelter} from "../../../utils/tokens";
 import {ShelterService} from "../../../services/ShelterService";
 import {IProductCard} from "../../../models/IProductCard";
 import {userSlice} from "../user/UserSlice";
+import {IDeliveryPoint} from "../../../models/IDeliveryPoint";
 
-export const sendCodeShelter = (email: string) => async (dispatch: AppDispatch) => {
+export const sendCodeShelter = (email: string,
+                                isNotExamination?: boolean) => async (dispatch: AppDispatch) => {
     try {
         dispatch(shelterSlice.actions.loginFetching())
-        const response = await AuthService.sendCode(email)
+        const response = await AuthService.sendCode(email, isNotExamination)
         console.log('response', response)
         dispatch(shelterSlice.actions.setActivationCode(response.data))
         dispatch(shelterSlice.actions.loginSuccess())
@@ -182,11 +184,53 @@ export const updateProductCard = (good: IProductCard, id: string, mainPhoto: Fil
         }
     } catch (e: any) {
         console.log('e', e);
-        dispatch(shelterSlice.actions.setCreateGoodCard(false));
+        dispatch(shelterSlice.actions.updateCardFalse());
     }
 };
 
 
+export const updateShopShelter = (
+                                    id: string,
+                                    shelterShop: IShelterShop,
+                                  deliveryPoints: IDeliveryPoint[],
+                                  imageShop: File | string
+                                ) => async (dispatch: AppDispatch) => {
+    try {
+        let shopPhotoBase64: string | undefined;
+
+        // Преобразование mainPhoto в base64
+        if (imageShop instanceof File) {
+            const shopPhotoBase64Promise = new Promise<string>((resolve, reject) => {
+                const reader = new FileReader();
+
+                reader.onloadend = () => {
+                    const base64String = reader.result as string;
+                    resolve(base64String);
+                };
+
+                reader.onerror = reject;
+
+                reader.readAsDataURL(imageShop);
+            });
+
+            shopPhotoBase64 = await shopPhotoBase64Promise;
+        } else {
+            shopPhotoBase64 = imageShop as string;
+        }
+
+        // Выполнение запроса с использованием shopPhotoBase64 и additionalPhotosBase64
+        const response = await ShelterService.updateShopShelter(
+            id, shelterShop, deliveryPoints,  shopPhotoBase64
+        );
+        if (response.data) {
+            dispatch(shelterSlice.actions.setShelter(response.data))
+            dispatch(shelterSlice.actions.updateShopShelter(true))
+        }
+    } catch (e: any) {
+        console.log('e', e);
+        dispatch(shelterSlice.actions.updateShopShelter(false));
+    }
+};
 
 
 
@@ -194,7 +238,8 @@ export const getShelter = () => async (dispatch: AppDispatch) => {
     try {
         const response = await ShelterService.getShelter()
         // console.log('response.data', response.data)
-        dispatch(shelterSlice.actions.setShelter(response.data))
+        console.log('response', response.data)
+        dispatch(shelterSlice.actions.setShelterAll(response.data))
     } catch (e) {
         console.log('e', e)
     }

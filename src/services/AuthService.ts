@@ -16,8 +16,13 @@ export class AuthService {
         return $api.post('/auth/logout')
     }
 
-    static async sendCode(email: string): Promise<AxiosResponse<string>> {
-        return $api.post<string>('/mail', {email})
+    static async sendCode(email: string, isNotExamination?: boolean): Promise<AxiosResponse<string>> {
+        console.log('isNotExamination', isNotExamination)
+        return $api.post<string>('/mail', {
+            email,
+            isShelter: true,
+            isNotExamination
+        })
     }
 
     static async checkEmail(email: string): Promise<AxiosResponse<boolean>> {

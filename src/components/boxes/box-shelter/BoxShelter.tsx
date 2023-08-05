@@ -7,7 +7,7 @@ import ButtonBack from "../../buttons/button-back/ButtonBack";
 interface IBoxRegistrationShelter {
     children: ReactNode,
     isImage?: boolean,
-    isRegistry?: boolean
+    isRegistry?: boolean,
 }
 
 const BoxShelter = ({children, isImage = true, isRegistry = false}: IBoxRegistrationShelter) => {

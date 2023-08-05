@@ -12,19 +12,22 @@ import {shelterSlice} from "../../../store/reducers/shelter/ShelterSlice";
 const FormLogin = () => {
     const navigation = useNavigate()
     const dispatch = useAppDispatch()
-    const {isAuth} = useAppSelector(state => state.shelterReducer)
+    const {isAuthenticated} = useAppSelector(state => state.shelterReducer)
     const {isUserModal} = useAppSelector(state => state.userReducer)
     const {setEmailShelter} = shelterSlice.actions
     const [password, setPassword] = useState('')
     const [email, setEmail] = useState('')
     const [isErrorMail, setIsErrorMail] = useState(false)
     const [errorEmail, setErrorEmail] = useState(false)
-    const [isCover, setIsCover] = useState(false)
     const {changeIsUserModal} = userSlice.actions
 
     useEffect(() => {
-        isAuth && navigation('/shelter/main')
-    }, [isAuth, navigation])
+
+    }, [])
+
+    useEffect(() => {
+        isAuthenticated && navigation('/shelter/main')
+    }, [isAuthenticated, navigation])
 
     const onSetPassword = (e: ChangeEvent<HTMLInputElement>) => {
         setPassword(e.target.value)
@@ -47,7 +50,7 @@ const FormLogin = () => {
         }
         dispatch(changeIsUserModal(true))
         dispatch(setEmailShelter(email))
-        dispatch(sendCodeShelter(email))
+        dispatch(sendCodeShelter(email, true))
     }
 
     return (

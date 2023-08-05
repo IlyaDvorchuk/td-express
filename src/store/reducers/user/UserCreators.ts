@@ -16,6 +16,7 @@ export const loginUser = (email: string, password: string) => async (dispatch: A
         if (accessToken) {
             setAccessTokenUser(accessToken);
             dispatch(userSlice.actions.loginSuccess())
+            dispatch(userSlice.actions.setUser(response.data.user))
             removeAccessTokenShelter()
         } else {
             dispatch(userSlice.actions.loginFetchingError('Не получилось'))

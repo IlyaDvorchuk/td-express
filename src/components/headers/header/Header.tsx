@@ -17,6 +17,8 @@ import {getUser} from "../../../store/reducers/user/UserCreators";
 import UserTools from "../../tools/user-tools/UserTools";
 import {fetchCategories} from "../../../store/reducers/categories/CategoriesCreators";
 
+
+
 const Header = () => {
     const dispatch = useAppDispatch()
     const {isUserModal, user} = useAppSelector(state => state.userReducer)
@@ -42,8 +44,8 @@ const Header = () => {
                 <div className={'header__row-1'}>
                     <Geolocation/>
                     <div className={'header__links'}>
+                        <Link to="/faq">Часто задаваемые вопросы</Link>
                         <Link className={'header__registry'} to={'/registration'}>Продавайте на td-market</Link>
-                        <Link to="/">Часто задаваемые вопросы</Link>
                     </div>
                 </div>
                 <div className={'header__row-2'}>

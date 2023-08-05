@@ -1,7 +1,6 @@
 import React from 'react';
 import Container from "../components/container/Container";
 import Slider from "../components/slider/Slider";
-import Footer from "../components/footers/footer-user/Footer";
 import {useAppSelector} from "../hooks/redux";
 import {Navigate} from "react-router-dom";
 import NewCards from "../components/cards-modules/new-cards/NewCards";
@@ -29,11 +28,10 @@ const MainPage = () => {
                 <HotCards limit={12}/>
                 <NewCards limit={12}/>
                 {/*<SpeciallyCards/>*/}
-                {/*{categories.filter(category => category.productCards.length > 0).map(category => (*/}
-                {/*    <CategoryCards id={category._id} key={category._id} title={category.name} limit={12}/>*/}
-                {/*))}*/}
+                {categories.filter(category => category.productCards.length > 0).map(category => (
+                    <CategoryCards id={category._id} key={category._id} title={category.name} limit={12}/>
+                ))}
             </Container>
-            <Footer/>
         </div>
     );
 };

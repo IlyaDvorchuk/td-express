@@ -26,6 +26,10 @@ import Category from "./pages/Category";
 import Cart from "./pages/Cart";
 import Header from "./components/headers/header/Header";
 import SearchPage from "./pages/SearchPage";
+import Faq from "./pages/Faq";
+import Footer from "./components/footers/footer-user/Footer";
+import MobileNavbar from "./components/mobile-navbar/MobileNavbar";
+import Admin from "./pages/Admin";
 
 
 function App() {
@@ -48,7 +52,7 @@ function App() {
                     <Route path="/registration" element={<RegistrShelter />} />
                     <Route path="/login" element={<LoginShelter />} />
                     <Route
-                        path="/registration-next"
+                        path="/personal-data/:id"
                         element={<RegistrData />}
                         loader={() => {
                             if (!accessToken) {
@@ -57,7 +61,18 @@ function App() {
                             return null;
                         }}
                     />
-                    <Route path="/registration-shop" element={<RegistrShop />} />
+                    <Route
+                        path="/personal-data"
+                        element={<RegistrData />}
+                        loader={() => {
+                            if (!accessToken) {
+                                return <Navigate to="/login" />;
+                            }
+                            return null;
+                        }}
+                    />
+                    <Route path="/shop-data/:id" element={<RegistrShop />} />
+                    <Route path="/shop-data" element={<RegistrShop />} />
                     <Route
                         path="/shelter/"
                         element={<Shelter />}
@@ -90,6 +105,8 @@ function App() {
                             <>
                                 <Header />
                                 <Good />
+                                <Footer/>
+
                             </>
                         }
                     />
@@ -99,6 +116,7 @@ function App() {
                             <>
                                 <Header />
                                 <Category />
+                                <Footer/>
                             </>
                         }
                     />
@@ -107,7 +125,9 @@ function App() {
                         element={
                         <>
                             <Header />
+                            <MobileNavbar/>
                             <Favorites />
+                            <Footer/>
                         </>
                     }
                     />
@@ -117,6 +137,7 @@ function App() {
                             <>
                                 <Header />
                                 <Cart />
+                                <Footer/>
                             </>
                         }
                     />
@@ -130,11 +151,32 @@ function App() {
                         }
                     />
                     <Route
+                        path="/faq"
+                        element={
+                            <>
+                                <Header />
+                                <MobileNavbar/>
+                                <Faq/>
+                                <Footer/>
+                            </>
+                        }
+                    />
+                    <Route
+                        path="/administrator"
+                        element={
+                            <>
+                                <Admin/>
+                            </>
+                        }
+                    />
+                    <Route
                         path="/"
                         element={
                             <>
                                 <Header />
                                 <MainPage />
+                                <Footer/>
+
                             </>
                         }
                         loader={() => {

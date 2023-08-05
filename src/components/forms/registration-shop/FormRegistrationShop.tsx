@@ -7,16 +7,21 @@ import InputFile from "../../inputs/input-file/InputFile";
 import DeliveryPointsForm from "./DeliveryPointsForm";
 import {IDeliveryPoint} from "../../../models/IDeliveryPoint";
 import {useAppDispatch, useAppSelector} from "../../../hooks/redux";
-import {registrationShelter} from "../../../store/reducers/shelter/ShelterCreator";
-import {IShelterShop} from "../../../models/response/IShelter";
+import {registrationShelter, updateShopShelter} from "../../../store/reducers/shelter/ShelterCreator";
+import {IShelterRes, IShelterShop} from "../../../models/response/IShelter";
 import {useNavigate} from "react-router-dom";
 import {shelterSlice} from "../../../store/reducers/shelter/ShelterSlice";
 
-const FormRegistrationShop = () => {
+const FormRegistrationShop = ({shelter}: {shelter: IShelterRes | null}) => {
     const dispatch = useAppDispatch()
     const navigate = useNavigate();
-    const isRegistered = useAppSelector(state => state.shelterReducer.isRegistered)
-    const { register, handleSubmit, formState: { errors } } = useForm<IShelterShop>();
+    const {isRegistered, isUpdateShopShelter} = useAppSelector(state => state.shelterReducer)
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+        reset
+    } = useForm<IShelterShop>();
     const [imageShop, setImage] = useState<File | null>(null)
     const [deliveryPoints, setDeliveryPoints] = useState<IDeliveryPoint[]>([
         {
@@ -28,12 +33,42 @@ const FormRegistrationShop = () => {
     ]);
 
     useEffect(() => {
-        console.log('hey, to isRegistered', isRegistered)
-        if (isRegistered) {
-            navigate('/shelter')
-            dispatch(shelterSlice.actions.setIsRegistered(false))
+        if (shelter) {
+            reset({
+                nameMarket: shelter.shop.nameMarket,
+                description: shelter.shop.description
+            })
+            setDeliveryPoints(shelter.deliveryPoints)
         }
-    }, [isRegistered, navigate])
+    }, [reset, shelter])
+
+    useEffect(() => {
+        if (isRegistered) {
+            dispatch(shelterSlice.actions.setIsRegistered(false))
+            navigate('/shelter')
+        }
+    }, [dispatch, isRegistered, navigate])
+
+    useEffect(() => {
+        if (isUpdateShopShelter) {
+            dispatch(shelterSlice.actions.updateShopShelter(false))
+            navigate('/shelter')
+        }
+    }, [dispatch, isUpdateShopShelter, navigate])
+    
+    const onUpdate: SubmitHandler<IShelterShop> = async (data) => {
+        if (shelter) {
+            dispatch(
+                updateShopShelter(
+                    shelter._id,
+                    data,
+                    deliveryPoints,
+                    imageShop || shelter?.imageShop
+                )
+            )
+        }
+
+    }
 
     const onSubmit: SubmitHandler<IShelterShop> = (data) => {
         const shelter = localStorage.getItem('shelter');
@@ -69,7 +104,6 @@ const FormRegistrationShop = () => {
 
                                 const fileScan = new File([blob], 'filename.png', { type: 'image/png' });
                                 if (shelter && shelterData && imageShop && deliveryPoints.length) {
-                                    console.log('deliveryPoints onSubmit', deliveryPoints)
                                     dispatch(
                                         registrationShelter(
                                             {
@@ -94,16 +128,13 @@ const FormRegistrationShop = () => {
         }
     };
 
-    useEffect(() => {
-        console.log('deliveryPoints useEffect', deliveryPoints)
-    }, [deliveryPoints])
-
     return (
         <div className={'form-shop'}>
-            <p className={'form-shop__inf'}>
-                Для успешной работы на td-market заполните, пожалуйста, данные вашего магазина и нажмите кнопку “Сохранить”.
+            {!shelter && <p className={'form-shop__inf'}>
+                Для успешной работы на td-market заполните, пожалуйста, данные вашего магазина и нажмите кнопку
+                “Сохранить”.
                 Вы сможете сделать это позже в Личном кабинете, однако мы не рекомендуем пропускать этот шаг.
-            </p>
+            </p>}
             <form className={'form-shop__block'} onSubmit={handleSubmit(onSubmit)}>
                 <legend className={'legend'}>Основные данные</legend>
                 <div className={'input-box'}>
@@ -113,7 +144,7 @@ const FormRegistrationShop = () => {
                         id={'name-shop'}
                         placeholder={'Введите название магазина'}
                         className={'modalInput form-shop__short'}
-                        {...register('nameMarket', {required: true})}
+                        {...register('nameMarket')}
                     />
                 </div>
                 <div className={'input-box'}>
@@ -129,10 +160,17 @@ const FormRegistrationShop = () => {
             <fieldset className={'form-shop__block'}>
                 <legend className={'legend required'}>Добавление фото</legend>
                 <p className={'form-shop__p'}>Загрузите фото, которое будет отображаться на странице вашего магазина.</p>
-                <InputFile image={imageShop} setImage={setImage} position={'bottom'}/>
+                <InputFile
+                    image={imageShop}
+                    setImage={setImage}
+                    position={'bottom'}
+                    shopImage={shelter?.imageShop ? shelter.imageShop : null}/>
             </fieldset>
             <DeliveryPointsForm deliveryPoints={deliveryPoints} setDeliveryPoints={setDeliveryPoints}/>
-            <button className={'button button_dark form-shop__save'} type={'submit'} onClick={handleSubmit(onSubmit)}>
+            <button
+                className={'button button_dark form-shop__save'}
+                type={'submit'}
+                onClick={handleSubmit(shelter ? onUpdate : onSubmit)}>
                 Сохранить и приступить к работе
             </button>
         </div>

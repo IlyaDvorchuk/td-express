@@ -6,11 +6,18 @@ import {useAppDispatch} from "../../../hooks/redux";
 import {shelterSlice} from "../../../store/reducers/shelter/ShelterSlice";
 import ButtonBack from "../../buttons/button-back/ButtonBack";
 
+// interface IProps {
+//     isData: boolean,
+//     isShop: boolean,
+//     id?: string | null
+// }
+
 const HeaderRegData = ({isData = true, isShop = false}) => {
     const dispatch = useAppDispatch()
     const {setIsRegistry} = shelterSlice.actions
 
-    const onSaveShelter = () => {
+    const onSaveShelter = async () => {
+
         dispatch(setIsRegistry(true))
     }
 

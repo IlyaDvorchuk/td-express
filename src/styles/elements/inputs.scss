@@ -117,12 +117,19 @@
   }
 
   .name-image {
+    max-height: 70px;
+    width: 148px;
     margin-left: 8px;
     padding: 2px 16px;
     background-color: $background4Color;
     min-height: 40px;
     @include flex(center, center, 8px);
     border-radius: 16px;
+    overflow: hidden;
+
+    & > span {
+      overflow: hidden;
+    }
 
     & > img {
       cursor: pointer;
