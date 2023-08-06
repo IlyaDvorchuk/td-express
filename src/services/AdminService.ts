@@ -25,4 +25,11 @@ export class AdminService {
         })
     }
 
+    static async fetchShelterName(id: string): Promise<AxiosResponse<string>> {
+        return $api.get<string>(`/admin/name-shelter/${id}`)
+    }
+
+    static async agreementGood(id: string): Promise<AxiosResponse<boolean>> {
+        return $api.get<boolean>(`/admin/agreement-good/${id}`)
+    }
 }

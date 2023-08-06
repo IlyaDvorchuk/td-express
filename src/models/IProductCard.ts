@@ -44,8 +44,9 @@ export interface IProductCard {
 export interface IProductCardRes extends IProductCard {
     published: boolean
     viewsCount: number
-    createdAt: string
-
+    createdAt: string,
+    updatedAt: string,
+    shelterId: string
 }
 
 export interface IProductCardShelter extends IProductCardRes {

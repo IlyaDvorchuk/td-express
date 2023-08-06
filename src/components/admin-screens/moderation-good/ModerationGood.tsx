@@ -1,4 +1,4 @@
-import React, {useMemo, useState} from 'react';
+import React, {useEffect, useMemo, useState} from 'react';
 import {AdminService} from "../../../services/AdminService";
 import {IProductCardRes} from "../../../models/IProductCard";
 import Title from "../title/Title";
@@ -24,13 +24,24 @@ const ModerationGood = () => {
         fetchModerationGood()
     }, [])
 
+    const handleDeleteShelter = (goodId: string) => {
+        // Filter out the shelter with the specified ID from the notVerifiedShelters array
+        setModerationGoods((prevGood) =>
+            prevGood.filter((good) => good._id !== goodId)
+        );
+    };
+
+    useEffect(() => {
+        console.log('moderationGoods', moderationGoods)
+    }, [moderationGoods])
+
     return (
         <div className={'moderation-shelter'}>
             <Title>Модерация объявлений</Title>
             <div className={'good-admin-container'}>
                 {
                     moderationGoods.map(good => (
-                        <AdminGoodCard good={good} key={good._id}/>
+                        <AdminGoodCard good={good} key={good._id} onDelete={handleDeleteShelter}/>
                     ))
                 }
             </div>

@@ -14,7 +14,7 @@ const AdminShelterCard = ({shelter, onDelete}: {shelter: IShelterRes, onDelete: 
         const response = await AdminService.agreementShelter(id)
         const responseNotification = await AdminService.createNotification(
             id,
-            'Ваш аккаунт был проверен'
+            'Ваш аккаунт успешно прошел проверку администрации. '
         )
         if (response.data && responseNotification.data) {
             onDelete(id)
@@ -28,7 +28,7 @@ const AdminShelterCard = ({shelter, onDelete}: {shelter: IShelterRes, onDelete: 
         const response = await AdminService.agreementShelter(shelter._id)
         const responseNotification = await AdminService.createNotification(
             shelter._id,
-            rejectText
+            `Ваш аккаунт не прошел проверку администрации. Причина: ${rejectText}.`
         )
         if (response.data && responseNotification.data) {
             onDelete(shelter._id)

@@ -1,0 +1,29 @@
+@import "../../../../styles/constants";
+
+.admin-good-card {
+  display: flex;
+  gap: 22px;
+  padding: 17px 0 22px;
+  border-bottom: 1px solid #B6B6B6;
+
+  &__image {
+    width: 85px;
+    height: 130px;
+    border-radius: 10px;
+    overflow: hidden;
+    cursor: pointer;
+
+    & > img {
+      width: 100%;
+      height: 100%;
+    };
+  }
+
+  &__shelter {
+    margin-bottom: 10px;
+  }
+
+  &__updated {
+    margin-bottom: 50px;
+  }
+}
