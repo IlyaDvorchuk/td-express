@@ -25,13 +25,12 @@ const AdminShelterCard = ({shelter, onDelete}: {shelter: IShelterRes, onDelete: 
         setIsOpenModal(true)
         if (!rejectText) return
 
-        const response = await AdminService.agreementShelter(shelter._id)
         const responseNotification = await AdminService.createNotification(
             shelter._id,
             `Ваш аккаунт не прошел проверку администрации. Причина: ${rejectText}.`
         )
-        if (response.data && responseNotification.data) {
-            onDelete(shelter._id)
+        if (responseNotification.data) {
+        //     onDelete(shelter._id)
         }
     }
 

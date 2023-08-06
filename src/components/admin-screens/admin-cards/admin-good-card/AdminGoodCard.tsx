@@ -14,6 +14,8 @@ const AdminGoodCard = ({ good, onDelete }: IProps) => {
     const navigate = useNavigate();
     const [name, setName] = useState('');
     const [formattedDate, setFormattedDate] = useState('');
+    const [isOpenModal, setIsOpenModal] = useState(false)
+    const [rejectText, setRejectText] = useState('')
 
     const fetchNameShelter = async () => {
         try {
@@ -57,6 +59,19 @@ const AdminGoodCard = ({ good, onDelete }: IProps) => {
         }
     }
 
+    const onReject = async () => {
+        setIsOpenModal(true)
+        if (!rejectText) return
+
+        const responseNotification = await AdminService.createNotification(
+            good._id,
+            `Ваш товар <b>“${good.information.name}”</b> не прошёл проверку администрации. Причина ${rejectText}`
+        )
+        if (responseNotification.data) {
+            // onDelete(good._id)
+        }
+    }
+
     return (
         <div className={'admin-good-card'}>
             <div className={'admin-good-card__image'} onClick={onClickCard}>
@@ -67,7 +82,7 @@ const AdminGoodCard = ({ good, onDelete }: IProps) => {
                 <p className={'admin-good-card__updated'}>Дата публикации: {formattedDate}</p>
                 <div className={'admin-shelter-card__buttons'}>
                     <img src="/images/svg/admin/agreement.svg" alt="Принять" onClick={() => onAgreement(good._id, good.shelterId)}/>
-                    <img src="/images/svg/admin/refusal.svg" alt="Отклонить" />
+                    <img src="/images/svg/admin/refusal.svg" alt="Отклонить" onClick={onReject}/>
                 </div>
             </div>
         </div>
