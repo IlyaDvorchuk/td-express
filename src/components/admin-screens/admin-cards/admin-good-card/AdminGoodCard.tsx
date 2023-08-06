@@ -4,6 +4,8 @@ import {IProductCardRes} from "../../../../models/IProductCard";
 import {API_URL} from "../../../../http";
 import {useNavigate} from "react-router-dom";
 import {AdminService} from "../../../../services/AdminService";
+import Cover from "../../../cover/Cover";
+import AdminModal from "../../modal/AdminModal";
 
 interface IProps {
     good: IProductCardRes,
@@ -62,12 +64,12 @@ const AdminGoodCard = ({ good, onDelete }: IProps) => {
     const onReject = async () => {
         setIsOpenModal(true)
         if (!rejectText) return
-
+        const response = await AdminService.rejectGood(good._id)
         const responseNotification = await AdminService.createNotification(
             good._id,
             `Ваш товар <b>“${good.information.name}”</b> не прошёл проверку администрации. Причина ${rejectText}`
         )
-        if (responseNotification.data) {
+        if (response.data && responseNotification.data) {
             // onDelete(good._id)
         }
     }
@@ -85,6 +87,12 @@ const AdminGoodCard = ({ good, onDelete }: IProps) => {
                     <img src="/images/svg/admin/refusal.svg" alt="Отклонить" onClick={onReject}/>
                 </div>
             </div>
+            {isOpenModal && <Cover callback={() => setIsOpenModal(false)}/>}
+            {isOpenModal && <AdminModal
+                rejectText={rejectText}
+                setRejectText={setRejectText}
+                onReject={onReject}
+            />}
         </div>
     );
 };

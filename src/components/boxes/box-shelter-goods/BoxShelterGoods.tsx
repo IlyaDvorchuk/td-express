@@ -28,6 +28,10 @@ const goodsOptions = [
         value: StatusEnum.MODERATION,
         label: 'в модерации'
     },
+    {
+        value: StatusEnum.REJECT,
+        label: 'отклонен'
+    },
 ]
 
 const filterOptions = [
@@ -99,6 +103,8 @@ const BoxShelterGoods = () => {
                     let status;
                     if (!shelter.isVerified) {
                         status = StatusEnum.PENDING_MODERATION;
+                    } else if (card.isReject) {
+                        status = StatusEnum.REJECT;
                     } else if (countGood < 1) {
                         status = StatusEnum.OVER;
                     } else if (!card.published) {

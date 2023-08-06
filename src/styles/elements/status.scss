@@ -24,4 +24,9 @@
     color: $errorColor;
     border-color: $errorColor;
   }
+
+  &_grey {
+    color: $title3Color;
+    border-color: $title3Color;
+  }
 }

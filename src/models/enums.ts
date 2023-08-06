@@ -3,7 +3,8 @@ export enum StatusEnum {
     PENDING_MODERATION = 'В ожидании модерации',
     MODERATION = 'В модерации',
     APPROVED = 'В продаже',
-    OVER = 'Закончился'
+    OVER = 'Закончился',
+    REJECT = 'Отклонён'
 }
 
 export enum ADMIN_SCREEN {

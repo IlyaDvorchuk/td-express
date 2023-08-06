@@ -32,4 +32,8 @@ export class AdminService {
     static async agreementGood(id: string): Promise<AxiosResponse<boolean>> {
         return $api.get<boolean>(`/admin/agreement-good/${id}`)
     }
+
+    static async rejectGood(id: string): Promise<AxiosResponse<boolean>> {
+        return $api.get<boolean>(`/admin/reject-good/${id}`)
+    }
 }

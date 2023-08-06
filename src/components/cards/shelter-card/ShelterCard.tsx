@@ -84,6 +84,7 @@ const ShelterCard = ({card, onDelete, selectedStatus}: IProps) => {
                                 'status_green': status === StatusEnum.APPROVED,
                                 'status_yellow': status === StatusEnum.MODERATION || status === StatusEnum.PENDING_MODERATION,
                                 'status_red': status === StatusEnum.OVER,
+                                'status_grey': status === StatusEnum.REJECT,
                             })}>
                                 {status}
                             </div>
@@ -118,6 +119,7 @@ const ShelterCard = ({card, onDelete, selectedStatus}: IProps) => {
                         <div>Осталось на складе:</div>
                         <output>{countGood}</output>
                     </div>
+
                 </div>
             </div>
             <h4 className={'card-name'}>
@@ -136,6 +138,9 @@ const ShelterCard = ({card, onDelete, selectedStatus}: IProps) => {
                     card.pricesAndQuantity.priceBeforeDiscount > 0 &&
                     <span className={'discount'}>{card.pricesAndQuantity.priceBeforeDiscount} RUP</span>
                 }
+                <button className={'button button_light'} onClick={onChangeCard}>
+                    Редактировать
+                </button>
             </div>
             {isDeleteModal && <Cover callback={() => setIsDeleteModal(false)} zIndex={9998}/>}
             {isDeleteModal && <DeletionConfirmation
