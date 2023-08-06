@@ -1,3 +1,14 @@
-# https://www.robotstxt.org/robotstxt.html
 User-agent: *
-Disallow:
+Disallow: /Admin
+Disallow: /CreateGood
+Disallow: /Favorites
+Disallow: /Cart
+Disallow: /RegisterData
+Disallow: /RegisterShelter
+Disallow: /RegisterShop
+Disallow: /SearchPage
+Disallow: /Shelter
+Disallow: /ShelterGoods
+Disallow: /ShelterMain
+Disallow: /ShelterOrders
+Sitemap: httsp://td-market.md/sitemap.xml
