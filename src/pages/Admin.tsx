@@ -15,7 +15,10 @@ const Admin = () => {
     const [currentScreen, setCurrentScreen] = useState(ADMIN_SCREEN.GENERAL)
 
     useEffect(() => {
+
+
         if (!isObjectEmpty(user)) {
+            if (isObjectEmpty(user)) navigation('/')
             if (!(user.role === 'ADMIN' && user.email === 'tabakevgenijj@gmail.com')) {
                 navigation('/')
             }

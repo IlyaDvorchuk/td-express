@@ -103,7 +103,6 @@ export const checkEmail = (email: string) => async (dispatch: AppDispatch) => {
 export const getUser = () => async (dispatch: AppDispatch) => {
     try {
         const response = await UserService.getUser()
-        console.log('response', response)
         dispatch(userSlice.actions.setUser(response.data))
     } catch (e: any) {
         console.log('e getUser', e)

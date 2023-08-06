@@ -44,6 +44,7 @@ export interface IProductCard {
 export interface IProductCardRes extends IProductCard {
     published: boolean
     viewsCount: number
+    createdAt: string
 
 }
 
