@@ -47,7 +47,7 @@ const NotificationCard = ({ notification, setRemoveNotifications }: IProps) => {
                         Скрыть
                     </p>}
                 </div>
-                <div className={'notification__message'}>{notification.message}</div>
+                    <div className={'notification__message'} dangerouslySetInnerHTML={{ __html: notification.message }} />
                 <p className={'notification__date'}>{formattedDate}</p>
             </div>
             : <div className={'delete-notification'}>

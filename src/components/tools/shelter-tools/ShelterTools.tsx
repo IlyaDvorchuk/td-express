@@ -55,7 +55,7 @@ const ShelterTools = () => {
     const onClickNotifications = async () => {
         setIsCover(true)
         const response = await ShelterService.getNotificationsOfShelter()
-        setNotifications(response.data)
+        setNotifications(response.data.reverse())
         const readNotifications = await ShelterService.readNotificationsOfShelter()
         if (readNotifications.data) {
             dispatch(setReadNotifications)

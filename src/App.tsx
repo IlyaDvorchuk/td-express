@@ -74,7 +74,7 @@ function App() {
                     <Route path="/shop-data/:id" element={<RegistrShop />} />
                     <Route path="/shop-data" element={<RegistrShop />} />
                     <Route
-                        path="/shelter/"
+                        path="/seller/"
                         element={<Shelter />}
                         loader={() => {
                             if (!accessToken) {

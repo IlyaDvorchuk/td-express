@@ -66,11 +66,11 @@ const AdminGoodCard = ({ good, onDelete }: IProps) => {
         if (!rejectText) return
         const response = await AdminService.rejectGood(good._id)
         const responseNotification = await AdminService.createNotification(
-            good._id,
+            good.shelterId,
             `Ваш товар <b>“${good.information.name}”</b> не прошёл проверку администрации. Причина ${rejectText}`
         )
         if (response.data && responseNotification.data) {
-            // onDelete(good._id)
+            setIsOpenModal(false)
         }
     }
 
