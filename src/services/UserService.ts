@@ -1,7 +1,7 @@
 import {AxiosResponse} from "axios";
 import {IUser} from "../models/response/IUser";
 import $api from "../http";
-import {IProductCard} from "../models/IProductCard";
+import {IProductCardRes} from "../models/IProductCard";
 import {ICart} from "../models/ICart";
 
 export class UserService {
@@ -10,11 +10,11 @@ export class UserService {
     }
 
     static addToFavorites(goodId: string): Promise<AxiosResponse<boolean>> {
-        return $api.get<boolean>(`users/favorites/${goodId}`)
+        return $api.get<boolean>(`users/addToFavorite/${goodId}`)
     }
 
-    static getFavorites(): Promise<AxiosResponse<IProductCard[]>> {
-        return $api.get<IProductCard[]>(`users/favorites-get/`)
+    static getFavorites(): Promise<AxiosResponse<IProductCardRes[]>> {
+        return $api.get<IProductCardRes[]>(`users/getFavorites/`)
     }
 
     static addToCart(goodId: ICart): Promise<AxiosResponse<boolean>> {

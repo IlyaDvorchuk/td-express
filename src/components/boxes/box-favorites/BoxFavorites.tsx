@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import './box-favorites.scss'
-import {IProductCard} from "../../../models/IProductCard";
+import {IProductCardRes} from "../../../models/IProductCard";
 import {UserService} from "../../../services/UserService";
 import Select from "react-select";
 import WrapperCard from "../../wrappers/wrapper-card/WrapperCard";
@@ -8,13 +8,12 @@ import ProductCard from "../../cards/product-card/ProductCard";
 import {Link} from "react-router-dom";
 
 const BoxFavorites = () => {
-    const [favoriteCards, setFavoriteCards] = useState<IProductCard[]>([]);
+    const [favoriteCards, setFavoriteCards] = useState<IProductCardRes[]>([]);
 
     useEffect(() => {
         const fetchFavoriteCards = async () => {
             try {
                 const response = await UserService.getFavorites();
-                console.log('response favoriteCards', response)
                 setFavoriteCards(response.data);
             } catch (error) {
                 console.log('Ошибка при получении карточек товаров:', error);
