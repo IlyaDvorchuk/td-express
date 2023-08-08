@@ -13,23 +13,23 @@ const HeaderShelter = () => {
 
     const links = [
         {
-            href: '/shelter/main',
+            href: '/seller/main',
             name: 'Главная',
         },
         {
-            href: '/shelter/orders',
+            href: '/seller/orders',
             name: 'Мои заказы',
         },
         {
-            href: '/shelter/goods',
+            href: '/seller/goods',
             name: 'Мои товары',
         },
         {
-            href: '/shelter/statistics',
+            href: '/seller/statistics',
             name: 'Статистика',
         },
         {
-            href: '/shelter/subscription',
+            href: '/seller/subscription',
             name: 'Оформить подписку',
         },
     ]

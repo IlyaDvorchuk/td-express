@@ -26,7 +26,7 @@ const FormLogin = () => {
     }, [])
 
     useEffect(() => {
-        isAuthenticated && navigation('/shelter/main')
+        isAuthenticated && navigation('/seller/main')
     }, [isAuthenticated, navigation])
 
     const onSetPassword = (e: ChangeEvent<HTMLInputElement>) => {

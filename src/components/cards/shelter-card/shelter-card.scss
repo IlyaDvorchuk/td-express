@@ -106,6 +106,7 @@
 
   &__price {
     display: flex;
+    align-items: center;
     gap: 10px;
     font-size: $mediumMediumSize;
     font-weight: 800;
@@ -114,6 +115,11 @@
       text-decoration-line: line-through;
       font-size: $littleMediumSize;
     }
+  }
+
+  &__edit {
+    max-width: 142px;
+    margin-left: auto;
   }
 
   &__analytics {

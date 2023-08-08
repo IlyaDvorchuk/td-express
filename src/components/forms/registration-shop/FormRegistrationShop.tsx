@@ -45,17 +45,17 @@ const FormRegistrationShop = ({shelter}: {shelter: IShelterRes | null}) => {
     useEffect(() => {
         if (isRegistered) {
             dispatch(shelterSlice.actions.setIsRegistered(false))
-            navigate('/shelter')
+            navigate('/seller')
         }
     }, [dispatch, isRegistered, navigate])
 
     useEffect(() => {
         if (isUpdateShopShelter) {
             dispatch(shelterSlice.actions.updateShopShelter(false))
-            navigate('/shelter')
+            navigate('/seller')
         }
     }, [dispatch, isUpdateShopShelter, navigate])
-    
+
     const onUpdate: SubmitHandler<IShelterShop> = async (data) => {
         if (shelter) {
             dispatch(

@@ -43,6 +43,8 @@ const ShelterCard = ({card, onDelete, selectedStatus}: IProps) => {
             setStatus(StatusEnum.PENDING_MODERATION)
         } else if (countGood < 1) {
             setStatus(StatusEnum.OVER)
+        } else if (card.isReject) {
+            setStatus(StatusEnum.REJECT)
         } else if (!card.published) {
             setStatus(StatusEnum.MODERATION)
         }  else  {
@@ -138,9 +140,9 @@ const ShelterCard = ({card, onDelete, selectedStatus}: IProps) => {
                     card.pricesAndQuantity.priceBeforeDiscount > 0 &&
                     <span className={'discount'}>{card.pricesAndQuantity.priceBeforeDiscount} RUP</span>
                 }
-                <button className={'button button_light'} onClick={onChangeCard}>
+                {status === StatusEnum.REJECT && <button className={'button button_light shelter-card__edit'} onClick={onChangeCard}>
                     Редактировать
-                </button>
+                </button>}
             </div>
             {isDeleteModal && <Cover callback={() => setIsDeleteModal(false)} zIndex={9998}/>}
             {isDeleteModal && <DeletionConfirmation

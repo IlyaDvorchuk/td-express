@@ -27,7 +27,7 @@ const Shelter = () => {
 
     useEffect(() => {
         if (location.pathname === '/shelter/' || location.pathname === '/shelter') {
-            navigation('/shelter/main')
+            navigation('/seller/main')
         }
     }, [location, navigation])
 
