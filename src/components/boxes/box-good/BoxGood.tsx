@@ -8,6 +8,7 @@ import {Swiper, SwiperSlide} from "swiper/react";
 import { Navigation } from "swiper";
 import 'swiper/scss';
 import "swiper/scss/navigation";
+import {UserService} from "../../../services/UserService";
 
 const BoxGood = ({card} : {card: IProductCard}) => {
     const navigate = useNavigate()
@@ -75,13 +76,13 @@ const BoxGood = ({card} : {card: IProductCard}) => {
 
     const addToCart = async () => {
         if (count >= quantity) return
-        // const response = await UserService.addToCart({
-        //     productId: card._id,
-        //     quantity: count,
-        //     totalPrice: card.pricesAndQuantity.price ? card.pricesAndQuantity.price : card.pricesAndQuantity.priceBeforeDiscount,
-        //     isFavorite: false,
-        //     size: activeSize.size
-        // })
+        const response = await UserService.addToCart({
+            productId: card._id,
+            quantity: count,
+            // totalPrice: card.pricesAndQuantity.price ? card.pricesAndQuantity.price : card.pricesAndQuantity.priceBeforeDiscount,
+            // isFavorite: false,
+            size: activeSize?.size
+        })
         // if (response) setIsFavorite(true)
     }
 

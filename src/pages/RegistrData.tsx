@@ -11,7 +11,7 @@ const RegistrData = () => {
         <div>
             <HeaderRegData/>
             <BoxShelter isImage={false}>
-                <FormRegistrationData shelterData={location.state.shelterData} id={location.state._id}/>
+                <FormRegistrationData shelterData={location.state?.shelterData} id={location.state?._id}/>
             </BoxShelter>
         </div>
     );

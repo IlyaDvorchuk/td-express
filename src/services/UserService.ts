@@ -17,10 +17,8 @@ export class UserService {
         return $api.get<IProductCardRes[]>(`users/getFavorites/`)
     }
 
-    static addToCart(goodId: ICart): Promise<AxiosResponse<boolean>> {
-        return $api.post<boolean>(`users/addToCart`, {
-
-        })
+    static addToCart(cart: ICart): Promise<AxiosResponse<boolean>> {
+        return $api.post<boolean>(`users/addToCart`, cart)
     }
 
     static async getUser(): Promise<AxiosResponse<IUser>> {
