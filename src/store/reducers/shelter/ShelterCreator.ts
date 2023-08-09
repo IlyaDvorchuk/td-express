@@ -23,12 +23,12 @@ export const sendCodeShelter = (email: string,
     }
 }
 
-export const registrationShelter = (data: IShelter, photo: File, imageShop: File) => async (dispatch: AppDispatch) => {
+export const registrationShelter = (data: IShelter, imageShop: File) => async (dispatch: AppDispatch) => {
     try {
         dispatch(shelterSlice.actions.loginFetching())
         const formData = new FormData();
         console.log('data', data)
-        formData.append('fileScan', photo);
+        // formData.append('fileScan', photo);
         formData.append('imageShop', imageShop);
         Object.entries(data).forEach(([key, value]) => {
             if (typeof value !== 'string') {
@@ -41,12 +41,13 @@ export const registrationShelter = (data: IShelter, photo: File, imageShop: File
         // console.log('response', response)
         dispatch(shelterSlice.actions.setAuth(true))
         dispatch(shelterSlice.actions.setShelter(response.data.shelter))
-        dispatch(shelterSlice.actions.setIsRegistered(true))
         const accessToken = response.data.token;
         if (accessToken) {
             setAccessTokenShelter(accessToken);
             dispatch(shelterSlice.actions.setLoginSuccess(accessToken));
         }
+        console.log('hey hey')
+        dispatch(shelterSlice.actions.setIsRegistered(true))
         // dispatch(shelterSlice.actions.loginSuccess())
     } catch (e: any) {
         console.log('e', e)

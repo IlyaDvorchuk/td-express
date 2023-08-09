@@ -45,14 +45,14 @@ const FormRegistrationShop = ({shelter}: {shelter: IShelterRes | null}) => {
     useEffect(() => {
         if (isRegistered) {
             dispatch(shelterSlice.actions.setIsRegistered(false))
-            navigate('/seller')
+            navigate('/seller/main')
         }
     }, [dispatch, isRegistered, navigate])
 
     useEffect(() => {
         if (isUpdateShopShelter) {
             dispatch(shelterSlice.actions.updateShopShelter(false))
-            navigate('/seller')
+            navigate('/seller/main')
         }
     }, [dispatch, isUpdateShopShelter, navigate])
 
@@ -71,61 +71,64 @@ const FormRegistrationShop = ({shelter}: {shelter: IShelterRes | null}) => {
     }
 
     const onSubmit: SubmitHandler<IShelterShop> = (data) => {
+        console.log('hey btus')
+
         const shelter = localStorage.getItem('shelter');
         const shelterData = localStorage.getItem('shelter-data');
-        const shelterDataImage = localStorage.getItem('image-shelter-data');
-        const imgScan = new Image();
-        const loadImage = (url: string): Promise<HTMLImageElement> => {
+        // const shelterDataImage = localStorage.getItem('image-shelter-data');
+        // const imgScan = new Image();
+        // const loadImage = (url: string): Promise<HTMLImageElement> => {
+        //
+        //     return new Promise((resolve, reject) => {
+        //         imgScan.onload = () => {
+        //             resolve(imgScan);
+        //         };
+        //         imgScan.onerror = () => {
+        //             reject(new Error(`Could not load image at ${url}`));
+        //         };
+        //         imgScan.src = url;
+        //     });
+        // };
+        if (shelter && shelterData && imageShop) {
 
-            return new Promise((resolve, reject) => {
-                imgScan.onload = () => {
-                    resolve(imgScan);
-                };
-                imgScan.onerror = () => {
-                    reject(new Error(`Could not load image at ${url}`));
-                };
-                imgScan.src = url;
-            });
-        };
-        if (shelterDataImage) {
-
-            loadImage(shelterDataImage)
-                .then((img) => {
-
-                    const canvas = document.createElement('canvas');
-                    const ctx = canvas.getContext('2d');
-                    if (ctx) {
-
-                        canvas.width = img.width;
-                        canvas.height = img.height;
-                        ctx.drawImage(img, 0, 0);
-                        canvas.toBlob((blob) => {
-                            if (blob) {
-
-                                const fileScan = new File([blob], 'filename.png', { type: 'image/png' });
-                                if (shelter && shelterData && imageShop && deliveryPoints.length) {
-                                    dispatch(
-                                        registrationShelter(
-                                            {
-                                                ...JSON.parse(shelter),
-                                                shelterData: JSON.parse(shelterData),
-                                                shop: data,
-                                                deliveryPoints
-                                            },
-                                            fileScan,
-                                            imageShop
-                                        )
-                                    );
-                                }
-                            }
-                        }, 'image/png');
-                    }
-
-                })
-                .catch((error) => {
-                    console.error(error);
-                });
+            dispatch(
+                registrationShelter(
+                    {
+                        ...JSON.parse(shelter),
+                        shelterData: JSON.parse(shelterData),
+                        shop: data,
+                        deliveryPoints
+                    },
+                    imageShop
+                )
+            );
         }
+        // if (shelterDataImage) {
+
+            // loadImage(shelterDataImage)
+            //     .then((img) => {
+            //
+            //         const canvas = document.createElement('canvas');
+            //         const ctx = canvas.getContext('2d');
+            //         if (ctx) {
+            //
+            //             canvas.width = img.width;
+            //             canvas.height = img.height;
+            //             ctx.drawImage(img, 0, 0);
+            //             canvas.toBlob((blob) => {
+            //                 if (blob) {
+            //
+            //                     const fileScan = new File([blob], 'filename.png', { type: 'image/png' });
+            //
+            //                 }
+            //             }, 'image/png');
+            //         }
+            //
+            //     })
+            //     .catch((error) => {
+            //         console.error(error);
+            //     });
+        // }
     };
 
     return (
