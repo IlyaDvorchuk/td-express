@@ -1,5 +1,11 @@
 import {StatusEnum} from "./enums";
 
+export interface IPrice {
+    price: number,
+    priceBeforeDiscount: number,
+    quantity: number
+}
+
 export interface IProductCard {
     _id: string;
     categories: {
@@ -26,11 +32,7 @@ export interface IProductCard {
         material: string,
         recommendations: string
     },
-    pricesAndQuantity: {
-        price: number,
-        priceBeforeDiscount: number,
-        quantity: number
-    },
+    pricesAndQuantity: IPrice,
     dimensions: {
         length: number,
         width: number,

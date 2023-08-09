@@ -3,6 +3,7 @@ import {IUser} from "../models/response/IUser";
 import $api from "../http";
 import {IProductCardRes} from "../models/IProductCard";
 import {ICart} from "../models/ICart";
+import {ICartRes} from "../models/response/ICartRes";
 
 export class UserService {
     static async fetchUser(): Promise<AxiosResponse<IUser[]>> {
@@ -25,7 +26,7 @@ export class UserService {
         return $api.get<IUser>(`users/get-user`)
     }
 
-    static async getCart(): Promise<AxiosResponse<IUser>> {
-        return $api.get<IUser>(`users/get-cart`)
+    static async getCart(): Promise<AxiosResponse<ICartRes[]>> {
+        return $api.get<ICartRes[]>(`users/get-cart`)
     }
 }

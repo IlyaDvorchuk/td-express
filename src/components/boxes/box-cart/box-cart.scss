@@ -1,0 +1,21 @@
+@import "../../../styles/constants";
+
+.cart {
+  margin: 93px 0 138px;
+
+  & &__title {
+    margin-bottom: 28px;
+    font-size: $bigTitleSize;
+    font-family: 'Nunito Sans', sans-serif;
+    font-weight: 800;
+  }
+
+  & &__count {
+    color: $text4Color;
+  }
+
+  & &__cards {
+    padding-top: 30px;
+    border-top: 1px solid $borderColor;
+  }
+}
