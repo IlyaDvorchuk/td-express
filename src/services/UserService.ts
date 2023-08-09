@@ -24,4 +24,8 @@ export class UserService {
     static async getUser(): Promise<AxiosResponse<IUser>> {
         return $api.get<IUser>(`users/get-user`)
     }
+
+    static async getCart(): Promise<AxiosResponse<IUser>> {
+        return $api.get<IUser>(`users/get-cart`)
+    }
 }

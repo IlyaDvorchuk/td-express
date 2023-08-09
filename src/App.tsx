@@ -136,6 +136,7 @@ function App() {
                         element={
                             <>
                                 <Header />
+                                <MobileNavbar/>
                                 <Cart />
                                 <Footer/>
                             </>

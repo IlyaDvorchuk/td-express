@@ -57,9 +57,9 @@ const Header = () => {
                     <Link to={'/favorites'} className={'link-icon link-icon_favorite'}>
                         <FavoritesSvg/>
                     </Link>
-                    <div className={'link-icon'}>
+                    <Link to={'/cart'} className={'link-icon link-icon_cart'}>
                         <ShoppingSvg/>
-                    </div>
+                    </Link>
                     {!getAccessTokenUser() && <div onClick={openUserModal} className={'link-icon'}>
                         <UserSvg/>
                     </div>}

@@ -83,6 +83,7 @@ const BoxGood = ({card} : {card: IProductCard}) => {
             // isFavorite: false,
             size: activeSize?.size
         })
+        console.log('response addToCart', response)
         // if (response) setIsFavorite(true)
     }
 
