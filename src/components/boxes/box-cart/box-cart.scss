@@ -2,12 +2,34 @@
 
 .cart {
   margin: 93px 0 138px;
+  font-size: $littleMediumSize;
+  color: $text4Color;
 
   & &__title {
     margin-bottom: 28px;
     font-size: $bigTitleSize;
     font-family: 'Nunito Sans', sans-serif;
     font-weight: 800;
+  }
+
+  & &__buttons {
+    margin-bottom: 24px;
+    display: flex;
+    gap: 27px;
+  }
+
+  & &__checkbox {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+  }
+
+  & &__button {
+    width: 119px;
+
+    & > img {
+      margin-right: 6px;
+    }
   }
 
   & &__count {
@@ -19,3 +41,4 @@
     border-top: 1px solid $borderColor;
   }
 }
+

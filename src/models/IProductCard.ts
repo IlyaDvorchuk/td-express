@@ -40,7 +40,8 @@ export interface IProductCard {
         weight: number,
     },
     deliveryPoints: string[],
-    typeQuantity?: IType[]
+    typeQuantity?: IType[],
+    nameShelter: string
 }
 
 export interface IProductCardRes extends IProductCard {

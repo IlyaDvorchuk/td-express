@@ -1,5 +1,14 @@
 .cart-card {
   display: flex;
+
+  & &__checkbox {
+    margin-right: 47px;
+    align-self: center;
+    height: 100%;
+    display: flex;
+    align-items: center;
+  }
+
   & &__image {
     margin-right: 21px;
     width: 109px;

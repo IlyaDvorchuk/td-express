@@ -24,6 +24,7 @@ const FormCreateGood = ({card} : {card: IProductCard | null}) => {
     const navigation = useNavigate()
     const dispatch = useAppDispatch()
     const methods = useForm();
+    const {shelter} = useAppSelector(state => state.shelterReducer)
     const {isCreateGoodCard, isUpdateCard} = useAppSelector(state => state.shelterReducer)
     const {updateCardFalse} = shelterSlice.actions
 
@@ -116,7 +117,8 @@ const FormCreateGood = ({card} : {card: IProductCard | null}) => {
                     weight: Number(data.weight)
                 },
                 deliveryPoints: points,
-                typeQuantity: quantitySizes
+                typeQuantity: quantitySizes,
+                nameShelter: shelter.name,
             } as IProductCard
             if (card) {
                 dispatch(updateProductCard(good, card._id, generalImage || card.mainPhoto, additionalImages))

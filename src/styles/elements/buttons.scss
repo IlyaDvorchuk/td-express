@@ -35,3 +35,9 @@
     border-color: $hoverColor;
   }
 }
+
+.button_not-active {
+  color: $title3Color;
+  background-color: transparent;
+  border: 1px solid $title3Color;
+}
