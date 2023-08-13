@@ -5,3 +5,7 @@ export interface ICart {
     // isFavorite: boolean;
     size?: string;
 }
+
+export interface ICartReq extends ICart{
+    typeId: string
+}

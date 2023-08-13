@@ -50,7 +50,8 @@ export interface IProductCardRes extends IProductCard {
     createdAt: string,
     updatedAt: string,
     shelterId: string,
-    isReject: boolean
+    isReject: boolean,
+    typeQuantity?: ITypeRes[],
 }
 
 export interface IProductCardShelter extends IProductCardRes {
@@ -62,4 +63,11 @@ export interface IProductCardShelter extends IProductCardRes {
 export interface IType {
     size: string,
     quantity: number,
+
 }
+
+export interface ITypeRes extends IType{
+    _id: string
+}
+
+

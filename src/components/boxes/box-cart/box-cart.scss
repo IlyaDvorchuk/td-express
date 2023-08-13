@@ -36,9 +36,52 @@
     color: $text4Color;
   }
 
+  & &__container {
+    display: flex;
+    justify-content: space-between;
+    gap: 109px;
+  }
+
   & &__cards {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    gap: 39px;
     padding-top: 30px;
     border-top: 1px solid $borderColor;
   }
 }
 
+.cart-ordering {
+  width: 413px;
+  height: 293px;
+  border: 1.5px solid $borderColor;
+  border-radius: 15px;
+  padding: 31px 50px 22px;
+
+  &__order {
+    margin-bottom: 12px;
+    font-size: $subTitleSize;
+    font-weight: 800;
+  }
+
+  &__price {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 7px;
+  }
+
+  &__finish {
+    margin: 27px 0 24px;
+    display: flex;
+    justify-content: space-between;
+    font-weight: 800;
+    font-size: $mediumTitleSize;
+    color: $title3Color;
+  }
+
+  &__buttons {
+    margin: auto;
+    max-width: 265px;
+  }
+}

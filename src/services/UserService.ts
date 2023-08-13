@@ -2,7 +2,7 @@ import {AxiosResponse} from "axios";
 import {IUser} from "../models/response/IUser";
 import $api from "../http";
 import {IProductCardRes} from "../models/IProductCard";
-import {ICart} from "../models/ICart";
+import {ICartReq} from "../models/ICart";
 import {ICartRes} from "../models/response/ICartRes";
 
 export class UserService {
@@ -18,8 +18,12 @@ export class UserService {
         return $api.get<IProductCardRes[]>(`users/getFavorites/`)
     }
 
-    static addToCart(cart: ICart): Promise<AxiosResponse<boolean>> {
+    static addToCart(cart: ICartReq): Promise<AxiosResponse<boolean>> {
         return $api.post<boolean>(`users/addToCart`, cart)
+    }
+
+    static deleteCarts(cart: string[]): Promise<AxiosResponse<boolean>> {
+        return $api.post<boolean>('users/deleteCart', {idsCart: cart});
     }
 
     static async getUser(): Promise<AxiosResponse<IUser>> {
@@ -28,5 +32,9 @@ export class UserService {
 
     static async getCart(): Promise<AxiosResponse<ICartRes[]>> {
         return $api.get<ICartRes[]>(`users/get-cart`)
+    }
+
+    static async setCountCart(typeId: string, count: number){
+        return $api.get(`users/set-count-cart/${typeId}/${count}`)
     }
 }

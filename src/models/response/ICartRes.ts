@@ -6,8 +6,10 @@ export interface ICartRes {
     mainPhoto: string,
     price: IPrice,
     name: string,
-    _id: string
+    _id: string,
+    typeId: string,
+    nameShelter: string;
     // totalPrice: number;
     // isFavorite: boolean;
-    // size?: string;
+    size?: string;
 }

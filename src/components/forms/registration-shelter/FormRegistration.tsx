@@ -10,8 +10,8 @@ import {shelterSlice} from "../../../store/reducers/shelter/ShelterSlice";
 const FormRegistration = () => {
     const dispatch = useAppDispatch()
     const {setFirstData} = shelterSlice.actions
-    const [name, setName] = useState('')
-    const [isErrorName, setIsErrorName] = useState(false)
+    // const [name, setName] = useState('')
+    // const [isErrorName, setIsErrorName] = useState(false)
     const [password, setPassword] = useState('')
     const [isErrorPassword, setIsErrorPassword] = useState(false)
     const [phone, setPhone] = useState('')
@@ -45,13 +45,13 @@ const FormRegistration = () => {
         if (errorMail) {
             setErrorMail('Вы ввели некорректный email')
         }
-        if (!name) {
-            setIsErrorName(true)
-        }
+        // if (!name) {
+        //     setIsErrorName(true)
+        // }
         if (!password) {
             setIsErrorPassword(true)
         }
-        if (errorPhone || errorMail || !name || !password) return
+        if (errorPhone || errorMail || !password) return
         const isExistShelter = await dispatch(checkShelter(mail, phone))
         if (isExistShelter?.email) {
             setErrorMail('Аккаунт с таким email уже существует')
@@ -66,13 +66,11 @@ const FormRegistration = () => {
         dispatch(setFirstData({
             password,
             email: mail,
-            name,
             phone
         }))
         localStorage.setItem('shelter', JSON.stringify({
             password,
             email: mail,
-            name,
             phone
         }))
         dispatch(sendCodeShelter(mail))
@@ -85,15 +83,15 @@ const FormRegistration = () => {
                 <h2 className={'reg__title'}>
                     Начните продавать на td-market.md
                 </h2>
-                <div className={'reg-field'}>
-                    <label htmlFor="Name" className={'label'}>Имя/Наименование</label>
-                    <input id={'Name'} className={`modalInput modalInput_light ${isErrorName && 'error'}`}
-                           type="text"
-                           placeholder={'Введите Ваше имя или наименование'}
-                           value={name}
-                           onChange={(e) => setName(e.target.value)}
-                    />
-                </div>
+                {/*<div className={'reg-field'}>*/}
+                {/*    <label htmlFor="Name" className={'label'}>Имя/Наименование</label>*/}
+                {/*    <input id={'Name'} className={`modalInput modalInput_light ${isErrorName && 'error'}`}*/}
+                {/*           type="text"*/}
+                {/*           placeholder={'Введите Ваше имя или наименование'}*/}
+                {/*           value={name}*/}
+                {/*           onChange={(e) => setName(e.target.value)}*/}
+                {/*    />*/}
+                {/*</div>*/}
                 <div className={'reg-field'}>
                     <label htmlFor="Phone" className={`label ${errorPhone && 'error'}`}>Номер телефона</label>
                     <input id={'Phone'} className={`modalInput modalInput_light ${errorPhone && 'error'}`}

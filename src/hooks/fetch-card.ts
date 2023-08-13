@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
 import { useLocation, useParams } from "react-router-dom";
-import { IProductCard } from "../models/IProductCard";
+import {IProductCardRes} from "../models/IProductCard";
 import {GoodsService} from "../services/GoodsService";
 
-const useFetchCard = (): IProductCard | null => {
+const useFetchCard = (): IProductCardRes | null => {
     const location = useLocation();
     const { id } = useParams();
-    const [card, setCard] = useState<IProductCard | null>(null);
+    const [card, setCard] = useState<IProductCardRes | null>(null);
 
     useEffect(() => {
         const fetchCard = async () => {

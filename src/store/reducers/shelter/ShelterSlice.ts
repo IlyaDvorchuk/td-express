@@ -58,9 +58,8 @@ export const shelterSlice = createSlice({
         // },
 
         setFirstData(state, action: PayloadAction<IMainShelter>) {
-            const {email, name, phone, password} = action.payload
+            const {email, phone, password} = action.payload
             state.shelter.email = email
-            state.shelter.name = name
             state.shelter.phone = phone
             state.shelter.password = password
         },

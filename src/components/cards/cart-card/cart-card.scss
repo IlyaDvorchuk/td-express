@@ -1,3 +1,5 @@
+@import "/src/styles/constants";
+
 .cart-card {
   display: flex;
 
@@ -19,6 +21,51 @@
     & > img {
       width: 100%;
       height: 100%;
+    }
+  }
+
+  & &__inf {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+  }
+
+  & &__name {
+    color: $title2Color;
+    font-size: $bigMediumSize;
+    font-weight: 500;
+    margin-bottom: auto;
+  }
+
+  & &__type {
+    margin-bottom: 15px;
+  }
+
+  & &__buttons {
+    display: flex;
+    align-items: center;
+
+    & > p {
+      cursor: pointer;
+    }
+  }
+
+  & &__favorite {
+    margin-left: 22px;
+    margin-right: 12px;
+  }
+
+  & &__prices {
+    margin-left: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    font-weight: 800;
+
+
+    & > .price {
+      font-size: $subTitleSize;
+      color: $title2Color;
     }
   }
 }

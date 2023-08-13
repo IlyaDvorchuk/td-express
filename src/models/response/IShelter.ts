@@ -20,7 +20,7 @@ export interface IShelterRes {
     _id: string,
     password?: string,
     email: string,
-    name: string,
+    name?: string,
     phone: string,
     shelterData: IShelterData,
     imageShop: string,
@@ -43,7 +43,6 @@ export interface IShelterData {
 
 export interface IMainShelter {
     email: string,
-    name: string,
     phone: string,
     password: string
 }

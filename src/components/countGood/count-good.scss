@@ -1,0 +1,31 @@
+@import "src/styles/constants";
+@import "src/styles/mixins";
+
+.update-button {
+  @include flex(space-between, center);
+  padding: 0 11px;
+  width: 115px;
+  height: 40px;
+  border: 1.5px solid $title3Color;
+  border-radius: 15px;
+
+  & > .count {
+    min-width: 20px;
+  }
+
+  & > .update {
+    cursor: pointer;
+    user-select: none;
+  }
+
+  & .update_minus {
+    position: relative;
+    bottom: 5px;
+  }
+
+  & .update_plus {
+    position: relative;
+    top: 3px;
+    right: 2px;
+  }
+}

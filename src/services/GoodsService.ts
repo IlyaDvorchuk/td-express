@@ -1,7 +1,7 @@
 import axios, {AxiosResponse} from "axios";
 import {API_URL} from "../http";
 import {IPaginationCards} from "../models/response/IPaginationCards";
-import {IProductCard, IProductCardRes} from "../models/IProductCard";
+import {IProductCardRes} from "../models/IProductCard";
 
 export class GoodsService {
     static async getNewGoods(page: number, limit: number): Promise<AxiosResponse<IPaginationCards>> {
@@ -41,7 +41,7 @@ export class GoodsService {
         })
     }
 
-    static async getGood(id: string): Promise<AxiosResponse<IProductCard>> {
-        return axios.get<IProductCard>(`${API_URL}product-cards/${id}`, )
+    static async getGood(id: string): Promise<AxiosResponse<IProductCardRes>> {
+        return axios.get<IProductCardRes>(`${API_URL}product-cards/${id}`, )
     }
 }
