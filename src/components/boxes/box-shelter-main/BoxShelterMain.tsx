@@ -9,7 +9,7 @@ const BoxShelterMain = () => {
     const navigation = useNavigate()
 
     const onCreateGood = () => {
-        navigation('/shelter/goods/create')
+        navigation('/seller/goods/create')
     }
 
     return (
