@@ -89,10 +89,14 @@ const BoxGood = ({card} : {card: IProductCardRes}) => {
             size: activeSize?.size,
             typeId: activeSize?._id || ''
         })
-        console.log('response addToCart', response)
         // if (response) setIsFavorite(true)
     }
 
+
+    const onBuy = async () => {
+        const response = await UserService.setBank()
+        console.log('response', response)
+    }
 
     return (
         <div className={'good'}>
@@ -183,7 +187,7 @@ const BoxGood = ({card} : {card: IProductCardRes}) => {
                         <button className={'button button_light'} onClick={addToCart}>
                             Добавить в корзину
                         </button>
-                        <button className={'button button_dark'}>
+                        <button className={'button button_dark'} onClick={onBuy}>
                             Купить сейчас
                         </button>
                     </div>

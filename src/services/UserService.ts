@@ -1,4 +1,4 @@
-import {AxiosResponse} from "axios";
+import axios, {AxiosResponse} from "axios";
 import {IUser} from "../models/response/IUser";
 import $api from "../http";
 import {IProductCardRes} from "../models/IProductCard";
@@ -36,5 +36,21 @@ export class UserService {
 
     static async setCountCart(typeId: string, count: number){
         return $api.get(`users/set-count-cart/${typeId}/${count}`)
+    }
+
+    static async setBank() {
+        const formData = new FormData();
+        formData.append('MerchantLogin', '000209')
+        formData.append('RequestCurrCode', '000')
+        formData.append('RequestSum', '1000')
+        formData.append('nivid', '122')
+        formData.append('Desc', 'Оплата товара №122')
+        formData.append('istest', '1')
+        formData.append('SignatureValue', '6d223ad3b2abe31d65ed35494c6d7788')
+        return axios.post(`https://www.agroprombank.com/payments/PaymentStart`, formData, {
+            headers: {
+                "Content-Type": "multipart/form-data",
+            }
+        })
     }
 }
