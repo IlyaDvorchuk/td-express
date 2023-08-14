@@ -169,11 +169,11 @@ const BoxGood = ({card} : {card: IProductCardRes}) => {
                     </div>
                     <div className={'good-information__prices'}>
                         <span className={'good-information__priceBeforeDiscount'}>
-                            {card.pricesAndQuantity.priceBeforeDiscount ? card.pricesAndQuantity.priceBeforeDiscount : card.pricesAndQuantity.price} RUP
+                            {card.pricesAndQuantity.price} RUP
                         </span>
-                        <span className={'good-information__price'}>
-                            {card.pricesAndQuantity.quantity && card.pricesAndQuantity.price} RUP
-                        </span>
+                        { card.pricesAndQuantity.priceBeforeDiscount > 0 && <span className={'good-information__price'}>
+                            {card.pricesAndQuantity.priceBeforeDiscount} RUP
+                        </span>}
                     </div>
                     <div className={'good-information__buttons'}>
                         <button className={'button button_light'} onClick={addToCart}>

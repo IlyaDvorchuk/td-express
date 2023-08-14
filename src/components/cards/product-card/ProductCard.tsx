@@ -54,7 +54,7 @@ const ProductCard = ({card, isFavoriteCard = false}: IProductCardProps) => {
                     {card.pricesAndQuantity.price} RUP
                 </span>
                 {
-                    card.pricesAndQuantity.priceBeforeDiscount &&
+                    card.pricesAndQuantity.priceBeforeDiscount > 0 &&
                     <span className={'discount'}>{card.pricesAndQuantity.priceBeforeDiscount} RUP</span>
                 }
             </div>

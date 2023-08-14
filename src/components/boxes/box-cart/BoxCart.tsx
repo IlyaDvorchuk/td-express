@@ -23,6 +23,10 @@ const BoxCart = () => {
         fetchCart();
     }, []);
 
+    useEffect(() => {
+        console.log('goodsCart', goodsCart)
+    }, [goodsCart])
+
     const priseAll = useMemo(() => {
         return dedicatedCart.reduce((total, item) => {
             const itemPrice =( item.price.priceBeforeDiscount ? item.price.priceBeforeDiscount : item.price.price) * item.quantity;
@@ -34,7 +38,9 @@ const BoxCart = () => {
     const priseDiscount = useMemo(() => {
         return dedicatedCart.reduce((total, item) => {
             const itemPrice = (item.price.priceBeforeDiscount ? item.price.price : item.price.priceBeforeDiscount) * item.quantity;
-            console.log('item', item)
+            console.log('itemPrice',itemPrice)
+            if (!itemPrice) return (item.price.price * item.quantity)
+            console.log('gd;lfdg')
             return total + itemPrice;
         }, 0);
     }, [dedicatedCart, changeCount])
@@ -71,7 +77,8 @@ const BoxCart = () => {
         try {
             const response = await UserService.deleteCarts([id])
             if (response.data) {
-                setGoodCart(carts => carts.filter(cartItem => id !== cartItem.typeId));
+                setGoodCart(carts => carts.filter(cartItem => id !== (cartItem.typeId + cartItem.productId)));
+                setDedicatedCart(carts => carts.filter(cartItem => id !== (cartItem.typeId + cartItem.productId)))
             }
         } catch (e) {
             console.log('Не получилось удалить')
@@ -103,11 +110,11 @@ const BoxCart = () => {
             </div>
             <div className={'cart__container'}>
                 <div className={'cart__cards'}>
-                    {goodsCart.map(good => (
+                    {goodsCart.map((good, index) => (
                         <CartCard
                             cart={good}
-                            key={good.typeId}
-                            isChecked={dedicatedCart.some(item => item.typeId === good.typeId)}
+                            key={index}
+                            isChecked={dedicatedCart.some(item => (item.typeId + item.productId) === (good.typeId + good.productId))}
                             onCheckboxChange={handleCartCardCheckboxChange}
                             deleteCart={deleteCart}
                             setChangeCount={setChangeCount}

@@ -91,16 +91,16 @@ const CartCard = ({cart, isChecked, onCheckboxChange, deleteCart, setChangeCount
                 <div className={'cart-card__buttons'}>
                     <CountGood count={count} onSetCount={onSetCount}/>
                     <p className={'cart-card__favorite'} onClick={onAddFavorites}>В избранное</p>
-                    <p onClick={() => deleteCart(cart.typeId)}>Удалить</p>
+                    <p onClick={() => deleteCart(cart.typeId + cart.productId)}>Удалить</p>
                 </div>
             </div>
             <div className={'cart-card__prices'}>
                 <p className={'price'}>
-                    {cart.price?.priceBeforeDiscount ? cart.price.price : cart.price.priceBeforeDiscount} RUP
+                    {cart.price.price} RUP
                 </p>
-                <p>
+                {cart.price.priceBeforeDiscount > 0 && <p>
                     {cart.price.priceBeforeDiscount + ' RUP'}
-                </p>
+                </p>}
             </div>
         </div>
     );
