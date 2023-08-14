@@ -2,6 +2,7 @@ import React from 'react';
 import './box-shelter-main.scss'
 import {useAppSelector} from "../../../hooks/redux";
 import {useNavigate} from "react-router-dom";
+import {API_URL} from "../../../http";
 
 const BoxShelterMain = () => {
     const {shelter} = useAppSelector(state => state.shelterReducer)
@@ -26,7 +27,7 @@ const BoxShelterMain = () => {
                         <div className={'rate'}>
                             <div className={'rate__header'}>
                                 <div className={'rate__icon'}>
-                                    <img src={shelter?.imageShop} alt="Иконка продавца"/>
+                                    <img src={`${API_URL}${shelter?.imageShop}`} alt="Иконка продавца"/>
                                 </div>
                                 <div className={'rate__name'}>
                                     <p className={'name-market'}>
