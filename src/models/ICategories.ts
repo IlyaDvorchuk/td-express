@@ -5,6 +5,7 @@ export interface ICategories {
 }
 
 export interface ICategory {
+    type?: 'category',
     name: string,
     icon?: string,
     children: ISubcategory[],
@@ -13,13 +14,17 @@ export interface ICategory {
 }
 
 export interface ISubcategory {
+    type?: 'subcategory',
     name: string,
     children: ISection[]
     _id: string,
-    alternateName: string
+    alternateName: string,
+    parentName?: string
+    parent?: string
 }
 
 export interface ISection {
+    type?: 'section',
     name: string,
     _id: string
 }

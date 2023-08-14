@@ -10,6 +10,7 @@
   }
 
   &__categories {
+
     color: $text4Color;
     font-size: $mediumLittleSize;
   }
@@ -33,7 +34,7 @@
   }
 
   &__container {
-    max-width: 828px;
+    flex: 1;
   }
 
 }

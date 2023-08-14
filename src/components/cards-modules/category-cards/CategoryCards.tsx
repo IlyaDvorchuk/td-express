@@ -24,7 +24,6 @@ const CategoryCards = ({ id, title, limit }: CategoryCardsProps) => {
             const categoryId = id || paramsId;
             if (categoryId) {
                 const response = await GoodsService.getCategoryGoods(categoryId, page, limit);
-                console.log('response.data', response.data)
                 if (prevParamsId !== paramsId) {
 
                     setCategoryCards(response.data); // Заменяем categoryCards новыми данными

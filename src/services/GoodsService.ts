@@ -2,6 +2,7 @@ import axios, {AxiosResponse} from "axios";
 import {API_URL} from "../http";
 import {IPaginationCards} from "../models/response/IPaginationCards";
 import {IProductCardRes} from "../models/IProductCard";
+import {ICategory, ISection, ISubcategory} from "../models/ICategories";
 
 export class GoodsService {
     static async getNewGoods(page: number, limit: number): Promise<AxiosResponse<IPaginationCards>> {
@@ -29,6 +30,10 @@ export class GoodsService {
                 limit
             }
         })
+    }
+
+    static async getCategory(category: string): Promise<AxiosResponse<ICategory | ISubcategory | ISection>> {
+        return axios.get<ICategory | ISubcategory | ISection>(`${API_URL}categories/${category}`)
     }
 
     static async getSearchGoods(query: string, page: number, limit: number): Promise<AxiosResponse<IPaginationCards>> {

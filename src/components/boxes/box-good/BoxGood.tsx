@@ -39,7 +39,11 @@ const BoxGood = ({card} : {card: IProductCardRes}) => {
             window.removeEventListener('resize', handleResize);
         };
 
-    })
+    }, [])
+
+    useEffect(() => {
+        setMainPhoto(card?.mainPhoto);
+    }, [card])
     const handleAdditionalPhotoClick = (photo: string) => {
         setMainPhoto(photo);
     };
