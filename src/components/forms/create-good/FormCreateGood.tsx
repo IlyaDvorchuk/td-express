@@ -65,10 +65,21 @@ const FormCreateGood = ({card} : {card: IProductCard | null}) => {
 
     useEffect(() => {
         if (isUpdateCard) {
-            navigation('/shelter/goods');
+            navigation('/seller/goods');
             dispatch(updateCardFalse())
         }
     },  [dispatch, isUpdateCard, navigation, updateCardFalse])
+
+    useEffect(() => {
+        if (isCreateGoodCard) {
+            if (submitButton === 'saveButton') {
+                navigation('/seller/goods');
+            } else if (submitButton === 'addGoodButton') {
+                window.location.reload();
+            }
+            dispatch(shelterSlice.actions.setCreateGoodCard(false))
+        }
+    },  [dispatch, isCreateGoodCard, navigation, submitButton])
 
     const onSubmit = async (data: any) => {
         if ((!generalImage && !card?.mainPhoto)
@@ -126,13 +137,7 @@ const FormCreateGood = ({card} : {card: IProductCard | null}) => {
             }
             // @ts-ignore
             dispatch(createProductCard(good, generalImage, additionalImages))
-            if (isCreateGoodCard) {
-                if (submitButton === 'saveButton') {
-                    navigation('/shelter/goods');
-                } else if (submitButton === 'addGoodButton') {
-                    window.location.reload();
-                }
-            }
+
         } catch (error) {
             console.error('Error create good:', error);
         }

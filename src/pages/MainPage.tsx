@@ -15,7 +15,7 @@ const MainPage = () => {
     const {categories} = useAppSelector(state => state.categoriesReducer)
 
     if (accessToken) {
-        return <Navigate to="/shelter/main" />;
+        return <Navigate to="/seller/main" />;
     }
 
     return (
