@@ -6,9 +6,9 @@ import ProductCard from "../../cards/product-card/ProductCard";
 const SearchCards = () => {
     const {cards} = useAppSelector(state => state.searchReducer)
 
-    useEffect(() => {
-        console.log('cards', cards)
-    }, [cards])
+    // useEffect(() => {
+    //     console.log('cards', cards)
+    // }, [cards])
 
 
     return (

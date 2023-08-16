@@ -37,7 +37,7 @@ export class GoodsService {
     }
 
     static async getSearchGoods(query: string, page: number, limit: number): Promise<AxiosResponse<IPaginationCards>> {
-        return axios.get<IPaginationCards>(`${API_URL}product-cards/`, {
+        return axios.get<IPaginationCards>(`${API_URL}product-cards/search/`, {
             params: {
                 query,
                 page,
