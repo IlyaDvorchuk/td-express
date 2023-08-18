@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import Container from "../components/container/Container";
 import BoxGood from "../components/boxes/box-good/BoxGood";
 import BoxGoodInformation from "../components/boxes/box-good-information/BoxGoodInformation";
@@ -9,6 +9,11 @@ import useFetchCard from "../hooks/fetch-card";
 
 const Good = () => {
     const card = useFetchCard();
+
+    useEffect(() => {
+        console.log('hey sdsf')
+        window.scrollTo(0, 0); // Сбросить скролл на верхнюю часть страницы
+    }, []);
 
     return (
         <div>

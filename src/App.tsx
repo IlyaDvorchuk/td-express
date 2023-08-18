@@ -30,6 +30,7 @@ import Faq from "./pages/Faq";
 import Footer from "./components/footers/footer-user/Footer";
 import MobileNavbar from "./components/mobile-navbar/MobileNavbar";
 import Admin from "./pages/Admin";
+import Order from "./pages/Order";
 
 
 function App() {
@@ -49,6 +50,7 @@ function App() {
         <div className="App">
             <BrowserRouter>
                 <Routes>
+
                     <Route path="/registration" element={<RegistrShelter />} />
                     <Route path="/login" element={<LoginShelter />} />
                     <Route
@@ -130,6 +132,17 @@ function App() {
                             <Footer/>
                         </>
                     }
+                    />
+                    <Route
+                        path="/buy"
+                        element={
+                            <>
+                                <Header />
+                                <MobileNavbar/>
+                                <Order />
+                                <Footer/>
+                            </>
+                        }
                     />
                     <Route
                         path="/cart"

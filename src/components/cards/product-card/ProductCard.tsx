@@ -21,7 +21,7 @@ const ProductCard = ({card, isFavoriteCard = false}: IProductCardProps) => {
                 ...card
             }
         })
-        // console.log('card', card._id)
+        window.scrollTo({top: 60, behavior: 'smooth'})
     }
 
     const onAddFavorites = async (event: React.MouseEvent<HTMLDivElement>) => {

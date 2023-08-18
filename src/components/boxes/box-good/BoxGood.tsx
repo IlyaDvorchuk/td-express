@@ -94,8 +94,10 @@ const BoxGood = ({card} : {card: IProductCardRes}) => {
 
 
     const onBuy = async () => {
-        const response = await UserService.setBank()
-        console.log('response', response)
+        // const response = await UserService.setBank()
+        // console.log('response', response)
+        console.log('order sy')
+        navigate('/buy')
     }
 
     return (
