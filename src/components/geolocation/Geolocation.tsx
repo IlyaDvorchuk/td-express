@@ -23,7 +23,7 @@ const Geolocation = ({mobile = false}: {mobile?: boolean}) => {
     return (
         <>
             <div className={`geolocation ${mobile && 'geolocation_mobile'}`} onClick={onActive}>
-                <GeolocationSvg mobile={true}/>
+                <GeolocationSvg/>
                 <div className={'geolocation__city'}>
                     {city}
                 </div>

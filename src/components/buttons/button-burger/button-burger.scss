@@ -2,37 +2,30 @@
 @import "../../../styles/mixins";
 
 .hamburger-container {
-  @include square(48px);
+  @include square(36px);
   @include flex(center, center);
-  border: 2px solid $plugColor;
-  border-radius: 15px;
+  border: 1.5px solid $plugColor;
+  border-radius: 10px;
   cursor: pointer;
   user-select: none;
 
   &.little {
-    @include square(36px);
     border: 1.5px solid $additionalColor
   }
 }
 
 .hamburger {
-  @include flex(center, center, 8px);
+  @include flex(center, center, 4px);
   flex-direction: column;
   transition: $fastTransition;
 
-  &.little {
-    gap: 4px;
-  }
-
   &__item {
-    width: 30px;
-    height: 2.5px;
+    width: 16px;
+    height: 1.5px;
     background: $plugColor;
     border-radius: 2px;
 
     &.little {
-      width: 16px;
-      height: 1.5px;
       background: $additionalColor;
     }
 
@@ -52,11 +45,8 @@
   }
 
   &.active {
-    transform: translateX(5px);
+    transform: translateX(3px);
 
-    &.active.little {
-      transform: translateX(3px);
-    }
 
     & .line-1 {
       transform: rotate(45deg);

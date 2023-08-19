@@ -56,16 +56,16 @@ const Search = ({mobile = false}: {mobile?: boolean}) => {
 
     return (
         <div className={`search ${mobile && 'search_mobile'}`}>
-            <input
-                className={'search-input'}
-                ref={inputRef}
-                placeholder={'Я ищу...'}
-                onChange={(e) => onChangeSearch(e.target.value)} value={query}
-                onKeyDown={handleKeyDown}
-            />
             <button className={'search-button'} onClick={() => onChangeSearch(query)}>
                 <img src="/images/svg/search.svg" alt={'Найти товар'}/>
             </button>
+            <input
+                className={'search-input'}
+                ref={inputRef}
+                onChange={(e) => onChangeSearch(e.target.value)} value={query}
+                onKeyDown={handleKeyDown}
+            />
+
         </div>
     );
 };
