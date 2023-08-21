@@ -27,7 +27,7 @@ const UserTools = () => {
                     </p>
                 </div>
                 <div
-                    className={'user-icon'}
+                    className={'user-icon little'}
                     onMouseEnter={() => dispatch(userSlice.actions.setIsHoverTools(true))}
                 >
                     <span>

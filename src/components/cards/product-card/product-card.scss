@@ -74,12 +74,6 @@
     }
   }
 
-  &__button {
-    @media screen and (max-width: 425px) {
-      display: none;
-    }
-  }
-
   &__favorites {
     position: absolute;
     top: 12px;

@@ -35,7 +35,7 @@ export class ShelterService {
     }
 
     static getCardsOfShelter(): Promise<AxiosResponse<IProductCardRes[]>> {
-        return $apiShelter.get(`shelters/cards`)
+        return $apiShelter.get(`shelters/cards/${1}/${200}`)
     }
 
     static getNotificationsOfShelter(): Promise<AxiosResponse<INotification[]>> {
