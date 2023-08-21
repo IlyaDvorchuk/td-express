@@ -97,7 +97,12 @@ const BoxGood = ({card} : {card: IProductCardRes}) => {
         // const response = await UserService.setBank()
         // console.log('response', response)
         console.log('order sy')
-        navigate('/buy')
+
+        navigate('/buy', {
+            state: {
+                ...card
+            }
+        })
     }
 
     return (

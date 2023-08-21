@@ -11,7 +11,6 @@ const Good = () => {
     const card = useFetchCard();
 
     useEffect(() => {
-        console.log('hey sdsf')
         window.scrollTo(0, 0); // Сбросить скролл на верхнюю часть страницы
     }, []);
 

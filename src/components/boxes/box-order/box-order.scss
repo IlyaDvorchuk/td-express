@@ -1,3 +1,48 @@
+@import "/src/styles/constants";
+
 .order {
-  margin: 20px   0 160px;
+  margin: 20px 0 160px;
+
+  &__title {
+    font-size: $subTitleSize;
+    color: $text2Color;
+    margin-bottom: 16px;
+  }
+
+  &__label {
+    color: $text4Color;
+    font-size: $mediumLittleSize;
+
+    &_up {
+      margin-bottom: 8px;
+    }
+  }
+
+  &__radio {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+
+  &__radio input {
+    position: absolute;
+    opacity: 0;
+  }
+
+  &__radio::before {
+    content: "";
+    display: inline-block;
+    width: 15px;
+    height: 15px;
+    margin-right: 5px;
+    border: 2px solid #000;
+    border-radius: 50%;
+    vertical-align: middle;
+    background-color: transparent;
+  }
+
+  .order__radio.selected::before {
+    background-color: #ff0000; /* Измените на нужный цвет */
+    border-color: #ff0000; /* Измените на нужный цвет */
+  }
 }
