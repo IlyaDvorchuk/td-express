@@ -1,12 +1,16 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import Container from "../components/container/Container";
-import BoxOrder from "../components/boxes/box-order/BoxOrder";
+import FormOrder from "../components/forms/create-order/FormOrder";
 
 const Order = () => {
+    useEffect(() => {
+        window.scrollTo({top: 0, behavior: 'smooth'})
+    }, [])
+
     return (
         <div>
             <Container>
-                <BoxOrder/>
+                <FormOrder/>
             </Container>
         </div>
     );

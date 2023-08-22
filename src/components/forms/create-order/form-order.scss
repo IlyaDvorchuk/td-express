@@ -1,0 +1,97 @@
+@import "../../../styles/constants";
+@import "../../../styles/mixins";
+
+.order {
+  margin: 20px 0 160px;
+  color: $text4Color;
+
+  &__title {
+    font-size: $subTitleSize;
+    color: $text2Color;
+    margin-bottom: 16px;
+  }
+
+  &__label {
+    color: $text4Color;
+    font-size: $mediumLittleSize;
+
+    &_up {
+      margin-bottom: 8px;
+    }
+  }
+
+  &__radio {
+
+  }
+
+  & .wrapper-radio {
+    margin-bottom: 10px;
+    padding-left: 7px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+
+    &__text {
+      font-size: $littleMediumSize;
+
+      &.selected {
+        color: $text2Color;
+      }
+    }
+  }
+
+  .radio-input {
+    display: none;
+  }
+
+  .custom-radio {
+    display: inline-block;
+    position: relative;
+    cursor: pointer;
+    @include square(20px);
+    border: 1.5px solid $title3Color; /* Исходный цвет рамки */
+    border-radius: 50%;
+
+    &.selected {
+      border: 1.5px solid $additionalColor;
+
+      &::before {
+        content: '';
+        position: absolute;
+        left: 4px;
+        top: 4px;
+        @include square(10px);
+        background-color: $additionalColor;
+        border-radius: 50%;
+      }
+
+      & .wrapper-radio__text {
+      }
+    }
+  }
+
+  &__cities {
+    margin-bottom: 39px;
+    max-width: 147px;
+  }
+
+  &__inputs {
+    padding-top: 18px;
+    border-top: 1px solid $borderColor;
+  }
+
+  &__subtitle {
+    margin-bottom: 15px;
+    font-size: $mediumMediumSize;
+    font-weight: 800;
+    color: $text2Color;
+  }
+
+  &__inputs-container {
+    max-width: 413px;
+    display: flex;
+    flex-wrap: wrap;
+    row-gap: 7px;
+    column-gap: 20px;
+  }
+}
