@@ -1,17 +1,29 @@
 import React from 'react';
 import './header-admin.scss'
 import {ADMIN_SCREEN} from "../../../models/enums";
+import {UserService} from "../../../services/UserService";
+import {useNavigate} from "react-router-dom";
 
 interface IProps {
     currentScreen: ADMIN_SCREEN,
     setCurrentScreen : React.Dispatch<React.SetStateAction<ADMIN_SCREEN>>,
 }
 const HeaderAdmin = ({currentScreen , setCurrentScreen}: IProps) => {
+
+    const onTestBank = async () => {
+        const response = await UserService.setBank()
+        if (response) {
+            window.location.href = 'https://www.agroprombank.com/payments/';
+        }
+        console.log('response', response)
+    }
+
     return (
         <div className={'header-admin'}>
             <p className={'header-admin__logo'}>
                 Панель администратора
             </p>
+            <button onClick={onTestBank}>Тест банка</button>
             <div className={'header-admin__links'}>
                 <div
                     onClick={() => setCurrentScreen(ADMIN_SCREEN.GENERAL)}

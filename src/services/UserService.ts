@@ -41,16 +41,19 @@ export class UserService {
     static async setBank() {
         const formData = new FormData();
         formData.append('MerchantLogin', '000209')
-        formData.append('RequestCurrCode', '000')
-        formData.append('RequestSum', '1000')
         formData.append('nivid', '122')
-        formData.append('Desc', 'Оплата товара №122')
         formData.append('istest', '1')
-        formData.append('SignatureValue', '6d223ad3b2abe31d65ed35494c6d7788')
-        return axios.post(`https://www.agroprombank.com/payments/PaymentStart`, formData, {
+        formData.append('RequestSum', '2700')
+        formData.append('RequestCurrCode', '000')
+        formData.append('Desc', 'оплата.заказа.122')
+        formData.append('SignatureValue', 'b8720aa391629445b1e3392a2fafa1b3')
+        return fetch(`https://www.agroprombank.com/payments/PaymentStart`, {
+            method: 'POST',
+            body: formData,
             headers: {
                 "Content-Type": "multipart/form-data",
-            }
-        })
+            },
+            mode: 'no-cors'
+        });
     }
 }
