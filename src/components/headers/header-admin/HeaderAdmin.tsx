@@ -8,14 +8,18 @@ interface IProps {
     setCurrentScreen : React.Dispatch<React.SetStateAction<ADMIN_SCREEN>>,
 }
 const HeaderAdmin = ({currentScreen , setCurrentScreen}: IProps) => {
+    // const [bankPageContent, setBankPageContent] = useState<string | null>(null);
 
     const onTestBank = async () => {
-        const response = await UserService.setBank()
-        if (response) {
-            // window.location.href = 'https://www.agroprombank.com/payments/';
+        const response = await UserService.setBank();
+        // const responseText = await response.text();
+        // setBankPageContent(responseText); // Сохраняем HTML-код в состояние
+        if (response?.url) {
+            // window.location.href = response?.url;
         }
-        console.log('response', response)
-    }
+        console.log('response formData', response);
+    };
+
 
     return (
         <div className={'header-admin'}>
@@ -45,6 +49,7 @@ const HeaderAdmin = ({currentScreen , setCurrentScreen}: IProps) => {
                     Список товаров доставляемых товаров
                 </div>
             </div>
+            {/*{bankPageContent && <div dangerouslySetInnerHTML={{ __html: bankPageContent }} />}*/}
         </div>
     );
 };

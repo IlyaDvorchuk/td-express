@@ -1,4 +1,4 @@
-import axios, {AxiosResponse} from "axios";
+import {AxiosResponse} from "axios";
 import {IUser} from "../models/response/IUser";
 import $api from "../http";
 import {IProductCardRes} from "../models/IProductCard";
@@ -42,7 +42,7 @@ export class UserService {
         const formData = new FormData();
         formData.append('MerchantLogin', '000209')
         formData.append('nivid', '122')
-        formData.append('istest', '1')
+        formData.append('IsTest', '1')
         formData.append('RequestSum', '2700')
         formData.append('RequestCurrCode', '000')
         formData.append('Desc', 'оплата.заказа.122')
@@ -53,7 +53,26 @@ export class UserService {
             headers: {
                 "Content-Type": "multipart/form-data",
             },
-            mode: 'no-cors'
         });
     }
+
+    static async setBankJson() {
+        return fetch(`https://www.agroprombank.com/payments/PaymentStart`, {
+            method: 'POST',
+            body: JSON.stringify({
+                'MerchantLogin': '000209',
+                'nivid': '122',
+                'istest': 1,
+                'RequestSum': 2700,
+                'RequestCurrCode': '000',
+                'Desc': 'оплата.заказа.122',
+                'SignatureValue': 'b8720aa391629445b1e3392a2fafa1b3'
+            }),
+            headers: {
+                "Content-Type": "application/json",
+            },
+            // mode: 'no-cors'
+        })
+    }
+
 }
