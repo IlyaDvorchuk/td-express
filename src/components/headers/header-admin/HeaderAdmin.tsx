@@ -2,7 +2,6 @@ import React from 'react';
 import './header-admin.scss'
 import {ADMIN_SCREEN} from "../../../models/enums";
 import {UserService} from "../../../services/UserService";
-import {useNavigate} from "react-router-dom";
 
 interface IProps {
     currentScreen: ADMIN_SCREEN,
@@ -13,7 +12,7 @@ const HeaderAdmin = ({currentScreen , setCurrentScreen}: IProps) => {
     const onTestBank = async () => {
         const response = await UserService.setBank()
         if (response) {
-            window.location.href = 'https://www.agroprombank.com/payments/';
+            // window.location.href = 'https://www.agroprombank.com/payments/';
         }
         console.log('response', response)
     }
