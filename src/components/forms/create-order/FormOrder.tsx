@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import './form-order.scss'
 import useFetchCard from "../../../hooks/fetch-card";
 import {useForm} from "react-hook-form";
@@ -41,14 +41,10 @@ const FormOrder = () => {
     const [selectedDelivery, setSelectedDelivery] = useState<string | null>(null);
     const { register, handleSubmit } = useForm();
 
+
     const onSubmit = (data: any) => {
         console.log(data);
     };
-
-    useEffect(() => {
-        console.log('card', card)
-    }, [card])
-
 
 
     return (
@@ -99,13 +95,16 @@ const FormOrder = () => {
                         </div>
                     </div>
                     <div>
-                        <label htmlFor="order-city" className={'label'}>Выберите город доставки</label>
+                        <label htmlFor="order-city" className={'label order__label_up'}>Выберите город доставки</label>
                         <Select
                             className={'order__cities'}
                             id={'order-city'}
                             classNamePrefix={'select'}
                             options={citiesOptions}
-                            defaultValue={citiesOptions[0]}
+                            defaultValue={{
+                                value: localStorage.getItem('city') || 'Тирасполь',
+                                label: localStorage.getItem('city') || 'Тирасполь'
+                            }}
                             isSearchable={false}
                         />
                     </div>
@@ -113,52 +112,50 @@ const FormOrder = () => {
                     <div className={'order__inputs'}>
                         <h4 className={'order__subtitle'}>Адрес доставки</h4>
                         <div className={'order__inputs-container'}>
-                            <div>
-                                <label htmlFor="">Улица</label>
-                                <input/>
+                            <div className={'input-box'}>
+                                <label className={'label'} htmlFor="">Улица</label>
+                                <input className={'modalInput modalInput_light'}/>
                             </div>
-                            <div>
-                                <label htmlFor="">Дом</label>
-                                <input/>
+                            <div className={'input-box order__input_short'}>
+                                <label className={'label'} htmlFor="">Дом</label>
+                                <input className={'modalInput modalInput_light'}/>
                             </div>
-                            <div>
-                                <label htmlFor="">Подъезд</label>
-                                <input/>
+                            <div className={'input-box order__input_short'}>
+                                <label className={'label'} htmlFor="">Подъезд</label>
+                                <input className={'modalInput modalInput_light'}/>
                             </div>
-                            <div>
-                                <label htmlFor="">Этаж</label>
-                                <input/>
+                            <div className={'input-box order__input_short'}>
+                                <label className={'label'} htmlFor="">Этаж</label>
+                                <input className={'modalInput modalInput_light'}/>
                             </div>
-                            <div>
-                                <label htmlFor="">Квартира</label>
-                                <input/>
+                            <div className={'input-box order__input_short'}>
+                                <label className={'label'} htmlFor="">Квартира</label>
+                                <input className={'modalInput modalInput_light'}/>
                             </div>
-                            <div>
-                                <label htmlFor="">Комментарий для курьера (домофон не работает, оставить у двери и т.д.)</label>
-                                <textarea/>
+                            <div className={'input-box'}>
+                                <label className={'label'} htmlFor="">Комментарий для курьера (домофон не работает, оставить у двери и т.д.)</label>
+                                <textarea className={'modalInput modalInput_light order__textarea'}/>
                             </div>
                         </div>
-
                     </div>
-                    {/*<div>*/}
-                    {/*    <h4>Данные о получателе</h4>*/}
-                    {/*    <div>*/}
-                    {/*        <label htmlFor="">Фамилия</label>*/}
-                    {/*        <input/>*/}
-                    {/*    </div>*/}
-                    {/*    <div>*/}
-                    {/*        <label htmlFor="">Имя</label>*/}
-                    {/*        <input/>*/}
-                    {/*    </div>*/}
-                    {/*    <div>*/}
-                    {/*        <label htmlFor="">Номер телефона</label>*/}
-                    {/*        <input/>*/}
-                    {/*    </div>*/}
 
-                    {/*</div>*/}
-                    {/*<div>*/}
-                    {/*    <h4>Способ оплаты</h4>*/}
-                    {/*</div>*/}
+                    <div className={'order__inputs'}>
+                        <h4 className={'order__subtitle'}>Данные о получателе</h4>
+                        <div className={'order__inputs-container'}>
+                            <div className={'input-box'}>
+                                <label className={'label'} htmlFor="">Фамилия</label>
+                                <input className={'modalInput modalInput_light'}/>
+                            </div>
+                            <div className={'input-box'}>
+                                <label className={'label'} htmlFor="">Имя</label>
+                                <input className={'modalInput modalInput_light'}/>
+                            </div>
+                            <div className={'input-box'}>
+                                <label className={'label'} htmlFor="">Номер тефона</label>
+                                <input className={'modalInput modalInput_light'}/>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div>

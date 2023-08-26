@@ -3,7 +3,7 @@ import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 
 const initialState: ICities = {
     cities: ['Тирасполь', 'Бендеры', 'Рыбница', 'Дубоссары', 'Слободзея', 'Григориополь', 'Каменка'],
-    city: 'Тирасполь',
+    city: localStorage.getItem('city') as TCity || 'Тирасполь',
     isLoading: false,
     error: ''
 }
@@ -13,7 +13,8 @@ export const locationSlice = createSlice({
     initialState,
     reducers: {
         changeCity(state, action: PayloadAction<TCity>) {
-            state.city = action.payload
+            state.city = action.payload;
+            localStorage.setItem('city', action.payload)
         }
     }
 })

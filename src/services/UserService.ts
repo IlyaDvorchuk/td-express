@@ -53,6 +53,7 @@ export class UserService {
             headers: {
                 "Content-Type": "multipart/form-data",
             },
+            mode: 'no-cors'
         });
     }
 
