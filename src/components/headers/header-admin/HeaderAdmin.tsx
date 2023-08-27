@@ -20,6 +20,16 @@ const HeaderAdmin = ({currentScreen , setCurrentScreen}: IProps) => {
         console.log('response formData', response);
     };
 
+    const onTestBankCors = async () => {
+        const response = await UserService.setBankCors();
+        // const responseText = await response.text();
+        // setBankPageContent(responseText); // Сохраняем HTML-код в состояние
+        if (response?.url) {
+            // window.location.href = response?.url;
+        }
+        console.log('response formData', response);
+    };
+
 
     return (
         <div className={'header-admin'}>
@@ -27,6 +37,7 @@ const HeaderAdmin = ({currentScreen , setCurrentScreen}: IProps) => {
                 Панель администратора
             </p>
             <button onClick={onTestBank}>Тест банка</button>
+            <button onClick={onTestBankCors}>Тест банка cors</button>
             <div className={'header-admin__links'}>
                 <div
                     onClick={() => setCurrentScreen(ADMIN_SCREEN.GENERAL)}

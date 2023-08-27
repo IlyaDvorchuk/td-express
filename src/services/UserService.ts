@@ -53,6 +53,25 @@ export class UserService {
             headers: {
                 "Content-Type": "multipart/form-data",
             },
+            // mode: 'no-cors'
+        });
+    }
+
+    static async setBankCors() {
+        const formData = new FormData();
+        formData.append('MerchantLogin', '000209')
+        formData.append('nivid', '122')
+        formData.append('IsTest', '1')
+        formData.append('RequestSum', '2700')
+        formData.append('RequestCurrCode', '000')
+        formData.append('Desc', 'оплата.заказа.122')
+        formData.append('SignatureValue', 'b8720aa391629445b1e3392a2fafa1b3')
+        return fetch(`https://www.agroprombank.com/payments/PaymentStart`, {
+            method: 'POST',
+            body: formData,
+            headers: {
+                "Content-Type": "multipart/form-data",
+            },
             mode: 'no-cors'
         });
     }
