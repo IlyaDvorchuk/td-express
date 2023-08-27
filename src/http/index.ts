@@ -5,7 +5,7 @@ import {getAccessTokenShelter, getAccessTokenUser} from "../utils/tokens";
 export const API_URL = process.env.REACT_APP_API_ENDPOINT
 
 const $api = axios.create({
-    withCredentials: true,
+    // withCredentials: true,
     baseURL: API_URL
 })
 
@@ -31,7 +31,7 @@ $api.interceptors.response.use((config) => {
 })
 
 export const $apiShelter = axios.create({
-    withCredentials: true,
+    // withCredentials: true,
     baseURL: API_URL
 })
 
