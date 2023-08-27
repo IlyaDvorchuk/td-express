@@ -33,7 +33,7 @@ export class GoodsService {
     }
 
     static async getCategory(category: string): Promise<AxiosResponse<ICategory | ISubcategory | ISection>> {
-        return axios.get<ICategory | ISubcategory | ISection>(`${API_URL}categories/${category}`)
+        return axios.get<ICategory | ISubcategory | ISection>(`${API_URL}categories/category/${category}`)
     }
 
     static async getSearchGoods(query: string, page: number, limit: number): Promise<AxiosResponse<IPaginationCards>> {
