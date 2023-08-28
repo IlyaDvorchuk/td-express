@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useMemo, useState} from 'react';
 import './form-order.scss'
 import useFetchCard from "../../../hooks/fetch-card";
 import {useForm} from "react-hook-form";
@@ -39,8 +39,18 @@ const citiesOptions = [
 const FormOrder = () => {
     const card = useFetchCard();
     const [selectedDelivery, setSelectedDelivery] = useState<string | null>(null);
+    const [selectedPayment, setSelectedPayment] = useState<string | null>(null);
     const { register, handleSubmit } = useForm();
 
+
+    useEffect(() => {
+        console.log('card', card)
+    }, [card])
+
+    const typeGood = useMemo(() => {
+        // @ts-ignore
+        return JSON.parse(localStorage.getItem('typeGood')).count
+    }, [])
 
     const onSubmit = (data: any) => {
         console.log(data);
@@ -50,7 +60,7 @@ const FormOrder = () => {
     return (
         <form className={'order'} onSubmit={handleSubmit(onSubmit)}>
             <h3 className={'order__title'}>Оформление заказа</h3>
-            <div>
+            <div className={'order__container'}>
                 <div>
                     <div className={'order__radio'}>
                         <p className={'label order__label_up'}>Выберите способ доставки</p>
@@ -156,10 +166,81 @@ const FormOrder = () => {
                             </div>
                         </div>
                     </div>
+                    <div className={'order__inputs'}>
+                        <h4 className={'order__subtitle'}>Способ оплаты</h4>
+                        {card && card?.deliveryPoints?.length > 0 && <div className={'wrapper-radio'}>
+                            <label htmlFor="bankCard" className={`custom-radio ${selectedPayment === 'bankCard' ? 'selected' : ''}`}>
+                                <input
+                                    type="radio"
+                                    id="bankCard"
+                                    value="bankCard"
+                                    {...register('payment' as const)}
+                                    className="radio-input"
+                                    onChange={() => setSelectedPayment('bankCard')}
+                                />
+                            </label>
+                            <p className={`wrapper-radio__text ${selectedPayment === 'pickup' ? 'selected' : ''}`}>Карта Клевер</p>
+                        </div>}
+                        <div className={'wrapper-radio'}>
+                            <label htmlFor="qrCode" className={`custom-radio ${selectedPayment === 'qrCode' ? 'selected' : ''}`}>
+                                <input
+                                    type="radio"
+                                    id="qrCode"
+                                    value="qrCode"
+                                    {...register('payment' as const)}
+                                    className="radio-input"
+                                    onChange={() => setSelectedPayment('qrCode')}
+                                />
+                            </label>
+                            <p className={`wrapper-radio__text ${selectedPayment === 'express' ? 'selected' : ''}`}>QR-код</p>
+                        </div>
+                        <div className={'wrapper-radio'}>
+                            <label htmlFor="cash" className={`custom-radio ${selectedPayment === 'cash' ? 'selected' : ''}`}>
+                                <input
+                                    type="radio"
+                                    id="cash"
+                                    value="cash"
+                                    {...register('payment' as const)}
+                                    className="radio-input"
+                                    onChange={() => setSelectedPayment('cash')}
+                                />
+                            </label>
+                            <p className={`wrapper-radio__text ${selectedPayment === 'doorstep' ? 'selected' : ''}`}>Наличными</p>
+                        </div>
+                    </div>
                 </div>
-            </div>
-            <div>
-                <button type={'submit'}>ПОДТВЕРДИТЬ И ОПЛАТИТЬ</button>
+                <div>
+                    <div className={'cart-ordering'}>
+                        <h4 className={'order__subtitle'}>Ваш заказ</h4>
+                        <div className={'cart-ordering__price'}>
+                        <span>
+                            Товары, {typeGood || 1}
+                        </span>
+                            <span>{card?.pricesAndQuantity.priceBeforeDiscount ?
+                                card.pricesAndQuantity.priceBeforeDiscount : card?.pricesAndQuantity.price} RUP</span>
+                        </div>
+                        <div className={'cart-ordering__price'}>
+                        <span>
+                            Скидка
+                        </span>
+                            <span> RUP</span>
+                        </div>
+                        <div className={'cart-ordering__price'}>
+                        <span>
+                            Доставка
+                        </span>
+                            <span>30 RUP</span>
+                        </div>
+                        <div className={'cart-ordering__finish'}>
+                        <span>
+                            Итого
+                        </span>
+                            <span> RUP</span>
+                        </div>
+                        <button className={'button button_not-active cart-ordering__buttons'}>Подтвердить и оплатить</button>
+                    </div>
+                </div>
+
             </div>
         </form>
     );

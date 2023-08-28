@@ -3,7 +3,6 @@ import './box-good.scss'
 import '../../../styles/elements/buttons.scss'
 import {Link, useNavigate} from "react-router-dom";
 import {IProductCardRes, ITypeRes} from "../../../models/IProductCard";
-import {API_URL} from "../../../http";
 import {Swiper, SwiperSlide} from "swiper/react";
 import { Navigation } from "swiper";
 import 'swiper/scss';
@@ -94,13 +93,17 @@ const BoxGood = ({card} : {card: IProductCardRes}) => {
 
 
     const onBuy = async () => {
+        const typeGood = JSON.stringify({
+            count,
+            activeSize
+        })
+        localStorage.setItem('typeGood', typeGood)
         // const response = await UserService.setBank()
         // console.log('response', response)
-        console.log('order sy')
 
         navigate('/buy', {
             state: {
-                ...card
+                ...card,
             }
         })
     }
@@ -137,7 +140,7 @@ const BoxGood = ({card} : {card: IProductCardRes}) => {
                                     <SwiperSlide className={'good-additional-photos__slider-item'} key={index}>
                                         <div className={'good-additional-photos__item'} key={index}>
                                             <img
-                                                src={`${API_URL}${photo}`}
+                                                src={`https://api.td-market.md/${photo}`}
                                                 alt="Дополнительная фотография"
                                                 onClick={() => handleAdditionalPhotoClick(photo)}
                                             />
@@ -149,7 +152,7 @@ const BoxGood = ({card} : {card: IProductCardRes}) => {
                     </div>
 
                     <div className={'main-photo'}>
-                        <img src={`${API_URL}${mainPhoto}`} alt={card.information.name}/>
+                        <img src={`https://api.td-market.md/${mainPhoto}`} alt={card.information.name}/>
                     </div>
                 </div>
                 <div className={'good-information'}>

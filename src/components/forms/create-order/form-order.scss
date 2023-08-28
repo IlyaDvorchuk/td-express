@@ -11,6 +11,11 @@
     margin-bottom: 16px;
   }
 
+  &__container {
+    display: flex;
+    justify-content: space-between;
+  }
+
   &__label {
     color: $text4Color;
     font-size: $mediumLittleSize;
@@ -108,5 +113,10 @@
   &__textarea {
     resize: none;
     height: 80px;
+  }
+  &__request {
+    padding: 31px 50px 22px;
+    border: 1.5px solid $borderColor;
+    border-radius: 15px;
   }
 }
