@@ -14,6 +14,11 @@
   &__container {
     display: flex;
     justify-content: space-between;
+    gap: 8.3%;
+  }
+
+  &__ordering {
+    flex: 1;
   }
 
   &__label {
@@ -25,10 +30,6 @@
 
       margin-bottom: 8px;
     }
-  }
-
-  &__radio {
-
   }
 
   & .wrapper-radio {
@@ -114,9 +115,14 @@
     resize: none;
     height: 80px;
   }
+
   &__request {
     padding: 31px 50px 22px;
     border: 1.5px solid $borderColor;
     border-radius: 15px;
+  }
+
+  &__finish {
+    color: $title2Color;
   }
 }

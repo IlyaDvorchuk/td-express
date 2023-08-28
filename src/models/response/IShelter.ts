@@ -73,3 +73,10 @@ export interface IShelterShop {
     nameMarket: string,
     description: string,
 }
+
+export interface IShelterForGood {
+    name: string,
+    description: string,
+    imageShop: string,
+    id: string
+}

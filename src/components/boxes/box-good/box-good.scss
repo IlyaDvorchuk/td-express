@@ -277,13 +277,38 @@
     }
 
     &__title {
-      position: absolute;
-      top: 0;
+      margin-bottom: 24px;
+      //position: absolute;
+      //top: 0;
 
       @media screen and (max-width: 880px){
         margin-bottom: 8px;
         position: static;
       }
+    }
+
+    &__shelter-block {
+      display: flex;
+      margin-bottom: auto;
+    }
+
+    &__shelter {
+      display: flex;
+      gap: 8px;
+      padding: 6px 35px 6px 12px;
+      background-color: #F1F1F1;
+      border-radius: 12px;
+      cursor: pointer;
+
+      & .name {
+        padding-top: 3px;
+        font-size: $littleMediumSize;
+        font-family: $fontTitle;
+      }
+    }
+
+    &__icon {
+      @include iconShop(48px);
     }
 
     &__subtitle {

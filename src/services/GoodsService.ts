@@ -3,6 +3,7 @@ import {API_URL} from "../http";
 import {IPaginationCards} from "../models/response/IPaginationCards";
 import {IProductCardRes} from "../models/IProductCard";
 import {ICategory, ISection, ISubcategory} from "../models/ICategories";
+import {IShelterForGood} from "../models/response/IShelter";
 
 export class GoodsService {
     static async getNewGoods(page: number, limit: number): Promise<AxiosResponse<IPaginationCards>> {
@@ -47,6 +48,10 @@ export class GoodsService {
     }
 
     static async getGood(id: string): Promise<AxiosResponse<IProductCardRes>> {
-        return axios.get<IProductCardRes>(`${API_URL}product-cards/${id}`, )
+        return axios.get<IProductCardRes>(`${API_URL}product-cards/${id}`)
+    }
+
+    static async getShelterByGood(id: string) {
+        return axios.get<IShelterForGood>(`${API_URL}shelters/good/${id}`)
     }
 }

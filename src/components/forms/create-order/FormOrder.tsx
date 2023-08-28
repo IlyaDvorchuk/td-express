@@ -52,6 +52,28 @@ const FormOrder = () => {
         return JSON.parse(localStorage.getItem('typeGood')).count
     }, [])
 
+    // const finalPrice = useMemo(() => {
+    //     if (!card) {
+    //         return 0; // По умолчанию вернем 0 или другое значение, в зависимости от вашей логики
+    //     }
+    //
+    //     const basePrice = card?.pricesAndQuantity.priceBeforeDiscount || card?.pricesAndQuantity.price;
+    //     const discount = card?.pricesAndQuantity.priceBeforeDiscount ? card.pricesAndQuantity.price : 0;
+    //     const deliveryCharge = selectedDelivery === 'doorstep' ? 30 : 0;
+    //
+    //     return basePrice - discount + deliveryCharge;
+    // }, [selectedDelivery, card]);
+
+
+    const finalPrice = useMemo(() => {
+        if (!card) {
+            return 0; // По умолчанию вернем 0 или другое значение, в зависимости от вашей логики
+        }
+
+        const deliveryCharge = selectedDelivery === 'doorstep' ? 30 : 0;
+
+        return card?.pricesAndQuantity.price * typeGood + deliveryCharge;
+    }, [selectedDelivery, card]);
     const onSubmit = (data: any) => {
         console.log(data);
     };
@@ -61,7 +83,7 @@ const FormOrder = () => {
         <form className={'order'} onSubmit={handleSubmit(onSubmit)}>
             <h3 className={'order__title'}>Оформление заказа</h3>
             <div className={'order__container'}>
-                <div>
+                <div className={'order__ordering'}>
                     <div className={'order__radio'}>
                         <p className={'label order__label_up'}>Выберите способ доставки</p>
                         {card && card?.deliveryPoints?.length > 0 && <div className={'wrapper-radio'}>
@@ -216,26 +238,31 @@ const FormOrder = () => {
                         <span>
                             Товары, {typeGood || 1}
                         </span>
-                            <span>{card?.pricesAndQuantity.priceBeforeDiscount ?
-                                card.pricesAndQuantity.priceBeforeDiscount : card?.pricesAndQuantity.price} RUP</span>
+                            <span>{card && (card?.pricesAndQuantity.priceBeforeDiscount ?
+                                (card.pricesAndQuantity.priceBeforeDiscount * typeGood) : (card.pricesAndQuantity.price * typeGood))} RUP</span>
                         </div>
-                        <div className={'cart-ordering__price'}>
+                        {card?.pricesAndQuantity.priceBeforeDiscount && <div className={'cart-ordering__price'}>
                         <span>
                             Скидка
                         </span>
-                            <span> RUP</span>
-                        </div>
+                            <span>{(card?.pricesAndQuantity.priceBeforeDiscount - card?.pricesAndQuantity.price) * typeGood} RUP</span>
+                        </div>}
                         <div className={'cart-ordering__price'}>
-                        <span>
-                            Доставка
-                        </span>
-                            <span>30 RUP</span>
+                            {selectedDelivery === 'doorstep' && <>
+                                <span>
+                                    Доставка
+                                </span>
+                                <span>
+                                    30 RUP
+                                </span>
+                            </>
+                            }
                         </div>
-                        <div className={'cart-ordering__finish'}>
+                        <div className={'cart-ordering__finish order__finish'}>
                         <span>
                             Итого
                         </span>
-                            <span> RUP</span>
+                            <span>{finalPrice} RUP</span>
                         </div>
                         <button className={'button button_not-active cart-ordering__buttons'}>Подтвердить и оплатить</button>
                     </div>

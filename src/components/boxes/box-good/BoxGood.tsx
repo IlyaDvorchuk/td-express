@@ -9,6 +9,8 @@ import 'swiper/scss';
 import "swiper/scss/navigation";
 import {UserService} from "../../../services/UserService";
 import CountGood from "../../countGood/CountGood";
+import {GoodsService} from "../../../services/GoodsService";
+import {IShelterForGood} from "../../../models/response/IShelter";
 
 const BoxGood = ({card} : {card: IProductCardRes}) => {
     const navigate = useNavigate()
@@ -20,6 +22,7 @@ const BoxGood = ({card} : {card: IProductCardRes}) => {
     }, [card.additionalPhotos, card.mainPhoto]);
 
     const [mainPhoto, setMainPhoto] = useState(card.mainPhoto);
+    const [shelter, setShelter] = useState<IShelterForGood | null>(null)
     const [count, setCount] = useState(1)
     const [activeSize, setActiveSize] = useState<ITypeRes | null>(card?.typeQuantity ? card?.typeQuantity[0] : null)
     const [quantity, setQuantity] = useState(card?.typeQuantity?.[0]?.quantity || card.pricesAndQuantity.quantity)
@@ -43,6 +46,19 @@ const BoxGood = ({card} : {card: IProductCardRes}) => {
     useEffect(() => {
         setMainPhoto(card?.mainPhoto);
     }, [card])
+
+    useEffect(() => {
+        const fetchShelter = async () => {
+            const response = await GoodsService.getShelterByGood(card.shelterId)
+            console.log('response', response)
+            if (response) {
+                setShelter(response.data)
+            }
+        }
+
+        fetchShelter()
+    }, [])
+
     const handleAdditionalPhotoClick = (photo: string) => {
         setMainPhoto(photo);
     };
@@ -91,6 +107,9 @@ const BoxGood = ({card} : {card: IProductCardRes}) => {
         // if (response) setIsFavorite(true)
     }
 
+    useEffect(() => {
+        console.log('card', card)
+    }, [card])
 
     const onBuy = async () => {
         const typeGood = JSON.stringify({
@@ -101,7 +120,7 @@ const BoxGood = ({card} : {card: IProductCardRes}) => {
         // const response = await UserService.setBank()
         // console.log('response', response)
 
-        navigate('/buy', {
+        navigate(`/buy/${card._id}`, {
             state: {
                 ...card,
             }
@@ -159,6 +178,17 @@ const BoxGood = ({card} : {card: IProductCardRes}) => {
                     <h2 className={'good-information__title'}>
                         {card?.information?.name}
                     </h2>
+                    <div className={'good-information__shelter-block'}>
+                        <Link to={`/seller/${shelter?.id}`} className={'good-information__shelter'}>
+                            <div className={'good-information__icon'}>
+                                <img src={`https://api.td-market.md/${shelter?.imageShop}`} alt={shelter?.name}/>
+                            </div>
+                            <div>
+                                <h4 className={'name'}>{shelter?.name}</h4>
+                            </div>
+                        </Link>
+                    </div>
+
                     {activeSize && card.typeQuantity && <div className={'good-information__sizes'}>
                         <p className={'good-information__subtitle'}>Размер:</p>
                         <div className={'sizes'}>
