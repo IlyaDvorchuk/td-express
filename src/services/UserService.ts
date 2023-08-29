@@ -47,6 +47,7 @@ export class UserService {
         formData.append('RequestCurrCode', '000')
         formData.append('Desc', 'оплата.заказа.122')
         formData.append('SignatureValue', 'b8720aa391629445b1e3392a2fafa1b3')
+        window.location.href = 'https://www.agroprombank.com/payments/PaymentStart?' + formData.toString();
         return fetch(`https://www.agroprombank.com/payments/PaymentStart`, {
             method: 'POST',
             body: formData,
@@ -57,23 +58,79 @@ export class UserService {
         });
     }
 
-    static async setBankCors() {
-        const formData = new FormData();
-        formData.append('MerchantLogin', '000209')
-        formData.append('nivid', '122')
-        formData.append('IsTest', '1')
-        formData.append('RequestSum', '2700')
-        formData.append('RequestCurrCode', '000')
-        formData.append('Desc', 'оплата.заказа.122')
-        formData.append('SignatureValue', 'b8720aa391629445b1e3392a2fafa1b3')
-        return fetch(`https://www.agroprombank.com/payments/PaymentStart`, {
+    static async setBankFetch() {
+        // const merchantLogin = 'ваш_логин';
+        // const requestedSum = 'сумма_заказа';
+        // const requestedCurrCode = 'код_валюты';
+        // const nivid = 'номер_заказа';
+        // const invoiceDesc = 'описание_заказа';
+        // const isTest = '0'; // 0 для продакшена, 1 для тестового режима
+        // const lifeTime = 'время_жизни_запроса';
+        // const signatureValue = 'значение_подписи';
+
+// Создание параметров запроса
+        const requestData = new URLSearchParams();
+        requestData.append('MerchantLogin', '000209');
+        requestData.append('nivid', '122');
+        requestData.append('IsTest', '1');
+        requestData.append('RequestSum', '2700');
+        requestData.append('RequestCurrCode', '000');
+        requestData.append('Desc', 'оплата.заказа.122');
+        requestData.append('SignatureValue', 'b8720aa391629445b1e3392a2fafa1b3');
+
+// URL для запроса
+        const url = 'https://www.agroprombank.com/payments/PaymentStart';
+
+// Опции запроса
+        const requestOptions = {
             method: 'POST',
-            body: formData,
-            headers: {
-                "Content-Type": "multipart/form-data",
-            },
-            mode: 'no-cors'
-        });
+            body: requestData
+        };
+
+// Отправка запроса
+        fetch(url, requestOptions)
+            .then(response => response.text())
+            .then(result => {
+                // Обработка ответа сервера
+                console.log(result);
+            })
+            .catch(error => {
+                // Обработка ошибок
+                console.error('Ошибка:', error);
+            });
+    }
+
+    static async setBankGet() {
+// Создание параметров запроса
+        const requestData = new URLSearchParams();
+        requestData.append('MerchantLogin', '000209');
+        requestData.append('nivid', '122');
+        requestData.append('IsTest', '1');
+        requestData.append('RequestSum', '2700');
+        requestData.append('RequestCurrCode', '000');
+        requestData.append('Desc', 'оплата.заказа.122');
+        requestData.append('SignatureValue', 'b8720aa391629445b1e3392a2fafa1b3');
+
+// URL для запроса
+        const url = 'https://www.agroprombank.com/payments/PaymentStart';
+
+// Опции запроса
+        const requestOptions = {
+            method: 'POST',
+            body: requestData
+        };
+
+// Отправка запроса
+        fetch(url, requestOptions)
+            .then(response => response.text())
+            .then(result => {
+                // Обработка ответа сервера
+                console.log(result);
+            })
+            .catch(error => {
+                // Обработка ошибок
+                console.error('Ошибка:', error);
+            });
     }
 
     static async setBankJson() {
