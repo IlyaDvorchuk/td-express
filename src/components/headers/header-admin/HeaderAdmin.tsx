@@ -36,8 +36,8 @@ const HeaderAdmin = ({currentScreen , setCurrentScreen}: IProps) => {
             <p className={'header-admin__logo'}>
                 Панель администратора
             </p>
-            <button onClick={onTestBank}>Тест банка</button>
-            <button onClick={onTestBankCors}>Тест банка cors</button>
+            {/*<button onClick={onTestBank}>Тест банка</button>*/}
+            {/*<button onClick={onTestBankCors}>Тест банка cors</button>*/}
             <div className={'header-admin__links'}>
                 <div
                     onClick={() => setCurrentScreen(ADMIN_SCREEN.GENERAL)}

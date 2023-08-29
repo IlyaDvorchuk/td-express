@@ -1,0 +1,11 @@
+@import "src/styles/constants";
+
+.delivery-shelter {
+
+  &__title {
+    margin-bottom: 20px;
+    font-size: $mediumMediumSize;
+    color: $title2Color;
+  }
+
+}

@@ -25,8 +25,8 @@ const HeaderShelter = () => {
             name: 'Мои товары',
         },
         {
-            href: '/seller/statistics',
-            name: 'Статистика',
+            href: '/seller/delivery',
+            name: 'Доставка',
         },
         {
             href: '/seller/subscription',

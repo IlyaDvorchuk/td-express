@@ -31,6 +31,7 @@ import Footer from "./components/footers/footer-user/Footer";
 import MobileNavbar from "./components/mobile-navbar/MobileNavbar";
 import Admin from "./pages/Admin";
 import Order from "./pages/Order";
+import ShelterDelivery from "./pages/ShelterDelivery";
 
 
 function App() {
@@ -98,6 +99,7 @@ function App() {
                         />
                         <Route index path="orders" element={<ShelterOrders />} />
                         <Route index path="goods" element={<ShelterGoods />} />
+                        <Route index path="delivery" element={<ShelterDelivery />} />
                         <Route index path={`goods/create`} element={<CreateGood />} />
                         <Route index path={`goods/create/:id`} element={<CreateGood />} />
                     </Route>
