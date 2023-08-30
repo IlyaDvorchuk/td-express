@@ -47,15 +47,21 @@ export class UserService {
         formData.append('RequestCurrCode', '000')
         formData.append('Desc', 'оплата.заказа.122')
         formData.append('SignatureValue', 'b8720aa391629445b1e3392a2fafa1b3')
-        window.location.href = 'https://www.agroprombank.com/payments/PaymentStart?' + formData.toString();
-        return fetch(`https://www.agroprombank.com/payments/PaymentStart`, {
+
+        const response = await fetch(`https://www.agroprombank.com/payments/PaymentStart`, {
             method: 'POST',
             body: formData,
             headers: {
                 "Content-Type": "multipart/form-data",
             },
-            // mode: 'no-cors'
         });
+        console.log('response status', response.status)
+        if (response.status === 302) {
+            // Получили редирект, перенаправляем пользователя на страницу оплаты
+            window.location.href = response.url;
+        }
+
+        return response;
     }
 
     static async setBankFetch() {
@@ -77,19 +83,16 @@ export class UserService {
             headers: {
                 'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7',
                 'Content-Type': 'application/x-www-form-urlencoded',
-                'Cookie': 'ASP.NET_SessionId=3nyivdagyrnut4v2gfhypfkf; _ym_uid=1692805569205897369; _ym_d=1692805569; lang=ru; _ym_isad=1'
                 // Другие заголовки, если необходимо
-            }
+            },
         };
 
         fetch(url, requestOptions)
             .then(response => response.text())
             .then(result => {
-                // Обработка ответа сервера
                 console.log(result);
             })
             .catch(error => {
-                // Обработка ошибок
                 console.error('Ошибка:', error);
             });
     }
