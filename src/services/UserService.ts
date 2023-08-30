@@ -59,16 +59,7 @@ export class UserService {
     }
 
     static async setBankFetch() {
-        // const merchantLogin = 'ваш_логин';
-        // const requestedSum = 'сумма_заказа';
-        // const requestedCurrCode = 'код_валюты';
-        // const nivid = 'номер_заказа';
-        // const invoiceDesc = 'описание_заказа';
-        // const isTest = '0'; // 0 для продакшена, 1 для тестового режима
-        // const lifeTime = 'время_жизни_запроса';
-        // const signatureValue = 'значение_подписи';
 
-// Создание параметров запроса
         const requestData = new URLSearchParams();
         requestData.append('MerchantLogin', '000209');
         requestData.append('nivid', '122');
@@ -78,16 +69,19 @@ export class UserService {
         requestData.append('Desc', 'оплата.заказа.122');
         requestData.append('SignatureValue', 'b8720aa391629445b1e3392a2fafa1b3');
 
-// URL для запроса
         const url = 'https://www.agroprombank.com/payments/PaymentStart';
 
-// Опции запроса
         const requestOptions = {
             method: 'POST',
-            body: requestData
+            body: requestData,
+            headers: {
+                'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7',
+                'Content-Type': 'application/x-www-form-urlencoded',
+                'Cookie': 'ASP.NET_SessionId=3nyivdagyrnut4v2gfhypfkf; _ym_uid=1692805569205897369; _ym_d=1692805569; lang=ru; _ym_isad=1'
+                // Другие заголовки, если необходимо
+            }
         };
 
-// Отправка запроса
         fetch(url, requestOptions)
             .then(response => response.text())
             .then(result => {

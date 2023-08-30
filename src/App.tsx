@@ -32,6 +32,7 @@ import MobileNavbar from "./components/mobile-navbar/MobileNavbar";
 import Admin from "./pages/Admin";
 import Order from "./pages/Order";
 import ShelterDelivery from "./pages/ShelterDelivery";
+import Payment from "./pages/Payment";
 
 
 function App() {
@@ -183,6 +184,11 @@ function App() {
                             <>
                                 <Admin/>
                             </>
+                        }
+                    />
+                    <Route
+                        path="/payment"
+                        element={<Payment/>
                         }
                     />
                     <Route

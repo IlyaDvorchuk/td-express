@@ -8,17 +8,6 @@ interface IProps {
     setCurrentScreen : React.Dispatch<React.SetStateAction<ADMIN_SCREEN>>,
 }
 const HeaderAdmin = ({currentScreen , setCurrentScreen}: IProps) => {
-    // const [bankPageContent, setBankPageContent] = useState<string | null>(null);
-
-    const onTestBank = async () => {
-        const response = await UserService.setBank();
-        // const responseText = await response.text();
-        // setBankPageContent(responseText); // Сохраняем HTML-код в состояние
-        if (response?.url) {
-            // window.location.href = response?.url;
-        }
-        console.log('response formData', response);
-    };
 
     const onTestBankPost = async () => {
         const response = await UserService.setBankFetch();
@@ -31,25 +20,12 @@ const HeaderAdmin = ({currentScreen , setCurrentScreen}: IProps) => {
     };
 
 
-    const onTestBankGet = async () => {
-        const response = await UserService.setBankGet();
-        // const responseText = await response.text();
-        // setBankPageContent(responseText); // Сохраняем HTML-код в состояние
-        // if (response?.url) {
-        // window.location.href = response?.url;
-        // }
-        console.log('response formData', response);
-    };
-
-
     return (
         <div className={'header-admin'}>
             <p className={'header-admin__logo'}>
                 Панель администратора
             </p>
-            <button onClick={onTestBank}>Тест банка</button>
             <button onClick={onTestBankPost}>Тест банка post</button>
-            <button onClick={onTestBankGet}>Тест банка post</button>
             <div className={'header-admin__links'}>
                 <div
                     onClick={() => setCurrentScreen(ADMIN_SCREEN.GENERAL)}
