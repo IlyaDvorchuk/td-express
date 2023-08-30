@@ -69,6 +69,43 @@ const HeaderAdmin = ({currentScreen , setCurrentScreen}: IProps) => {
         form.submit();
     };
 
+    const onTestBankPostAndRedirect = async () => {
+        const requestData = new URLSearchParams();
+        requestData.append('MerchantLogin', '000209')
+        requestData.append('nivid', '122')
+        requestData.append('IsTest', '1')
+        requestData.append('RequestSum', '2700')
+        requestData.append('RequestCurrCode', '000')
+        requestData.append('Desc', 'оплата.заказа.122')
+        requestData.append('SignatureValue', 'b8720aa391629445b1e3392a2fafa1b3')
+
+        const url = 'https://www.agroprombank.com/payments/PaymentStart';
+
+        const requestOptions = {
+            method: 'POST',
+            body: requestData,
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+                'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7'
+            }
+        };
+
+        try {
+            const response = await fetch(url, requestOptions);
+            const result = await response.text();
+
+            // Получите URL из результата и выполните редирект
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(result, 'text/html');
+            // @ts-ignore
+            const redirectUrl = doc.querySelector('a').href;
+
+            window.location.href = redirectUrl;
+        } catch (error) {
+            console.error('Ошибка:', error);
+        }
+    };
+
 
     return (
         <div className={'header-admin'}>
@@ -77,6 +114,7 @@ const HeaderAdmin = ({currentScreen , setCurrentScreen}: IProps) => {
             </p>
             <button onClick={onTestBankPost}>Тест банка post</button>
             <button onClick={onTestBankForm}>Тест банка form</button>
+            <button onClick={onTestBankPostAndRedirect}>Тест банка редирект</button>
             <div className={'header-admin__links'}>
                 <div
                     onClick={() => setCurrentScreen(ADMIN_SCREEN.GENERAL)}
