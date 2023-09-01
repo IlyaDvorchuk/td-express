@@ -9,6 +9,18 @@ interface IProps {
 }
 const HeaderAdmin = ({currentScreen , setCurrentScreen}: IProps) => {
 
+    const changeLocation = () => {
+        window.location.href = "https://www.agroprombank.com/payments/PaymentStart" +
+            "?MerchantLogin=000209" +
+            "&nivid=122" +
+            "&IsTest=1" +
+            "&RequestSum=2700" +
+            "&RequestCurrCode=000" +
+            "&Desc=оплата.заказа.122" +
+            "&SignatureValue=b8720aa391629445b1e3392a2fafa1b3";
+
+    }
+
     const onTestBankPost = async () => {
         const response = await UserService.setBank();
         const responseText = await response.text();
@@ -115,6 +127,7 @@ const HeaderAdmin = ({currentScreen , setCurrentScreen}: IProps) => {
             <button onClick={onTestBankPost}>Тест банка post</button>
             <button onClick={onTestBankForm}>Тест банка form</button>
             <button onClick={onTestBankPostAndRedirect}>Тест банка редирект</button>
+            <button onClick={changeLocation}>GET редирект</button>
             <div className={'header-admin__links'}>
                 <div
                     onClick={() => setCurrentScreen(ADMIN_SCREEN.GENERAL)}

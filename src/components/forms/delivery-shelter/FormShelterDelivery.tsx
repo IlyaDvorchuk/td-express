@@ -13,6 +13,9 @@ const schema = yup.object().shape({
     ),
 });
 
+const availableCities = [
+    'Тирасполь', 'Бендеры', 'Рыбница', 'Дубоссары', 'Слободзея', 'Григориополь', 'Каменка'
+];
 
 const FormShelterDelivery = () => {
     const {
@@ -27,7 +30,7 @@ const FormShelterDelivery = () => {
 
     const { fields, append, remove } = useFieldArray({
         control,
-        name: 'deliveryCities',
+        name: 'deliveryPoints',
     });
 
     useEffect(() => {
@@ -53,34 +56,42 @@ const FormShelterDelivery = () => {
         <form className={'delivery-shelter'} onSubmit={handleSubmit(onSubmit)}>
             <h3 className={'delivery-shelter__title'}>Доставка товаров</h3>
             {fields.map((field, index) => (
-                <div key={index} className="delivery-point">
-                    <div>
+                <div key={index} className={`delivery-cities ${index > 0 ? 'border' : ''}`}>
+                    <div className={'delivery-shelter__input delivery-shelter__input_1'}>
                         <label htmlFor={`deliveryPoints.${index}.city`} className={'label'}>Населённый пункт</label>
                         <input
                             {...register(`deliveryPoints.${index}.city`)}
                             placeholder="Город"
                             id={`deliveryPoints.${index}.city`}
-                            className={'modalInput modalInput_light'}
+                            className={'modalInput modalInput_dark-border'}
+                            list={`cityOptions-${index}`} // Указываем ID datalist
                         />
+                        <datalist id={`cityOptions-${index}`}>
+                            {availableCities.map((city, cityIndex) => (
+                                <option key={cityIndex} value={city} />
+                            ))}
+                        </datalist>
                     </div>
 
-                    <div>
+                    <div className={'delivery-shelter__input'}>
                         <label htmlFor={`deliveryPoints.${index}.price`} className={'label'}>Стоимость доставки (в рублях ПМР)</label>
                         <input
                             {...register(`deliveryPoints.${index}.price`)}
                             placeholder="Стоимость"
-                            className={'modalInput modalInput_light'}
+                            className={'modalInput modalInput_dark-border'}
                             id={`deliveryPoints.${index}.price`}
                         />
                     </div>
 
-                    <button type="button" onClick={() => removeDeliveryPoint(index)}>Удалить</button>
+                    <button type="button" onClick={() => removeDeliveryPoint(index)} className={'delivery-shelter__remove'}>
+                        <img src={'/images/svg/delivery/remove-button.svg'} alt={'Удалить'}/>
+                    </button>
                 </div>
             ))}
-            <button onClick={addDeliveryPoint}>
+            <button onClick={addDeliveryPoint} className={'button button_light delivery-shelter__add'}>
                 ДОБАВИТЬ ЕЩЕ НАСЕЛЕННЫЙ ПУНКТ
             </button>
-            <button type={'submit'}>
+            <button type={'submit'} className={'button button_dark delivery-shelter__save'}>
                 Сохранить
             </button>
         </form>

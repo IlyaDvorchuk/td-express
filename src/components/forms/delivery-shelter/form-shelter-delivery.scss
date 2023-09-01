@@ -1,11 +1,54 @@
 @import "src/styles/constants";
+@import "src/styles/mixins";
 
 .delivery-shelter {
 
   &__title {
-    margin-bottom: 20px;
     font-size: $mediumMediumSize;
     color: $title2Color;
   }
 
+  & .delivery-cities {
+    margin-top: 20px;
+    @include flex(flex-start, flex-end, 14px);
+  }
+
+  & .delivery-cities.border {
+    margin-top: 16px;
+    padding-top: 12px;
+    border-top: 1px solid $borderColor;
+  }
+
+  &__input {
+    max-width: 305px;
+
+    &_1 {
+      padding-right: 6px;
+    }
+  }
+
+  &__remove {
+    position: relative;
+    bottom: 2px;
+    @include square(36px);
+    border: none;
+    border-radius: 8px;
+    background-color: $additionalColor;
+    cursor: pointer;
+    transition: all .2s linear;
+
+    &:hover {
+      background-color: $hoverColor
+    }
+  }
+
+  &__add {
+    margin-top: 28px;
+    margin-bottom: 8px;
+    max-width: 280px;
+  }
+
+  &__save {
+    max-width: 108px;
+  }
 }

@@ -22,6 +22,15 @@
     background-color: $background2Color;
   }
 
+  &_dark-border {
+    border: 1.5px solid $text4Color;
+    background-color: transparent;
+
+    &::placeholder {
+      color: $text4Color !important;
+    }
+  }
+
   &_light {
     border: 1.5px solid #979798;
     background-color: transparent;
