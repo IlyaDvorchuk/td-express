@@ -4,6 +4,7 @@ import {IDeliveryPoint, IDeliveryPoint2} from "../models/IDeliveryPoint";
 import {IProductCard, IProductCardRes} from "../models/IProductCard";
 import {IShelterALL, IShelterData, IShelterRes, IShelterShop} from "../models/response/IShelter";
 import {INotification} from "../models/INotification";
+import {IDeliveryCity} from "../models/IDeliveryCity";
 
 export class ShelterService {
     static async getPointsIssue(): Promise<AxiosResponse<IDeliveryPoint2[]>> {
@@ -71,5 +72,11 @@ export class ShelterService {
             deliveryPoints,
             imageShop
         })
+    }
+
+    static updateDelivery(
+        delivery: {deliveryPoints: IDeliveryCity[]}
+    ): Promise<AxiosResponse<IShelterRes>> {
+        return $apiShelter.post(`delivery/`, delivery)
     }
 }

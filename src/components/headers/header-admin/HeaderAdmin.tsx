@@ -41,6 +41,7 @@ const HeaderAdmin = ({currentScreen , setCurrentScreen}: IProps) => {
         merchantLoginInput.value = '000209';
         form.appendChild(merchantLoginInput);
 
+        // Создание других параметров по такой же аналогии
         const nividInput = document.createElement('input');
         nividInput.type = 'hidden';
         nividInput.name = 'nivid';
@@ -76,6 +77,7 @@ const HeaderAdmin = ({currentScreen , setCurrentScreen}: IProps) => {
         signatureValueInput.name = 'SignatureValue';
         signatureValueInput.value = 'b8720aa391629445b1e3392a2fafa1b3';
         form.appendChild(signatureValueInput);
+
         console.log('form', form)
         document.body.appendChild(form);
         form.submit();

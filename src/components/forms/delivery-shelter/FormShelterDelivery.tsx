@@ -3,6 +3,8 @@ import './form-shelter-delivery.scss'
 import {useFieldArray, useForm} from "react-hook-form";
 import {yupResolver} from "@hookform/resolvers/yup";
 import * as yup from 'yup';
+import ShelterDelivery from "../../../pages/ShelterDelivery";
+import {ShelterService} from "../../../services/ShelterService";
 
 const schema = yup.object().shape({
     deliveryPoints: yup.array().of(
@@ -48,8 +50,10 @@ const FormShelterDelivery = () => {
         remove(index); // Удаление элемента из массива по индексу
     }
 
-    const onSubmit = (data: any) => {
-        console.log('hey, deliveryPoints', data)
+    const onSubmit = async (data: any) => {
+        const response = await ShelterService.updateDelivery(data)
+
+        console.log('response', response)
     };
 
     return (
