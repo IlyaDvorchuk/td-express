@@ -3,8 +3,8 @@ import './form-shelter-delivery.scss'
 import {useFieldArray, useForm} from "react-hook-form";
 import {yupResolver} from "@hookform/resolvers/yup";
 import * as yup from 'yup';
-import ShelterDelivery from "../../../pages/ShelterDelivery";
 import {ShelterService} from "../../../services/ShelterService";
+import {useAppSelector} from "../../../hooks/redux";
 
 const schema = yup.object().shape({
     deliveryPoints: yup.array().of(
@@ -20,6 +20,7 @@ const availableCities = [
 ];
 
 const FormShelterDelivery = () => {
+    const {isHoverTools, shelter} = useAppSelector(state => state.shelterReducer)
     const {
         register,
         handleSubmit,
@@ -34,6 +35,26 @@ const FormShelterDelivery = () => {
         control,
         name: 'deliveryPoints',
     });
+
+
+    useEffect(() => {
+
+        const fetchDelivery = async () => {
+            if (shelter?._id) {
+                const response = await ShelterService.getDelivery(shelter._id)
+
+                if (response.data) {
+                    remove(0)
+                    response.data.forEach((field => append({
+                        city: field.city,
+                        price: field.price,
+                    })))
+                }
+            }
+        }
+
+        fetchDelivery()
+    }, [append, remove, shelter._id])
 
     useEffect(() => {
         // Добавляем один элемент по умолчанию при первом рендеринге
@@ -50,10 +71,24 @@ const FormShelterDelivery = () => {
         remove(index); // Удаление элемента из массива по индексу
     }
 
-    const onSubmit = async (data: any) => {
-        const response = await ShelterService.updateDelivery(data)
+    const onClickEmpty = async () => {
+        // @ts-ignore
+        if (fields.length === 1 && !fields[0].city && !fields[0].price) {
+            await ShelterService.updateDelivery({deliveryPoints: []})
+        }
+    }
 
-        console.log('response', response)
+    const onSubmit = async (data: any) => {
+        // @ts-ignore
+        const uniqueCities = [...new Set(data.deliveryPoints.map((point: any) => point.city))];
+
+        if (uniqueCities.length !== data.deliveryPoints.length) {
+            // Вывести ошибку или выполнить другие действия по вашему усмотрению
+            console.error('Городы должны быть уникальными.');
+        } else {
+            // Если города уникальны, выполните сохранение данных
+            await ShelterService.updateDelivery(data);
+        }
     };
 
     return (
@@ -87,7 +122,12 @@ const FormShelterDelivery = () => {
                         />
                     </div>
 
-                    <button type="button" onClick={() => removeDeliveryPoint(index)} className={'delivery-shelter__remove'}>
+                    <button
+                        type="button"
+                        onClick={() => removeDeliveryPoint(index)}
+                        className={'delivery-shelter__remove'}
+                        style={{zIndex: isHoverTools ? 1 : 1111}}
+                    >
                         <img src={'/images/svg/delivery/remove-button.svg'} alt={'Удалить'}/>
                     </button>
                 </div>
@@ -95,7 +135,7 @@ const FormShelterDelivery = () => {
             <button onClick={addDeliveryPoint} className={'button button_light delivery-shelter__add'}>
                 ДОБАВИТЬ ЕЩЕ НАСЕЛЕННЫЙ ПУНКТ
             </button>
-            <button type={'submit'} className={'button button_dark delivery-shelter__save'}>
+            <button type={'submit'} onClick={onClickEmpty} className={'button button_dark delivery-shelter__save'}>
                 Сохранить
             </button>
         </form>

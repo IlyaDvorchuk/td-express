@@ -375,7 +375,6 @@
     }
 
     &__prices {
-      margin-bottom: 22px;
       display: flex;
       align-items: center;
       gap: 9px;
@@ -390,6 +389,18 @@
         font-size: $littleSize;
         text-decoration: line-through;
       }
+    }
+
+    &__delivery {
+      margin-bottom: 18px;
+      font-size: $littleMediumSize;
+      color: $text2Color;
+    }
+
+    &__city {
+      color: $additionalColor;
+      text-decoration: underline;
+      cursor: pointer;
     }
 
     &__buttons {

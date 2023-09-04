@@ -11,8 +11,13 @@ import {UserService} from "../../../services/UserService";
 import CountGood from "../../countGood/CountGood";
 import {GoodsService} from "../../../services/GoodsService";
 import {IShelterForGood} from "../../../models/response/IShelter";
+import {useAppDispatch, useAppSelector} from "../../../hooks/redux";
+import {locationSlice} from "../../../store/reducers/LocationSlice";
+import {ShelterService} from "../../../services/ShelterService";
+import {IDeliveryCity} from "../../../models/IDeliveryCity";
 
 const BoxGood = ({card} : {card: IProductCardRes}) => {
+    const dispatch = useAppDispatch()
     const navigate = useNavigate()
     const additionalPhotos = useMemo(() => {
         const newPhotos = [...card.additionalPhotos];
@@ -20,7 +25,8 @@ const BoxGood = ({card} : {card: IProductCardRes}) => {
         newPhotos.splice(middleIndex, 0, card.mainPhoto);
         return newPhotos;
     }, [card.additionalPhotos, card.mainPhoto]);
-
+    const {city} = useAppSelector(state => state.locationReducer)
+    const {changeActive} = locationSlice.actions
     const [mainPhoto, setMainPhoto] = useState(card.mainPhoto);
     const [shelter, setShelter] = useState<IShelterForGood | null>(null)
     const [count, setCount] = useState(1)
@@ -29,6 +35,7 @@ const BoxGood = ({card} : {card: IProductCardRes}) => {
     const [isWindowWidth, setIsWindowWidth] = useState(() => {
         return window.innerWidth >= 450 ? 20 : 4;
     });
+    const [deliveryCities, setDeliveryCities] = useState<IDeliveryCity[]>([])
 
     useEffect(() => {
         const handleResize = () => {
@@ -50,7 +57,6 @@ const BoxGood = ({card} : {card: IProductCardRes}) => {
     useEffect(() => {
         const fetchShelter = async () => {
             const response = await GoodsService.getShelterByGood(card.shelterId)
-            console.log('response', response)
             if (response) {
                 setShelter(response.data)
             }
@@ -58,6 +64,25 @@ const BoxGood = ({card} : {card: IProductCardRes}) => {
 
         fetchShelter()
     }, [])
+
+    useEffect(() => {
+
+        const fetchDelivery = async () => {
+            if (card.shelterId) {
+                const response = await ShelterService.getDelivery(card.shelterId)
+                if (response.data) {
+                    setDeliveryCities(response.data)
+                }
+            }
+        }
+
+        fetchDelivery()
+    }, [card.shelterId])
+
+    const priceDelivery = useMemo(() => {
+        const deliveryCity = deliveryCities.find(item => item.city === city);
+        return deliveryCity ? deliveryCity.price : null; // Возвращаем цену или null, если город не найден
+    }, [deliveryCities, city]);
 
     const handleAdditionalPhotoClick = (photo: string) => {
         setMainPhoto(photo);
@@ -107,9 +132,9 @@ const BoxGood = ({card} : {card: IProductCardRes}) => {
         // if (response) setIsFavorite(true)
     }
 
-    useEffect(() => {
-        console.log('card', card)
-    }, [card])
+    const onActiveGeolocation = () => {
+        dispatch(changeActive(true))
+    }
 
     const onBuy = async () => {
         const typeGood = JSON.stringify({
@@ -223,6 +248,16 @@ const BoxGood = ({card} : {card: IProductCardRes}) => {
                             {card.pricesAndQuantity.priceBeforeDiscount} RUP
                         </span>}
                     </div>
+                    {priceDelivery !== null ? <div className={'good-information__delivery'}>
+                        Стоимость доставки в <span className={'good-information__city'} onClick={onActiveGeolocation}>
+                            {city}</span>
+                        <span>: {priceDelivery} RUP</span>
+                    </div> :
+                        <div className={'good-information__delivery'}>
+                            В Ваш город отсутствует доставка. <span className={'good-information__city'} onClick={onActiveGeolocation}>
+                            Можете поменять город</span>
+                        </div>
+                    }
                     <div className={'good-information__buttons'}>
                         <button className={'button button_light'} onClick={addToCart}>
                             Добавить в корзину

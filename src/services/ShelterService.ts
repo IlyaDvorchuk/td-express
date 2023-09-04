@@ -79,4 +79,10 @@ export class ShelterService {
     ): Promise<AxiosResponse<IShelterRes>> {
         return $apiShelter.post(`delivery/`, delivery)
     }
+
+    static getDelivery(
+        idShelter: string
+    ): Promise<AxiosResponse<IDeliveryCity[]>> {
+        return $apiShelter.get(`delivery/${idShelter}`)
+    }
 }

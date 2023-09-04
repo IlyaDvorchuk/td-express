@@ -3,6 +3,7 @@ export type TCity = 'Тирасполь' | 'Бендеры' | 'Рыбница' |
 export interface ICities {
     cities: TCity[],
     city: TCity,
+    isActive: boolean
     isLoading: boolean,
     error: string
 }
