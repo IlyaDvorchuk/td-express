@@ -121,7 +121,7 @@ const BoxGood = ({card} : {card: IProductCardRes}) => {
 
     const addToCart = async () => {
         if (count > quantity) return
-        const response = await UserService.addToCart({
+        await UserService.addToCart({
             productId: card._id,
             quantity: count,
             // totalPrice: card.pricesAndQuantity.price ? card.pricesAndQuantity.price : card.pricesAndQuantity.priceBeforeDiscount,
@@ -148,6 +148,7 @@ const BoxGood = ({card} : {card: IProductCardRes}) => {
         navigate(`/buy/${card._id}`, {
             state: {
                 ...card,
+                deliveryCities
             }
         })
     }

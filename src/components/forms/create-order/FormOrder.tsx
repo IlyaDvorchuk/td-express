@@ -4,42 +4,11 @@ import useFetchCard from "../../../hooks/fetch-card";
 import {useForm} from "react-hook-form";
 import Select from "react-select";
 
-const citiesOptions = [
-    {
-        value: 'Тирасполь',
-        label: 'Тирасполь'
-    },
-    {
-        value: 'Бендеры',
-        label: 'Бендеры'
-    },
-    {
-        value: 'Рыбница',
-        label: 'Рыбница'
-    },
-    {
-        value: 'Дубоссары',
-        label: 'Дубоссары'
-    },
-    {
-        value: 'Слободзея',
-        label: 'Слободзея'
-    },
-    {
-        value: 'Григориополь',
-        label: 'Григориополь'
-    },
-    {
-        value: 'Каменка',
-        label: 'Каменка'
-    },
-]
-
-
 const FormOrder = () => {
     const card = useFetchCard();
     const [selectedDelivery, setSelectedDelivery] = useState<string | null>(null);
     const [selectedPayment, setSelectedPayment] = useState<string | null>(null);
+    const [city, setCity] = useState<{ value: string; label: string; price: string} | null>(null)
     const { register, handleSubmit } = useForm();
 
 
@@ -65,6 +34,44 @@ const FormOrder = () => {
     // }, [selectedDelivery, card]);
 
 
+    const deliveryCities = useMemo(() => {
+        if (!card?.deliveryCities) {
+            return []
+        }
+
+        return card?.deliveryCities.map(city => ({
+            value: city.city,
+            label: city.city,
+            price: city.price
+        }))
+    }, [card?.deliveryCities])
+
+
+    useEffect(() => {
+        const deliveryCities = card?.deliveryCities || [];
+
+        const cityIndex = deliveryCities.findIndex(city => city.city === localStorage.getItem('city'));
+
+        if (cityIndex !== -1) {
+            setCity({
+                value: deliveryCities[cityIndex].city,
+                label: deliveryCities[cityIndex].city,
+                price: deliveryCities[cityIndex].price,
+            })
+            return
+        }
+
+        if (deliveryCities.length > 0) {
+            setCity({
+                value: deliveryCities[0].city,
+                label: deliveryCities[0].city,
+                price: deliveryCities[0].price,
+            })
+            return
+        }
+        setCity(null)
+    }, [card?.deliveryCities])
+
     const finalPrice = useMemo(() => {
         if (!card) {
             return 0; // По умолчанию вернем 0 или другое значение, в зависимости от вашей логики
@@ -74,6 +81,12 @@ const FormOrder = () => {
 
         return card?.pricesAndQuantity.price * typeGood + deliveryCharge;
     }, [selectedDelivery, card]);
+
+
+    const onChangeCity = (e: any) => {
+        console.log('e', e)
+    }
+
     const onSubmit = (data: any) => {
         console.log(data);
     };
@@ -132,12 +145,10 @@ const FormOrder = () => {
                             className={'order__cities'}
                             id={'order-city'}
                             classNamePrefix={'select'}
-                            options={citiesOptions}
-                            defaultValue={{
-                                value: localStorage.getItem('city') || 'Тирасполь',
-                                label: localStorage.getItem('city') || 'Тирасполь'
-                            }}
+                            options={deliveryCities}
+                            value={city}
                             isSearchable={false}
+                            onChange={onChangeCity}
                         />
                     </div>
 
@@ -253,7 +264,7 @@ const FormOrder = () => {
                                     Доставка
                                 </span>
                                 <span>
-                                    30 RUP
+                                    {city?.price || 0} RUP
                                 </span>
                             </>
                             }
