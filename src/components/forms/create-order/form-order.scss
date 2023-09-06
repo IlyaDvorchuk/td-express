@@ -112,6 +112,8 @@
   }
 
   &__textarea {
+    padding: 5px;
+    font-size: inherit;
     resize: none;
     height: 80px;
   }

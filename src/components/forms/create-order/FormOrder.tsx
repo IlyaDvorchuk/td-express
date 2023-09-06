@@ -1,20 +1,53 @@
 import React, {useEffect, useMemo, useState} from 'react';
 import './form-order.scss'
 import useFetchCard from "../../../hooks/fetch-card";
-import {useForm} from "react-hook-form";
-import Select from "react-select";
+import {useForm, Controller } from "react-hook-form";
+import Select, {ActionMeta, SingleValue} from "react-select";
+
+type TCity = {
+    value: string; label: string; price: string
+}
 
 const FormOrder = () => {
     const card = useFetchCard();
     const [selectedDelivery, setSelectedDelivery] = useState<string | null>(null);
     const [selectedPayment, setSelectedPayment] = useState<string | null>(null);
-    const [city, setCity] = useState<{ value: string; label: string; price: string} | null>(null)
-    const { register, handleSubmit } = useForm();
+    const [city, setCity] = useState<TCity | null>(null)
+
+    const deliveryCities = useMemo(() => {
+        if (!card?.deliveryCities) {
+            return []
+        }
+
+        return card?.deliveryCities.map(city => ({
+            value: city.city,
+            label: city.city,
+            price: city.price
+        }))
+    }, [card?.deliveryCities])
+
+
+    const { register, handleSubmit, setValue, control  } = useForm({
+        defaultValues: {
+            delivery: '',
+            paymentMethod: '',
+            city: city,
+            street: '',
+            house: '',
+            entrance: '',
+            floor: '',
+            apartment: '',
+            comment: '',
+            family: '',
+            name: '',
+            phone: '',
+        },
+    });
 
 
     useEffect(() => {
-        console.log('card', card)
-    }, [card])
+        console.log('city', city)
+    }, [city])
 
     const typeGood = useMemo(() => {
         // @ts-ignore
@@ -34,17 +67,6 @@ const FormOrder = () => {
     // }, [selectedDelivery, card]);
 
 
-    const deliveryCities = useMemo(() => {
-        if (!card?.deliveryCities) {
-            return []
-        }
-
-        return card?.deliveryCities.map(city => ({
-            value: city.city,
-            label: city.city,
-            price: city.price
-        }))
-    }, [card?.deliveryCities])
 
 
     useEffect(() => {
@@ -53,20 +75,24 @@ const FormOrder = () => {
         const cityIndex = deliveryCities.findIndex(city => city.city === localStorage.getItem('city'));
 
         if (cityIndex !== -1) {
-            setCity({
+            const town = {
                 value: deliveryCities[cityIndex].city,
                 label: deliveryCities[cityIndex].city,
                 price: deliveryCities[cityIndex].price,
-            })
+            }
+            setCity(town)
+            setValue('city', town)
             return
         }
 
         if (deliveryCities.length > 0) {
-            setCity({
+            const town = {
                 value: deliveryCities[0].city,
                 label: deliveryCities[0].city,
                 price: deliveryCities[0].price,
-            })
+            }
+            setCity(town)
+            setValue('city', town)
             return
         }
         setCity(null)
@@ -77,18 +103,28 @@ const FormOrder = () => {
             return 0; // По умолчанию вернем 0 или другое значение, в зависимости от вашей логики
         }
 
-        const deliveryCharge = selectedDelivery === 'doorstep' ? 30 : 0;
+        const deliveryCharge = city ? +city.price : 0;
 
         return card?.pricesAndQuantity.price * typeGood + deliveryCharge;
-    }, [selectedDelivery, card]);
+    }, [selectedDelivery, card, city]);
 
 
-    const onChangeCity = (e: any) => {
-        console.log('e', e)
+    const onChangeDelivery = (delivery: string) => {
+        setSelectedDelivery(delivery)
+        setValue('delivery', delivery)
+    }
+
+    const onChangePayment = (payment: string) => {
+        setSelectedPayment(payment)
+        setValue('paymentMethod', payment)
+    }
+
+    const onChangeCity = (newValue: SingleValue<TCity>, actionMeta: ActionMeta<TCity>) => {
+        setCity(newValue)
     }
 
     const onSubmit = (data: any) => {
-        console.log(data);
+        console.log('onSubmit', data);
     };
 
 
@@ -107,7 +143,7 @@ const FormOrder = () => {
                                     value="pickup"
                                     {...register('delivery' as const)}
                                     className="radio-input"
-                                    onChange={() => setSelectedDelivery('pickup')}
+                                    onChange={() => onChangeDelivery('pickup')}
                                 />
                             </label>
                             <p className={`wrapper-radio__text ${selectedDelivery === 'pickup' ? 'selected' : ''}`}>Самовывоз</p>
@@ -120,7 +156,7 @@ const FormOrder = () => {
                                     value="express"
                                     {...register('delivery' as const)}
                                     className="radio-input"
-                                    onChange={() => setSelectedDelivery('express')}
+                                    onChange={() => onChangeDelivery('express')}
                                 />
                             </label>
                             <p className={`wrapper-radio__text ${selectedDelivery === 'express' ? 'selected' : ''}`}>Доставка экспресс-почтой</p>
@@ -133,7 +169,7 @@ const FormOrder = () => {
                                     value="doorstep"
                                     {...register('delivery' as const)}
                                     className="radio-input"
-                                    onChange={() => setSelectedDelivery('doorstep')}
+                                    onChange={() => onChangeDelivery('doorstep')}
                                 />
                             </label>
                             <p className={`wrapper-radio__text ${selectedDelivery === 'doorstep' ? 'selected' : ''}`}>Доставка до двери</p>
@@ -141,14 +177,20 @@ const FormOrder = () => {
                     </div>
                     <div>
                         <label htmlFor="order-city" className={'label order__label_up'}>Выберите город доставки</label>
-                        <Select
-                            className={'order__cities'}
-                            id={'order-city'}
-                            classNamePrefix={'select'}
-                            options={deliveryCities}
-                            value={city}
-                            isSearchable={false}
-                            onChange={onChangeCity}
+                        <Controller
+                            name="city" // Укажите имя поля, которое будет использоваться в react-hook-form
+                            control={control} // Передайте объект control из useForm
+                            render={({ field }) => (
+                                <Select
+                                    className={'order__cities'}
+                                    id={'order-city'}
+                                    classNamePrefix={'select'}
+                                    options={deliveryCities}
+                                    {...field}
+                                    isSearchable={false}
+                                    onChange={onChangeCity}
+                                />
+                            )}
                         />
                     </div>
 
@@ -157,27 +199,45 @@ const FormOrder = () => {
                         <div className={'order__inputs-container'}>
                             <div className={'input-box'}>
                                 <label className={'label'} htmlFor="">Улица</label>
-                                <input className={'modalInput modalInput_light'}/>
+                                <input
+                                    className={'modalInput modalInput_light'}
+                                    {...register('street')}
+                                />
                             </div>
                             <div className={'input-box order__input_short'}>
                                 <label className={'label'} htmlFor="">Дом</label>
-                                <input className={'modalInput modalInput_light'}/>
+                                <input
+                                    className={'modalInput modalInput_light'}
+                                    {...register('house')}
+                                />
                             </div>
                             <div className={'input-box order__input_short'}>
                                 <label className={'label'} htmlFor="">Подъезд</label>
-                                <input className={'modalInput modalInput_light'}/>
+                                <input
+                                    className={'modalInput modalInput_light'}
+                                    {...register('entrance')}
+                                />
                             </div>
                             <div className={'input-box order__input_short'}>
                                 <label className={'label'} htmlFor="">Этаж</label>
-                                <input className={'modalInput modalInput_light'}/>
+                                <input
+                                    className={'modalInput modalInput_light'}
+                                    {...register('floor')}
+                                />
                             </div>
                             <div className={'input-box order__input_short'}>
                                 <label className={'label'} htmlFor="">Квартира</label>
-                                <input className={'modalInput modalInput_light'}/>
+                                <input
+                                    className={'modalInput modalInput_light'}
+                                    {...register('apartment')}
+                                />
                             </div>
                             <div className={'input-box'}>
                                 <label className={'label'} htmlFor="">Комментарий для курьера (домофон не работает, оставить у двери и т.д.)</label>
-                                <textarea className={'modalInput modalInput_light order__textarea'}/>
+                                <textarea
+                                    className={'modalInput modalInput_light order__textarea'}
+                                    {...register('comment')}
+                                />
                             </div>
                         </div>
                     </div>
@@ -187,15 +247,24 @@ const FormOrder = () => {
                         <div className={'order__inputs-container'}>
                             <div className={'input-box'}>
                                 <label className={'label'} htmlFor="">Фамилия</label>
-                                <input className={'modalInput modalInput_light'}/>
+                                <input
+                                    className={'modalInput modalInput_light'}
+                                    {...register('family')}
+                                />
                             </div>
                             <div className={'input-box'}>
                                 <label className={'label'} htmlFor="">Имя</label>
-                                <input className={'modalInput modalInput_light'}/>
+                                <input
+                                    className={'modalInput modalInput_light'}
+                                    {...register('name')}
+                                />
                             </div>
                             <div className={'input-box'}>
                                 <label className={'label'} htmlFor="">Номер тефона</label>
-                                <input className={'modalInput modalInput_light'}/>
+                                <input
+                                    className={'modalInput modalInput_light'}
+                                    {...register('phone')}
+                                />
                             </div>
                         </div>
                     </div>
@@ -207,9 +276,9 @@ const FormOrder = () => {
                                     type="radio"
                                     id="bankCard"
                                     value="bankCard"
-                                    {...register('payment' as const)}
+                                    {...register('paymentMethod' as const)}
                                     className="radio-input"
-                                    onChange={() => setSelectedPayment('bankCard')}
+                                    onChange={() => onChangePayment('bankCard')}
                                 />
                             </label>
                             <p className={`wrapper-radio__text ${selectedPayment === 'pickup' ? 'selected' : ''}`}>Карта Клевер</p>
@@ -220,9 +289,9 @@ const FormOrder = () => {
                                     type="radio"
                                     id="qrCode"
                                     value="qrCode"
-                                    {...register('payment' as const)}
+                                    {...register('paymentMethod' as const)}
                                     className="radio-input"
-                                    onChange={() => setSelectedPayment('qrCode')}
+                                    onChange={() => onChangePayment('qrCode')}
                                 />
                             </label>
                             <p className={`wrapper-radio__text ${selectedPayment === 'express' ? 'selected' : ''}`}>QR-код</p>
@@ -233,9 +302,9 @@ const FormOrder = () => {
                                     type="radio"
                                     id="cash"
                                     value="cash"
-                                    {...register('payment' as const)}
+                                    {...register('paymentMethod' as const)}
                                     className="radio-input"
-                                    onChange={() => setSelectedPayment('cash')}
+                                    onChange={() => onChangePayment('cash')}
                                 />
                             </label>
                             <p className={`wrapper-radio__text ${selectedPayment === 'doorstep' ? 'selected' : ''}`}>Наличными</p>
