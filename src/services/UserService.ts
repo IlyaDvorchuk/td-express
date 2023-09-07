@@ -4,6 +4,7 @@ import $api from "../http";
 import {IProductCardRes} from "../models/IProductCard";
 import {ICartReq} from "../models/ICart";
 import {ICartRes} from "../models/response/ICartRes";
+import {IOrder} from "../models/IOrder";
 
 export class UserService {
     static async fetchUser(): Promise<AxiosResponse<IUser[]>> {
@@ -37,6 +38,11 @@ export class UserService {
     static async setCountCart(typeId: string, count: number){
         return $api.get(`users/set-count-cart/${typeId}/${count}`)
     }
+
+    static createOrder(order: IOrder): Promise<AxiosResponse<boolean>> {
+        return $api.post<boolean>('orders', order);
+    }
+
 
     static async setBank() {
         const formData = new FormData();

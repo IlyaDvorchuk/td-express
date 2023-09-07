@@ -2,7 +2,10 @@ import React, {useEffect, useMemo, useState} from 'react';
 import './form-order.scss'
 import useFetchCard from "../../../hooks/fetch-card";
 import {useForm, Controller } from "react-hook-form";
-import Select, {ActionMeta, SingleValue} from "react-select";
+import Select, {SingleValue} from "react-select";
+import {useAppDispatch, useAppSelector} from "../../../hooks/redux";
+import {IOrder} from "../../../models/IOrder";
+import {createOrder} from "../../../store/reducers/user/UserCreators";
 
 type TCity = {
     value: string; label: string; price: string
@@ -10,6 +13,8 @@ type TCity = {
 
 const FormOrder = () => {
     const card = useFetchCard();
+    const dispatch = useAppDispatch()
+    const {user} = useAppSelector(state => state.userReducer)
     const [selectedDelivery, setSelectedDelivery] = useState<string | null>(null);
     const [selectedPayment, setSelectedPayment] = useState<string | null>(null);
     const [city, setCity] = useState<TCity | null>(null)
@@ -103,10 +108,10 @@ const FormOrder = () => {
             return 0; // По умолчанию вернем 0 или другое значение, в зависимости от вашей логики
         }
 
-        const deliveryCharge = city ? +city.price : 0;
+        const deliveryCharge = (selectedDelivery === 'doorstep' && city) ? +city.price : 0;
 
         return card?.pricesAndQuantity.price * typeGood + deliveryCharge;
-    }, [selectedDelivery, card, city]);
+    }, [selectedDelivery, card, city, selectedDelivery]);
 
 
     const onChangeDelivery = (delivery: string) => {
@@ -119,12 +124,58 @@ const FormOrder = () => {
         setValue('paymentMethod', payment)
     }
 
-    const onChangeCity = (newValue: SingleValue<TCity>, actionMeta: ActionMeta<TCity>) => {
+    const onChangeCity = (newValue: SingleValue<TCity>) => {
         setCity(newValue)
     }
 
     const onSubmit = (data: any) => {
         console.log('onSubmit', data);
+
+        if (!card
+            && !data.delivery
+            && !data.paymentMethod
+            && !data.family
+            && !data.name
+            && !data.phone
+        ) return
+
+        if (data.delivery === 'doorstep'
+            && !city?.value
+            && !data.street
+            && !data.house
+        ) return
+
+        const order = {
+            goodId: card?._id,
+            typeId: card?.activeSizeId,
+            userId: user ? user._id : null,
+            shelterId: card?.shelterId,
+            status: 'Покупка',
+            deliveryMethod: data.delivery,
+            paymentMethod: data.paymentMethod,
+            buyer: {
+                family: data.family,
+                name: data.name,
+                phone: data.phone,
+            },
+            price: finalPrice - (city ? +city.price : 0),
+            count: typeGood || 1,
+            city: city?.value || ''
+        } as IOrder
+
+        if (data.delivery === 'doorstep') {
+            order.deliveryAddress = {
+                street: data.street,
+                house: data.house,
+                entrance: data.entrance,
+                floor: data.floor,
+                apartment: data.apartment,
+                comment: data.comment,
+                deliveryPrice: city ? +city?.price : 0,
+            }
+        }
+        dispatch(createOrder(order))
+        console.log('order', order);
     };
 
 
@@ -188,6 +239,7 @@ const FormOrder = () => {
                                     options={deliveryCities}
                                     {...field}
                                     isSearchable={false}
+                                    value={city}
                                     onChange={onChangeCity}
                                 />
                             )}

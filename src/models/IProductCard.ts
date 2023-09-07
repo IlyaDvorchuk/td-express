@@ -53,6 +53,7 @@ export interface IProductCardRes extends IProductCard {
     shelterId: string,
     isReject: boolean,
     typeQuantity?: ITypeRes[],
+    activeSizeId?: string
     deliveryCities: IDeliveryCity[],
 }
 

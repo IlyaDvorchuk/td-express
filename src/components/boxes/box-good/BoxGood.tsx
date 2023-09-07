@@ -148,7 +148,8 @@ const BoxGood = ({card} : {card: IProductCardRes}) => {
         navigate(`/buy/${card._id}`, {
             state: {
                 ...card,
-                deliveryCities
+                deliveryCities,
+                activeSizeId: activeSize?._id
             }
         })
     }

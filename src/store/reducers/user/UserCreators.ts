@@ -5,6 +5,7 @@ import {AuthService} from "../../../services/AuthService";
 import {IUser} from "../../../models/response/IUser";
 import {removeAccessTokenShelter, setAccessTokenUser} from "../../../utils/tokens";
 import {UserService} from "../../../services/UserService";
+import {IOrder} from "../../../models/IOrder";
 
 export const loginUser = (email: string, password: string) => async (dispatch: AppDispatch) => {
     try {
@@ -110,3 +111,19 @@ export const getUser = () => async (dispatch: AppDispatch) => {
     }
 }
 
+
+export const createOrder = (order: IOrder) => async (dispatch: AppDispatch) => {
+    try {
+        dispatch(userSlice.actions.loginFetching())
+        const response = await UserService.createOrder(order)
+        if (response.data) {
+            dispatch(userSlice.actions.loginSuccess())
+        } else {
+            dispatch(userSlice.actions.loginFetchingError('Не удалось оформить заказ'))
+        }
+        // dispatch(userSlice.actions.setUser(response.data))
+    } catch (e: any) {
+        console.log('e createOrder', e)
+        dispatch(userSlice.actions.loginFetchingError(e.message))
+    }
+}
