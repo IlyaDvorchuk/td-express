@@ -1,4 +1,5 @@
 export interface IOrder {
+    goodPhoto: string,
     goodId: string,
     typeId: string,
     userId: string | null,
@@ -23,4 +24,8 @@ export interface IOrder {
         comment?: string,
         deliveryPrice: number
     }
+}
+
+export interface IOrderRes extends IOrder {
+    _id: string
 }

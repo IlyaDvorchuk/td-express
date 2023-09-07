@@ -5,6 +5,7 @@ import {IProductCard, IProductCardRes} from "../models/IProductCard";
 import {IShelterALL, IShelterData, IShelterRes, IShelterShop} from "../models/response/IShelter";
 import {INotification} from "../models/INotification";
 import {IDeliveryCity} from "../models/IDeliveryCity";
+import {IOrderRes} from "../models/IOrder";
 
 export class ShelterService {
     static async getPointsIssue(): Promise<AxiosResponse<IDeliveryPoint2[]>> {
@@ -84,5 +85,9 @@ export class ShelterService {
         idShelter: string
     ): Promise<AxiosResponse<IDeliveryCity[]>> {
         return $apiShelter.get(`delivery/${idShelter}`)
+    }
+
+    static getOrdersOfSeller(): Promise<AxiosResponse<IOrderRes[]>> {
+        return $apiShelter.get(`orders/seller`)
     }
 }

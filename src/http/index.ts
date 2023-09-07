@@ -3,6 +3,7 @@ import {IAuthResponse, IAuthShelterResponse} from "../models/response/IAuthRespo
 import {getAccessTokenShelter, getAccessTokenUser} from "../utils/tokens";
 
 export const API_URL = process.env.REACT_APP_API_ENDPOINT
+// export const API_URL = 'https://api.td-market.md/'
 
 const $api = axios.create({
     // withCredentials: true,

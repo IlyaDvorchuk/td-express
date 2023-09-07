@@ -141,11 +141,12 @@ const FormOrder = () => {
         ) return
 
         const order = {
+            goodPhoto: card?.mainPhoto,
             goodId: card?._id,
             typeId: card?.activeSizeId,
             userId: user ? user._id : null,
             shelterId: card?.shelterId,
-            status: 'Покупка',
+            status: 'ожидает подтверждения',
             deliveryMethod: data.delivery,
             paymentMethod: data.paymentMethod,
             buyer: {

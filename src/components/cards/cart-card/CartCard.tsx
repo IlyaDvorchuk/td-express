@@ -28,7 +28,6 @@ const CartCard = ({cart, isChecked, onCheckboxChange, deleteCart, setChangeCount
         // Устанавливаем новый таймер для вызова UserService.setCount через 5 секунд
         timeoutRef.current = window.setTimeout(() => {
             if (count !== cart.quantity) {
-                console.log('hey bro')
                 UserService.setCountCart(cart.typeId, count);
             }
         }, 3000);

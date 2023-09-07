@@ -13,3 +13,11 @@ export enum ADMIN_SCREEN {
     "MODERATION_SELLERS" =  "MODERATION_SELLERS",
     "PRODUCT_LIST" = "PRODUCT_LIST"
 }
+
+export enum OrderEnum {
+    DEFAULT = '',
+    AWAITING_CONFIRMATION = 'ожидает подтверждения',
+    AWAITING_SHIPMENT = 'ожидает отправки',
+    DELIVERY = 'в процессе доставки',
+    COMPLETED = 'заказ завершен',
+}
