@@ -6,18 +6,21 @@ import Select, {SingleValue} from "react-select";
 import {useAppDispatch, useAppSelector} from "../../../hooks/redux";
 import {IOrder} from "../../../models/IOrder";
 import {createOrder} from "../../../store/reducers/user/UserCreators";
+import {useNavigate} from "react-router-dom";
 
 type TCity = {
     value: string; label: string; price: string
 }
 
 const FormOrder = () => {
+    const navigate = useNavigate()
     const card = useFetchCard();
     const dispatch = useAppDispatch()
     const {user} = useAppSelector(state => state.userReducer)
     const [selectedDelivery, setSelectedDelivery] = useState<string | null>(null);
     const [selectedPayment, setSelectedPayment] = useState<string | null>(null);
     const [city, setCity] = useState<TCity | null>(null)
+    const [isActiveButton, setIsActiveButton] = useState<boolean>(false)
 
     const deliveryCities = useMemo(() => {
         if (!card?.deliveryCities) {
@@ -32,7 +35,13 @@ const FormOrder = () => {
     }, [card?.deliveryCities])
 
 
-    const { register, handleSubmit, setValue, control  } = useForm({
+    const {
+        register,
+        handleSubmit,
+        setValue,
+        control,
+        watch
+    } = useForm({
         defaultValues: {
             delivery: '',
             paymentMethod: '',
@@ -49,29 +58,24 @@ const FormOrder = () => {
         },
     });
 
+    const formData = watch(['delivery', 'paymentMethod', 'family', 'name', 'phone', 'street', 'house']);
 
     useEffect(() => {
-        console.log('city', city)
-    }, [city])
+        let isActive;
+
+        if (formData[0] === 'doorstep') {
+            isActive = formData.every(element => element !== '');
+        } else {
+            isActive = formData.slice(0, 4).every(element => element !== '');
+        }
+
+        setIsActiveButton(isActive);
+    }, [formData]);
 
     const typeGood = useMemo(() => {
         // @ts-ignore
         return JSON.parse(localStorage.getItem('typeGood')).count
     }, [])
-
-    // const finalPrice = useMemo(() => {
-    //     if (!card) {
-    //         return 0; // По умолчанию вернем 0 или другое значение, в зависимости от вашей логики
-    //     }
-    //
-    //     const basePrice = card?.pricesAndQuantity.priceBeforeDiscount || card?.pricesAndQuantity.price;
-    //     const discount = card?.pricesAndQuantity.priceBeforeDiscount ? card.pricesAndQuantity.price : 0;
-    //     const deliveryCharge = selectedDelivery === 'doorstep' ? 30 : 0;
-    //
-    //     return basePrice - discount + deliveryCharge;
-    // }, [selectedDelivery, card]);
-
-
 
 
     useEffect(() => {
@@ -103,6 +107,8 @@ const FormOrder = () => {
         setCity(null)
     }, [card?.deliveryCities])
 
+
+
     const finalPrice = useMemo(() => {
         if (!card) {
             return 0; // По умолчанию вернем 0 или другое значение, в зависимости от вашей логики
@@ -129,20 +135,9 @@ const FormOrder = () => {
     }
 
     const onSubmit = (data: any) => {
-        console.log('onSubmit', data);
 
         if (!card
-            && !data.delivery
-            && !data.paymentMethod
-            && !data.family
-            && !data.name
-            && !data.phone
-        ) return
-
-        if (data.delivery === 'doorstep'
-            && !city?.value
-            && !data.street
-            && !data.house
+            && !isActiveButton
         ) return
 
         const order = {
@@ -175,7 +170,7 @@ const FormOrder = () => {
             }
         }
         dispatch(createOrder(order))
-        console.log('order', order);
+        navigate('/')
     };
 
 
@@ -396,7 +391,7 @@ const FormOrder = () => {
                         </span>
                             <span>{finalPrice} RUP</span>
                         </div>
-                        <button className={'button button_not-active cart-ordering__buttons'}>Подтвердить и оплатить</button>
+                        <button className={`button cart-ordering__buttons ${!isActiveButton ? 'button_not-active' : 'button_light'}`}>Подтвердить и оплатить</button>
                     </div>
                 </div>
 

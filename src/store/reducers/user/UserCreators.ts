@@ -116,6 +116,7 @@ export const createOrder = (order: IOrder) => async (dispatch: AppDispatch) => {
     try {
         dispatch(userSlice.actions.loginFetching())
         const response = await UserService.createOrder(order)
+        console.log('response createOrder', response)
         if (response.data) {
             dispatch(userSlice.actions.loginSuccess())
         } else {
