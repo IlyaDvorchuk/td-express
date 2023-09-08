@@ -1,4 +1,5 @@
 export interface IOrder {
+    goodName: string
     goodPhoto: string,
     goodId: string,
     typeId: string,

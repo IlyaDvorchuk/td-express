@@ -6,6 +6,8 @@ import {IUser} from "../../../models/response/IUser";
 import {removeAccessTokenShelter, setAccessTokenUser} from "../../../utils/tokens";
 import {UserService} from "../../../services/UserService";
 import {IOrder} from "../../../models/IOrder";
+import {AdminService} from "../../../services/AdminService";
+import {ITypeRes} from "../../../models/IProductCard";
 
 export const loginUser = (email: string, password: string) => async (dispatch: AppDispatch) => {
     try {
@@ -112,11 +114,42 @@ export const getUser = () => async (dispatch: AppDispatch) => {
 }
 
 
-export const createOrder = (order: IOrder) => async (dispatch: AppDispatch) => {
+export const createOrder = (order: IOrder, typeOrder: ITypeRes | undefined) => async (dispatch: AppDispatch) => {
     try {
         dispatch(userSlice.actions.loginFetching())
         const response = await UserService.createOrder(order)
-        console.log('response createOrder', response)
+
+
+        let deliveryString = ''
+        if (order.deliveryMethod === 'pickup') {
+            deliveryString = 'Самовывозом'
+        } else if (order.deliveryMethod === 'doorstep') {
+            deliveryString = `Адрес: г. ${order?.city},
+            ул. ${order?.deliveryAddress?.street},  
+            д. ${order?.deliveryAddress?.house}
+            ${order?.deliveryAddress?.entrance ? 'п. ' + order?.deliveryAddress?.entrance : ''}
+            ${order?.deliveryAddress?.floor ? 'э. ' + order?.deliveryAddress?.floor : ''}
+            ${order?.deliveryAddress?.apartment ? 'кв. ' + order?.deliveryAddress?.apartment : ''}
+            ${order?.deliveryAddress?.comment ? 'комментарий покупателя ' + order?.deliveryAddress?.comment : ''}
+            `
+        }
+
+        const currentDate = new Date();
+
+        const dayOfWeek = currentDate.getDay();
+
+        const daysOfWeek = ['вс', 'пн', 'вт', 'ср', 'чт', 'пт', 'сб'];
+
+        const formattedDate = `${currentDate.getDate()}.${currentDate.getMonth() + 1}.${currentDate.getFullYear().toString().slice(-2)} ${daysOfWeek[dayOfWeek]} ${currentDate.getHours()}:${String(currentDate.getMinutes()).padStart(2, '0')}`;
+
+        await AdminService.createNotification(
+            order.shelterId,
+            `
+                <p>Ваш товар <b>“${order.goodName} ${typeOrder ? typeOrder.size : ''}”</b> был заказан в количестве  <b>${order.count} штук</b>.</p>
+                <p>${deliveryString}</p>
+                <p>${formattedDate}</p>
+                `
+        )
         if (response.data) {
             dispatch(userSlice.actions.loginSuccess())
         } else {

@@ -149,7 +149,7 @@ const BoxGood = ({card} : {card: IProductCardRes}) => {
             state: {
                 ...card,
                 deliveryCities,
-                activeSizeId: activeSize?._id
+                activeSize: activeSize
             }
         })
     }

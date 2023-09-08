@@ -141,9 +141,10 @@ const FormOrder = () => {
         ) return
 
         const order = {
+            goodName: card?.information.name,
             goodPhoto: card?.mainPhoto,
             goodId: card?._id,
-            typeId: card?.activeSizeId,
+            typeId: card?.activeSize?._id,
             userId: user ? user._id : null,
             shelterId: card?.shelterId,
             status: 'ожидает подтверждения',
@@ -170,7 +171,7 @@ const FormOrder = () => {
                 deliveryPrice: city ? +city?.price : 0,
             }
         }
-        dispatch(createOrder(order))
+        dispatch(createOrder(order, card?.activeSize))
         navigate('/')
     };
 
