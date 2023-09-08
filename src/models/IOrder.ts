@@ -6,8 +6,8 @@ export interface IOrder {
     userId: string | null,
     shelterId: string,
     status: string,
-    deliveryMethod: string,
-    paymentMethod: string,
+    deliveryMethod: 'pickup' | 'express' | 'doorstep',
+    paymentMethod: 'bankCard' | 'qrCode' | 'cash',
     buyer: {
         family: string,
         name: string,
@@ -28,5 +28,6 @@ export interface IOrder {
 }
 
 export interface IOrderRes extends IOrder {
-    _id: string
+    _id: string,
+    createdAt: string
 }

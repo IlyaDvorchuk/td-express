@@ -79,7 +79,7 @@ const BoxOrders = () => {
                     />
                 </div>
             </div>
-            <div className={'orders__titles'}>
+            {<div className={'orders__titles'}>
                 <h4 className={'orders__title orders__title_first'}>
                     Товар
                 </h4>
@@ -104,10 +104,10 @@ const BoxOrders = () => {
                 <h4 className={'orders__title'}>
                     Статус
                 </h4>
-            </div>
+            </div>}
             <div className={'orders-wrapper'}>
                 {filteredOrders.map((order, index) => (
-                    <OrderCard order={order} key={order._id} selectedStatus={selectedStatus.value} isEven={index % 2 === 0}/>
+                    <OrderCard order={order} key={order._id} isEven={index % 2 === 0}/>
                 ))}
             </div>
         </div>

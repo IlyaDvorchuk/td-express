@@ -10,14 +10,30 @@
   border-style: solid;
   font-weight: 800;
 
+  &_back {
+    border: none;
+    text-transform: lowercase;
+  }
+
   &_green {
     color: $successColor;
     border-color: $successColor;
   }
 
+  &_green_back {
+    color: $successColor;
+    background: linear-gradient(180deg, rgba(46, 213, 115, 0.15) 35%, rgba(30, 206, 229, 0.15) 150.88%);
+  }
+
+
   &_yellow {
     color: $warningColor;
     border-color: $warningColor;
+  }
+
+  &_yellow_back {
+    color: $warningColor;
+    background: linear-gradient(180deg, rgba(227, 221, 59, 0.15) 35%, rgba(229, 114, 30, 0.15) 150.88%);
   }
 
   &_red {
@@ -25,8 +41,8 @@
     border-color: $errorColor;
   }
 
-  &_grey {
-    color: $title3Color;
-    border-color: $title3Color;
+  &_violet_back {
+    color: $additionalColor;
+    background: linear-gradient(180deg, rgba(100, 58, 190, 0.15) 0%, rgba(174, 82, 218, 0.15) 100%);
   }
 }

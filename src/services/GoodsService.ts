@@ -1,7 +1,7 @@
 import axios, {AxiosResponse} from "axios";
 import {API_URL} from "../http";
 import {IPaginationCards} from "../models/response/IPaginationCards";
-import {IProductCardRes} from "../models/IProductCard";
+import {IProductCardRes, ITypeRes} from "../models/IProductCard";
 import {ICategory, ISection, ISubcategory} from "../models/ICategories";
 import {IShelterForGood} from "../models/response/IShelter";
 
@@ -53,5 +53,9 @@ export class GoodsService {
 
     static async getShelterByGood(id: string) {
         return axios.get<IShelterForGood>(`${API_URL}shelters/good/${id}`)
+    }
+
+    static async getType(productId: string, typeId: string) {
+        return axios.get<ITypeRes>(`${API_URL}product-cards/type/${productId}/${typeId}`)
     }
 }
