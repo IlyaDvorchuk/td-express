@@ -6,6 +6,7 @@ import {IShelterALL, IShelterData, IShelterRes, IShelterShop} from "../models/re
 import {INotification} from "../models/INotification";
 import {IDeliveryCity} from "../models/IDeliveryCity";
 import {IOrderRes} from "../models/IOrder";
+import {OrderEnum} from "../models/enums";
 
 export class ShelterService {
     static async getPointsIssue(): Promise<AxiosResponse<IDeliveryPoint2[]>> {
@@ -89,5 +90,9 @@ export class ShelterService {
 
     static getOrdersOfSeller(): Promise<AxiosResponse<IOrderRes[]>> {
         return $apiShelter.get(`orders/seller`)
+    }
+
+    static changeStatus(idOrder: string, status: OrderEnum): Promise<AxiosResponse<IOrderRes[]>> {
+        return $apiShelter.put(`orders/${idOrder}/${status}`)
     }
 }

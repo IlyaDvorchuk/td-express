@@ -13,7 +13,9 @@ export class AdminService {
     }
 
     static async createNotification(id: string, text: string): Promise<AxiosResponse<boolean>> {
-        return $api.get<boolean>(`/admin/create-notification/${id}/?text=${text}`);
+        return $api.post<boolean>(`/admin/create-notification/${id}`, {
+            text
+        });
     }
 
     static async fetchModerationGoods(): Promise<AxiosResponse<IProductCardRes[]>> {

@@ -5,6 +5,7 @@ import {IOrderRes} from "../../../models/IOrder";
 import {GoodsService} from "../../../services/GoodsService";
 import {formatDate} from "../../../utils/formatDate";
 import classNames from "classnames";
+import {ShelterService} from "../../../services/ShelterService";
 
 interface IProps {
     order: IOrderRes,
@@ -13,6 +14,7 @@ interface IProps {
 
 const OrderCard = ({order, isEven}: IProps) => {
     const [typeGoodArray, setTypeGoodArray] = useState<(string | number)[]>([])
+    const [status, setStatus] = useState<OrderEnum>(order.status)
 
     useEffect(() => {
         const fetchType = async () => {
@@ -32,6 +34,26 @@ const OrderCard = ({order, isEven}: IProps) => {
     const dateOrder = useMemo(() => {
         return formatDate(order.createdAt)
     }, [order.createdAt])
+
+    const onChangeStatus = async (status: OrderEnum) => {
+        let newStatus: OrderEnum
+        if (status === OrderEnum.AWAITING_CONFIRMATION) {
+            newStatus = OrderEnum.AWAITING_SHIPMENT
+        } else if (status === OrderEnum.AWAITING_SHIPMENT) {
+            newStatus = OrderEnum.DELIVERY
+        } else if (status === OrderEnum.DELIVERY) {
+            newStatus = OrderEnum.COMPLETED
+        } else return
+        const response = await ShelterService.changeStatus(order._id, newStatus)
+        if (response.data) {
+            order.status = newStatus
+            setStatus(newStatus)
+        }
+    }
+
+    useEffect(() => {
+        console.log('status', status)
+    }, [status])
 
     return (
         <div className={`order-card ${isEven ? 'order-card_even' : 'order-card_odd'}`}>
@@ -95,18 +117,18 @@ const OrderCard = ({order, isEven}: IProps) => {
             </div>
             <div>
                 <div className={classNames('status status_back', {
-                    'status_green_back': order.status === OrderEnum.COMPLETED,
-                    'status_yellow_back': order.status === OrderEnum.AWAITING_CONFIRMATION || order.status === OrderEnum.AWAITING_SHIPMENT,
-                    'status_violet_back': order.status === OrderEnum.DELIVERY,
+                    'status_green_back': status === OrderEnum.COMPLETED,
+                    'status_yellow_back': status === OrderEnum.AWAITING_CONFIRMATION || status === OrderEnum.AWAITING_SHIPMENT,
+                    'status_violet_back': status === OrderEnum.DELIVERY,
                 })}>
-                    {order.status}
+                    {status}
                 </div>
             </div>
             <div>
-                {order.status !== OrderEnum.COMPLETED && <button className={'button button_light'}>
-                    {order.status === OrderEnum.AWAITING_CONFIRMATION && 'ПОДТВЕРДИТЬ ЗАКАЗ'}
-                    {order.status === OrderEnum.AWAITING_SHIPMENT && 'ПОДТВЕРДИТЬ ОТПРАВКУ'}
-                    {order.status === OrderEnum.DELIVERY && 'ПОДТВЕРДИТЬ ДОСТАВКУ'}
+                {status !== OrderEnum.COMPLETED && <button  onClick={() => onChangeStatus(status)} className={'button button_light'}>
+                    {status === OrderEnum.AWAITING_CONFIRMATION && 'ПОДТВЕРДИТЬ ЗАКАЗ'}
+                    {status === OrderEnum.AWAITING_SHIPMENT && 'ПОДТВЕРДИТЬ ОТПРАВКУ'}
+                    {status === OrderEnum.DELIVERY && 'ПОДТВЕРДИТЬ ДОСТАВКУ'}
                 </button>}
             </div>
         </div>

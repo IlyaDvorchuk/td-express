@@ -1,3 +1,5 @@
+import {OrderEnum} from "./enums";
+
 export interface IOrder {
     goodName: string
     goodPhoto: string,
@@ -5,7 +7,7 @@ export interface IOrder {
     typeId: string,
     userId: string | null,
     shelterId: string,
-    status: string,
+    status: OrderEnum,
     deliveryMethod: 'pickup' | 'express' | 'doorstep',
     paymentMethod: 'bankCard' | 'qrCode' | 'cash',
     buyer: {

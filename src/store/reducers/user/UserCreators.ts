@@ -141,21 +141,17 @@ export const createOrder = (order: IOrder, typeOrder: ITypeRes | undefined) => a
         const daysOfWeek = ['вс', 'пн', 'вт', 'ср', 'чт', 'пт', 'сб'];
 
         const formattedDate = `${currentDate.getDate()}.${currentDate.getMonth() + 1}.${currentDate.getFullYear().toString().slice(-2)} ${daysOfWeek[dayOfWeek]} ${currentDate.getHours()}:${String(currentDate.getMinutes()).padStart(2, '0')}`;
-
         await AdminService.createNotification(
             order.shelterId,
-            `
-                <p>Ваш товар <b>“${order.goodName} ${typeOrder ? typeOrder.size : ''}”</b> был заказан в количестве  <b>${order.count} штук</b>.</p>
+            `<p>Ваш товар <b>“${order.goodName} ${typeOrder ? typeOrder.size : ''}”</b> был заказан в количестве  <b>${order.count} штук</b>.</p>
                 <p>${deliveryString}</p>
-                <p>${formattedDate}</p>
-                `
+                <p>${formattedDate}</p>`
         )
         if (response.data) {
             dispatch(userSlice.actions.loginSuccess())
         } else {
             dispatch(userSlice.actions.loginFetchingError('Не удалось оформить заказ'))
         }
-        // dispatch(userSlice.actions.setUser(response.data))
     } catch (e: any) {
         console.log('e createOrder', e)
         dispatch(userSlice.actions.loginFetchingError(e.message))
