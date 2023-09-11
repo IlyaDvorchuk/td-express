@@ -38,17 +38,17 @@ const OrderCard = ({order, isEven}: IProps) => {
             <div className={'order-card__img'}>
                 <img src={`https://api.td-market.md/${order.goodPhoto}`} alt=""/>
             </div>
-            <div>
-                <h2>
+            <div className={'order-card__name'}>
+                <h2 className={'order-card__title'}>
                     {order.goodName}
                 </h2>
-                <p>
+                <p className={'order-card__type'}>
                     {typeGoodArray.map((item, index) => (
                         <span key={index}>{item}{index < typeGoodArray.length - 1  ? ', ' : ''}</span>
                     ))}
                 </p>
             </div>
-            <div>
+            <div className={'order-card__buyer'}>
                 <p>
                     {order.buyer.name + ' ' + order.buyer.family}
                 </p>
@@ -56,13 +56,13 @@ const OrderCard = ({order, isEven}: IProps) => {
                     {order.buyer.phone}
                 </p>
             </div>
-            <div>
+            <div className={'order-card__price'}>
                 {order.price + (order?.deliveryAddress?.deliveryPrice || 0)} р.
             </div>
-            <div>
+            <div className={'order-card__count'}>
                 {order.count} шт.
             </div>
-            <div>
+            <div className={'order-card__payment'}>
                 <p>
                     {order.paymentMethod === 'bankCard' && 'Онлайн'}
                     {order.paymentMethod === 'qrCode' && 'Онлайн qr-кодом'}

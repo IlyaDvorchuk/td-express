@@ -92,13 +92,13 @@ const BoxOrders = () => {
                 <h4 className={'orders__title'}>
                     Кол-во
                 </h4>
-                <h4 className={'orders__title'}>
+                <h4 className={'orders__title orders__title_payment'}>
                     Оплата
                 </h4>
                 <h4 className={'orders__title'}>
                     Доставка
                 </h4>
-                <h4 className={'orders__title'}>
+                <h4 className={'orders__title orders__title_address'}>
                     Адрес доставки
                 </h4>
                 <h4 className={'orders__title'}>
