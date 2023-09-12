@@ -124,8 +124,11 @@ const OrderCard = ({order, isEven}: IProps) => {
                     {status}
                 </div>
             </div>
-            <div>
-                {status !== OrderEnum.COMPLETED && <button  onClick={() => onChangeStatus(status)} className={'button button_light'}>
+            <div className={'order-card__wrapper-button'}>
+                {status !== OrderEnum.COMPLETED && <button
+                    onClick={() => onChangeStatus(status)}
+                    className={`button button_light order-card__button ${status === OrderEnum.AWAITING_CONFIRMATION ? 'confirmation' : ''}`}
+                >
                     {status === OrderEnum.AWAITING_CONFIRMATION && 'ПОДТВЕРДИТЬ ЗАКАЗ'}
                     {status === OrderEnum.AWAITING_SHIPMENT && 'ПОДТВЕРДИТЬ ОТПРАВКУ'}
                     {status === OrderEnum.DELIVERY && 'ПОДТВЕРДИТЬ ДОСТАВКУ'}

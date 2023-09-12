@@ -55,7 +55,9 @@ const HeaderShelter = () => {
         <header className={'header-shelter'}>
             <Container>
                 <div className={'header-shelter__wrapper'}>
-
+                    <Link to={'/seller/main'} className={'header-shelter__logo'}>
+                        <img src={'/images/logo-market.svg'} alt={'TD Market'}/>
+                    </Link>
                     <ShelterTools/>
                     <div className={'links'}>
                         {links.map((link, index) => (
