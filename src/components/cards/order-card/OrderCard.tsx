@@ -57,18 +57,20 @@ const OrderCard = ({order, isEven}: IProps) => {
 
     return (
         <div className={`order-card ${isEven ? 'order-card_even' : 'order-card_odd'}`}>
-            <div className={'order-card__img'}>
-                <img src={`https://api.td-market.md/${order.goodPhoto}`} alt=""/>
-            </div>
             <div className={'order-card__name'}>
-                <h2 className={'order-card__title'}>
-                    {order.goodName}
-                </h2>
-                <p className={'order-card__type'}>
-                    {typeGoodArray.map((item, index) => (
-                        <span key={index}>{item}{index < typeGoodArray.length - 1  ? ', ' : ''}</span>
-                    ))}
-                </p>
+                <div className={'order-card__img'}>
+                    <img src={`https://api.td-market.md/${order.goodPhoto}`} alt=""/>
+                </div>
+                <div>
+                    <h2 className={'order-card__title'}>
+                        {order.goodName}
+                    </h2>
+                    <p className={'order-card__type'}>
+                        {typeGoodArray.map((item, index) => (
+                            <span key={index}>{item}{index < typeGoodArray.length - 1  ? ', ' : ''}</span>
+                        ))}
+                    </p>
+                </div>
             </div>
             <div className={'order-card__buyer'}>
                 <p>
@@ -94,12 +96,12 @@ const OrderCard = ({order, isEven}: IProps) => {
                     {dateOrder}
                 </p>
             </div>
-            <div>
+            <div className={'order-card__delivery'}>
                     {order.deliveryMethod === 'pickup' && 'Самовывоз'}
                     {order.deliveryMethod === 'express' && 'Экспресс-почтой'}
                     {order.deliveryMethod === 'doorstep' && 'Курьером'}
             </div>
-            <div>
+            <div className={'order-card__address'}>
                 {order.deliveryMethod === 'doorstep' && <p>
                     <p>
                         г. {order.city}
@@ -115,19 +117,21 @@ const OrderCard = ({order, isEven}: IProps) => {
                     <p>{order.deliveryAddress?.comment}</p>
                 </p>}
             </div>
-            <div>
-                <div className={classNames('status status_back', {
-                    'status_green_back': status === OrderEnum.COMPLETED,
-                    'status_yellow_back': status === OrderEnum.AWAITING_CONFIRMATION || status === OrderEnum.AWAITING_SHIPMENT,
-                    'status_violet_back': status === OrderEnum.DELIVERY,
-                })}>
-                    {status}
-                </div>
+            <div className={'order-card__status'}>
+                    <div className={classNames('status_back', {
+                        'status_green_back': status === OrderEnum.COMPLETED,
+                        'status_yellow_back': status === OrderEnum.AWAITING_CONFIRMATION || status === OrderEnum.AWAITING_SHIPMENT,
+                        'status_violet_back': status === OrderEnum.DELIVERY,
+                    })}>
+                        {status}
+                    </div>
             </div>
             <div className={'order-card__wrapper-button'}>
                 {status !== OrderEnum.COMPLETED && <button
                     onClick={() => onChangeStatus(status)}
-                    className={`button button_light order-card__button ${status === OrderEnum.AWAITING_CONFIRMATION ? 'confirmation' : ''}`}
+                    className={
+                    `button button_light order-card__button ${status === OrderEnum.AWAITING_CONFIRMATION ? 'confirmation' : ''}`
+                }
                 >
                     {status === OrderEnum.AWAITING_CONFIRMATION && 'ПОДТВЕРДИТЬ ЗАКАЗ'}
                     {status === OrderEnum.AWAITING_SHIPMENT && 'ПОДТВЕРДИТЬ ОТПРАВКУ'}

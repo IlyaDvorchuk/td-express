@@ -3,18 +3,27 @@
 
 .order-card {
   display: flex;
-  gap: 10px;
+  justify-content: space-between;
+  gap: 28px;
   font-size: $mediumLittleSize;
-  padding: 28px 12px;
+  padding: 26px 12px;
   border-radius: 15px;
 
   &_even {
     background-color: rgba(100, 58, 190, 0.10);
   }
 
+  & &__name {
+    display: flex;
+    gap: 12px;
+    min-width: 239px;
+  }
+
   & &__img {
-    width: 94px;
-    height: 83px;
+    min-width: 76px;
+    max-width: 76px;
+    min-height: 83px;
+    max-height: 83px;
     border-radius: 10px;
     overflow: hidden;
 
@@ -23,10 +32,6 @@
       width: 100%;
       height: 100%;
     }
-  }
-
-  & &__name {
-    width: 19%;
   }
 
   & &__title {
@@ -42,19 +47,41 @@
   }
 
   & &__buyer {
+    max-width: 92px;
     width: 13%;
+    margin-right: 5px;
   }
 
   & &__price {
-    width: 5%;
-  }
-
-  & &__count {
-    width: 7%;
+    width: 3%;
+    margin-right: 2px;
   }
 
   & &__payment {
-    width: 9%;
+    width: 6.5%;
+  }
+
+  & &__count {
+    width: 3.5%;
+    margin-right: 12px;
+  }
+
+  & &__delivery {
+    margin-right: 10px;
+  }
+
+  & &__address {
+    max-width: 152px;
+  }
+
+  & &__status {
+    min-width: 124px;
+    display: flex;
+  }
+
+  & &__status_delivery {
+    display: flex;
+    margin-right: 10px;
   }
 
   & &__wrapper-button {
@@ -63,6 +90,7 @@
   }
 
   & &__button {
+    margin-top: 5px;
     font-family: Nunito Sans, 'sans-serif';
     font-size: 12.6px;
     font-weight: 800;
