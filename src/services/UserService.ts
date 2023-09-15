@@ -5,6 +5,7 @@ import {IProductCardRes} from "../models/IProductCard";
 import {ICartReq} from "../models/ICart";
 import {ICartRes} from "../models/response/ICartRes";
 import {IOrder} from "../models/IOrder";
+import {INotification} from "../models/INotification";
 
 export class UserService {
     static async fetchUser(): Promise<AxiosResponse<IUser[]>> {
@@ -43,6 +44,19 @@ export class UserService {
         return $api.post<boolean>('orders', order);
     }
 
+    static getNotificationsOfUser(): Promise<AxiosResponse<INotification[]>> {
+        return $api.get(`users/notifications`)
+    }
+
+    static readNotificationsOfUser(): Promise<AxiosResponse<boolean>> {
+        return $api.get(`users/read-notifications`)
+    }
+
+    static deleteNotificationsOfUser(deleteNotifications: string[]): Promise<AxiosResponse<boolean>> {
+        return $api.delete(`users/notifications`, {
+            data: deleteNotifications
+        })
+    }
 
     static async setBank() {
         const formData = new FormData();

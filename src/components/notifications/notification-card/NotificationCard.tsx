@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import './notification-card.scss'
-import {INotification} from "../../models/INotification";
+import {INotification} from "../../../models/INotification";
 
 interface IProps {
     notification: INotification,

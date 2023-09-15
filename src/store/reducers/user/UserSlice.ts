@@ -4,6 +4,7 @@ import {getAccessTokenUser, removeAccessTokenUser} from "../../../utils/tokens";
 
 const initialState = {
     user: {} as IUser,
+    unreadCount: 0,
     isUserModal: false,
     isAuth: false,
     isLoading: false,
@@ -64,6 +65,9 @@ export const userSlice = createSlice({
         removeAccessToken: (state) => {
             state.accessToken = null
             removeAccessTokenUser()
+        },
+        setReadNotificationsUser: (state) => {
+            state.unreadCount = 0
         },
     }
 })
