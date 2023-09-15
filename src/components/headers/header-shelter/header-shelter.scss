@@ -20,12 +20,23 @@
   &__wrapper {
     position: relative;
   }
+
+  &__logo {
+    @include flex(center, center);
+    width: 240px;
+    height: 36px;
+
+    & > img {
+      width: 100%;
+      object-fit: contain;
+    }
+  }
 }
 
 
 
 .links {
-  padding-top: 58px;
+  padding-top: 20px;
   display: flex;
   gap: 24px;
 

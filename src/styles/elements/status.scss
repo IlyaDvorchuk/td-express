@@ -11,8 +11,14 @@
   font-weight: 800;
 
   &_back {
+    width: min-content;
+    height: fit-content;
+    font-size: $mediumLittleSize;
+    border-radius: 12px;
+    padding: 12px;
     border: none;
     text-transform: lowercase;
+    font-weight: 800;
   }
 
   &_green {
@@ -42,6 +48,7 @@
   }
 
   &_violet_back {
+    width: 93px;
     color: $additionalColor;
     background: linear-gradient(180deg, rgba(100, 58, 190, 0.15) 0%, rgba(174, 82, 218, 0.15) 100%);
   }

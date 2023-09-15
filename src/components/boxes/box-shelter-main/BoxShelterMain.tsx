@@ -1,7 +1,7 @@
 import React from 'react';
 import './box-shelter-main.scss'
 import {useAppSelector} from "../../../hooks/redux";
-import {useNavigate} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import {API_URL} from "../../../http";
 
 const BoxShelterMain = () => {
@@ -88,7 +88,7 @@ const BoxShelterMain = () => {
                     <div className={'shelter__orders'}>
                         <div className={'orders-header'}>
                             <h3 className={'shelter__subtitle'}>Информация о заказах</h3>
-                            <button className={'button button_light orders-header__button'}>Подробнее</button>
+                            <Link to={'/seller/orders'} className={'button button_light orders-header__button'}>Подробнее</Link>
                         </div>
                     </div>
                 </div>
