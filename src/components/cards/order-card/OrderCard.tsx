@@ -6,6 +6,7 @@ import {GoodsService} from "../../../services/GoodsService";
 import {formatDate} from "../../../utils/formatDate";
 import classNames from "classnames";
 import {ShelterService} from "../../../services/ShelterService";
+import {AdminService} from "../../../services/AdminService";
 
 interface IProps {
     order: IOrderRes,
@@ -37,14 +38,21 @@ const OrderCard = ({order, isEven}: IProps) => {
 
     const onChangeStatus = async (status: OrderEnum) => {
         let newStatus: OrderEnum
+        let text;
         if (status === OrderEnum.AWAITING_CONFIRMATION) {
             newStatus = OrderEnum.AWAITING_SHIPMENT
+            text = `Ваш товар <b>${order.goodName}</b> ожидает отправки`
         } else if (status === OrderEnum.AWAITING_SHIPMENT) {
             newStatus = OrderEnum.DELIVERY
+            text = `Ваш товар  <b>${order.goodName}</b> доставляется`
         } else if (status === OrderEnum.DELIVERY) {
             newStatus = OrderEnum.COMPLETED
+            text = `Ваш товар <b>${order.goodName}</b> доставлен`
         } else return
         const response = await ShelterService.changeStatus(order._id, newStatus)
+        if (order.userId) {
+            await AdminService.createNotification(order.userId, text, true)
+        }
         if (response.data) {
             order.status = newStatus
             setStatus(newStatus)
