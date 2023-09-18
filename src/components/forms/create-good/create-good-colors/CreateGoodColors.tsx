@@ -1,8 +1,32 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import './create-good-colors.scss'
+import {ShelterService} from "../../../../services/ShelterService";
+import {IColor} from "../../../../models/IColor";
+import Checkbox from "../../../checkbox/Checkbox";
+// import {IType} from "../../../../models/IProductCard";
 
-const CreateGoodColors = () => {
+interface IPropsCreateGoodColors {
+    selectedColors: IColor[]
+    setSelectedColors: (selectedColors: IColor[]) => void;
+    // cardQuantity: IType[] | null
+
+}
+
+const CreateGoodColors = ({selectedColors, setSelectedColors}: IPropsCreateGoodColors) => {
     const [isOpenColors, setIsOpenColors] = useState(false)
+    const [colors, setColors] = useState<IColor[]>([])
+
+    useEffect(() => {
+        const fetchColors = async () => {
+            const fetchedColors = await ShelterService.getColors();
+            if (fetchedColors.data) {
+                setColors(fetchedColors.data);
+            }
+
+        };
+
+        fetchColors();
+    }, []);
 
     return (
         <div className={'good-colors'}>
@@ -16,17 +40,31 @@ const CreateGoodColors = () => {
                 <button className={'button button_light good-colors__button'} onClick={() => setIsOpenColors(!isOpenColors)}>
                     Открыть таблицу цветов
                 </button>
-                {isOpenColors && <div className={'good-colors__modal'}>
-                    <div>
-                        <h4>Выбрать цвет</h4>
+                {isOpenColors && <form className={'good-colors__modal modal-colors'}>
+                    <div className={'modal-colors__header'}>
+                        <h4 className={'modal-colors__title'}>Выбрать цвет</h4>
+                        <button className={'modal-colors__close'} onClick={() => setIsOpenColors(false)}>
+                            <img src="/images/svg/create-good/close-circle-colors.svg" alt="Выключить выбор цветов"/>
+                        </button>
                     </div>
                     <div>
-
+                        {colors.map(colorItem => (
+                            <div key={colorItem._id} className={'modal-colors__item'}>
+                                <Checkbox
+                                    sizes={20}
+                                    isChecked={!!selectedColors.find(color => color.color === colorItem.color)}
+                                    onChange={() => {}}/>
+                                <div className={'modal-colors__color'} style={{backgroundColor: colorItem.color}}/>
+                                <div>
+                                    {colorItem.name}
+                                </div>
+                            </div>
+                        ))}
                     </div>
                     <div>
                         <button className={'button button_light'}>Добавить цвета</button>
                     </div>
-                </div>}
+                </form>}
             </div>
         </div>
     );

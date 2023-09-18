@@ -7,6 +7,7 @@ import {INotification} from "../models/INotification";
 import {IDeliveryCity} from "../models/IDeliveryCity";
 import {IOrderRes} from "../models/IOrder";
 import {OrderEnum} from "../models/enums";
+import {IColor} from "../models/IColor";
 
 export class ShelterService {
     static async getPointsIssue(): Promise<AxiosResponse<IDeliveryPoint2[]>> {
@@ -104,5 +105,9 @@ export class ShelterService {
 
     static changeStatus(idOrder: string, status: OrderEnum): Promise<AxiosResponse<IOrderRes[]>> {
         return $apiShelter.put(`orders/${idOrder}/${status}`)
+    }
+
+    static getColors(): Promise<AxiosResponse<IColor[]>> {
+        return $apiShelter.get(`colors`)
     }
 }

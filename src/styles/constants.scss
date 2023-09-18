@@ -52,6 +52,9 @@ $borderError: 1.5px solid #F33535;
 $fastTransition: all .2s linear;
 $slowTransition: all .6s ease-in-out;
 
+//box-shadows
+$modalBoxShadow: 4px 4px 16px 0 rgba(0, 0, 0, 0.16);
+
 %subtitle {
   font-family: $fontTitle;
   font-weight: 800;
