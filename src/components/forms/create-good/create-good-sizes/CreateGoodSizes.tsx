@@ -52,6 +52,12 @@ const CreateGoodSizes = ({ options, selectedOptions, setSelectedOptions, cardQua
 
                 ))}
             </div>
+            {/*<h3 className={'subtitle'}>*/}
+            {/*    Таблица размеров*/}
+            {/*</h3>*/}
+            {/*<button className={'button button_light'}>*/}
+            {/*    Таблица размеров*/}
+            {/*</button>*/}
         </div>
     );
 };

@@ -19,6 +19,7 @@ import {SIZES_CLOTHES, SIZES_CLOTHES_ID, SIZES_ID, SIZES_SHOE} from "../../../co
 import CreateGoodSizes from "./create-good-sizes/CreateGoodSizes";
 import CreateGoodQuantity from "./create-good-quantity/CreateGoodQuantity";
 import {shelterSlice} from "../../../store/reducers/shelter/ShelterSlice";
+import CreateGoodColors from "./create-good-colors/CreateGoodColors";
 
 const FormCreateGood = ({card} : {card: IProductCard | null}) => {
     const navigation = useNavigate()
@@ -143,7 +144,7 @@ const FormCreateGood = ({card} : {card: IProductCard | null}) => {
         }
     };
 
-    const isSizes = useMemo(() => {
+    const isTypesClothes = useMemo(() => {
         return parentSelectedCategory && SIZES_ID.includes(parentSelectedCategory?._id)
     }, [parentSelectedCategory])
 
@@ -163,7 +164,7 @@ const FormCreateGood = ({card} : {card: IProductCard | null}) => {
                 <hr className={'create__divider'}/>
                 <CreateGoodDescription description={description} setDescription={setDescription} card={card}/>
                 {
-                    parentSelectedCategory && isSizes && (
+                    parentSelectedCategory && isTypesClothes && (
                         <>
                             <hr className={'create__divider'}/>
                             <CreateGoodSizes
@@ -176,6 +177,8 @@ const FormCreateGood = ({card} : {card: IProductCard | null}) => {
                                 setSelectedOptions={setSelectedSizes}
                                 cardQuantity={card?.typeQuantity ? card.typeQuantity : null}
                             />
+                            <hr className={'create__divider'}/>
+                            <CreateGoodColors/>
                         </>
                     )
                 }
@@ -190,8 +193,8 @@ const FormCreateGood = ({card} : {card: IProductCard | null}) => {
                 <hr className={'create__divider'}/>
                 <CreateGoodAdditional/>
                 <hr className={'create__divider'}/>
-                <CreateGoodPrice isClothes={isSizes} card={card}/>
-                {parentSelectedCategory && isSizes && (
+                <CreateGoodPrice isClothes={isTypesClothes} card={card}/>
+                {parentSelectedCategory && isTypesClothes && (
                     <>
                         <hr className={'create__divider'}/>
                         <CreateGoodQuantity

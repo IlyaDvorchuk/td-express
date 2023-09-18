@@ -1,0 +1,22 @@
+@import "../../../../styles/constants";
+
+
+.good-colors {
+  width: min-content;
+  min-width: 286px;
+
+  & &__select {
+    position: relative;
+    max-width: 224px;
+  }
+
+
+
+  & &__modal {
+    position: absolute;
+    left: 100%;
+    min-width: 300px;
+    background-color: $backgroundColor;
+    box-shadow: 4px 4px 16px 0 rgba(0, 0, 0, 0.16);
+  }
+}

@@ -110,7 +110,7 @@ const BoxShelterMain = () => {
                             <Link to={'/seller/orders'} className={'button button_light orders-header__button'}>Подробнее</Link>
                         </div>
                         {orders.map((order, index) => (
-                            <OrderMiniCard order={order} isEven={index % 2 === 0}/>
+                            <OrderMiniCard order={order} isEven={index % 2 === 0} key={order._id}/>
                         ))}
                     </div>
                 </div>
