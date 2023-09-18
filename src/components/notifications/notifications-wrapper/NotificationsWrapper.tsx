@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useRef, useState} from 'react';
 import './notifications-wrapper.scss'
 import NotificationSvg from "../../svg/NotificationSvg";
 import TechnicalSupportSvg from "../../svg/TechnicalSupportSvg";
@@ -16,6 +16,7 @@ interface IPropsNotificationsWrapper {
 const NotificationsWrapper = ({notifications, setRemoveNotifications, isSeller = false}: IPropsNotificationsWrapper) => {
     const {unreadCount} = useAppSelector(state => state.shelterReducer)
     const [activeNotification, setActiveNotification] = useState(0)
+    const notificationsWrapperRef = useRef(null)
 
     return (
         <>
