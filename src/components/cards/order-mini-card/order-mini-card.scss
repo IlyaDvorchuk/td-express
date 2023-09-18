@@ -1,13 +1,12 @@
 @import "../../../styles/constants";
 @import "../../../styles/mixins";
 
-.order-card {
+.order-mini-card {
   display: flex;
   justify-content: space-between;
-  gap: 28px;
   font-size: $mediumLittleSize;
-  padding: 26px 12px;
-  border-radius: 15px;
+  padding: 13px 27px 13px 7px;
+  border-radius: 10px;
 
   &_even {
     background-color: rgba(100, 58, 190, 0.10);
@@ -15,15 +14,15 @@
 
   & &__name {
     display: flex;
-    gap: 12px;
-    min-width: 239px;
+    gap: 7px;
+    min-width: 230px;
   }
 
   & &__img {
-    min-width: 76px;
-    max-width: 76px;
-    min-height: 83px;
-    max-height: 83px;
+    min-width: 44px;
+    max-width: 44px;
+    min-height: 49px;
+    max-height: 49px;
     border-radius: 10px;
     overflow: hidden;
 
@@ -35,7 +34,6 @@
   }
 
   & &__title {
-    margin-bottom: 5px;
     font-size: 12.6px;
     color: $text2Color;
     font-weight: 800;
@@ -47,23 +45,14 @@
   }
 
   & &__buyer {
-    max-width: 92px;
+    max-width: 90px;
     width: 13%;
-    margin-right: 5px;
-  }
-
-  & &__price {
-    width: 3%;
-    margin-right: 2px;
-  }
-
-  & &__payment {
-    width: 6.5%;
   }
 
   & &__count {
-    width: 3.5%;
-    margin-right: 12px;
+    width: 6.5%;
+    margin-right: 11px;
+    max-width: 40px;
   }
 
   & &__delivery {
@@ -75,28 +64,11 @@
   }
 
   & &__status {
-    min-width: 124px;
     display: flex;
   }
 
   & &__status_delivery {
     display: flex;
     margin-right: 10px;
-  }
-
-  & &__wrapper-button {
-    min-width: 201px;
-    @include flex(center)
-  }
-
-  & &__button {
-    margin-top: 5px;
-    font-family: Nunito Sans, 'sans-serif';
-    font-size: 12.6px;
-    font-weight: 800;
-  }
-
-  & &__button.confirmation {
-    width: 173px;
   }
 }

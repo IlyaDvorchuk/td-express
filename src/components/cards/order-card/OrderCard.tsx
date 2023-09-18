@@ -1,12 +1,12 @@
-import React, {useEffect, useMemo, useState} from 'react';
+import React, {useMemo, useState} from 'react';
 import './order-card.scss'
 import {OrderEnum} from "../../../models/enums";
 import {IOrderRes} from "../../../models/IOrder";
-import {GoodsService} from "../../../services/GoodsService";
 import {formatDate} from "../../../utils/formatDate";
 import classNames from "classnames";
 import {ShelterService} from "../../../services/ShelterService";
 import {AdminService} from "../../../services/AdminService";
+import useTypeGoodArray from "../../../hooks/useTypeGoodArray";
 
 interface IProps {
     order: IOrderRes,
@@ -14,23 +14,8 @@ interface IProps {
 }
 
 const OrderCard = ({order, isEven}: IProps) => {
-    const [typeGoodArray, setTypeGoodArray] = useState<(string | number)[]>([])
     const [status, setStatus] = useState<OrderEnum>(order.status)
-
-    useEffect(() => {
-        const fetchType = async () => {
-            const response = await GoodsService.getType(order.goodId, order.typeId)
-
-            if (response.data) {
-                const { _id, ...rest } = response.data;
-
-                const valuesArray = Object.values(rest);
-                setTypeGoodArray(valuesArray)
-            }
-        }
-
-        fetchType()
-    }, [])
+    const typeGoodArray = useTypeGoodArray(order);
 
     const dateOrder = useMemo(() => {
         return formatDate(order.createdAt)
@@ -59,11 +44,7 @@ const OrderCard = ({order, isEven}: IProps) => {
             setStatus(newStatus)
         }
     }
-
-    useEffect(() => {
-        console.log('status', status)
-    }, [status])
-
+    console.log('order.price', order.price)
     return (
         <div className={`order-card ${isEven ? 'order-card_even' : 'order-card_odd'}`}>
             <div className={'order-card__name'}>

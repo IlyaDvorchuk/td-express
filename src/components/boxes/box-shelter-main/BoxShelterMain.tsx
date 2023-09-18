@@ -1,12 +1,31 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import './box-shelter-main.scss'
 import {useAppSelector} from "../../../hooks/redux";
 import {Link, useNavigate} from "react-router-dom";
 import {API_URL} from "../../../http";
+import {ShelterService} from "../../../services/ShelterService";
+import {IOrderRes} from "../../../models/IOrder";
+import OrderMiniCard from "../../cards/order-mini-card/OrderMiniCard";
 
 const BoxShelterMain = () => {
     const {shelter} = useAppSelector(state => state.shelterReducer)
     const navigation = useNavigate()
+    const [orders, setOrders] = useState<IOrderRes[]>([])
+
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await ShelterService.getOrdersOfSeller(5)
+                console.log('response', response.data)
+                if (response.data) setOrders(response.data)
+            } catch (error) {
+                console.error('Ошибка при удалении уведомлений:', error);
+            }
+        };
+
+        fetchData();
+    }, []);
 
     const onCreateGood = () => {
         navigation('/seller/goods/create')
@@ -90,10 +109,12 @@ const BoxShelterMain = () => {
                             <h3 className={'shelter__subtitle'}>Информация о заказах</h3>
                             <Link to={'/seller/orders'} className={'button button_light orders-header__button'}>Подробнее</Link>
                         </div>
+                        {orders.map((order, index) => (
+                            <OrderMiniCard order={order} isEven={index % 2 === 0}/>
+                        ))}
                     </div>
                 </div>
             </div>
-
         </div>
     );
 };

@@ -135,7 +135,6 @@ const FormOrder = () => {
     }
 
     const onSubmit = (data: any) => {
-
         if (!card
             && !isActiveButton
         ) return
@@ -155,7 +154,7 @@ const FormOrder = () => {
                 name: data.name,
                 phone: data.phone,
             },
-            price: finalPrice - (city ? +city.price : 0),
+            price: finalPrice - ((city && selectedDelivery === 'doorstep') ? +city.price : 0),
             count: typeGood || 1,
             city: city?.value || ''
         } as IOrder

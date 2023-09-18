@@ -88,8 +88,18 @@ export class ShelterService {
         return $apiShelter.get(`delivery/${idShelter}`)
     }
 
-    static getOrdersOfSeller(): Promise<AxiosResponse<IOrderRes[]>> {
-        return $apiShelter.get(`orders/seller`)
+    static getOrdersOfSeller(count?: number): Promise<AxiosResponse<IOrderRes[]>> {
+        // Создаем объект с параметрами запроса (query parameters)
+        const params: Record<string, any> = {};
+
+        // Если передан параметр count, добавляем его в params
+        if (count !== undefined) {
+            params.count = count;
+        }
+
+        return $apiShelter.get(`orders/seller`, {
+            params: params
+        });
     }
 
     static changeStatus(idOrder: string, status: OrderEnum): Promise<AxiosResponse<IOrderRes[]>> {

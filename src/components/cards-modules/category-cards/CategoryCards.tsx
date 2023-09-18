@@ -1,4 +1,4 @@
-import React, {useEffect, useMemo, useState} from 'react';
+import React, {useMemo, useState} from 'react';
 import {IProductCard} from "../../../models/IProductCard";
 import {GoodsService} from "../../../services/GoodsService";
 import {useParams} from "react-router-dom";
@@ -41,10 +41,6 @@ const CategoryCards = ({ id, title, limit }: CategoryCardsProps) => {
             return prevPage + 1;
         });
     };
-
-    useEffect(() => {
-        console.log('categoryCards', categoryCards)
-    }, [categoryCards])
 
     useMemo(() => {
         setPrevParamsId(paramsId);
