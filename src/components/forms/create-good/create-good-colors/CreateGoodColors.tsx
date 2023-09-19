@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {ChangeEvent, useEffect, useState} from 'react';
 import './create-good-colors.scss'
 import {ShelterService} from "../../../../services/ShelterService";
 import {IColor} from "../../../../models/IColor";
@@ -28,6 +28,16 @@ const CreateGoodColors = ({selectedColors, setSelectedColors}: IPropsCreateGoodC
         fetchColors();
     }, []);
 
+    const handleCheckboxChange = (event: ChangeEvent<HTMLInputElement>, colorItem: IColor) => {
+        const isChecked = event.target.checked;
+
+        if (isChecked) {
+            setSelectedColors([...selectedColors, colorItem]);
+        } else {
+            setSelectedColors(selectedColors.filter((option) => option.color !== colorItem.color));
+        }
+    };
+
     return (
         <div className={'good-colors'}>
             <h3 className={'subtitle subtitle_add'}>
@@ -53,7 +63,7 @@ const CreateGoodColors = ({selectedColors, setSelectedColors}: IPropsCreateGoodC
                                 <Checkbox
                                     sizes={20}
                                     isChecked={!!selectedColors.find(color => color.color === colorItem.color)}
-                                    onChange={() => {}}/>
+                                    onChange={(e: ChangeEvent<HTMLInputElement>) => handleCheckboxChange(e, colorItem)}/>
                                 <div className={'modal-colors__color'} style={{backgroundColor: colorItem.color}}/>
                                 <div>
                                     {colorItem.name}
@@ -61,8 +71,8 @@ const CreateGoodColors = ({selectedColors, setSelectedColors}: IPropsCreateGoodC
                             </div>
                         ))}
                     </div>
-                    <div>
-                        <button className={'button button_light'}>Добавить цвета</button>
+                    <div className={'modal-colors__footer'}>
+                        <button className={'button button_light modal-colors__button'} onClick={() => setIsOpenColors(false)}>Добавить цвета</button>
                     </div>
                 </form>}
             </div>

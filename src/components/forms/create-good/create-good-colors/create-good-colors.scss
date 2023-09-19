@@ -55,8 +55,16 @@
   }
 
   & &__color {
-    margin-right: 8px;
-    @include square(20px);
-    border-radius: 50%;
+    @extend %color-example
+  }
+
+  & &__footer {
+    height: 48px;
+    @include flex(center, center);
+    box-shadow: $modalBoxShadow;
+  }
+
+  & &__button {
+    max-width: 148px;
   }
 }

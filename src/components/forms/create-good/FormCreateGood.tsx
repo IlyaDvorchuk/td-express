@@ -150,6 +150,10 @@ const FormCreateGood = ({card} : {card: IProductCard | null}) => {
         return parentSelectedCategory && SIZES_ID.includes(parentSelectedCategory?._id)
     }, [parentSelectedCategory])
 
+    useEffect(() => {
+        console.log('selectedColors', selectedColors)
+    }, [selectedColors])
+
     return (
         <FormProvider {...methods}>
             <form className={'create'} onSubmit={methods.handleSubmit(onSubmit)}>
@@ -191,6 +195,7 @@ const FormCreateGood = ({card} : {card: IProductCard | null}) => {
                     additionalImages={additionalImages}
                     setAdditionalImages={setAdditionalImages}
                     card={card}
+                    selectedColors={selectedColors}
                 />
                 <hr className={'create__divider'}/>
                 <CreateGoodAdditional/>

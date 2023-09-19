@@ -2,13 +2,15 @@ import React, {ChangeEvent, useEffect, useState} from 'react';
 import './create-good-photos.scss'
 import {IProductCard} from "../../../../models/IProductCard";
 import {API_URL} from "../../../../http";
+import {IColor} from "../../../../models/IColor";
 
 interface CreateGoodPhotosProps {
     generalImage: File | null;
     setGeneralImage: React.Dispatch<React.SetStateAction<File | null>>;
     additionalImages: (File | string)[];
     setAdditionalImages: React.Dispatch<React.SetStateAction<(File | string)[]>>;
-    card: IProductCard | null
+    card: IProductCard | null,
+    selectedColors: IColor[]
 }
 
 
@@ -17,7 +19,8 @@ const CreateGoodPhotos = ({
                             setGeneralImage,
                             additionalImages,
                             setAdditionalImages,
-                            card
+                            card,
+                              selectedColors,
                           }: CreateGoodPhotosProps) => {
 
     const [generalImageUrl, setGeneralImageUrl] = useState(card ? card.mainPhoto : '')
@@ -106,6 +109,24 @@ const CreateGoodPhotos = ({
 
                     </div>
                 </li>
+                {selectedColors.length > 0 && <li>
+                    <h4 className={'add-photos__title'}>
+                        Образцы цветов
+                    </h4>
+                    <p className={'annotation'}>
+                        Для каждого выбранного вами цвета можете добавить фото-образец
+                    </p>
+                    {selectedColors.map(colorItem => (
+                        <div className={'color-photo'}>
+                            <div key={colorItem._id} className={'select-color'}>
+                                <div className={'color-example'} style={{backgroundColor: colorItem.color}}/>
+                                <div>
+                                    {colorItem.name}
+                                </div>
+                            </div>
+                        </div>
+                    ))}
+                </li>}
                 <li>
                     <h4 className={'add-photos__title'}>
                         Дополнительные фото

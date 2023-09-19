@@ -1,10 +1,10 @@
-import React from 'react';
+import React, {ChangeEvent} from 'react';
 import './checkbox.scss'
 
 interface IProps {
     sizes: number,
     isChecked: boolean,
-    onChange: () => void
+    onChange: (e: ChangeEvent<HTMLInputElement>) => void
 }
 
 const Checkbox = ({ sizes, isChecked, onChange = () => {} }: IProps) => {

@@ -46,3 +46,9 @@
   object-position: center;
   border-radius: 5px;
 }
+
+%color-example {
+  margin-right: 8px;
+  @include square(20px);
+  border-radius: 50%;
+}

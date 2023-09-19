@@ -4,6 +4,10 @@
 .add-photos {
   padding-left: 20px;
 
+  & > li {
+    margin-bottom: 32px;
+  }
+
   &__title {
     font-weight: 400;
     font-size: $bigMediumSize;
@@ -13,6 +17,26 @@
   & .annotation {
     @extend %add-letter;
     margin-bottom: 16px;
+  }
+
+  & .color-photo {
+    display: flex;
+    flex-direction: column;
+    width: min-content;
+  }
+
+  & .select-color {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 12px 8px;
+    min-width: 165px;
+    border: 1.5px solid $additionalColor;
+    border-radius: 15px;
+  }
+
+  & .color-example {
+    @extend %color-example
   }
 }
 
