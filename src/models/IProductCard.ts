@@ -1,5 +1,6 @@
 import {StatusEnum} from "./enums";
 import {IDeliveryCity} from "./IDeliveryCity";
+import {IColor} from "./IColor";
 
 export interface IPrice {
     price: number,
@@ -66,7 +67,7 @@ export interface IProductCardShelter extends IProductCardRes {
 export interface IType {
     size: string,
     quantity: number,
-
+    color?: IColor
 }
 
 export interface ITypeRes extends IType{

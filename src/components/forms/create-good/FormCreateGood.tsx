@@ -20,7 +20,7 @@ import CreateGoodSizes from "./create-good-sizes/CreateGoodSizes";
 import CreateGoodQuantity from "./create-good-quantity/CreateGoodQuantity";
 import {shelterSlice} from "../../../store/reducers/shelter/ShelterSlice";
 import CreateGoodColors from "./create-good-colors/CreateGoodColors";
-import {IColor} from "../../../models/IColor";
+import {ISelectedColor} from "../../../models/IColor";
 
 const FormCreateGood = ({card} : {card: IProductCard | null}) => {
     const navigation = useNavigate()
@@ -37,7 +37,7 @@ const FormCreateGood = ({card} : {card: IProductCard | null}) => {
     const [generalImage, setGeneralImage] = useState<File | null>(null)
     const [additionalImages, setAdditionalImages] = useState<(File | string)[]>([])
     const [selectedSizes, setSelectedSizes] = useState<string[]>([]);
-    const [selectedColors, setSelectedColors] = useState<IColor[]>([]);
+    const [selectedColors, setSelectedColors] = useState<ISelectedColor[]>([]);
     const [quantitySizes, setQuantitySizes] = useState<IType[]>([]);
     const [submitButton, setSubmitButton] = useState('');
 
@@ -146,13 +146,13 @@ const FormCreateGood = ({card} : {card: IProductCard | null}) => {
         }
     };
 
+    useEffect(() => {
+        console.log('quantitySizes', quantitySizes)
+    }, [quantitySizes])
+
     const isTypesClothes = useMemo(() => {
         return parentSelectedCategory && SIZES_ID.includes(parentSelectedCategory?._id)
     }, [parentSelectedCategory])
-
-    useEffect(() => {
-        console.log('selectedColors', selectedColors)
-    }, [selectedColors])
 
     return (
         <FormProvider {...methods}>
@@ -184,7 +184,10 @@ const FormCreateGood = ({card} : {card: IProductCard | null}) => {
                                 cardQuantity={card?.typeQuantity ? card.typeQuantity : null}
                             />
                             <hr className={'create__divider'}/>
-                            <CreateGoodColors selectedColors={selectedColors} setSelectedColors={setSelectedColors}/>
+                            <CreateGoodColors
+                                selectedColors={selectedColors}
+                                setSelectedColors={setSelectedColors}
+                            />
                         </>
                     )
                 }
@@ -196,6 +199,7 @@ const FormCreateGood = ({card} : {card: IProductCard | null}) => {
                     setAdditionalImages={setAdditionalImages}
                     card={card}
                     selectedColors={selectedColors}
+                    setSelectedColors={setSelectedColors}
                 />
                 <hr className={'create__divider'}/>
                 <CreateGoodAdditional/>
@@ -208,6 +212,7 @@ const FormCreateGood = ({card} : {card: IProductCard | null}) => {
                             sizes={selectedSizes}
                             setInputValues={setQuantitySizes}
                             cardQuantity={card?.typeQuantity ? card.typeQuantity : null}
+                            selectedColors={selectedColors}
                         />
                     </>
                 )}

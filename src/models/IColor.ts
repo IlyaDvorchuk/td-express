@@ -3,3 +3,7 @@ export interface IColor {
     color: string,
     _id: string
 }
+
+export interface ISelectedColor extends IColor {
+    image?: string | undefined
+}

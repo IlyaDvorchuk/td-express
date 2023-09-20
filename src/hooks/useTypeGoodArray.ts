@@ -14,7 +14,17 @@ function useTypeGoodArray(order: IOrderRes) {
                     const { _id, ...rest } = response.data;
 
                     const valuesArray = Object.values(rest);
-                    setTypeGoodArray(valuesArray);
+
+                    const modifiedArray = valuesArray.map((elem) => {
+                        if (typeof elem === "object" && "name" in elem && typeof elem.name === "string") {
+                            return elem.name; // Если элемент имеет свойство name, считаем его IColor
+                        } else {
+                            return elem; // В противном случае оставляем элемент без изменений
+                        }
+                    });
+
+                    // @ts-ignore
+                    setTypeGoodArray(modifiedArray);
                 }
             } catch (error) {
                 // Обработайте ошибку, если необходимо
