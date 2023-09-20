@@ -120,9 +120,40 @@ const CreateGoodPhotos = ({
                         <div className={'color-photo'}>
                             <div key={colorItem._id} className={'select-color'}>
                                 <div className={'color-example'} style={{backgroundColor: colorItem.color}}/>
-                                <div>
+                                <div className={'color-text'}>
                                     {colorItem.name}
                                 </div>
+                            </div>
+                            <div className={`image-good`}>
+                                {!generalImage && !generalImageUrl &&
+                                    <label className={''} htmlFor={'good-photo'}>
+                                        <img src="/images/svg/plus.svg" alt={''}/>
+                                        <span>Добавить фото</span>
+                                    </label>
+                                }
+                                {generalImage && !generalImageUrl &&
+                                    <div className={'loadPhoto'}>
+                                        <img src={URL.createObjectURL(generalImage)} alt="Фото"/>
+                                        <div onClick={onDeleteFile} className={'loadPhoto__close'}>
+                                            <img src="/images/svg/close.svg" alt={''}/>
+                                        </div>
+                                    </div>
+                                }
+                                {generalImageUrl &&
+                                    <div className={'loadPhoto'}>
+                                        <img src={`${API_URL}${generalImageUrl}`} alt="Фото"/>
+                                        <div onClick={onDeleteFile} className={'loadPhoto__close'}>
+                                            <img src="/images/svg/close.svg" alt={''}/>
+                                        </div>
+                                    </div>
+                                }
+                                <input
+                                    type="file"
+                                    id={'good-photo'}
+                                    onChange={onSubmitFile}
+                                    value={''}
+                                />
+
                             </div>
                         </div>
                     ))}

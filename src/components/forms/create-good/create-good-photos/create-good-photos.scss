@@ -26,6 +26,7 @@
   }
 
   & .select-color {
+    margin-bottom: 12px;
     display: inline-flex;
     align-items: center;
     gap: 8px;
@@ -37,6 +38,11 @@
 
   & .color-example {
     @extend %color-example
+  }
+
+  & .color-text {
+    font-size: $littleMediumSize;
+    color: $text2Color;
   }
 }
 
