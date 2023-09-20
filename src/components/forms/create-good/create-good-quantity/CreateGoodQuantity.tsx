@@ -46,10 +46,6 @@ const CreateGoodQuantity = ({sizes, setInputValues, cardQuantity, selectedColors
     }, [sizes, selectedColors]);
 
     useEffect(() => {
-        console.log('types', types)
-    }, [types])
-
-    useEffect(() => {
         if (cardQuantity && cardQuantity?.length > 0) {
             setInputValues(cardQuantity)
         }
