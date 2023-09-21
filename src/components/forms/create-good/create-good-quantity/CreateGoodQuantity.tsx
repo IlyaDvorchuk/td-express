@@ -12,7 +12,7 @@ interface Props {
 
 const CreateGoodQuantity = ({sizes, setInputValues, cardQuantity, selectedColors}: Props) => {
 
-    const handleChange = (event: ChangeEvent<HTMLInputElement>, type: { size: string; color: ISelectedColor; }, index: number) => {
+    const handleChange = (event: ChangeEvent<HTMLInputElement>, type: { size: string; color: ISelectedColor | null; }, index: number) => {
         const newValue = event.target.value;
         setInputValues((prevInputValues) => {
             const updatedValues = [...prevInputValues];
@@ -29,8 +29,8 @@ const CreateGoodQuantity = ({sizes, setInputValues, cardQuantity, selectedColors
     }
 
     const types = useMemo(() => {
-        if (!sizes || !selectedColors) return [];
-
+        if (!sizes) return [];
+        if (!selectedColors || selectedColors.length === 0) return sizes.map(size => { return {size: size, color: null}})
         const combinedTypes = [];
 
         for (const size of sizes) {
@@ -44,6 +44,10 @@ const CreateGoodQuantity = ({sizes, setInputValues, cardQuantity, selectedColors
 
         return combinedTypes;
     }, [sizes, selectedColors]);
+
+    useEffect(() => {
+        console.log('types', types)
+    }, [types])
 
     useEffect(() => {
         if (cardQuantity && cardQuantity?.length > 0) {
@@ -61,7 +65,7 @@ const CreateGoodQuantity = ({sizes, setInputValues, cardQuantity, selectedColors
                     <div key={index} className={'quantity'}>
                         <div className={'quantities__size'}>
                             Размер: <b>{item.size}</b>
-                            {item.color && (
+                            {item?.color && (
                                 <>
                                     , Цвет: <b>{item.color.name}</b>
                                 </>

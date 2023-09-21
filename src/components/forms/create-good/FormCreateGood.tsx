@@ -75,16 +75,22 @@ const FormCreateGood = ({card} : {card: IProductCard | null}) => {
 
     useEffect(() => {
         if (isCreateGoodCard) {
-            if (submitButton === 'saveButton') {
-                navigation('/seller/goods');
-            } else if (submitButton === 'addGoodButton') {
-                window.location.reload();
-            }
+            // if (submitButton === 'saveButton') {
+            //     navigation('/seller/goods');
+            // } else if (submitButton === 'addGoodButton') {
+            //     window.location.reload();
+            // }
             dispatch(shelterSlice.actions.setCreateGoodCard(false))
         }
     },  [dispatch, isCreateGoodCard, navigation, submitButton])
 
     const onSubmit = async (data: any) => {
+        // console.log('(!generalImage && !card?.mainPhoto)', (!generalImage && !card?.mainPhoto))
+        // console.log('additionalImages.length === 0', additionalImages.length === 0)
+        // console.log('!parentSelectedCategory', !parentSelectedCategory)
+        // console.log('!parentSelectedSubCategory', !parentSelectedSubCategory)
+        // console.log('!parentSelectedType', !parentSelectedType)
+        // console.log(' quantitySizes.length === 0',  quantitySizes.length === 0)
         if ((!generalImage && !card?.mainPhoto)
             || additionalImages.length === 0
             || !parentSelectedCategory
@@ -92,6 +98,7 @@ const FormCreateGood = ({card} : {card: IProductCard | null}) => {
             || !parentSelectedType
             || quantitySizes.length === 0
         ) return;
+        // console.log('data', data)
         try {
             const points = Object.keys(data)
                 .filter(key => key.startsWith("checkbox-") && data[key])

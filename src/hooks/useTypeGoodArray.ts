@@ -16,13 +16,12 @@ function useTypeGoodArray(order: IOrderRes) {
                     const valuesArray = Object.values(rest);
 
                     const modifiedArray = valuesArray.map((elem) => {
-                        if (typeof elem === "object" && "name" in elem && typeof elem.name === "string") {
-                            return elem.name; // Если элемент имеет свойство name, считаем его IColor
+                        if (elem !== null && typeof elem === "object" && "name" in elem && typeof elem.name === "string") {
+                            return elem.name; // Если элемент не равен null и имеет свойство name, считаем его IColor
                         } else {
                             return elem; // В противном случае оставляем элемент без изменений
                         }
                     });
-
                     // @ts-ignore
                     setTypeGoodArray(modifiedArray);
                 }

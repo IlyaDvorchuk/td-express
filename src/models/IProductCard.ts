@@ -67,7 +67,7 @@ export interface IProductCardShelter extends IProductCardRes {
 export interface IType {
     size: string,
     quantity: number,
-    color?: IColor
+    color?: IColor | null
 }
 
 export interface ITypeRes extends IType{
