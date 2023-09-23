@@ -43,6 +43,10 @@ export interface IProductCard {
     },
     deliveryPoints: string[],
     typeQuantity?: IType[],
+    colors?: ({
+        image: string,
+        name: string
+    })[] | []
     nameShelter: string
 }
 

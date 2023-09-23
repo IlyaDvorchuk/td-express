@@ -1,7 +1,7 @@
 import React, {ChangeEvent, Dispatch, SetStateAction, useEffect, useMemo} from 'react';
 import './create-good-quantity.scss'
 import {IType} from "../../../../models/IProductCard";
-import {ISelectedColor} from "../../../../models/IColor";
+import {IColor, ISelectedColor} from "../../../../models/IColor";
 
 interface Props {
     sizes: string[],
@@ -12,7 +12,7 @@ interface Props {
 
 const CreateGoodQuantity = ({sizes, setInputValues, cardQuantity, selectedColors}: Props) => {
 
-    const handleChange = (event: ChangeEvent<HTMLInputElement>, type: { size: string; color: ISelectedColor | null; }, index: number) => {
+    const handleChange = (event: ChangeEvent<HTMLInputElement>, type: { size: string; color: IColor | null; }, index: number) => {
         const newValue = event.target.value;
         setInputValues((prevInputValues) => {
             const updatedValues = [...prevInputValues];
@@ -37,7 +37,11 @@ const CreateGoodQuantity = ({sizes, setInputValues, cardQuantity, selectedColors
             for (const colorObj of selectedColors) {
                 combinedTypes.push({
                     size,
-                    color: colorObj || null, // Здесь вы можете использовать значение по умолчанию
+                    color: {
+                        color: colorObj.color,
+                        name: colorObj.name,
+                        _id: colorObj._id,
+                    } || null, // Здесь вы можете использовать значение по умолчанию
                 });
             }
         }

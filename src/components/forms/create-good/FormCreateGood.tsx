@@ -103,6 +103,8 @@ const FormCreateGood = ({card} : {card: IProductCard | null}) => {
             const points = Object.keys(data)
                 .filter(key => key.startsWith("checkbox-") && data[key])
                 .map(key => key.substring("checkbox-".length));
+
+            const imageColors = selectedColors.filter(color => color.image).map(color => ({name: color.name, image: color.image}))
             const good = {
                 categories: {
                     category: {
@@ -140,6 +142,7 @@ const FormCreateGood = ({card} : {card: IProductCard | null}) => {
                 deliveryPoints: points,
                 typeQuantity: quantitySizes,
                 nameShelter: shelter.name,
+                colors: imageColors
             } as IProductCard
             if (card) {
                 dispatch(updateProductCard(good, card._id, generalImage || card.mainPhoto, additionalImages))
