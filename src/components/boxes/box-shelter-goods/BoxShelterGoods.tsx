@@ -97,7 +97,7 @@ const BoxShelterGoods = () => {
                 const response = await ShelterService.getCardsOfShelter();
                 setCardsShelter(response.data.map(card => {
                     const countGood = card.typeQuantity
-                        ? card.typeQuantity.reduce((acc, item) => acc + Number(item.quantity), 0)
+                        ? card.typeQuantity.reduce((acc, item) => acc + Number(item?.quantity), 0)
                         : card.pricesAndQuantity.quantity;
 
                     let status;

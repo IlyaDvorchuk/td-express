@@ -1,18 +1,17 @@
 import React, {ChangeEvent, useEffect, useState} from 'react';
 import './create-good-colors.scss'
 import {ShelterService} from "../../../../services/ShelterService";
-import {IColor} from "../../../../models/IColor";
+import {IColor, ISelectedColor} from "../../../../models/IColor";
 import Checkbox from "../../../checkbox/Checkbox";
-// import {IType} from "../../../../models/IProductCard";
+import {IType} from "../../../../models/IProductCard";
 
 interface IPropsCreateGoodColors {
-    selectedColors: IColor[]
-    setSelectedColors: (selectedColors: IColor[]) => void;
-    // cardQuantity: IType[] | null
-
+    selectedColors: ISelectedColor[]
+    setSelectedColors: (selectedColors: ISelectedColor[]) => void;
+    typesCard: IType[] | undefined
 }
 
-const CreateGoodColors = ({selectedColors, setSelectedColors}: IPropsCreateGoodColors) => {
+const CreateGoodColors = ({selectedColors, setSelectedColors, typesCard}: IPropsCreateGoodColors) => {
     const [isOpenColors, setIsOpenColors] = useState(false)
     const [colors, setColors] = useState<IColor[]>([])
 
@@ -21,12 +20,32 @@ const CreateGoodColors = ({selectedColors, setSelectedColors}: IPropsCreateGoodC
             const fetchedColors = await ShelterService.getColors();
             if (fetchedColors.data) {
                 setColors(fetchedColors.data);
+
             }
 
         };
 
         fetchColors();
     }, []);
+
+    useEffect(() => {
+        if (typesCard) {
+            const filteredColors = colors.filter((color) =>
+                typesCard.some((type) => type.color?.name === color.name)
+            );
+
+            // Добавляем поле "image" к элементам, если нашли соответствующий элемент в typesCard
+            const filteredColorsWithImage = filteredColors.map((color) => {
+                const matchingType = typesCard.find((type) => type.color?.name === color.name);
+                if (matchingType && matchingType.color?.image) {
+                    return { ...color, image: matchingType.color.image };
+                }
+                return color;
+            });
+
+            setSelectedColors(filteredColorsWithImage);
+        }
+    }, [typesCard, colors, setSelectedColors])
 
     const handleCheckboxChange = (event: ChangeEvent<HTMLInputElement>, colorItem: IColor) => {
         const isChecked = event.target.checked;
@@ -38,6 +57,11 @@ const CreateGoodColors = ({selectedColors, setSelectedColors}: IPropsCreateGoodC
         }
     };
 
+    const saveButtonModal = (e: any) => {
+        e.preventDefault()
+        setIsOpenColors(!isOpenColors)
+    }
+
     return (
         <div className={'good-colors'}>
             <h3 className={'subtitle subtitle_add'}>
@@ -47,7 +71,7 @@ const CreateGoodColors = ({selectedColors, setSelectedColors}: IPropsCreateGoodC
                 Выберите все цвета товара в таблице
             </p>
             <div className={'good-colors__select'}>
-                <button className={'button button_light good-colors__button'} onClick={() => setIsOpenColors(!isOpenColors)}>
+                <button className={'button button_light good-colors__button'} onClick={(e) => saveButtonModal(e)}>
                     Открыть таблицу цветов
                 </button>
                 {isOpenColors && <form className={'good-colors__modal modal-colors'}>

@@ -5,14 +5,21 @@ import {IColor, ISelectedColor} from "../../../../models/IColor";
 
 interface Props {
     sizes: string[],
-    selectedColors: ISelectedColor[]
+    selectedColors: ISelectedColor[],
+    inputValues: IType[],
     setInputValues: Dispatch<SetStateAction<IType[]>>;
     cardQuantity: IType[] | null
 }
 
-const CreateGoodQuantity = ({sizes, setInputValues, cardQuantity, selectedColors}: Props) => {
+const CreateGoodQuantity = ({sizes, inputValues,  setInputValues, cardQuantity, selectedColors}: Props) => {
 
-    const handleChange = (event: ChangeEvent<HTMLInputElement>, type: { size: string; color: IColor | null; }, index: number) => {
+    useEffect(() => {
+        if (cardQuantity) {
+            setInputValues(cardQuantity)
+        }
+    }, [])
+
+    const handleChange = (event: ChangeEvent<HTMLInputElement>, type: { size: string; color: IColor | null; } | IType, index: number) => {
         const newValue = event.target.value;
         setInputValues((prevInputValues) => {
             const updatedValues = [...prevInputValues];
@@ -30,10 +37,14 @@ const CreateGoodQuantity = ({sizes, setInputValues, cardQuantity, selectedColors
 
     const types = useMemo(() => {
         if (!sizes) return [];
-        if (!selectedColors || selectedColors.length === 0) return sizes.map(size => { return {size: size, color: null}})
+        if (!selectedColors || selectedColors.length === 0) {
+            return sizes.map(size => ({ size, color: null }));
+        }
+
         const combinedTypes = [];
 
-        for (const size of sizes) {
+        const uniqueSizes = [...new Set(sizes)];
+        for (const size of uniqueSizes) {
             for (const colorObj of selectedColors) {
                 combinedTypes.push({
                     size,
@@ -47,17 +58,17 @@ const CreateGoodQuantity = ({sizes, setInputValues, cardQuantity, selectedColors
         }
 
         return combinedTypes;
-    }, [sizes, selectedColors]);
+    }, [ sizes, selectedColors]);
 
     useEffect(() => {
-        console.log('types', types)
-    }, [types])
+        console.log('inputValues', inputValues)
+    }, [inputValues])
 
-    useEffect(() => {
-        if (cardQuantity && cardQuantity?.length > 0) {
-            setInputValues(cardQuantity)
-        }
-    }, [cardQuantity, setInputValues])
+    // useEffect(() => {
+    //     if (cardQuantity && cardQuantity?.length > 0) {
+    //         setInputValues(cardQuantity)
+    //     }
+    // }, [cardQuantity, setInputValues])
 
     return (
         <div>

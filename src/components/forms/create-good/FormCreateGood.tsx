@@ -43,12 +43,13 @@ const FormCreateGood = ({card} : {card: IProductCard | null}) => {
 
     useEffect(() => {
         if (card) {
-
+            console.log('card', card)
             const points: { [key: string]: boolean } = {};
             card.deliveryPoints.forEach((point) => {
                 const checkboxField = `checkbox-${point}`;
                 points[checkboxField] = true;
             });
+
 
             methods.reset({
                 name: card.information.name,
@@ -68,7 +69,7 @@ const FormCreateGood = ({card} : {card: IProductCard | null}) => {
 
     useEffect(() => {
         if (isUpdateCard) {
-            navigation('/seller/goods');
+            // navigation('/seller/goods');
             dispatch(updateCardFalse())
         }
     },  [dispatch, isUpdateCard, navigation, updateCardFalse])
@@ -85,12 +86,12 @@ const FormCreateGood = ({card} : {card: IProductCard | null}) => {
     },  [dispatch, isCreateGoodCard, navigation, submitButton])
 
     const onSubmit = async (data: any) => {
-        // console.log('(!generalImage && !card?.mainPhoto)', (!generalImage && !card?.mainPhoto))
-        // console.log('additionalImages.length === 0', additionalImages.length === 0)
-        // console.log('!parentSelectedCategory', !parentSelectedCategory)
-        // console.log('!parentSelectedSubCategory', !parentSelectedSubCategory)
-        // console.log('!parentSelectedType', !parentSelectedType)
-        // console.log(' quantitySizes.length === 0',  quantitySizes.length === 0)
+        console.log('(!generalImage && !card?.mainPhoto)', (!generalImage && !card?.mainPhoto))
+        console.log('additionalImages.length === 0', additionalImages.length === 0)
+        console.log('!parentSelectedCategory', !parentSelectedCategory)
+        console.log('!parentSelectedSubCategory', !parentSelectedSubCategory)
+        console.log('!parentSelectedType', !parentSelectedType)
+        console.log(' quantitySizes.length === 0',  quantitySizes.length === 0)
         if ((!generalImage && !card?.mainPhoto)
             || additionalImages.length === 0
             || !parentSelectedCategory
@@ -98,7 +99,7 @@ const FormCreateGood = ({card} : {card: IProductCard | null}) => {
             || !parentSelectedType
             || quantitySizes.length === 0
         ) return;
-        // console.log('data', data)
+        console.log('data', data)
         try {
             const points = Object.keys(data)
                 .filter(key => key.startsWith("checkbox-") && data[key])
@@ -145,6 +146,7 @@ const FormCreateGood = ({card} : {card: IProductCard | null}) => {
                 colors: imageColors
             } as IProductCard
             if (card) {
+                console.log('card 149')
                 dispatch(updateProductCard(good, card._id, generalImage || card.mainPhoto, additionalImages))
                 return
             }
@@ -156,9 +158,6 @@ const FormCreateGood = ({card} : {card: IProductCard | null}) => {
         }
     };
 
-    useEffect(() => {
-        console.log('quantitySizes', quantitySizes)
-    }, [quantitySizes])
 
     const isTypesClothes = useMemo(() => {
         return parentSelectedCategory && SIZES_ID.includes(parentSelectedCategory?._id)
@@ -197,6 +196,7 @@ const FormCreateGood = ({card} : {card: IProductCard | null}) => {
                             <CreateGoodColors
                                 selectedColors={selectedColors}
                                 setSelectedColors={setSelectedColors}
+                                typesCard={card?.typeQuantity}
                             />
                         </>
                     )
@@ -220,6 +220,7 @@ const FormCreateGood = ({card} : {card: IProductCard | null}) => {
                         <hr className={'create__divider'}/>
                         <CreateGoodQuantity
                             sizes={selectedSizes}
+                            inputValues={quantitySizes}
                             setInputValues={setQuantitySizes}
                             cardQuantity={card?.typeQuantity ? card.typeQuantity : null}
                             selectedColors={selectedColors}
@@ -258,7 +259,7 @@ const FormCreateGood = ({card} : {card: IProductCard | null}) => {
                         Изменить
                     </button>
                     <Link
-                        to={'/shelter/goods'}
+                        to={'/seller/goods'}
                         className={'button button_light create__add-good'}
                     >
                         Выйти

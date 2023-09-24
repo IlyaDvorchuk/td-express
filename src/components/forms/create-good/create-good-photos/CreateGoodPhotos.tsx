@@ -37,7 +37,6 @@ const CreateGoodPhotos = ({
     }, [card, setAdditionalImages])
 
     function onSubmitFile(e: ChangeEvent<HTMLInputElement>) {
-        console.log('onSubmitFile', onSubmitFile)
         const { files } = e.target;
         const selectedFiles = files as FileList;
         const newImage = selectedFiles?.[0];
@@ -83,8 +82,11 @@ const CreateGoodPhotos = ({
         }
     }
     const onDeleteColorFile = (index: number) => {
+        selectedColors[index].image = undefined
         const newSelectedColors = [...selectedColors]; // Создаем копию массива
         newSelectedColors[index].image = undefined;
+        console.log('newSelectedColors[index]', newSelectedColors[index])
+
         setSelectedColors(newSelectedColors); // Устанавливаем новый массив в состояние
         setColorImage(prevState => {
             const newState = [...prevState]
@@ -110,7 +112,11 @@ const CreateGoodPhotos = ({
         setAdditionalImages(newImages); // обновляем состояние массива
     };
 
-    // @ts-ignore
+    useEffect(() => {
+        console.log('selectedColors', selectedColors)
+    }, [selectedColors])
+
+
     return (
         <div>
             <h3 className={'subtitle'}>
@@ -180,6 +186,14 @@ const CreateGoodPhotos = ({
                                         <span>Добавить фото</span>
                                     </label>
                                 }
+                                {colorItem.image && colorImage[index] === undefined && (
+                                    <div className={'loadPhoto'}>
+                                        <img src={`${API_URL}${colorItem.image}`} alt="Фото"/>
+                                        <div onClick={() => onDeleteColorFile(index)} className={'loadPhoto__close'}>
+                                            <img src="/images/svg/close.svg" alt={''}/>
+                                        </div>
+                                    </div>
+                                )}
                                 {colorImage[index] !== undefined && (
                                     <div className={'loadPhoto'}>
                                         <img src={URL.createObjectURL(new Blob([colorImage[index] as Blob]))} alt="Фото"/>
@@ -188,14 +202,6 @@ const CreateGoodPhotos = ({
                                         </div>
                                     </div>
                                 )}
-                                {/*{generalImageUrl &&*/}
-                                {/*    <div className={'loadPhoto'}>*/}
-                                {/*        <img src={`${API_URL}${generalImageUrl}`} alt="Фото"/>*/}
-                                {/*        <div onClick={onDeleteFile} className={'loadPhoto__close'}>*/}
-                                {/*            <img src="/images/svg/close.svg" alt={''}/>*/}
-                                {/*        </div>*/}
-                                {/*    </div>*/}
-                                {/*}*/}
                                 <input
                                     type="file"
                                     id={`color-photo=${index}`}
