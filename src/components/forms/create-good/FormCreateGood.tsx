@@ -13,7 +13,7 @@ import {ICategory, ISection, ISubcategory} from "../../../models/ICategories";
 import {useForm, FormProvider} from "react-hook-form";
 import {useAppDispatch, useAppSelector} from "../../../hooks/redux";
 import {IProductCard, IType} from "../../../models/IProductCard";
-import {createProductCard, updateProductCard} from "../../../store/reducers/shelter/ShelterCreator";
+import {createProductCard} from "../../../store/reducers/shelter/ShelterCreator";
 import {Link, useNavigate} from "react-router-dom";
 import {SIZES_CLOTHES, SIZES_CLOTHES_ID, SIZES_ID, SIZES_SHOE} from "../../../constants";
 import CreateGoodSizes from "./create-good-sizes/CreateGoodSizes";
@@ -85,6 +85,10 @@ const FormCreateGood = ({card} : {card: IProductCard | null}) => {
         }
     },  [dispatch, isCreateGoodCard, navigation, submitButton])
 
+    // useEffect(() => {
+    //     console.log('quantitySizes', quantitySizes)
+    // }, [quantitySizes])
+
     const onSubmit = async (data: any) => {
         console.log('(!generalImage && !card?.mainPhoto)', (!generalImage && !card?.mainPhoto))
         console.log('additionalImages.length === 0', additionalImages.length === 0)
@@ -146,8 +150,8 @@ const FormCreateGood = ({card} : {card: IProductCard | null}) => {
                 colors: imageColors
             } as IProductCard
             if (card) {
-                console.log('card 149')
-                dispatch(updateProductCard(good, card._id, generalImage || card.mainPhoto, additionalImages))
+                console.log('card 149', good)
+                // dispatch(updateProductCard(good, card._id, generalImage || card.mainPhoto, additionalImages))
                 return
             }
             // @ts-ignore

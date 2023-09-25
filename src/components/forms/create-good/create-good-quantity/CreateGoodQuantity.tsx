@@ -19,6 +19,46 @@ const CreateGoodQuantity = ({sizes, inputValues,  setInputValues, cardQuantity, 
         }
     }, [])
 
+    const types = useMemo(() => {
+        if (!sizes) return [];
+
+
+        if (!selectedColors || selectedColors.length === 0) {
+            return sizes.map(size => ({ size, color: null }));
+        }
+
+        const combinedTypes: any[] = [];
+
+        const uniqueSizes = [...new Set(sizes)];
+
+
+        for (const size of uniqueSizes) {
+            for (const colorObj of selectedColors) {
+                combinedTypes.push({
+                    size,
+                    color: {
+                        color: colorObj.color,
+                        name: colorObj.name,
+                        _id: colorObj._id,
+                        image: colorObj?.image
+                    } || null, // Здесь вы можете использовать значение по умолчанию
+                });
+            }
+        }
+        const newInputValues = inputValues.map((currentInputValue, index) => {
+            const type = combinedTypes[index]; // Соответствующий элемент в types
+            console.log('inputValues', inputValues)
+            // В этой логике вы можете обновить quantity или другие свойства inputValues
+            return {
+                size: type.size,
+                quantity: currentInputValue.quantity,
+                color: type.color,
+            };
+        });
+        setInputValues(newInputValues);
+        return combinedTypes;
+    }, [ sizes, selectedColors]);
+
     const handleChange = (event: ChangeEvent<HTMLInputElement>, type: { size: string; color: IColor | null; } | IType, index: number) => {
         const newValue = event.target.value;
         setInputValues((prevInputValues) => {
@@ -35,40 +75,10 @@ const CreateGoodQuantity = ({sizes, inputValues,  setInputValues, cardQuantity, 
         }
     }
 
-    const types = useMemo(() => {
-        if (!sizes) return [];
-        if (!selectedColors || selectedColors.length === 0) {
-            return sizes.map(size => ({ size, color: null }));
-        }
-
-        const combinedTypes = [];
-
-        const uniqueSizes = [...new Set(sizes)];
-        for (const size of uniqueSizes) {
-            for (const colorObj of selectedColors) {
-                combinedTypes.push({
-                    size,
-                    color: {
-                        color: colorObj.color,
-                        name: colorObj.name,
-                        _id: colorObj._id,
-                    } || null, // Здесь вы можете использовать значение по умолчанию
-                });
-            }
-        }
-
-        return combinedTypes;
-    }, [ sizes, selectedColors]);
 
     useEffect(() => {
-        console.log('inputValues', inputValues)
-    }, [inputValues])
-
-    // useEffect(() => {
-    //     if (cardQuantity && cardQuantity?.length > 0) {
-    //         setInputValues(cardQuantity)
-    //     }
-    // }, [cardQuantity, setInputValues])
+        console.log('selectedColors', selectedColors)
+    }, [selectedColors])
 
     return (
         <div>
