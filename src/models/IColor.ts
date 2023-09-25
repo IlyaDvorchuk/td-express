@@ -7,3 +7,8 @@ export interface IColor {
 export interface ISelectedColor extends IColor {
     image?: string | undefined
 }
+
+export type ColorImage = {
+    image: File | string,
+    name: string
+}

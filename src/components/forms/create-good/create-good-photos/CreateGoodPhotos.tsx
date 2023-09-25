@@ -2,7 +2,7 @@ import React, {ChangeEvent, useEffect, useState} from 'react';
 import './create-good-photos.scss'
 import {IProductCard} from "../../../../models/IProductCard";
 import {API_URL} from "../../../../http";
-import {ISelectedColor} from "../../../../models/IColor";
+import {ColorImage, ISelectedColor} from "../../../../models/IColor";
 
 interface CreateGoodPhotosProps {
     generalImage: File | null;
@@ -11,7 +11,8 @@ interface CreateGoodPhotosProps {
     setAdditionalImages: React.Dispatch<React.SetStateAction<(File | string)[]>>;
     card: IProductCard | null,
     selectedColors: ISelectedColor[],
-    setSelectedColors:  React.Dispatch<React.SetStateAction<ISelectedColor[]>>;
+    colorImages: (ColorImage | undefined)[],
+    setColorImages:  React.Dispatch<React.SetStateAction<(ColorImage | undefined)[]>>
 }
 
 
@@ -21,13 +22,22 @@ const CreateGoodPhotos = ({
                             additionalImages,
                             setAdditionalImages,
                             card, selectedColors,
-                            setSelectedColors
-
+                            colorImages, setColorImages
                           }: CreateGoodPhotosProps) => {
 
     const [generalImageUrl, setGeneralImageUrl] = useState(card ? card.mainPhoto : '')
-    const [colorImage, setColorImage] = useState<(File | undefined)[]>([])
+    const [isFirstLoading, setIsFirstLoading] = useState(true)
 
+
+    useEffect(() => {
+        if (card && (selectedColors.length > 0) && isFirstLoading) {
+            const images = selectedColors.map((color) => {
+                return color.image ? {image: color.image, name: color.name} : undefined
+            }) as (ColorImage | undefined)[]
+            setColorImages(images)
+            setIsFirstLoading(false)
+        }
+    }, [card, isFirstLoading, selectedColors])
 
     useEffect(() => {
         if (card) {
@@ -54,41 +64,43 @@ const CreateGoodPhotos = ({
         const { files } = e.target;
         const selectedFiles = files as FileList;
         const newImage = selectedFiles?.[0];
-        setColorImage(prevState => {
+        setColorImages(prevState => {
             const newState = [...prevState]
-            newState[index] = newImage
+            newState[index] = {
+                image: newImage,
+                name: selectedColors[index].name
+            }
             return newState
         })
-        if (e.target && newImage && newImage !== generalImage) {
-            const reader = new FileReader();
-
-            reader.onload = (event: ProgressEvent<FileReader>) => { // Используем ProgressEvent<FileReader>
-                if (!event.target) return
-                const base64String = event.target.result as string;
-
-                setSelectedColors((prevSelectedColors: ISelectedColor[]) => {
-                    const updatedColors = [...prevSelectedColors]; // Создаем копию массива
-
-                    // Обновляем элемент в массиве на позиции index, добавляя новое изображение
-                    if (updatedColors[index]) {
-                        updatedColors[index].image = base64String;
-                    }
-
-                    return updatedColors; // Возвращаем обновленный массив
-                });
-            };
-
-            reader.readAsDataURL(newImage); // Преобразовываем файл в Base64
-        }
+        // if (e.target && newImage && newImage !== generalImage) {
+        //     const reader = new FileReader();
+        //
+        //     reader.onload = (event: ProgressEvent<FileReader>) => { // Используем ProgressEvent<FileReader>
+        //         if (!event.target) return
+        //         const base64String = event.target.result as string;
+        //
+        //         setSelectedColors((prevSelectedColors: ISelectedColor[]) => {
+        //             const updatedColors = [...prevSelectedColors]; // Создаем копию массива
+        //
+        //             // Обновляем элемент в массиве на позиции index, добавляя новое изображение
+        //             if (updatedColors[index]) {
+        //                 updatedColors[index].image = base64String;
+        //             }
+        //
+        //             return updatedColors; // Возвращаем обновленный массив
+        //         });
+        //     };
+        //
+        //     reader.readAsDataURL(newImage); // Преобразовываем файл в Base64
+        // }
     }
     const onDeleteColorFile = (index: number) => {
-        selectedColors[index].image = undefined
-        const newSelectedColors = [...selectedColors]; // Создаем копию массива
-        newSelectedColors[index].image = undefined;
-        console.log('newSelectedColors[index]', newSelectedColors[index])
-
-        setSelectedColors(newSelectedColors); // Устанавливаем новый массив в состояние
-        setColorImage(prevState => {
+        // const newSelectedColors = [...selectedColors]; // Создаем копию массива
+        // newSelectedColors[index].image = undefined;
+        // console.log('newSelectedColors[index]', newSelectedColors[index])
+        //
+        // setSelectedColors(newSelectedColors); // Устанавливаем новый массив в состояние
+        setColorImages(prevState => {
             const newState = [...prevState]
             newState[index] = undefined
             return newState
@@ -115,7 +127,6 @@ const CreateGoodPhotos = ({
     useEffect(() => {
         console.log('selectedColors', selectedColors)
     }, [selectedColors])
-
 
     return (
         <div>
@@ -180,13 +191,13 @@ const CreateGoodPhotos = ({
                                 </div>
                             </div>
                             <div className={`image-good`}>
-                                {!colorItem.image &&
+                                {colorImages[index] === undefined &&
                                     <label className={''} htmlFor={`color-photo=${index}`}>
                                         <img src="/images/svg/plus.svg" alt={''}/>
                                         <span>Добавить фото</span>
                                     </label>
                                 }
-                                {colorItem.image && colorImage[index] === undefined && (
+                                {typeof colorImages[index]?.image === 'string' && (
                                     <div className={'loadPhoto'}>
                                         <img src={`${API_URL}${colorItem.image}`} alt="Фото"/>
                                         <div onClick={() => onDeleteColorFile(index)} className={'loadPhoto__close'}>
@@ -194,9 +205,9 @@ const CreateGoodPhotos = ({
                                         </div>
                                     </div>
                                 )}
-                                {colorImage[index] !== undefined && (
+                                {colorImages[index]?.image && typeof colorImages[index]?.image !== 'string' && (
                                     <div className={'loadPhoto'}>
-                                        <img src={URL.createObjectURL(new Blob([colorImage[index] as Blob]))} alt="Фото"/>
+                                        <img src={URL.createObjectURL(new Blob([colorImages[index]?.image as Blob]))} alt="Фото"/>
                                         <div onClick={() => onDeleteColorFile(index)} className={'loadPhoto__close'}>
                                             <img src="/images/svg/close.svg" alt={''}/>
                                         </div>

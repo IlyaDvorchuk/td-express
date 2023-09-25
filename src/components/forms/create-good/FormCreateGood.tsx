@@ -13,14 +13,15 @@ import {ICategory, ISection, ISubcategory} from "../../../models/ICategories";
 import {useForm, FormProvider} from "react-hook-form";
 import {useAppDispatch, useAppSelector} from "../../../hooks/redux";
 import {IProductCard, IType} from "../../../models/IProductCard";
-import {createProductCard} from "../../../store/reducers/shelter/ShelterCreator";
+import {createProductCard, updateProductCard} from "../../../store/reducers/shelter/ShelterCreator";
 import {Link, useNavigate} from "react-router-dom";
 import {SIZES_CLOTHES, SIZES_CLOTHES_ID, SIZES_ID, SIZES_SHOE} from "../../../constants";
 import CreateGoodSizes from "./create-good-sizes/CreateGoodSizes";
 import CreateGoodQuantity from "./create-good-quantity/CreateGoodQuantity";
 import {shelterSlice} from "../../../store/reducers/shelter/ShelterSlice";
 import CreateGoodColors from "./create-good-colors/CreateGoodColors";
-import {ISelectedColor} from "../../../models/IColor";
+import {ColorImage, ISelectedColor} from "../../../models/IColor";
+import {fileToBase64} from "../../../utils/fileToBase64";
 
 const FormCreateGood = ({card} : {card: IProductCard | null}) => {
     const navigation = useNavigate()
@@ -39,6 +40,7 @@ const FormCreateGood = ({card} : {card: IProductCard | null}) => {
     const [selectedSizes, setSelectedSizes] = useState<string[]>([]);
     const [selectedColors, setSelectedColors] = useState<ISelectedColor[]>([]);
     const [quantitySizes, setQuantitySizes] = useState<IType[]>([]);
+    const [colorImages, setColorImages] = useState<(ColorImage | undefined)[]>([])
     const [submitButton, setSubmitButton] = useState('');
 
     useEffect(() => {
@@ -103,13 +105,28 @@ const FormCreateGood = ({card} : {card: IProductCard | null}) => {
             || !parentSelectedType
             || quantitySizes.length === 0
         ) return;
-        console.log('data', data)
         try {
             const points = Object.keys(data)
                 .filter(key => key.startsWith("checkbox-") && data[key])
                 .map(key => key.substring("checkbox-".length));
 
-            const imageColors = selectedColors.filter(color => color.image).map(color => ({name: color.name, image: color.image}))
+            const imageColors = colorImages.filter(color => color !== undefined)
+            const imageColorsWithBase64 = await Promise.all(
+                imageColors.map(async (item) => {
+                    if (item && item.image instanceof File) {
+                        try {
+                            const base64String = await fileToBase64(item.image);
+                            return { ...item, image: base64String };
+                        } catch (error) {
+                            console.error('Ошибка при преобразовании файла:', error);
+                            return item;
+                        }
+                    } else {
+                        return item;
+                    }
+                })
+            );
+
             const good = {
                 categories: {
                     category: {
@@ -147,11 +164,11 @@ const FormCreateGood = ({card} : {card: IProductCard | null}) => {
                 deliveryPoints: points,
                 typeQuantity: quantitySizes,
                 nameShelter: shelter.name,
-                colors: imageColors
+                colors: imageColorsWithBase64
             } as IProductCard
             if (card) {
                 console.log('card 149', good)
-                // dispatch(updateProductCard(good, card._id, generalImage || card.mainPhoto, additionalImages))
+                dispatch(updateProductCard(good, card._id, generalImage || card.mainPhoto, additionalImages))
                 return
             }
             // @ts-ignore
@@ -213,7 +230,9 @@ const FormCreateGood = ({card} : {card: IProductCard | null}) => {
                     setAdditionalImages={setAdditionalImages}
                     card={card}
                     selectedColors={selectedColors}
-                    setSelectedColors={setSelectedColors}
+                    colorImages={colorImages}
+                    setColorImages={setColorImages}
+
                 />
                 <hr className={'create__divider'}/>
                 <CreateGoodAdditional/>

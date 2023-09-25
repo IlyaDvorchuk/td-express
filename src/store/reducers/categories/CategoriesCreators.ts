@@ -7,7 +7,7 @@ import {API_URL} from "../../../http";
 export const fetchCategories = () => async (dispatch: AppDispatch) => {
     try {
         dispatch(categoriesSlice.actions.categoriesFetching())
-        const response = await axios.get<ICategory[]>(`${API_URL}/categories`);
+        const response = await axios.get<ICategory[]>(`${API_URL}categories`);
         dispatch(categoriesSlice.actions.categoriesFetchingSuccess(response.data))
     } catch (e: any) {
         console.log('e', e)
