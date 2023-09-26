@@ -35,15 +35,15 @@ const CreateGoodColors = ({selectedColors, setSelectedColors, typesCard}: IProps
             );
 
             // Добавляем поле "image" к элементам, если нашли соответствующий элемент в typesCard
-            const filteredColorsWithImage = filteredColors.map((color) => {
-                const matchingType = typesCard.find((type) => type.color?.name === color.name);
-                if (matchingType && matchingType.color?.image) {
-                    return { ...color, image: matchingType.color.image };
-                }
-                return color;
-            });
+            // const filteredColorsWithImage = filteredColors.map((color) => {
+            //     const matchingType = typesCard.find((type) => type.color === color.name);
+            //     if (matchingType && matchingType.color) {
+            //         return { ...color, image: matchingType.color.image };
+            //     }
+            //     return color;
+            // });
 
-            setSelectedColors(filteredColorsWithImage);
+            setSelectedColors(filteredColors);
         }
     }, [typesCard, colors, setSelectedColors])
 

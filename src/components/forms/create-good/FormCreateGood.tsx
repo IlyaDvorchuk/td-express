@@ -20,7 +20,7 @@ import CreateGoodSizes from "./create-good-sizes/CreateGoodSizes";
 import CreateGoodQuantity from "./create-good-quantity/CreateGoodQuantity";
 import {shelterSlice} from "../../../store/reducers/shelter/ShelterSlice";
 import CreateGoodColors from "./create-good-colors/CreateGoodColors";
-import {ColorImage, ISelectedColor} from "../../../models/IColor";
+import {ColorImage, IColor} from "../../../models/IColor";
 import {fileToBase64} from "../../../utils/fileToBase64";
 
 const FormCreateGood = ({card} : {card: IProductCard | null}) => {
@@ -38,7 +38,7 @@ const FormCreateGood = ({card} : {card: IProductCard | null}) => {
     const [generalImage, setGeneralImage] = useState<File | null>(null)
     const [additionalImages, setAdditionalImages] = useState<(File | string)[]>([])
     const [selectedSizes, setSelectedSizes] = useState<string[]>([]);
-    const [selectedColors, setSelectedColors] = useState<ISelectedColor[]>([]);
+    const [selectedColors, setSelectedColors] = useState<IColor[]>([]);
     const [quantitySizes, setQuantitySizes] = useState<IType[]>([]);
     const [colorImages, setColorImages] = useState<(ColorImage)[]>([])
     const [submitButton, setSubmitButton] = useState('');
@@ -170,6 +170,7 @@ const FormCreateGood = ({card} : {card: IProductCard | null}) => {
                 dispatch(updateProductCard(good, card._id, generalImage || card.mainPhoto, additionalImages))
                 return
             }
+            console.log('good', good)
             // @ts-ignore
             dispatch(createProductCard(good, generalImage, additionalImages))
 
