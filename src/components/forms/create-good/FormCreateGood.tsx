@@ -40,7 +40,7 @@ const FormCreateGood = ({card} : {card: IProductCard | null}) => {
     const [selectedSizes, setSelectedSizes] = useState<string[]>([]);
     const [selectedColors, setSelectedColors] = useState<ISelectedColor[]>([]);
     const [quantitySizes, setQuantitySizes] = useState<IType[]>([]);
-    const [colorImages, setColorImages] = useState<(ColorImage | undefined)[]>([])
+    const [colorImages, setColorImages] = useState<(ColorImage)[]>([])
     const [submitButton, setSubmitButton] = useState('');
 
     useEffect(() => {
@@ -110,9 +110,8 @@ const FormCreateGood = ({card} : {card: IProductCard | null}) => {
                 .filter(key => key.startsWith("checkbox-") && data[key])
                 .map(key => key.substring("checkbox-".length));
 
-            const imageColors = colorImages.filter(color => color !== undefined)
             const imageColorsWithBase64 = await Promise.all(
-                imageColors.map(async (item) => {
+                colorImages.map(async (item) => {
                     if (item && item.image instanceof File) {
                         try {
                             const base64String = await fileToBase64(item.image);

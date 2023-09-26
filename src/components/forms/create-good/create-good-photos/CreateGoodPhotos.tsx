@@ -11,8 +11,8 @@ interface CreateGoodPhotosProps {
     setAdditionalImages: React.Dispatch<React.SetStateAction<(File | string)[]>>;
     card: IProductCard | null,
     selectedColors: ISelectedColor[],
-    colorImages: (ColorImage | undefined)[],
-    setColorImages:  React.Dispatch<React.SetStateAction<(ColorImage | undefined)[]>>
+    colorImages: ColorImage[],
+    setColorImages:  React.Dispatch<React.SetStateAction<ColorImage[]>>
 }
 
 
@@ -32,8 +32,8 @@ const CreateGoodPhotos = ({
     useEffect(() => {
         if (card && (selectedColors.length > 0) && isFirstLoading) {
             const images = selectedColors.map((color) => {
-                return color.image ? {image: color.image, name: color.name} : undefined
-            }) as (ColorImage | undefined)[]
+                return color.image ? {image: color.image, name: color.name} : {image: undefined, name: color.name}
+            }) as ColorImage[]
             setColorImages(images)
             setIsFirstLoading(false)
         }
@@ -102,7 +102,10 @@ const CreateGoodPhotos = ({
         // setSelectedColors(newSelectedColors); // Устанавливаем новый массив в состояние
         setColorImages(prevState => {
             const newState = [...prevState]
-            newState[index] = undefined
+            newState[index] = {
+                name: selectedColors[index].name,
+                image: undefined
+            }
             return newState
         })
     };
@@ -191,7 +194,7 @@ const CreateGoodPhotos = ({
                                 </div>
                             </div>
                             <div className={`image-good`}>
-                                {colorImages[index] === undefined &&
+                                {colorImages[index]?.image === undefined &&
                                     <label className={''} htmlFor={`color-photo=${index}`}>
                                         <img src="/images/svg/plus.svg" alt={''}/>
                                         <span>Добавить фото</span>
