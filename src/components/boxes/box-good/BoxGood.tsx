@@ -30,7 +30,8 @@ const BoxGood = ({card} : {card: IProductCardRes}) => {
     const [mainPhoto, setMainPhoto] = useState(card.mainPhoto);
     const [shelter, setShelter] = useState<IShelterForGood | null>(null)
     const [count, setCount] = useState(1)
-    const [activeSize, setActiveSize] = useState<ITypeRes | null>(card?.typeQuantity ? card?.typeQuantity[0] : null)
+    const [sizes, setSizes] = useState([...new Set(card.typeQuantity?.map(type => type.size))])
+    // const [activeSize, setActiveSize] = useState<ITypeRes | null>(card?.typeQuantity ? card?.typeQuantity[0] : null)
     const [quantity, setQuantity] = useState(card?.typeQuantity?.[0]?.quantity || card.pricesAndQuantity.quantity)
     const [isWindowWidth, setIsWindowWidth] = useState(() => {
         return window.innerWidth >= 450 ? 20 : 4;
@@ -110,9 +111,9 @@ const BoxGood = ({card} : {card: IProductCardRes}) => {
     //     }
     // };
 
-    const onSetSize = (size: ITypeRes) => {
-        setActiveSize(size)
-        setQuantity(size.quantity)
+    const onSetSize = (size: string) => {
+        // setActiveSize(size)
+        // setQuantity(size.quantity)
     }
 
     const onBack = () => {
@@ -126,8 +127,8 @@ const BoxGood = ({card} : {card: IProductCardRes}) => {
             quantity: count,
             // totalPrice: card.pricesAndQuantity.price ? card.pricesAndQuantity.price : card.pricesAndQuantity.priceBeforeDiscount,
             // isFavorite: false,
-            size: activeSize?.size,
-            typeId: activeSize?._id || ''
+            size: 'activeSize?.size',
+            typeId: 'activeSize?._id' || ''
         })
         // if (response) setIsFavorite(true)
     }
@@ -139,7 +140,7 @@ const BoxGood = ({card} : {card: IProductCardRes}) => {
     const onBuy = async () => {
         const typeGood = JSON.stringify({
             count,
-            activeSize
+            // activeSize
         })
         localStorage.setItem('typeGood', typeGood)
         // const response = await UserService.setBank()
@@ -149,7 +150,7 @@ const BoxGood = ({card} : {card: IProductCardRes}) => {
             state: {
                 ...card,
                 deliveryCities,
-                activeSize: activeSize
+                // activeSize: activeSize
             }
         })
     }
@@ -216,16 +217,16 @@ const BoxGood = ({card} : {card: IProductCardRes}) => {
                         </Link>
                     </div>
 
-                    {activeSize && card.typeQuantity && <div className={'good-information__sizes'}>
+                    {sizes && <div className={'good-information__sizes'}>
                         <p className={'good-information__subtitle'}>Размер:</p>
                         <div className={'sizes'}>
-                            {card.typeQuantity.map((size, index) => (
+                            {sizes.map((size, index) => (
                                 <div
-                                    className={`size-item ${size.size === activeSize.size && 'active'}`}
+                                    className={`size-item ${size === 'activeSize.size' && 'active'}`}
                                     key={index} onClick={() => onSetSize(size)}
                                 >
                                     <span>
-                                        {size.size}
+                                        {size}
                                     </span>
                                 </div>
                             ))}

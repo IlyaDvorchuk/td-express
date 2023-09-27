@@ -47,7 +47,7 @@ const ProductCard = ({card, isFavoriteCard = false}: IProductCardProps) => {
 
             </div>
             <div className={'card-image'}>
-                <img src={`https://api.td-market.md/${card.mainPhoto}`} alt={card.information.name}/>
+                <img src={`${API_URL}${card.mainPhoto}`} alt={card.information.name}/>
             </div>
             <div className={'card__price'}>
                 <span className={'price'}>
