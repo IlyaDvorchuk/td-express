@@ -26,20 +26,38 @@ const CreateGoodPhotos = ({
                           }: CreateGoodPhotosProps) => {
 
     const [generalImageUrl, setGeneralImageUrl] = useState(card ? card.mainPhoto : '')
+    const [isFirstLoading, setIsFirstLoading] = useState(true)
 
 
     useEffect(() => {
-        if (card && card?.colors) {
-            console.log('card?.color', card?.colors)
+        if (card && card?.colors && isFirstLoading && selectedColors.length > 0) {
+            // Создаем отсортированный массив
+            const sortedColors: ColorImage[] = [];
 
-            setColorImages(card.colors)
+            // Проходим по selectedColors и добавляем элементы из card?.colors в порядке, соответствующем selectedColors
+            selectedColors.forEach((selectedColor) => {
+                if (!card.colors) return []
+                const matchingColor = card.colors.find((color) => color.name === selectedColor.name);
+                if (matchingColor) {
+                    sortedColors.push(matchingColor);
+                } else {
+                    sortedColors.push({
+                        name: selectedColor.name,
+                        color: selectedColor.color,
+                        image: undefined
+                    }); // Если нет совпадения, добавляем undefined
+                }
+            });
+            // Обновляем состояние с отсортированным массивом
+            setIsFirstLoading(false);
+            setColorImages(sortedColors);
         }
-    }, [card, setColorImages])
+    }, [card, setColorImages, selectedColors, isFirstLoading]);
 
     useEffect(() => {
         if (card) {
             setGeneralImageUrl(card.mainPhoto)
-            setAdditionalImages(card.additionalPhotos)
+            // setAdditionalImages(card.additionalPhotos)
         }
     }, [card, setAdditionalImages])
 
@@ -57,67 +75,29 @@ const CreateGoodPhotos = ({
         setGeneralImage(null)
     }
 
-    function onColorSubmitFile(e: ChangeEvent<HTMLInputElement>, color: IColor) {
+    function onColorSubmitFile(e: ChangeEvent<HTMLInputElement>, index: number) {
         const { files } = e.target;
         const selectedFiles = files as FileList;
         const newImage = selectedFiles?.[0];
         setColorImages(prevState => {
             const newState = [...prevState]
-            const index = newState.findIndex(item => item.name === color.name)
-            if (index === -1) {
-                newState.push({
-                    name: color.name,
-                    color: color.color,
-                    image: newImage
-                })
-                return newState
-            }
-            console.log(' newState[index]',  newState[index])
             newState[index] = {
+                image: newImage,
                 name: selectedColors[index].name,
-                color: selectedColors[index].color,
-                image: newImage
+                color: selectedColors[index].color
             }
             return newState
         })
-        // if (e.target && newImage && newImage !== generalImage) {
-        //     const reader = new FileReader();
-        //
-        //     reader.onload = (event: ProgressEvent<FileReader>) => { // Используем ProgressEvent<FileReader>
-        //         if (!event.target) return
-        //         const base64String = event.target.result as string;
-        //
-        //         setSelectedColors((prevSelectedColors: ISelectedColor[]) => {
-        //             const updatedColors = [...prevSelectedColors]; // Создаем копию массива
-        //
-        //             // Обновляем элемент в массиве на позиции index, добавляя новое изображение
-        //             if (updatedColors[index]) {
-        //                 updatedColors[index].image = base64String;
-        //             }
-        //
-        //             return updatedColors; // Возвращаем обновленный массив
-        //         });
-        //     };
-        //
-        //     reader.readAsDataURL(newImage); // Преобразовываем файл в Base64
-        // }
     }
-    const onDeleteColorFile = (color: IColor) => {
-        // const newSelectedColors = [...selectedColors]; // Создаем копию массива
-        // newSelectedColors[index].image = undefined;
-        // console.log('newSelectedColors[index]', newSelectedColors[index])
-        //
-        // setSelectedColors(newSelectedColors); // Устанавливаем новый массив в состояние
+    const onDeleteColorFile = (index: number) => {
+
         setColorImages(prevState => {
             const newState = [...prevState]
-            const index = newState.findIndex(item => item.name === color.name)
-            console.log(' newState[index]',  newState[index])
             newState[index] = {
                 name: selectedColors[index].name,
                 color: selectedColors[index].color,
                 image: undefined
             }
-            console.log('newState', newState)
             return newState
         })
     };
@@ -138,14 +118,6 @@ const CreateGoodPhotos = ({
         newImages.splice(index, 1); // удаляем элемент по индексу
         setAdditionalImages(newImages); // обновляем состояние массива
     };
-
-    useEffect(() => {
-        console.log('colorImages', colorImages)
-    }, [colorImages])
-
-    const findImage = (colorItem: IColor) => {
-        return colorImages.find(image => image.name === colorItem.name)?.image
-    }
 
     return (
         <div>
@@ -210,26 +182,24 @@ const CreateGoodPhotos = ({
                                 </div>
                             </div>
                             <div className={`image-good`}>
-                                {!findImage(colorItem) &&
+                                {colorImages[index]?.image === undefined &&
                                     <label className={''} htmlFor={`color-photo=${index}`}>
                                         <img src="/images/svg/plus.svg" alt={''}/>
                                         <span>Добавить фото</span>
                                     </label>
                                 }
-                                {typeof findImage(colorItem)  === 'string' && (
+                                {typeof colorImages[index]?.image === 'string' && (
                                     <div className={'loadPhoto'}>
-                                        <img src={`${API_URL}${findImage(colorItem)}`} alt="Фото"/>
-                                        <div onClick={() => onDeleteColorFile(colorItem)} className={'loadPhoto__close'}>
+                                        <img src={`${API_URL}${colorImages[index]?.image}`} alt="Фото"/>
+                                        <div onClick={() => onDeleteColorFile(index)} className={'loadPhoto__close'}>
                                             <img src="/images/svg/close.svg" alt={''}/>
                                         </div>
                                     </div>
                                 )}
-                                {findImage(colorItem)
-                                    &&
-                                    typeof findImage(colorItem)  !== 'string' && (
+                                {colorImages[index]?.image && typeof colorImages[index]?.image !== 'string' && (
                                     <div className={'loadPhoto'}>
-                                        <img src={URL.createObjectURL(new Blob([findImage(colorItem) as Blob]))} alt="Фото"/>
-                                        <div onClick={() => onDeleteColorFile(colorItem)} className={'loadPhoto__close'}>
+                                        <img src={URL.createObjectURL(new Blob([colorImages[index]?.image as Blob]))} alt="Фото"/>
+                                        <div onClick={() => onDeleteColorFile(index)} className={'loadPhoto__close'}>
                                             <img src="/images/svg/close.svg" alt={''}/>
                                         </div>
                                     </div>
@@ -237,7 +207,7 @@ const CreateGoodPhotos = ({
                                 <input
                                     type="file"
                                     id={`color-photo=${index}`}
-                                    onChange={(e) => onColorSubmitFile(e, colorItem)}
+                                    onChange={(e) => onColorSubmitFile(e, index)}
                                     value={''}
                                 />
 

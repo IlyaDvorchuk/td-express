@@ -11,5 +11,5 @@ export interface ISelectedColor extends IColor {
 export type ColorImage = {
     image: File | string | undefined,
     name: string,
-    color: string
+    color?: string
 }
