@@ -15,6 +15,8 @@ import {useAppDispatch, useAppSelector} from "../../../hooks/redux";
 import {locationSlice} from "../../../store/reducers/LocationSlice";
 import {ShelterService} from "../../../services/ShelterService";
 import {IDeliveryCity} from "../../../models/IDeliveryCity";
+import {API_URL} from "../../../http";
+import {IColor} from "../../../models/IColor";
 
 const BoxGood = ({card} : {card: IProductCardRes}) => {
     const dispatch = useAppDispatch()
@@ -30,12 +32,40 @@ const BoxGood = ({card} : {card: IProductCardRes}) => {
     const [mainPhoto, setMainPhoto] = useState(card.mainPhoto);
     const [shelter, setShelter] = useState<IShelterForGood | null>(null)
     const [count, setCount] = useState(1)
-    const [sizes, setSizes] = useState([...new Set(card.typeQuantity?.map(type => type.size))])
-    // const [activeSize, setActiveSize] = useState<ITypeRes | null>(card?.typeQuantity ? card?.typeQuantity[0] : null)
+    const [cardTypes, setCardTypes] = useState(() => {
+        const uniqueColors = card.typeQuantity?.filter((type, index, self) =>
+            self.findIndex(t => t.color?.name === type.color?.name) === index
+        ).map(type => type.color)  || [];
+
+        uniqueColors.filter(color => color !== null && color !== undefined)
+
+        const sizes = card.typeQuantity?.map(type => type.size) || [];
+
+        return {
+            colorsGood: uniqueColors as IColor[],
+            sizes: [...new Set(sizes)],
+        };
+    });
+    const [activeColor, setActiveColor] = useState('')
+    const [activeSize, setActiveSize] = useState<ITypeRes | null>(card?.typeQuantity ? card?.typeQuantity[0] : null)
     const [quantity, setQuantity] = useState(card?.typeQuantity?.[0]?.quantity || card.pricesAndQuantity.quantity)
     const [isWindowWidth, setIsWindowWidth] = useState(() => {
         return window.innerWidth >= 450 ? 20 : 4;
     });
+
+    useEffect(() => {
+        if (cardTypes.colorsGood.length > 0) {
+            cardTypes.colorsGood[0] ? setActiveColor(cardTypes.colorsGood[0].name) : setActiveColor('')
+            cardTypes.colorsGood.forEach(color => {
+                if (!color) return
+                const colorImage = card.colors?.find(image => image.name === color.name)
+                if (colorImage?.image) {
+                    color.image = colorImage.image
+                }
+            })
+        }
+    }, [])
+
     const [deliveryCities, setDeliveryCities] = useState<IDeliveryCity[]>([])
 
     useEffect(() => {
@@ -79,6 +109,8 @@ const BoxGood = ({card} : {card: IProductCardRes}) => {
 
         fetchDelivery()
     }, [card.shelterId])
+
+
 
     const priceDelivery = useMemo(() => {
         const deliveryCity = deliveryCities.find(item => item.city === city);
@@ -155,6 +187,10 @@ const BoxGood = ({card} : {card: IProductCardRes}) => {
         })
     }
 
+    const onChangeColor = (str: string) => {
+        setActiveColor(str)
+    }
+
     return (
         <div className={'good'}>
             {card.categories.category?.name && <div className={'good__categories'}>
@@ -216,11 +252,26 @@ const BoxGood = ({card} : {card: IProductCardRes}) => {
                             </div>
                         </Link>
                     </div>
-
-                    {sizes && <div className={'good-information__sizes'}>
+                    {cardTypes.colorsGood && cardTypes.colorsGood.length > 0 && <div className={'good-information__colors'}>
+                        <h4 className={'good-information__color'}>Цвет: {activeColor}</h4>
+                        <div className={'good-information__images'}>
+                            {cardTypes.colorsGood.map((color, index) => (
+                                <div
+                                    key={index}
+                                    className={`good-information__image ${color.name === activeColor ? 'active' : ''}`}
+                                    onClick={() => onChangeColor(color.name)}
+                                >
+                                    {color?.image ?
+                                        <img src={`${API_URL}${color.image}`}/>
+                                        : <div style={{backgroundColor: color.color}}/>}
+                                </div>
+                            ))}
+                        </div>
+                    </div>}
+                    {cardTypes.sizes && <div className={'good-information__sizes'}>
                         <p className={'good-information__subtitle'}>Размер:</p>
                         <div className={'sizes'}>
-                            {sizes.map((size, index) => (
+                            {cardTypes.sizes.map((size, index) => (
                                 <div
                                     className={`size-item ${size === 'activeSize.size' && 'active'}`}
                                     key={index} onClick={() => onSetSize(size)}

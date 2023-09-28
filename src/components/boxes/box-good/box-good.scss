@@ -277,7 +277,7 @@
     }
 
     &__title {
-      margin-bottom: 24px;
+      margin-bottom: 5px;
       //position: absolute;
       //top: 0;
 
@@ -318,10 +318,46 @@
       color: $text2Color;
     }
 
+    &__colors {
+      margin-bottom: 20px;
+    }
+
+    &__color {
+      margin-bottom: 12px;
+      font-size: $littleMediumSize;
+      font-weight: 400;
+      color: $text2Color;
+    }
+
+    &__images {
+      @include flex();
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+
+    &__image {
+      width: 81px;
+      height: 115px;
+      overflow: hidden;
+      border-radius: 10px;
+      cursor: pointer;
+
+      & > img {
+        @include square(100%);
+        object-fit: cover;
+      }
+
+      & > div {
+        @include square(100%)
+      }
+
+      &.active {
+        border: 2px solid $linkColor;
+      }
+    }
+
     &__sizes {
       margin-bottom: 20px;
-
-
     }
 
     & .sizes {
@@ -361,12 +397,10 @@
     }
 
     &__update-count {
-      margin-bottom: 28px;
+      margin-bottom: 15px;
       display: flex;
       align-items: center;
       gap: 10px;
-
-
 
       & > .good-information__quantity {
         color: $text4Color;

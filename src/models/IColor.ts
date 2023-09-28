@@ -1,7 +1,8 @@
 export interface IColor {
     name: string,
     color: string,
-    _id: string
+    _id: string,
+    image?: string
 }
 
 export interface ISelectedColor extends IColor {
