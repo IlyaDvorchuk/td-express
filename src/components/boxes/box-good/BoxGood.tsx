@@ -16,7 +16,7 @@ import {locationSlice} from "../../../store/reducers/LocationSlice";
 import {ShelterService} from "../../../services/ShelterService";
 import {IDeliveryCity} from "../../../models/IDeliveryCity";
 import {API_URL} from "../../../http";
-import {IColor} from "../../../models/IColor";
+import {calculateCardTypes} from "../../../utils/calculateCardTypes";
 
 const BoxGood = ({card} : {card: IProductCardRes}) => {
     const dispatch = useAppDispatch()
@@ -32,43 +32,25 @@ const BoxGood = ({card} : {card: IProductCardRes}) => {
     const [mainPhoto, setMainPhoto] = useState(card.mainPhoto);
     const [shelter, setShelter] = useState<IShelterForGood | null>(null)
     const [count, setCount] = useState(1)
-    const [cardTypes, setCardTypes] = useState(() => {
-        const uniqueColors = card.typeQuantity?.filter((type, index, self) =>
-            self.findIndex(t => t.color?.name === type.color?.name) === index
-        ).map(type => type.color)  || [];
-
-        uniqueColors.filter(color => color !== null && color !== undefined)
-
-        const sizes = card.typeQuantity?.map(type => type.size) || [];
-
-        return {
-            colorsGood: uniqueColors as IColor[],
-            sizes: [...new Set(sizes)],
-        };
-    });
+    const [cardTypes, setCardTypes] = useState(() => calculateCardTypes(card.typeQuantity));
     const [activeColor, setActiveColor] = useState('')
-    const [activeSize, setActiveSize] = useState<ITypeRes | null>(card?.typeQuantity ? card?.typeQuantity[0] : null)
-    const [quantity, setQuantity] = useState(card?.typeQuantity?.[0]?.quantity || card.pricesAndQuantity.quantity)
+    const [activeSize, setActiveSize] = useState('')
     const [isWindowWidth, setIsWindowWidth] = useState(() => {
         return window.innerWidth >= 450 ? 20 : 4;
     });
 
     useEffect(() => {
-        if (cardTypes.colorsGood.length > 0) {
-            cardTypes.colorsGood[0] ? setActiveColor(cardTypes.colorsGood[0].name) : setActiveColor('')
-            cardTypes.colorsGood.forEach(color => {
-                if (!color) return
-                const colorImage = card.colors?.find(image => image.name === color.name)
-                if (colorImage?.image) {
-                    color.image = colorImage.image
-                }
-            })
-        }
+        console.log('cardTypes', cardTypes)
+    }, [cardTypes])
+
+    useEffect(() => {
+
     }, [])
 
     const [deliveryCities, setDeliveryCities] = useState<IDeliveryCity[]>([])
 
     useEffect(() => {
+
         const handleResize = () => {
             setIsWindowWidth(window.innerWidth >= 450 ? 20 : 4);
         };
@@ -81,8 +63,36 @@ const BoxGood = ({card} : {card: IProductCardRes}) => {
 
     }, [])
 
+    const quantity = useMemo(() => {
+        if (activeColor && activeSize && card.typeQuantity && card.typeQuantity?.length > 0) {
+            const type = card.typeQuantity?.find(item => item.color?.name === activeColor && item.size === activeSize) as ITypeRes
+            return type?.quantity || 0
+        } else if (activeSize && card.typeQuantity && card.typeQuantity?.length > 0) {
+            const type = card.typeQuantity?.find(item => item.size === activeSize) as ITypeRes
+            return type?.quantity || 0
+        } else return card.pricesAndQuantity.quantity
+    }, [activeColor, activeSize])
+
     useEffect(() => {
+
+        setCardTypes(() => calculateCardTypes(card.typeQuantity))
+        if (cardTypes.colorsGood) {
+            setActiveSize('')
+        }
+        if (cardTypes.sizes) {
+            setActiveColor('')
+        }
         setMainPhoto(card?.mainPhoto);
+        if (cardTypes.colorsGood.length > 0) {
+            cardTypes.colorsGood[0] ? setActiveColor(cardTypes.colorsGood[0].name) : setActiveColor('')
+            cardTypes.colorsGood.forEach(color => {
+                if (!color) return
+                const colorImage = card.colors?.find(image => image.name === color.name)
+                if (colorImage?.image) {
+                    color.image = colorImage.image
+                }
+            })
+        }
     }, [card])
 
     useEffect(() => {
@@ -110,6 +120,30 @@ const BoxGood = ({card} : {card: IProductCardRes}) => {
         fetchDelivery()
     }, [card.shelterId])
 
+    useEffect(() => {
+        if (activeSize === '' && cardTypes?.sizes.length > 0) {
+            setActiveSize(cardTypes?.sizes[0])
+        }
+    }, [cardTypes?.sizes, activeSize])
+
+    useEffect(() => {
+        if (activeColor) {
+            console.log('activeColor')
+            const sizesColor = card.typeQuantity?.filter(type => type.color?.name === activeColor).map((size => size.size))
+            if (sizesColor) {
+                setCardTypes((prevCardTypes) => {
+                    return {
+                        colorsGood: prevCardTypes.colorsGood,
+                        sizes: sizesColor
+                    }
+                })
+                if (sizesColor.includes(activeSize)) return
+                console.log('setActiveSize', sizesColor)
+                console.log('setActiveSize', activeColor)
+                setActiveSize(sizesColor[0])
+            }
+        }
+    }, [activeColor])
 
 
     const priceDelivery = useMemo(() => {
@@ -144,7 +178,7 @@ const BoxGood = ({card} : {card: IProductCardRes}) => {
     // };
 
     const onSetSize = (size: string) => {
-        // setActiveSize(size)
+        setActiveSize(size)
         // setQuantity(size.quantity)
     }
 
@@ -186,6 +220,10 @@ const BoxGood = ({card} : {card: IProductCardRes}) => {
             }
         })
     }
+
+    useEffect(() => {
+        console.log('cardTypes.colorsGood', cardTypes.colorsGood)
+    }, [cardTypes.colorsGood])
 
     const onChangeColor = (str: string) => {
         setActiveColor(str)
@@ -273,7 +311,7 @@ const BoxGood = ({card} : {card: IProductCardRes}) => {
                         <div className={'sizes'}>
                             {cardTypes.sizes.map((size, index) => (
                                 <div
-                                    className={`size-item ${size === 'activeSize.size' && 'active'}`}
+                                    className={`size-item ${size === activeSize && 'active'}`}
                                     key={index} onClick={() => onSetSize(size)}
                                 >
                                     <span>
