@@ -38,10 +38,7 @@ const BoxGood = ({card} : {card: IProductCardRes}) => {
     const [isWindowWidth, setIsWindowWidth] = useState(() => {
         return window.innerWidth >= 450 ? 20 : 4;
     });
-
-    useEffect(() => {
-        console.log('cardTypes', cardTypes)
-    }, [cardTypes])
+    const [isNewCard, setIsNewCard] = useState(true)
 
     useEffect(() => {
 
@@ -74,26 +71,26 @@ const BoxGood = ({card} : {card: IProductCardRes}) => {
     }, [activeColor, activeSize])
 
     useEffect(() => {
-
         setCardTypes(() => calculateCardTypes(card.typeQuantity))
-        if (cardTypes.colorsGood) {
+        setActiveColor('')
             setActiveSize('')
-        }
-        if (cardTypes.sizes) {
-            setActiveColor('')
-        }
         setMainPhoto(card?.mainPhoto);
-        if (cardTypes.colorsGood.length > 0) {
-            cardTypes.colorsGood[0] ? setActiveColor(cardTypes.colorsGood[0].name) : setActiveColor('')
-            cardTypes.colorsGood.forEach(color => {
-                if (!color) return
-                const colorImage = card.colors?.find(image => image.name === color.name)
-                if (colorImage?.image) {
-                    color.image = colorImage.image
-                }
-            })
-        }
+        setIsNewCard(true)
     }, [card])
+
+    useEffect(() => {
+        if (cardTypes.colorsGood.length > 0 && isNewCard) {
+            setActiveColor(cardTypes.colorsGood[0].name || ''); // Проверьте на наличие имени и установите его или пустую строку
+            cardTypes.colorsGood.forEach(color => {
+                if (!color) return;
+                const colorImage = card.colors?.find(image => image.name === color.name);
+                if (colorImage?.image) {
+                    color.image = colorImage.image;
+                }
+            });
+            setIsNewCard(false)
+        }
+    }, [cardTypes, isNewCard]);
 
     useEffect(() => {
         const fetchShelter = async () => {
@@ -128,7 +125,6 @@ const BoxGood = ({card} : {card: IProductCardRes}) => {
 
     useEffect(() => {
         if (activeColor) {
-            console.log('activeColor')
             const sizesColor = card.typeQuantity?.filter(type => type.color?.name === activeColor).map((size => size.size))
             if (sizesColor) {
                 setCardTypes((prevCardTypes) => {
@@ -138,8 +134,6 @@ const BoxGood = ({card} : {card: IProductCardRes}) => {
                     }
                 })
                 if (sizesColor.includes(activeSize)) return
-                console.log('setActiveSize', sizesColor)
-                console.log('setActiveSize', activeColor)
                 setActiveSize(sizesColor[0])
             }
         }
@@ -220,10 +214,6 @@ const BoxGood = ({card} : {card: IProductCardRes}) => {
             }
         })
     }
-
-    useEffect(() => {
-        console.log('cardTypes.colorsGood', cardTypes.colorsGood)
-    }, [cardTypes.colorsGood])
 
     const onChangeColor = (str: string) => {
         setActiveColor(str)
