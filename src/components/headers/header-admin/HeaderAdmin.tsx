@@ -130,21 +130,52 @@ const HeaderAdmin = ({currentScreen , setCurrentScreen}: IProps) => {
             <button type={'submit'} onClick={onTestBankForm}>Тест банка form</button>
             <button type={'submit'} onClick={onTestBankPostAndRedirect}>Тест банка редирект</button>
             <button type={'submit'} onClick={changeLocation}>GET редирект</button>
-            <form action={'https://www.agroprombank.com/payments/PaymentStart'}>
-                <input type="hidden" name={'MerchantLogin'} value={'000209'}/>
-                <input type="hidden" name={'nivid'} value={'122'}/>
-                <input type="hidden" name={'RequestSum'} value={'2700'}/>
-                <input type="hidden" name={'RequestCurrCode'} value={'000'}/>
-                <input type="hidden" name={'Desc'} value={'оплата.заказа.122'}/>
-                <input type="hidden" name={'istest'} value={'1'}/>
-                <input type="hidden" name={'SignatureValue'} value={'SignatureValue'}/>
+            <form action={'https://www.agroprombank.com/payments/PaymentStart'} method="post">
+                <input type="hidden" name="MerchantLogin" value="000209"/>
+                <input type="hidden" name="RequestCurrCode" value="000"/>
+                <input type="hidden" name={'RequestSum'} value={'54000'}/>
+                <input type="hidden" name="nivid" value="431"/>
+                <input type="hidden" name="Desc" value="Оплата заказа №431"/>
+                <input type="hidden" name="istest" value="0"/>
+                <input type="hidden" name={'SignatureValue'} value={'604c0696409ccdc8e604f6131053e9a3'}/>
                 <div className="buttons">
                     <div className="pull-right">
-                        <input type="submit" value="Подтверждение заказа" className="btn btn-primary"
-                               />
+                        <input type="submit" value="Подтверждение заказа not nord" className="btn btn-primary"
+                        />
                     </div>
                 </div>
             </form>
+
+            <form action="https://www.agroprombank.com/payments/PaymentStart" method="post">
+                <input type="hidden" name="MerchantLogin" value="000206"/>
+                    <input type="hidden" name="RequestCurrCode" value="000"/>
+                        <input type="hidden" name="RequestSum" value="54000"/>
+                            <input type="hidden" name="nivid" value="430"/>
+                                <input type="hidden" name="Desc" value="Оплата заказа №430"/>
+                                    <input type="hidden" name="istest" value="0"/>
+                                        <input type="hidden" name="SignatureValue"
+                                               value="09cad6b890f658023c5e9ac3515306ad"/>
+                                            <div className="buttons">
+                                                <div className="pull-right">
+                                                    <input type="submit" value="Подтверждение заказа"
+                                                           className="btn btn-primary"/>
+                                                </div>
+                                            </div>
+            </form>
+
+            {/*<input type="hidden" name={'MerchantLogin'} value={'000209'}/>*/}
+            {/*<input type="hidden" name={'RequestCurrCode'} value={'000'}/>*/}
+            {/*<input type="hidden" name={'nivid'} value={'122'}/>*/}
+            {/*<input type="hidden" name={'RequestSum'} value={'2700'}/>*/}
+            {/*<input type="hidden" name={'Desc'} value={'оплата.заказа.122'}/>*/}
+            {/*<input type="hidden" name={'istest'} value={'1'}/>*/}
+            {/*<input type="hidden" name={'SignatureValue'} value={'b8720aa391629445b1e3392a2fafa1b3'}/>*/}
+            {/*<div className="buttons">*/}
+            {/*    <div className="pull-right">*/}
+            {/*        <input type="submit" value="Подтверждение заказа not nord" className="btn btn-primary"*/}
+            {/*        />*/}
+            {/*    </div>*/}
+            {/*</div>*/}
             <div className={'header-admin__links'}>
                 <div
                     onClick={() => setCurrentScreen(ADMIN_SCREEN.GENERAL)}
