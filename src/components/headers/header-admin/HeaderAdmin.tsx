@@ -136,7 +136,14 @@ const HeaderAdmin = ({currentScreen , setCurrentScreen}: IProps) => {
                 <input type="hidden" name={'RequestSum'} value={'2700'}/>
                 <input type="hidden" name={'RequestCurrCode'} value={'000'}/>
                 <input type="hidden" name={'Desc'} value={'оплата.заказа.122'}/>
-                <input type="hidden" name={'istest'} value={'оплата.заказа.122'}/>
+                <input type="hidden" name={'istest'} value={'1'}/>
+                <input type="hidden" name={'SignatureValue'} value={'SignatureValue'}/>
+                <div className="buttons">
+                    <div className="pull-right">
+                        <input type="submit" value="Подтверждение заказа" className="btn btn-primary"
+                               />
+                    </div>
+                </div>
             </form>
             <div className={'header-admin__links'}>
                 <div
