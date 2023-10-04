@@ -13,7 +13,7 @@ const HeaderAdmin = ({currentScreen , setCurrentScreen}: IProps) => {
         window.location.href = "https://www.agroprombank.com/payments/PaymentStart" +
             "?MerchantLogin=000209" +
             "&nivid=122" +
-            "&IsTest=1" +
+            "&istest=1" +
             "&RequestSum=2700" +
             "&RequestCurrCode=000" +
             "&Desc=оплата.заказа.122" +
@@ -50,7 +50,7 @@ const HeaderAdmin = ({currentScreen , setCurrentScreen}: IProps) => {
 
         const isTestInput = document.createElement('input');
         isTestInput.type = 'hidden';
-        isTestInput.name = 'IsTest';
+        isTestInput.name = 'istest';
         isTestInput.value = '1';
         form.appendChild(isTestInput);
 
@@ -87,7 +87,7 @@ const HeaderAdmin = ({currentScreen , setCurrentScreen}: IProps) => {
         const requestData = new URLSearchParams();
         requestData.append('MerchantLogin', '000209')
         requestData.append('nivid', '122')
-        requestData.append('IsTest', '1')
+        requestData.append('istest', '1')
         requestData.append('RequestSum', '2700')
         requestData.append('RequestCurrCode', '000')
         requestData.append('Desc', 'оплата.заказа.122')
@@ -126,10 +126,18 @@ const HeaderAdmin = ({currentScreen , setCurrentScreen}: IProps) => {
             <p className={'header-admin__logo'}>
                 Панель администратора
             </p>
-            <button onClick={onTestBankPost}>Тест банка post</button>
-            <button onClick={onTestBankForm}>Тест банка form</button>
-            <button onClick={onTestBankPostAndRedirect}>Тест банка редирект</button>
-            <button onClick={changeLocation}>GET редирект</button>
+            <button type={'submit'} onClick={onTestBankPost}>Тест банка post</button>
+            <button type={'submit'} onClick={onTestBankForm}>Тест банка form</button>
+            <button type={'submit'} onClick={onTestBankPostAndRedirect}>Тест банка редирект</button>
+            <button type={'submit'} onClick={changeLocation}>GET редирект</button>
+            <form action={'https://www.agroprombank.com/payments/PaymentStart'}>
+                <input type="hidden" name={'MerchantLogin'} value={'000209'}/>
+                <input type="hidden" name={'nivid'} value={'122'}/>
+                <input type="hidden" name={'RequestSum'} value={'2700'}/>
+                <input type="hidden" name={'RequestCurrCode'} value={'000'}/>
+                <input type="hidden" name={'Desc'} value={'оплата.заказа.122'}/>
+                <input type="hidden" name={'istest'} value={'оплата.заказа.122'}/>
+            </form>
             <div className={'header-admin__links'}>
                 <div
                     onClick={() => setCurrentScreen(ADMIN_SCREEN.GENERAL)}
