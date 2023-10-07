@@ -30,9 +30,10 @@ export interface IProductCard {
     },
     mainPhoto: string,
     additionalPhotos: string[],
-    additionalInformation: {
-        material: string,
-        recommendations: string
+    additionalInformation?: {
+        material?: string,
+        recommendations?: string,
+        seasons?: string[]
     },
     pricesAndQuantity: IPrice,
     dimensions: {

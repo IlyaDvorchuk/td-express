@@ -28,7 +28,6 @@ const CreateGoodPhotos = ({
     const [generalImageUrl, setGeneralImageUrl] = useState(card ? card.mainPhoto : '')
     const [isFirstLoading, setIsFirstLoading] = useState(true)
 
-
     useEffect(() => {
         if (card && card?.colors && isFirstLoading && selectedColors.length > 0) {
             // Создаем отсортированный массив

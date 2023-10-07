@@ -32,4 +32,32 @@
     width: 80%;
     margin: auto;
   }
+
+  &__seasons {
+    margin-left: 8%;
+    max-width: 580px;
+    width: 90%;
+  }
+
+  &__p {
+    margin-bottom: 8px;
+    font-size: $bigMediumSize;
+    display: flex;
+    gap: 15px;
+  }
+
+  &__name {
+    color: $text4Color;
+  }
+
+  &__border {
+    position: relative;
+    bottom: 4px;
+    flex: 1;
+    border-bottom: 1px solid $borderColor;
+  }
+
+  &__value {
+    color: $title2Color;
+  }
 }

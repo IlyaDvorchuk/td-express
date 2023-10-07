@@ -1,16 +1,19 @@
 import React, {ChangeEvent, useEffect} from 'react';
 import './create-good-sizes.scss'
 import {IType} from "../../../../models/IProductCard";
+import {SEASONS} from "../../../../constants";
+import Checkbox from "../../../checkbox/Checkbox";
 
 interface IProps {
     options: string[];
     selectedOptions: string[]
     setSelectedOptions: (selectedOptions: string[]) => void;
-    cardQuantity: IType[] | null
-
+    cardQuantity: IType[] | null,
+    seasons: string[],
+    setSeasons: (selectedOptions: string[]) => void;
 }
 
-const CreateGoodSizes = ({ options, selectedOptions, setSelectedOptions, cardQuantity }: IProps) => {
+const CreateGoodSizes = ({ options, selectedOptions, setSelectedOptions, cardQuantity, seasons, setSeasons }: IProps) => {
 
     const handleCheckboxChange = (event: ChangeEvent<HTMLInputElement>) => {
         const value = event.target.value;
@@ -23,6 +26,16 @@ const CreateGoodSizes = ({ options, selectedOptions, setSelectedOptions, cardQua
         }
     };
 
+    const changeSeasons = (season: string) => {
+        if (!seasons.includes(season)) {
+            const newSeasons = [...seasons, season]
+            setSeasons(newSeasons)
+        } else {
+            const newSeasons = seasons.filter(item => item !== season)
+            setSeasons(newSeasons)
+        }
+    };
+
     useEffect(() => {
         if (cardQuantity) {
             setSelectedOptions(cardQuantity.map(type => type.size))
@@ -31,6 +44,21 @@ const CreateGoodSizes = ({ options, selectedOptions, setSelectedOptions, cardQua
 
     return (
         <div>
+            <h3 className={'subtitle'}>
+                Сезон
+            </h3>
+            <div className={'seasons-inputs'}>
+                {SEASONS.map((season, index) => (
+                    <div className={'seasons-input'} key={index}>
+                        <Checkbox
+                            sizes={20}
+                            isChecked={seasons.includes(season)}
+                            onChange={() => changeSeasons(season)}
+                        />
+                        <p>{season}</p>
+                    </div>
+                ))}
+            </div>
             <h3 className={'subtitle'}>
                 Размер
             </h3>

@@ -44,6 +44,31 @@ const BoxGoodInformation = ({card} : {card: IProductCard}) => {
                     <ReactMarkdown children={card.information.description}/>,
                 </div>
             }
+            {activeTab === 1 &&
+                <div className={'good-additional__seasons'}>
+                    {card.additionalInformation?.seasons && card.additionalInformation?.seasons.length > 0 && <div className={'good-additional__p'}>
+                        <span className={'good-additional__name'}>
+                            Сезон
+                        </span>
+                        <span className={'good-additional__border'}/>
+                        <span className={'good-additional__value'}>{card.additionalInformation?.seasons.join(', ')}</span>
+                    </div>}
+                    {card.additionalInformation?.material && <div className={'good-additional__p'}>
+                        <span className={'good-additional__name'}>
+                            Материал
+                        </span>
+                        <span className={'good-additional__border'}/>
+                        <span className={'good-additional__value'}>{card.additionalInformation?.material}</span>
+                    </div>}
+                    {card.additionalInformation?.recommendations && <div className={'good-additional__p'}>
+                        <span className={'good-additional__name'}>
+                            Рекомендации
+                        </span>
+                        <span className={'good-additional__border'}/>
+                        <span className={'good-additional__value'}>{card.additionalInformation?.recommendations}</span>
+                    </div>}
+                </div>
+            }
         </div>
     );
 };

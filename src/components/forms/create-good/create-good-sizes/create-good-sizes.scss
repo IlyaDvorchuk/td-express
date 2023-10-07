@@ -17,3 +17,17 @@
     }
   }
 }
+
+.seasons-inputs {
+  margin-bottom: 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+
+.seasons-input {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: $bigMediumSize;
+}

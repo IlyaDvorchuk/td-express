@@ -40,6 +40,7 @@ const FormCreateGood = ({card} : {card: IProductCard | null}) => {
     const [selectedSizes, setSelectedSizes] = useState<string[]>([]);
     const [selectedColors, setSelectedColors] = useState<IColor[]>([]);
     const [quantitySizes, setQuantitySizes] = useState<IType[]>([]);
+    const [seasons, setSeasons] = useState<string[]>([])
     const [colorImages, setColorImages] = useState<(ColorImage)[]>([])
     const [submitButton, setSubmitButton] = useState('');
 
@@ -50,12 +51,16 @@ const FormCreateGood = ({card} : {card: IProductCard | null}) => {
                 const checkboxField = `checkbox-${point}`;
                 points[checkboxField] = true;
             });
-
+            setAdditionalImages(card.additionalPhotos)
+            if (card?.additionalInformation?.seasons) {
+                setSeasons(card?.additionalInformation?.seasons)
+            }
 
             methods.reset({
                 name: card.information.name,
-                material: card.additionalInformation.material,
-                recommendations: card.additionalInformation.recommendations,
+                material: card?.additionalInformation?.material,
+                recommendations: card?.additionalInformation?.recommendations,
+                seasons: card?.additionalInformation?.seasons,
                 price: card.pricesAndQuantity.price,
                 priceDiscount: card.pricesAndQuantity.priceBeforeDiscount,
                 length: card.dimensions.length,
@@ -136,7 +141,8 @@ const FormCreateGood = ({card} : {card: IProductCard | null}) => {
                 },
                 additionalInformation: {
                     material: data.material,
-                    recommendations: data.recommendations
+                    recommendations: data.recommendations,
+                    seasons: seasons,
                 },
                 pricesAndQuantity: {
                     price: Number(data.price),
@@ -199,6 +205,8 @@ const FormCreateGood = ({card} : {card: IProductCard | null}) => {
                                 selectedOptions={selectedSizes}
                                 setSelectedOptions={setSelectedSizes}
                                 cardQuantity={card?.typeQuantity ? card.typeQuantity : null}
+                                seasons={seasons}
+                                setSeasons={setSeasons}
                             />
                             <hr className={'create__divider'}/>
                             <CreateGoodColors
