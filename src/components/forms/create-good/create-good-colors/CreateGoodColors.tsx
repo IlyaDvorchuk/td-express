@@ -19,10 +19,12 @@ const CreateGoodColors = ({selectedColors, setSelectedColors, typesCard}: IProps
         const fetchColors = async () => {
             const fetchedColors = await ShelterService.getColors();
             if (fetchedColors.data) {
-                setColors(fetchedColors.data);
-
+                const sortedColors = fetchedColors.data.slice().sort((a, b) => {
+                    // Сравниваем значения полей name для сортировки по алфавиту
+                    return a.name.localeCompare(b.name);
+                });
+                setColors(sortedColors);
             }
-
         };
 
         fetchColors();
@@ -79,7 +81,8 @@ const CreateGoodColors = ({selectedColors, setSelectedColors, typesCard}: IProps
                                     sizes={20}
                                     isChecked={!!selectedColors.find(color => color.color === colorItem.color)}
                                     onChange={(e: ChangeEvent<HTMLInputElement>) => handleCheckboxChange(e, colorItem)}/>
-                                <div className={'modal-colors__color'} style={{backgroundColor: colorItem.color}}/>
+                                <div className={`modal-colors__color ${colorItem.color === '#FFFFFF' ? 'white' : ''}`}
+                                     style={{background: colorItem.color}}/>
                                 <div>
                                     {colorItem.name}
                                 </div>

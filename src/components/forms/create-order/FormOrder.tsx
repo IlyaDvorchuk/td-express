@@ -7,6 +7,8 @@ import {useAppDispatch, useAppSelector} from "../../../hooks/redux";
 import {IOrder} from "../../../models/IOrder";
 import {createOrder} from "../../../store/reducers/user/UserCreators";
 import {useNavigate} from "react-router-dom";
+import {createIdOrder} from "../../../utils/formatDate";
+import CryptoJS from 'crypto-js';
 
 type TCity = {
     value: string; label: string; price: string
@@ -134,6 +136,45 @@ const FormOrder = () => {
         setCity(newValue)
     }
 
+    const createHiddenInput = (name: string, value: string) => {
+        const input = document.createElement('input');
+        input.type = 'hidden';
+        input.name = name;
+        input.value = value;
+        return input;
+    };
+
+    const onTestBankForm = async () => {
+        const id = createIdOrder();
+        localStorage.setItem('id-order', id.split(' ')[1])
+        const form = document.createElement('form');
+        form.method = 'POST';
+        form.action = 'https://www.agroprombank.com/payments/PaymentStart';
+
+        const parameters = [
+            { name: 'MerchantLogin', value: '000209' },
+            { name: 'nivid', value: id },
+            { name: 'istest', value: '1' },
+            // { name: 'RequestSum', value: `${finalPrice * 100}` },
+            { name: 'RequestSum', value: `50` },
+            { name: 'RequestCurrCode', value: '000' },
+            { name: 'Desc', value: `Оплата заказа №${id.split(' ')[1]}, ${card?.information.name}` },
+        ];
+
+        parameters.forEach(({ name, value }) => {
+            form.appendChild(createHiddenInput(name, value));
+        });
+
+        const signature = `000209:${id}:1:${parameters[3].value}:000:${parameters[5].value}:HBmWYiyiwWrCsYlsD6Qk`;
+
+        form.appendChild(createHiddenInput('SignatureValue', CryptoJS.MD5(signature).toString()));
+
+        console.log('form', form);
+        document.body.appendChild(form);
+        form.submit();
+    };
+
+
     const onSubmit = (data: any) => {
         if (!card
             && !isActiveButton
@@ -176,7 +217,7 @@ const FormOrder = () => {
 
 
     return (
-        <form className={'order'} onSubmit={handleSubmit(onSubmit)}>
+        <form className={'order'} onSubmit={handleSubmit(onTestBankForm)}>
             <h3 className={'order__title'}>Оформление заказа</h3>
             <div className={'order__container'}>
                 <div className={'order__ordering'}>

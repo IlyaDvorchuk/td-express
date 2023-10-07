@@ -14,6 +14,8 @@
 
 
   & &__modal {
+    max-height: 76vh;
+    overflow-y: scroll;
     position: absolute;
     top: 0;
     left: 100%;
@@ -55,7 +57,11 @@
   }
 
   & &__color {
-    @extend %color-example
+    @extend %color-example;
+
+    &.white {
+    border: 1px solid #C3C3C3;
+  }
   }
 
   & &__footer {

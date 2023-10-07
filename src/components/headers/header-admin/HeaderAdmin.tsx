@@ -1,7 +1,6 @@
 import React from 'react';
 import './header-admin.scss'
 import {ADMIN_SCREEN} from "../../../models/enums";
-import {UserService} from "../../../services/UserService";
 
 interface IProps {
     currentScreen: ADMIN_SCREEN,
@@ -21,16 +20,6 @@ const HeaderAdmin = ({currentScreen , setCurrentScreen}: IProps) => {
 
     }
 
-    const onTestBankPost = async () => {
-        const response = await UserService.setBank();
-        const responseText = await response.text();
-        // setBankPageContent(responseText); // Сохраняем HTML-код в состояние
-        // if (response?.url) {
-            // window.location.href = response?.url;
-        // }
-        console.log('response formData', responseText);
-    };
-
     const onTestBankForm = async () => {
         const form = document.createElement('form');
         form.method = 'POST';
@@ -45,19 +34,19 @@ const HeaderAdmin = ({currentScreen , setCurrentScreen}: IProps) => {
         const nividInput = document.createElement('input');
         nividInput.type = 'hidden';
         nividInput.name = 'nivid';
-        nividInput.value = '122';
+        nividInput.value = '432';
         form.appendChild(nividInput);
 
         const isTestInput = document.createElement('input');
         isTestInput.type = 'hidden';
         isTestInput.name = 'istest';
-        isTestInput.value = '1';
+        isTestInput.value = '0';
         form.appendChild(isTestInput);
 
         const requestSumInput = document.createElement('input');
         requestSumInput.type = 'hidden';
         requestSumInput.name = 'RequestSum';
-        requestSumInput.value = '2700';
+        requestSumInput.value = '54000';
         form.appendChild(requestSumInput);
 
         const requestCurrCodeInput = document.createElement('input');
@@ -69,55 +58,18 @@ const HeaderAdmin = ({currentScreen , setCurrentScreen}: IProps) => {
         const descInput = document.createElement('input');
         descInput.type = 'hidden';
         descInput.name = 'Desc';
-        descInput.value = 'оплата.заказа.122';
+        descInput.value = 'Оплата заказа №432';
         form.appendChild(descInput);
 
         const signatureValueInput = document.createElement('input');
         signatureValueInput.type = 'hidden';
         signatureValueInput.name = 'SignatureValue';
-        signatureValueInput.value = 'b8720aa391629445b1e3392a2fafa1b3';
+        signatureValueInput.value = '4cefd544c9d43cd3d5cdb1864baf1390';
         form.appendChild(signatureValueInput);
 
         console.log('form', form)
         document.body.appendChild(form);
         form.submit();
-    };
-
-    const onTestBankPostAndRedirect = async () => {
-        const requestData = new URLSearchParams();
-        requestData.append('MerchantLogin', '000209')
-        requestData.append('nivid', '122')
-        requestData.append('istest', '1')
-        requestData.append('RequestSum', '2700')
-        requestData.append('RequestCurrCode', '000')
-        requestData.append('Desc', 'оплата.заказа.122')
-        requestData.append('SignatureValue', 'b8720aa391629445b1e3392a2fafa1b3')
-
-        const url = 'https://www.agroprombank.com/payments/PaymentStart';
-
-        const requestOptions = {
-            method: 'POST',
-            body: requestData,
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded',
-                'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7'
-            }
-        };
-
-        try {
-            const response = await fetch(url, requestOptions);
-            const result = await response.text();
-
-            // Получите URL из результата и выполните редирект
-            const parser = new DOMParser();
-            const doc = parser.parseFromString(result, 'text/html');
-            // @ts-ignore
-            const redirectUrl = doc.querySelector('a').href;
-
-            window.location.href = redirectUrl;
-        } catch (error) {
-            console.error('Ошибка:', error);
-        }
     };
 
 
@@ -126,9 +78,7 @@ const HeaderAdmin = ({currentScreen , setCurrentScreen}: IProps) => {
             <p className={'header-admin__logo'}>
                 Панель администратора
             </p>
-            <button type={'submit'} onClick={onTestBankPost}>Тест банка post</button>
             <button type={'submit'} onClick={onTestBankForm}>Тест банка form</button>
-            <button type={'submit'} onClick={onTestBankPostAndRedirect}>Тест банка редирект</button>
             <button type={'submit'} onClick={changeLocation}>GET редирект</button>
             <form action={'https://www.agroprombank.com/payments/PaymentStart'} method="post">
                 <input type="hidden" name="MerchantLogin" value="000209"/>
@@ -145,37 +95,6 @@ const HeaderAdmin = ({currentScreen , setCurrentScreen}: IProps) => {
                     </div>
                 </div>
             </form>
-
-            <form action="https://www.agroprombank.com/payments/PaymentStart" method="post">
-                <input type="hidden" name="MerchantLogin" value="000206"/>
-                    <input type="hidden" name="RequestCurrCode" value="000"/>
-                        <input type="hidden" name="RequestSum" value="54000"/>
-                            <input type="hidden" name="nivid" value="430"/>
-                                <input type="hidden" name="Desc" value="Оплата заказа №430"/>
-                                    <input type="hidden" name="istest" value="0"/>
-                                        <input type="hidden" name="SignatureValue"
-                                               value="09cad6b890f658023c5e9ac3515306ad"/>
-                                            <div className="buttons">
-                                                <div className="pull-right">
-                                                    <input type="submit" value="Подтверждение заказа"
-                                                           className="btn btn-primary"/>
-                                                </div>
-                                            </div>
-            </form>
-
-            {/*<input type="hidden" name={'MerchantLogin'} value={'000209'}/>*/}
-            {/*<input type="hidden" name={'RequestCurrCode'} value={'000'}/>*/}
-            {/*<input type="hidden" name={'nivid'} value={'122'}/>*/}
-            {/*<input type="hidden" name={'RequestSum'} value={'2700'}/>*/}
-            {/*<input type="hidden" name={'Desc'} value={'оплата.заказа.122'}/>*/}
-            {/*<input type="hidden" name={'istest'} value={'1'}/>*/}
-            {/*<input type="hidden" name={'SignatureValue'} value={'b8720aa391629445b1e3392a2fafa1b3'}/>*/}
-            {/*<div className="buttons">*/}
-            {/*    <div className="pull-right">*/}
-            {/*        <input type="submit" value="Подтверждение заказа not nord" className="btn btn-primary"*/}
-            {/*        />*/}
-            {/*    </div>*/}
-            {/*</div>*/}
             <div className={'header-admin__links'}>
                 <div
                     onClick={() => setCurrentScreen(ADMIN_SCREEN.GENERAL)}

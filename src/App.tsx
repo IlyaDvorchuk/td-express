@@ -32,7 +32,10 @@ import MobileNavbar from "./components/mobile-navbar/MobileNavbar";
 import Admin from "./pages/Admin";
 import Order from "./pages/Order";
 import ShelterDelivery from "./pages/ShelterDelivery";
-import Payment from "./pages/Payment";
+import AnswerOrder from "./pages/AnswerOrder";
+import FooterShelter from "./components/footers/footer-shelter/FooterShelter";
+import BoxSuccessOrder from "./components/boxes/box-success-order/BoxSuccessOrder";
+import BoxFailureOrder from "./components/boxes/box-failure-order/BoxFailureOrder";
 
 
 function App() {
@@ -179,16 +182,37 @@ function App() {
                         }
                     />
                     <Route
+                        path="/success"
+                        element={
+                            <main style={{overflow: 'hidden'}}>
+                                <Header />
+                                <MobileNavbar/>
+                                <AnswerOrder>
+                                    <BoxSuccessOrder/>
+                                </AnswerOrder>
+                                <FooterShelter/>
+                            </main>
+                        }
+                    />
+                    <Route
+                        path="/failure"
+                        element={
+                            <main style={{overflow: 'hidden'}}>
+                                <Header />
+                                <MobileNavbar/>
+                                <AnswerOrder>
+                                    <BoxFailureOrder/>
+                                </AnswerOrder>
+                                <FooterShelter/>
+                            </main>
+                        }
+                    />
+                    <Route
                         path="/administrator"
                         element={
                             <>
                                 <Admin/>
                             </>
-                        }
-                    />
-                    <Route
-                        path="/payment"
-                        element={<Payment/>
                         }
                     />
                     <Route

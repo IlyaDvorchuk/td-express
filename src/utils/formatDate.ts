@@ -11,3 +11,16 @@ export function formatDate(inputDate: string) {
     // Собираем строку в нужном формате
     return `${day}.${month}.${year} ${hours}:${minutes}`;
 }
+
+export function createIdOrder() {
+    const currentDate = new Date();
+
+    const year = currentDate.getFullYear().toString().slice(-2); // Последние две цифры года
+    const month = (currentDate.getMonth() + 1).toString().padStart(2, '0'); // Месяц с ведущим нулем
+    const day = currentDate.getDate().toString().padStart(2, '0'); // День с ведущим нулем
+    const hours = currentDate.getHours().toString().padStart(2, '0'); // Часы с ведущим нулем
+    const minutes = currentDate.getMinutes().toString().padStart(2, '0'); // Минуты с ведущим нулем
+    const seconds = currentDate.getSeconds().toString().padStart(2, '0'); // Секунды с ведущим нулем
+
+    return `${day}.${month}.${year}. ${hours}${minutes}${seconds}`;
+}

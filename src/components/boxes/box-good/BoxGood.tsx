@@ -15,7 +15,6 @@ import {useAppDispatch, useAppSelector} from "../../../hooks/redux";
 import {locationSlice} from "../../../store/reducers/LocationSlice";
 import {ShelterService} from "../../../services/ShelterService";
 import {IDeliveryCity} from "../../../models/IDeliveryCity";
-import {API_URL} from "../../../http";
 import {calculateCardTypes} from "../../../utils/calculateCardTypes";
 
 const BoxGood = ({card} : {card: IProductCardRes}) => {
@@ -290,7 +289,7 @@ const BoxGood = ({card} : {card: IProductCardRes}) => {
                                     onClick={() => onChangeColor(color.name)}
                                 >
                                     {color?.image ?
-                                        <img src={`${API_URL}${color.image}`}/>
+                                        <img src={`https://api.td-market.md/${color.image}`}/>
                                         : <div style={{backgroundColor: color.color}}/>}
                                 </div>
                             ))}

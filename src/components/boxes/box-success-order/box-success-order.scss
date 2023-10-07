@@ -1,0 +1,36 @@
+@import "../../../styles/constants";
+
+.order-success {
+  flex: 1;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: $title2Color;
+
+  &__subtitle {
+    font-size: $bigTitleSize;
+    font-weight: 800;
+    margin-bottom: 42px;
+    text-align: center;
+  }
+
+  &__title {
+    font-size: 60px;
+    margin-bottom: 105px;
+    text-align: center;
+  }
+
+  &__p {
+    font-size: $bigMediumSize;
+    margin-bottom: 63px;
+    text-align: center;
+  }
+
+  &__button {
+    width: 136px;
+    margin-bottom: 10px;
+    text-transform: none;
+  }
+}
