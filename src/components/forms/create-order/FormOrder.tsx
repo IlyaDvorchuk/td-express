@@ -8,7 +8,7 @@ import {IOrder} from "../../../models/IOrder";
 import {createOrder} from "../../../store/reducers/user/UserCreators";
 import {useNavigate} from "react-router-dom";
 import {createIdOrder} from "../../../utils/formatDate";
-import CryptoJS from 'crypto-js';
+import Md5 from 'crypto-js/md5';
 
 type TCity = {
     value: string; label: string; price: string
@@ -167,7 +167,7 @@ const FormOrder = () => {
 
         const signature = `000209:${id}:1:${parameters[3].value}:000:${parameters[5].value}:HBmWYiyiwWrCsYlsD6Qk`;
 
-        form.appendChild(createHiddenInput('SignatureValue', CryptoJS.MD5(signature).toString()));
+        form.appendChild(createHiddenInput('SignatureValue', Md5(signature).toString()));
 
         console.log('form', form);
         document.body.appendChild(form);
