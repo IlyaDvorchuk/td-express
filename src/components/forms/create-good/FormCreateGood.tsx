@@ -77,6 +77,7 @@ const FormCreateGood = ({card} : {card: IProductCard | null}) => {
         if (isUpdateCard) {
             navigation('/seller/goods');
             dispatch(updateCardFalse())
+            window.location.reload();
         }
     },  [dispatch, isUpdateCard, navigation, updateCardFalse])
 
