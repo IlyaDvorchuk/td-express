@@ -3,7 +3,6 @@ import './product-card.scss'
 import '../../../styles/elements/buttons.scss'
 import {IProductCard} from "../../../models/IProductCard";
 import {useNavigate} from "react-router-dom";
-import {API_URL} from "../../../http";
 import {UserService} from "../../../services/UserService";
 
 interface IProductCardProps {
@@ -47,7 +46,7 @@ const ProductCard = ({card, isFavoriteCard = false}: IProductCardProps) => {
 
             </div>
             <div className={'card-image'}>
-                <img src={`${API_URL}${card.mainPhoto}`} alt={card.information.name}/>
+                <img src={`https://api.td-market.md/${card.mainPhoto}`} alt={card.information.name}/>
             </div>
             <div className={'card__price'}>
                 <span className={'price'}>
