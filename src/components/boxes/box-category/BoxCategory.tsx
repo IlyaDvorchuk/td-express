@@ -4,6 +4,7 @@ import {Link, useParams} from "react-router-dom";
 import Select from "react-select";
 import {GoodsService} from "../../../services/GoodsService";
 import {ICategory, ISection, ISubcategory} from "../../../models/ICategories";
+import FilterCards from "../../forms/filter-cards/FilterCards";
 
 interface IProps {
     children: ReactNode,
@@ -43,10 +44,7 @@ const BoxCategory = ({children}: IProps) => {
                 </div>
             </div>
             <div className={'category__main'}>
-                <div className={'category__aside'}>
-                    <h3>Цена, руб</h3>
-                    <button className={'button button_light category__button'}>Очистить всё</button>
-                </div>
+                <FilterCards/>
                 <div className={'category__container'}>
                     {children}
                 </div>

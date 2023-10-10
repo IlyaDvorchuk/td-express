@@ -45,8 +45,8 @@
     background-color: $background3Color;
   }
 
-  &:focus {
-    border: $borderInput;
+  &:focus, &:focus-visible {
+    border: $borderInput !important;
   }
 
   &.error {
