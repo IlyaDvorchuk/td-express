@@ -1,18 +1,23 @@
 .filter {
+  min-width: 353px;
   padding: 30px;
-  width: 40%;
 
   & h3 {
     margin-bottom: 13px;
   }
 
   &__inputs {
+    margin-bottom: 28px;
     display: flex;
     gap: 10px;
   }
 
   &__button {
     max-width: 181px;
+  }
+
+  &__range {
+    width: 100%;
   }
 }
 
