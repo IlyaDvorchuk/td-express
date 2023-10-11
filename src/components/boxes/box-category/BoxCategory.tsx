@@ -8,6 +8,7 @@ import FilterCards from "../../forms/filter-cards/FilterCards";
 
 interface IProps {
     children: ReactNode,
+
 }
 
 const BoxCategory = ({children}: IProps) => {
@@ -44,7 +45,8 @@ const BoxCategory = ({children}: IProps) => {
                 </div>
             </div>
             <div className={'category__main'}>
-                <FilterCards/>
+                <FilterCards
+                />
                 <div className={'category__container'}>
                     {children}
                 </div>
