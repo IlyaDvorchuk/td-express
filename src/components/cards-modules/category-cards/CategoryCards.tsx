@@ -1,4 +1,4 @@
-import React, {useMemo, useState} from 'react';
+import React, {useEffect, useMemo, useState} from 'react';
 import {IProductCard} from "../../../models/IProductCard";
 import {GoodsService} from "../../../services/GoodsService";
 import {useParams} from "react-router-dom";
@@ -13,39 +13,54 @@ interface CategoryCardsProps {
     id?: string;
     title?: string;
     limit: number;
+    isFilter?: boolean
 }
 
-const CategoryCards = ({ id, title, limit, }: CategoryCardsProps) => {
+const CategoryCards = ({ id, title, limit, isFilter = false }: CategoryCardsProps) => {
     const { id: paramsId } = useParams();
     const {
-        currentMinPrice, currentMaxPrice
+        currentMinPrice, currentMaxPrice, isChange
     } = useAppSelector(state => state.filterReducer)
     const [categoryCards, setCategoryCards] = useState<IProductCard[]>([]);
     const [page, setPage] = useState(1);
     const [prevParamsId, setPrevParamsId] = useState<string | undefined>(paramsId);
     const dispatch = useAppDispatch()
 
-    const fetchCategoryCards = async () => {
+    const fetchCategoryCards = async (isInputChange = false) => {
         try {
             const categoryId = id || paramsId;
             if (categoryId) {
-                const response = await GoodsService.getCategoryGoods
-                (
-                    categoryId, page, limit, currentMinPrice, currentMaxPrice
-                );
-                if (prevParamsId !== paramsId) {
 
+                const currentMin = (prevParamsId !== paramsId) || !isFilter ? 0 : currentMinPrice
+                const currentMax =  (prevParamsId !== paramsId) || !isFilter ? Infinity : currentMaxPrice
+                // console.log('currentMin', currentMin)
+                // console.log('currentMax', currentMax)
+                // console.log('paramsId', paramsId)
+                // console.log('prevParamsId', prevParamsId)
+                const response =  await GoodsService.getCategoryGoods
+                (
+                    categoryId, page, limit, currentMin, currentMax
+                );
+                if (prevParamsId !== paramsId || isInputChange) {
                     setCategoryCards(response.data.productCards); // Заменяем categoryCards новыми данными
                 } else {
                     setCategoryCards(prevCards => [...prevCards, ...response.data.productCards]); // Добавляем новые карточки
                 }
-                dispatch(filterSlice.actions.setRange({
-                    maxPriceRange: response.data.maxPriceRange,
-                    minPriceRange: response.data.minPriceRange,
-                }))
-                dispatch(filterSlice.actions.setCurrentMaxPrice(response.data.maxPriceRange))
-                dispatch(filterSlice.actions.setCurrentMinPrice(response.data.minPriceRange))
-
+                if (isFilter && response.data.productCards.length > 0 && !isInputChange) {
+                    dispatch(filterSlice.actions.setRange({
+                        maxPriceRange: response.data.maxPriceRange,
+                        minPriceRange: response.data.minPriceRange,
+                    }))
+                    dispatch(filterSlice.actions.setCurrentMaxPrice(response.data.maxPriceRange))
+                    dispatch(filterSlice.actions.setCurrentMinPrice(response.data.minPriceRange))
+                } else if (!isInputChange) {
+                    dispatch(filterSlice.actions.setRange({
+                        maxPriceRange: Infinity,
+                        minPriceRange: 0,
+                    }))
+                    dispatch(filterSlice.actions.setCurrentMaxPrice(Infinity))
+                    dispatch(filterSlice.actions.setCurrentMinPrice(0))
+                }
             }
         } catch (error) {
             console.log('Ошибка при получении карточек товаров:', error);
@@ -62,6 +77,14 @@ const CategoryCards = ({ id, title, limit, }: CategoryCardsProps) => {
         setPrevParamsId(paramsId);
         fetchCategoryCards();
     }, [id, paramsId, page]); // Используем useMemo для оптимизации вызова fetchCategoryCards
+
+
+    useEffect(() => {
+        if (isFilter && isChange) {
+            fetchCategoryCards(true);
+        }
+    }, [isChange, isFilter, currentMinPrice, currentMaxPrice])
+
 
     return (
         <div>

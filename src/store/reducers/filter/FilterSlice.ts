@@ -6,6 +6,7 @@ const initialState = {
     maxPrice: Infinity,
     currentMinPrice: -Infinity,
     currentMaxPrice: Infinity,
+    isChange: false,
 }
 
 export const filterSlice = createSlice({
@@ -15,6 +16,7 @@ export const filterSlice = createSlice({
         setRange(state, action: PayloadAction<IRangePrice>) {
             state.minPrice = action.payload.minPriceRange
             state.maxPrice = action.payload.maxPriceRange
+            state.isChange = false
         },
         setCurrentMinPrice(state, action: PayloadAction<number>) {
             state.currentMinPrice = action.payload
@@ -22,6 +24,10 @@ export const filterSlice = createSlice({
         setCurrentMaxPrice(state, action: PayloadAction<number>) {
             state.currentMaxPrice = action.payload
         },
+        setIsChangeTrue(state) {
+            console.log('bros')
+            state.isChange = true
+        }
     }
 })
 

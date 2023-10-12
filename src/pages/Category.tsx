@@ -5,12 +5,13 @@ import MobileNavbar from "../components/mobile-navbar/MobileNavbar";
 import CategoryCards from "../components/cards-modules/category-cards/CategoryCards";
 
 const Category = () => {
+
     return (
         <div>
             <MobileNavbar/>
             <Container>
                 <BoxCategory>
-                    <CategoryCards limit={32}/>
+                    <CategoryCards limit={32} isFilter={true}/>
                 </BoxCategory>
             </Container>
         </div>

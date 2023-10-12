@@ -15,7 +15,7 @@ const FilterCards = () => {
     const {
         maxPrice, minPrice
     } = useAppSelector(state => state.filterReducer)
-    const {setCurrentMinPrice, setCurrentMaxPrice} = filterSlice.actions
+    const {setCurrentMinPrice, setCurrentMaxPrice, setIsChangeTrue} = filterSlice.actions
     const [valuesPrice, setValuesPrice] = useState({
         min: '',
         max: ''
@@ -24,8 +24,8 @@ const FilterCards = () => {
     useEffect(() => {
         if (minPrice !== -Infinity) {
             setValuesPrice({
-                min: minPrice.toString(),
-                max: maxPrice.toString(),
+                min: minPrice?.toString(),
+                max: maxPrice?.toString(),
             })
         }
     }, [minPrice, maxPrice])
@@ -41,10 +41,12 @@ const FilterCards = () => {
         const numberPrice = +validInput.replace(/,/g, '.')
         if (!isNaN(numberPrice)) {
             dispatch(setCurrentMinPrice(numberPrice))
+            dispatch(setIsChangeTrue())
         }
 
         if (validInput === '') {
             dispatch(setCurrentMinPrice(minPrice))
+            dispatch(setIsChangeTrue())
         }
 
     };
@@ -60,10 +62,12 @@ const FilterCards = () => {
         const numberPrice = +validInput.replace(/,/g, '.')
         if (!isNaN(numberPrice)) {
             dispatch(setCurrentMaxPrice(numberPrice))
+            dispatch(setIsChangeTrue())
         }
 
         if (validInput === '') {
-            dispatch(setCurrentMinPrice(maxPrice))
+            dispatch(setCurrentMaxPrice(maxPrice))
+            dispatch(setIsChangeTrue())
         }
     };
 
@@ -78,7 +82,7 @@ const FilterCards = () => {
                         type="text"
                         id="min-price"
                         value={valuesPrice.min}
-                        placeholder={minPrice.toString()}
+                        placeholder={minPrice?.toString()}
                         onChange={onChangeMin}
                     />
                 </div>
@@ -90,7 +94,7 @@ const FilterCards = () => {
                         id="max-price"
                         value={valuesPrice.max}
                         onChange={onChangeMax}
-                        placeholder={maxPrice.toString()}
+                        placeholder={maxPrice?.toString()}
                     />
                 </div>
             </div>
