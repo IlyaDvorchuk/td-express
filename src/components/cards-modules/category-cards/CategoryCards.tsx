@@ -26,6 +26,7 @@ const CategoryCards = ({ id, title, limit, isFilter = false }: CategoryCardsProp
     const [prevParamsId, setPrevParamsId] = useState<string | undefined>(paramsId);
     const dispatch = useAppDispatch()
 
+
     const fetchCategoryCards = async (isInputChange = false) => {
         try {
             const categoryId = id || paramsId;

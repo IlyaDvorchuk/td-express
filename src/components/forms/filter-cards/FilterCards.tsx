@@ -20,6 +20,14 @@ const FilterCards = () => {
         min: '',
         max: ''
     })
+    const [debouncedValues, setDebouncedValues] = useState([minPrice, maxPrice]);
+    const [debounceTimer, setDebounceTimer] = useState<NodeJS.Timeout | null>(null);
+    const [minDebounceTimer, setMinDebounceTimer] = useState<NodeJS.Timeout | null>(null);
+    const [maxDebounceTimer, setMaxDebounceTimer] = useState<NodeJS.Timeout | null>(null);
+
+    useEffect(() => {
+        setDebouncedValues([minPrice, maxPrice]);
+    }, [minPrice, maxPrice]);
 
     useEffect(() => {
         if (minPrice !== -Infinity) {
@@ -38,17 +46,33 @@ const FilterCards = () => {
             min: validInput
         });
 
-        const numberPrice = +validInput.replace(/,/g, '.')
+        const numberPrice = +validInput.replace(/,/g, '.');
+
+        setDebouncedValues([
+            numberPrice,
+            debouncedValues[1],
+        ]);
+
         if (!isNaN(numberPrice)) {
-            dispatch(setCurrentMinPrice(numberPrice))
-            dispatch(setIsChangeTrue())
+            // Отменяем предыдущий таймер задержки, если он существует
+            if (minDebounceTimer) {
+                clearTimeout(minDebounceTimer);
+            }
+
+            // Устанавливаем новый таймер задержки
+            const newMinDebounceTimer = setTimeout(() => {
+                dispatch(setCurrentMinPrice(numberPrice));
+                dispatch(setIsChangeTrue());
+            }, 500); // Задержка в миллисекундах (в данном случае 500 мс)
+
+            // Устанавливаем новый таймер задержки
+            setMinDebounceTimer(newMinDebounceTimer);
         }
 
         if (validInput === '') {
-            dispatch(setCurrentMinPrice(minPrice))
-            dispatch(setIsChangeTrue())
+            dispatch(setCurrentMinPrice(minPrice));
+            dispatch(setIsChangeTrue());
         }
-
     };
 
     const onChangeMax = (e: ChangeEvent<HTMLInputElement>) => {
@@ -59,15 +83,57 @@ const FilterCards = () => {
             max: validInput
         });
 
-        const numberPrice = +validInput.replace(/,/g, '.')
+        const numberPrice = +validInput.replace(/,/g, '.');
+
+        setDebouncedValues([
+            debouncedValues[0],
+            numberPrice
+        ]);
+
         if (!isNaN(numberPrice)) {
-            dispatch(setCurrentMaxPrice(numberPrice))
-            dispatch(setIsChangeTrue())
+            // Отменяем предыдущий таймер задержки, если он существует
+            if (maxDebounceTimer) {
+                clearTimeout(maxDebounceTimer);
+            }
+
+            // Устанавливаем новый таймер задержки
+            const newMaxDebounceTimer = setTimeout(() => {
+                dispatch(setCurrentMaxPrice(numberPrice));
+                dispatch(setIsChangeTrue());
+            }, 500); // Задержка в миллисекундах (в данном случае 500 мс)
+
+            // Устанавливаем новый таймер задержки
+            setMaxDebounceTimer(newMaxDebounceTimer);
         }
 
         if (validInput === '') {
-            dispatch(setCurrentMaxPrice(maxPrice))
-            dispatch(setIsChangeTrue())
+            dispatch(setCurrentMaxPrice(maxPrice));
+            dispatch(setIsChangeTrue());
+        }
+    };
+
+    const handleDebouncedChange = (valuesRange: number | number[]) => {
+
+        if (Array.isArray(valuesRange) && valuesRange.length === 2) {
+            setDebouncedValues(valuesRange)
+            // Отменяем предыдущий таймер задержки, если он существует
+            if (debounceTimer) {
+                clearTimeout(debounceTimer);
+            }
+
+            // Устанавливаем новый таймер задержки
+            const newDebounceTimer = setTimeout(() => {
+                dispatch(setCurrentMinPrice(valuesRange[0]));
+                dispatch(setCurrentMaxPrice(valuesRange[1]));
+                dispatch(setIsChangeTrue());
+                setValuesPrice({
+                    min: valuesRange[0].toString(),
+                    max: valuesRange[1].toString(),
+                });
+            }, 500); // Задержка в миллисекундах (в данном случае 500 мс)
+
+            // Устанавливаем новый таймер задержки
+            setDebounceTimer(newDebounceTimer);
         }
     };
 
@@ -79,32 +145,35 @@ const FilterCards = () => {
                     <label htmlFor="min-price" className={'label'}>От</label>
                     <input
                         className={'modalInput modalInput_light'}
-                        type="text"
+                        type="number"
                         id="min-price"
                         value={valuesPrice.min}
                         placeholder={minPrice?.toString()}
-                        onChange={onChangeMin}
+                        onInput={onChangeMin}
                     />
                 </div>
                 <div>
                     <label htmlFor="max-price" className={'label'}>От</label>
                     <input
                         className={'modalInput modalInput_light'}
-                        type="text"
+                        type="number"
                         id="max-price"
                         value={valuesPrice.max}
-                        onChange={onChangeMax}
+                        onInput={onChangeMax}
                         placeholder={maxPrice?.toString()}
                     />
                 </div>
             </div>
-            <div>
+            <div className={'filter__range'}>
                 <Slider
                     range
                     min={minPrice}
                     max={maxPrice}
                     trackStyle={[trackStyle]}
                     handleStyle={trackStyle}
+                    defaultValue={[minPrice, maxPrice]}
+                    value={debouncedValues}
+                    onChange={handleDebouncedChange}
                 />
             </div>
             {/*<input className={'filter__range'} type="range"/>*/}
