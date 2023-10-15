@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import './product-card.scss'
 import '../../../styles/elements/buttons.scss'
 import {IProductCard} from "../../../models/IProductCard";
-import {useNavigate} from "react-router-dom";
+import {Link} from "react-router-dom";
 import {UserService} from "../../../services/UserService";
 
 interface IProductCardProps {
@@ -11,15 +11,9 @@ interface IProductCardProps {
 }
 
 const ProductCard = ({card, isFavoriteCard = false}: IProductCardProps) => {
-    const navigate = useNavigate()
     const [isFavorite, setIsFavorite] = useState(isFavoriteCard)
 
     const onClickCard = () => {
-        navigate(`/card/${card._id}`, {
-            state: {
-                ...card
-            }
-        })
         window.scrollTo({top: 60, behavior: 'smooth'})
     }
 
@@ -30,7 +24,7 @@ const ProductCard = ({card, isFavoriteCard = false}: IProductCardProps) => {
     }
 
     return (
-        <div className={'card'} onClick={onClickCard}>
+        <Link to={`/card/${card._id}`} state={{ ...card }} onClick={onClickCard} className={'card'}>
             <div className={'card__favorites'} onClick={onAddFavorites}>
                 {!isFavorite ?
                     <img
@@ -60,7 +54,7 @@ const ProductCard = ({card, isFavoriteCard = false}: IProductCardProps) => {
             <h4 className={'card-name'} title={card.information.name}>
                 {card.information.name}
             </h4>
-        </div>
+        </Link>
     );
 };
 

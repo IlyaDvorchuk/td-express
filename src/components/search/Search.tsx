@@ -39,7 +39,6 @@ const Search = ({mobile = false}: {mobile?: boolean}) => {
         // Создаем новый таймаут для задержки перед отправкой запроса
         const newTimeoutId = setTimeout(() => {
             if (query) {
-                console.log('query', query)
                 dispatch(fetchSearch(query, 1, 20));
             }
         }, delay);

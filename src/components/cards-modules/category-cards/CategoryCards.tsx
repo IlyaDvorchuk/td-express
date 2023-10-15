@@ -27,12 +27,23 @@ const CategoryCards = ({ id, title, limit, isFilter = false }: CategoryCardsProp
     const [prevParamsId, setPrevParamsId] = useState<string | undefined>(paramsId);
     const dispatch = useAppDispatch()
 
+    useEffect(() => {
+        return () => {
+            dispatch(filterSlice.actions.setRange({
+                maxPriceRange: Infinity,
+                minPriceRange: 0,
+            }))
+            dispatch(filterSlice.actions.setCurrentMaxPrice(Infinity))
+            dispatch(filterSlice.actions.setCurrentMinPrice(0))
+            dispatch(filterSlice.actions.setColors([]))
+        }
+    }, [])
+
 
     const fetchCategoryCards = async (isInputChange = false) => {
         try {
             const categoryId = id || paramsId;
             if (categoryId) {
-
                 const currentMin = (prevParamsId !== paramsId) || !isFilter ? 0 : currentMinPrice
                 const currentMax =  (prevParamsId !== paramsId) || !isFilter ? Infinity : currentMaxPrice
                 const params: IGetGoodsParams = {
