@@ -4,6 +4,8 @@ import Slider from 'rc-slider';
 import 'rc-slider/assets/index.css';
 import {useAppDispatch, useAppSelector} from "../../../hooks/redux";
 import {filterSlice} from "../../../store/reducers/filter/FilterSlice";
+import {IColor} from "../../../models/IColor";
+import ColorCheckboxes from "../../inputs/color-checkboxes/ColorCheckboxes";
 
 
 const trackStyle = {
@@ -15,7 +17,7 @@ const FilterCards = () => {
     const {
         maxPrice, minPrice
     } = useAppSelector(state => state.filterReducer)
-    const {setCurrentMinPrice, setCurrentMaxPrice, setIsChangeTrue} = filterSlice.actions
+    const {setCurrentMinPrice, setCurrentMaxPrice, setIsChangeTrue, setColors} = filterSlice.actions
     const [valuesPrice, setValuesPrice] = useState({
         min: '',
         max: ''
@@ -24,6 +26,7 @@ const FilterCards = () => {
     const [debounceTimer, setDebounceTimer] = useState<NodeJS.Timeout | null>(null);
     const [minDebounceTimer, setMinDebounceTimer] = useState<NodeJS.Timeout | null>(null);
     const [maxDebounceTimer, setMaxDebounceTimer] = useState<NodeJS.Timeout | null>(null);
+    const [selectedColors, setSelectedColors] = useState<IColor[]>([]);
 
     useEffect(() => {
         setDebouncedValues([minPrice, maxPrice]);
@@ -37,6 +40,10 @@ const FilterCards = () => {
             })
         }
     }, [minPrice, maxPrice])
+    
+    useEffect(() => {
+        dispatch(setColors(selectedColors.map(color => color.name)))
+    }, [dispatch, selectedColors, setColors])
 
     const onChangeMin = (e: ChangeEvent<HTMLInputElement>) => {
         const validInput = e.target.value.replace(/[^0-9.,\s]/g, '');
@@ -137,6 +144,21 @@ const FilterCards = () => {
         }
     };
 
+    const onCleanFilter = (e: any) => {
+        e.preventDefault()
+
+        dispatch(filterSlice.actions.setCurrentMaxPrice(maxPrice))
+        dispatch(filterSlice.actions.setCurrentMinPrice(minPrice))
+        dispatch(filterSlice.actions.setColors([]))
+
+        setValuesPrice({
+            min: minPrice.toString(),
+            max: maxPrice.toString()
+        })
+        setDebouncedValues([minPrice, maxPrice])
+        setSelectedColors([])
+    }
+
     return (
         <aside className={'filter'}>
             <h3>Цена, руб</h3>
@@ -176,8 +198,17 @@ const FilterCards = () => {
                     onChange={handleDebouncedChange}
                 />
             </div>
-            {/*<input className={'filter__range'} type="range"/>*/}
-            <button className={'button button_light filter__button'}>Очистить всё</button>
+            <div className={'filter__colors'}>
+                <h3>Цвет</h3>
+                <ColorCheckboxes
+                    selectedColors={selectedColors}
+                    setSelectedColors={setSelectedColors}
+                    isPagination={true}
+                />
+            </div>
+            <button className={'button button_light filter__button'} onClick={onCleanFilter}>
+                Очистить всё
+            </button>
         </aside>
     );
 };

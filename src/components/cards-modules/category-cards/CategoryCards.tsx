@@ -7,6 +7,7 @@ import WrapperCard from "../../wrappers/wrapper-card/WrapperCard";
 import TitleCards from "../../title-cards/TitleCards";
 import {useAppDispatch, useAppSelector} from "../../../hooks/redux";
 import {filterSlice} from "../../../store/reducers/filter/FilterSlice";
+import {IGetGoodsParams} from "../../../models/IFilter";
 
 
 interface CategoryCardsProps {
@@ -19,7 +20,7 @@ interface CategoryCardsProps {
 const CategoryCards = ({ id, title, limit, isFilter = false }: CategoryCardsProps) => {
     const { id: paramsId } = useParams();
     const {
-        currentMinPrice, currentMaxPrice, isChange
+        currentMinPrice, currentMaxPrice, isChange, colors
     } = useAppSelector(state => state.filterReducer)
     const [categoryCards, setCategoryCards] = useState<IProductCard[]>([]);
     const [page, setPage] = useState(1);
@@ -34,13 +35,20 @@ const CategoryCards = ({ id, title, limit, isFilter = false }: CategoryCardsProp
 
                 const currentMin = (prevParamsId !== paramsId) || !isFilter ? 0 : currentMinPrice
                 const currentMax =  (prevParamsId !== paramsId) || !isFilter ? Infinity : currentMaxPrice
-                // console.log('currentMin', currentMin)
-                // console.log('currentMax', currentMax)
-                // console.log('paramsId', paramsId)
-                // console.log('prevParamsId', prevParamsId)
+                const params: IGetGoodsParams = {
+                    category: categoryId,
+                    page: page,
+                    limit: limit,
+                    minPrice: currentMin,
+                    maxPrice: currentMax,
+                };
+
+                if (Array.isArray(colors)) {
+                    params.colors = colors
+                }
                 const response =  await GoodsService.getCategoryGoods
                 (
-                    categoryId, page, limit, currentMin, currentMax
+                    params
                 );
                 if (prevParamsId !== paramsId || isInputChange) {
                     setCategoryCards(response.data.productCards); // Заменяем categoryCards новыми данными
@@ -61,6 +69,7 @@ const CategoryCards = ({ id, title, limit, isFilter = false }: CategoryCardsProp
                     }))
                     dispatch(filterSlice.actions.setCurrentMaxPrice(Infinity))
                     dispatch(filterSlice.actions.setCurrentMinPrice(0))
+                    dispatch(filterSlice.actions.setColors([]))
                 }
             }
         } catch (error) {
@@ -83,8 +92,9 @@ const CategoryCards = ({ id, title, limit, isFilter = false }: CategoryCardsProp
     useEffect(() => {
         if (isFilter && isChange) {
             fetchCategoryCards(true);
+            console.log('colors', colors)
         }
-    }, [isChange, isFilter, currentMinPrice, currentMaxPrice])
+    }, [isChange, isFilter, currentMinPrice, currentMaxPrice, colors])
 
 
     return (

@@ -1,9 +1,9 @@
 import React, {ChangeEvent, useEffect, useState} from 'react';
 import './create-good-colors.scss'
-import {ShelterService} from "../../../../services/ShelterService";
 import {IColor, ISelectedColor} from "../../../../models/IColor";
 import Checkbox from "../../../checkbox/Checkbox";
 import {IType} from "../../../../models/IProductCard";
+import useSortedColors from "../../../../hooks/useSortedColors";
 
 interface IPropsCreateGoodColors {
     selectedColors: ISelectedColor[]
@@ -13,22 +13,7 @@ interface IPropsCreateGoodColors {
 
 const CreateGoodColors = ({selectedColors, setSelectedColors, typesCard}: IPropsCreateGoodColors) => {
     const [isOpenColors, setIsOpenColors] = useState(false)
-    const [colors, setColors] = useState<IColor[]>([])
-
-    useEffect(() => {
-        const fetchColors = async () => {
-            const fetchedColors = await ShelterService.getColors();
-            if (fetchedColors.data) {
-                const sortedColors = fetchedColors.data.slice().sort((a, b) => {
-                    // Сравниваем значения полей name для сортировки по алфавиту
-                    return a.name.localeCompare(b.name);
-                });
-                setColors(sortedColors);
-            }
-        };
-
-        fetchColors();
-    }, []);
+    const colors = useSortedColors();
 
     useEffect(() => {
         if (typesCard) {

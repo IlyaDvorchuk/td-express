@@ -4,6 +4,7 @@ import {IPaginationCards} from "../models/response/IPaginationCards";
 import {IProductCardRes, ITypeRes} from "../models/IProductCard";
 import {ICategory, ISection, ISubcategory} from "../models/ICategories";
 import {IShelterForGood} from "../models/response/IShelter";
+import {IGetGoodsParams} from "../models/IFilter";
 
 export class GoodsService {
     static async getNewGoods(page: number, limit: number): Promise<AxiosResponse<IPaginationCards>> {
@@ -24,13 +25,15 @@ export class GoodsService {
         })
     }
 
-    static async getCategoryGoods(category: string, page: number, limit: number, minPrice?: number, maxPrice?: number): Promise<AxiosResponse<IPaginationCards>> {
+    static async getCategoryGoods(params: IGetGoodsParams): Promise<AxiosResponse<IPaginationCards>> {
+        const { category, page, limit, minPrice, maxPrice, colors } = params;
         return axios.get<IPaginationCards>(`${API_URL}product-cards/category/${category}`, {
             params: {
                 page,
                 limit,
                 minPrice,
-                maxPrice
+                maxPrice,
+                colors
             }
         })
     }

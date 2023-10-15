@@ -1,4 +1,5 @@
 .filter {
+  margin-bottom: 30px;
   min-width: 353px;
   max-width: 353px;
 
@@ -13,6 +14,7 @@
   }
 
   &__button {
+    margin: auto;
     max-width: 181px;
   }
 

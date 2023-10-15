@@ -1,0 +1,30 @@
+@import "./src/styles/constants";
+@import "./src/styles/mixins";
+
+.color-item {
+  height: 36px;
+  display: flex;
+  align-items: center;
+
+  &_left {
+    padding-left: 16px;
+  }
+
+  & &__color {
+    @extend %color-example;
+
+    &.white {
+      border: 1px solid #C3C3C3;
+    }
+  }
+}
+
+.color-add {
+  margin-bottom: 27px;
+  @include flex(flex-start, center, 3px);
+  margin-top: 16px;
+  color: $text4Color;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+}

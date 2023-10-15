@@ -1,12 +1,15 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {IRangePrice} from "../../../models/response/IPaginationCards";
 
+type ColorArrayOrNull = string[] | null;
+
 const initialState = {
     minPrice: -Infinity,
     maxPrice: Infinity,
     currentMinPrice: -Infinity,
     currentMaxPrice: Infinity,
     isChange: false,
+    colors: null as ColorArrayOrNull
 }
 
 export const filterSlice = createSlice({
@@ -25,8 +28,13 @@ export const filterSlice = createSlice({
             state.currentMaxPrice = action.payload
         },
         setIsChangeTrue(state) {
-            console.log('bros')
             state.isChange = true
+        },
+        setColors(state, action: PayloadAction<string[]>) {
+            if (state.colors) {
+                state.isChange = true
+            }
+            state.colors = action.payload
         }
     }
 })
