@@ -7,7 +7,7 @@ import WrapperCard from "../../wrappers/wrapper-card/WrapperCard";
 import TitleCards from "../../title-cards/TitleCards";
 import {useAppDispatch, useAppSelector} from "../../../hooks/redux";
 import {filterSlice} from "../../../store/reducers/filter/FilterSlice";
-import {IGetGoodsParams} from "../../../models/IFilter";
+import {IFilterCategoriesParams} from "../../../models/IFilter";
 
 
 interface CategoryCardsProps {
@@ -46,7 +46,7 @@ const CategoryCards = ({ id, title, limit, isFilter = false }: CategoryCardsProp
             if (categoryId) {
                 const currentMin = (prevParamsId !== paramsId) || !isFilter ? 0 : currentMinPrice
                 const currentMax =  (prevParamsId !== paramsId) || !isFilter ? Infinity : currentMaxPrice
-                const params: IGetGoodsParams = {
+                const params: IFilterCategoriesParams = {
                     category: categoryId,
                     page: page,
                     limit: limit,

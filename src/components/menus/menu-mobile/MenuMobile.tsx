@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import './menu-mobile.scss'
-import Search from "../../search/Search";
+// import Search from "../../search/Search";
 import {useAppSelector} from "../../../hooks/redux";
 import {API_URL} from "../../../http";
 import {ICategory, ISubcategory} from "../../../models/ICategories";
@@ -47,7 +47,7 @@ const MenuMobile = ({isPressed, setIsPressed}: IProps) => {
         <div className={`mobile-menu ${isPressed && 'active'}`}>
             <div>
                 <div className={'mobile-menu__search'}>
-                    <Search mobile={true}/>
+                    {/*<Search mobile={true}/>*/}
                 </div>
                 { !activeCategory && !activeSubCategory &&
                     categories.map((categ, index) => (

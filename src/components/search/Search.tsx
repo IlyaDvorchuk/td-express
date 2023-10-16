@@ -4,6 +4,8 @@ import {useLocation, useNavigate} from "react-router-dom";
 import {useAppDispatch, useAppSelector} from "../../hooks/redux";
 import {fetchSearch} from "../../store/reducers/search/SearchCreator";
 import {searchSlice} from "../../store/reducers/search/SearchSlice";
+import {IFilterSearchParams} from "../../models/IFilter";
+import {filterSlice} from "../../store/reducers/filter/FilterSlice";
 
 const Search = ({mobile = false}: {mobile?: boolean}) => {
     const dispatch = useAppDispatch()
@@ -11,24 +13,53 @@ const Search = ({mobile = false}: {mobile?: boolean}) => {
     const location = useLocation();
     const {query} = useAppSelector(state => state.searchReducer)
     const {searchSetQuery} = searchSlice.actions
+    const {
+        currentMinPrice, currentMaxPrice, isChange, colors
+    } = useAppSelector(state => state.filterReducer)
+    const [searchQuery, setSearchQuery]= useState('')
     const [timeoutId, setTimeoutId] = useState<NodeJS.Timeout | null>(null);
     const inputRef = useRef<HTMLInputElement>(null);
 
-    const onChangeSearch = (value: string) => {
-        if (location.pathname !== "/search") {
-            navigation("/search");
-        } else if (!value) navigation(-1)
-        dispatch(searchSetQuery(value))
-    }
-
-    const handleKeyDown = (event: any) => {
-        if (event.key === 'Enter') {
-            event.preventDefault();
-            onChangeSearch(query);
+    useEffect(() => {
+        if (inputRef.current && mobile && searchQuery) {
+            inputRef.current.focus(); // Устанавливаем фокус на инпуте
         }
-    };
+    }, []);
 
     useEffect(() => {
+        if (isChange) {
+            const delay = 500; // Задержка в миллисекундах
+
+            // Удаляем предыдущий таймаут, если он есть
+            if (timeoutId) {
+                clearTimeout(timeoutId);
+            }
+
+            // Создаем новый таймаут для задержки перед отправкой запроса
+            const newTimeoutId = setTimeout(() => {
+                if (query) {
+                    const params = {
+                        query,
+                        page: 1,
+                        limit: 100,
+                        minPrice: currentMinPrice,
+                        maxPrice: currentMaxPrice
+                    } as IFilterSearchParams
+                    if (colors && colors.length > 0) {
+                        params.colors = colors
+                    }
+                    dispatch(fetchSearch(params, true));
+                }
+            }, delay);
+
+            // Устанавливаем id нового таймаута в состояние
+            setTimeoutId(newTimeoutId);
+        }
+    }, [currentMinPrice, currentMaxPrice, colors]);
+
+    useEffect(() => {
+        // console.log('query 42', query)
+
         const delay = 500; // Задержка в миллисекундах
 
         // Удаляем предыдущий таймаут, если он есть
@@ -39,7 +70,15 @@ const Search = ({mobile = false}: {mobile?: boolean}) => {
         // Создаем новый таймаут для задержки перед отправкой запроса
         const newTimeoutId = setTimeout(() => {
             if (query) {
-                dispatch(fetchSearch(query, 1, 20));
+                const params = {
+                    query,
+                    page: 1,
+                    limit: 100,
+                    minPrice: 0,
+                    maxPrice: Infinity
+                } as IFilterSearchParams
+                dispatch(filterSlice.actions.setColors([]));
+                dispatch(fetchSearch(params));
             }
         }, delay);
 
@@ -47,11 +86,21 @@ const Search = ({mobile = false}: {mobile?: boolean}) => {
         setTimeoutId(newTimeoutId);
     }, [dispatch, query]);
 
-    useEffect(() => {
-        if (inputRef.current && mobile && query) {
-            inputRef.current.focus(); // Устанавливаем фокус на инпуте
+
+    const onChangeSearch = (value: string) => {
+        if (location.pathname !== "/search") {
+            navigation("/search");
+        } else if (!value) navigation(-1)
+        setSearchQuery(value)
+        dispatch(searchSetQuery(value))
+    }
+
+    const handleKeyDown = (event: any) => {
+        if (event.key === 'Enter') {
+            event.preventDefault();
+            onChangeSearch(query);
         }
-    }, []);
+    };
 
     return (
         <div className={`search ${mobile && 'search_mobile'}`}>
@@ -61,7 +110,8 @@ const Search = ({mobile = false}: {mobile?: boolean}) => {
             <input
                 className={'search-input'}
                 ref={inputRef}
-                onChange={(e) => onChangeSearch(e.target.value)} value={query}
+                onChange={(e) => onChangeSearch(e.target.value)}
+                value={query}
                 onKeyDown={handleKeyDown}
             />
 

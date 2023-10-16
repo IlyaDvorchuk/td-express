@@ -17,7 +17,6 @@ export const filterSlice = createSlice({
     initialState,
     reducers: {
         setRange(state, action: PayloadAction<IRangePrice>) {
-            console.log('setRange 20', action.payload)
             state.minPrice = action.payload.minPriceRange
             state.maxPrice = action.payload.maxPriceRange
             state.isChange = false

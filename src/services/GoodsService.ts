@@ -4,7 +4,7 @@ import {IPaginationCards} from "../models/response/IPaginationCards";
 import {IProductCardRes, ITypeRes} from "../models/IProductCard";
 import {ICategory, ISection, ISubcategory} from "../models/ICategories";
 import {IShelterForGood} from "../models/response/IShelter";
-import {IGetGoodsParams} from "../models/IFilter";
+import {IFilterCategoriesParams, IFilterSearchParams} from "../models/IFilter";
 
 export class GoodsService {
     static async getNewGoods(page: number, limit: number): Promise<AxiosResponse<IPaginationCards>> {
@@ -25,7 +25,7 @@ export class GoodsService {
         })
     }
 
-    static async getCategoryGoods(params: IGetGoodsParams): Promise<AxiosResponse<IPaginationCards>> {
+    static async getCategoryGoods(params: IFilterCategoriesParams): Promise<AxiosResponse<IPaginationCards>> {
         const { category, page, limit, minPrice, maxPrice, colors } = params;
         return axios.get<IPaginationCards>(`${API_URL}product-cards/category/${category}`, {
             params: {
@@ -42,12 +42,16 @@ export class GoodsService {
         return axios.get<ICategory | ISubcategory | ISection>(`${API_URL}categories/category/${category}`)
     }
 
-    static async getSearchGoods(query: string, page: number, limit: number): Promise<AxiosResponse<IPaginationCards>> {
+    static async getSearchGoods(params: IFilterSearchParams): Promise<AxiosResponse<IPaginationCards>> {
+        const { query, page, limit, minPrice, maxPrice, colors } = params;
         return axios.get<IPaginationCards>(`${API_URL}product-cards/search/`, {
             params: {
                 query,
                 page,
-                limit
+                limit,
+                minPrice,
+                maxPrice,
+                colors
             }
         })
     }
