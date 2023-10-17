@@ -5,7 +5,6 @@ import {useAppDispatch, useAppSelector} from "../../hooks/redux";
 import {fetchSearch} from "../../store/reducers/search/SearchCreator";
 import {searchSlice} from "../../store/reducers/search/SearchSlice";
 import {IFilterSearchParams} from "../../models/IFilter";
-import {filterSlice} from "../../store/reducers/filter/FilterSlice";
 
 const Search = ({mobile = false}: {mobile?: boolean}) => {
     const dispatch = useAppDispatch()
@@ -77,7 +76,7 @@ const Search = ({mobile = false}: {mobile?: boolean}) => {
                     minPrice: 0,
                     maxPrice: Infinity
                 } as IFilterSearchParams
-                dispatch(filterSlice.actions.setColors([]));
+                // dispatch(filterSlice.actions.setColors(null));
                 dispatch(fetchSearch(params));
             }
         }, delay);

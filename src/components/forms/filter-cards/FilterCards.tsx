@@ -6,6 +6,7 @@ import {useAppDispatch, useAppSelector} from "../../../hooks/redux";
 import {filterSlice} from "../../../store/reducers/filter/FilterSlice";
 import {IColor} from "../../../models/IColor";
 import ColorCheckboxes from "../../inputs/color-checkboxes/ColorCheckboxes";
+import {useParams} from "react-router-dom";
 
 
 const trackStyle = {
@@ -13,6 +14,7 @@ const trackStyle = {
 };
 
 const FilterCards = () => {
+    const { id: paramsId } = useParams();
     const dispatch = useAppDispatch()
     const {
         maxPrice, minPrice
@@ -28,11 +30,9 @@ const FilterCards = () => {
     const [maxDebounceTimer, setMaxDebounceTimer] = useState<NodeJS.Timeout | null>(null);
     const [selectedColors, setSelectedColors] = useState<IColor[]>([]);
 
-    useEffect(() => {
-        setDebouncedValues([minPrice, maxPrice]);
-    }, [minPrice, maxPrice]);
 
     useEffect(() => {
+        setDebouncedValues([minPrice, maxPrice]);
         if (minPrice !== -Infinity) {
             setValuesPrice({
                 min: minPrice?.toString(),
@@ -40,7 +40,14 @@ const FilterCards = () => {
             })
         }
     }, [minPrice, maxPrice])
-    
+
+    useEffect(() => {
+        if (paramsId) {
+            dispatch(setColors([]))
+            setSelectedColors([])
+        }
+    }, [paramsId])
+
     useEffect(() => {
         dispatch(setColors(selectedColors.map(color => color.name)))
     }, [dispatch, selectedColors, setColors])
