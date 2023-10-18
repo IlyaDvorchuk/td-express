@@ -15,7 +15,7 @@ const trackStyle = {
 const FilterCards = () => {
     const dispatch = useAppDispatch()
     const {
-        maxPrice, minPrice
+        maxPrice, minPrice, isReset
     } = useAppSelector(state => state.filterReducer)
     const {setCurrentMinPrice, setCurrentMaxPrice, setIsChangeTrue, setColors} = filterSlice.actions
     const [valuesPrice, setValuesPrice] = useState({
@@ -40,7 +40,11 @@ const FilterCards = () => {
             })
         }
     }, [minPrice, maxPrice])
-    
+
+    useEffect(() => {
+        if (isReset) setSelectedColors([])
+    }, [isReset])
+
     useEffect(() => {
         dispatch(setColors(selectedColors.map(color => color.name)))
     }, [dispatch, selectedColors, setColors])

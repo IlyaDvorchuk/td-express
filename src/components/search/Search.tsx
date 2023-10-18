@@ -5,7 +5,6 @@ import {useAppDispatch, useAppSelector} from "../../hooks/redux";
 import {fetchSearch} from "../../store/reducers/search/SearchCreator";
 import {searchSlice} from "../../store/reducers/search/SearchSlice";
 import {IFilterSearchParams} from "../../models/IFilter";
-import {filterSlice} from "../../store/reducers/filter/FilterSlice";
 
 const Search = ({mobile = false}: {mobile?: boolean}) => {
     const dispatch = useAppDispatch()
@@ -14,7 +13,7 @@ const Search = ({mobile = false}: {mobile?: boolean}) => {
     const {query} = useAppSelector(state => state.searchReducer)
     const {searchSetQuery} = searchSlice.actions
     const {
-        currentMinPrice, currentMaxPrice, isChange, colors
+        currentMinPrice, currentMaxPrice, isChange, colors, isReset
     } = useAppSelector(state => state.filterReducer)
     const [searchQuery, setSearchQuery]= useState('')
     const [timeoutId, setTimeoutId] = useState<NodeJS.Timeout | null>(null);
@@ -37,7 +36,7 @@ const Search = ({mobile = false}: {mobile?: boolean}) => {
 
             // Создаем новый таймаут для задержки перед отправкой запроса
             const newTimeoutId = setTimeout(() => {
-                if (query) {
+                if (query && !isReset) {
                     const params = {
                         query,
                         page: 1,
@@ -58,8 +57,6 @@ const Search = ({mobile = false}: {mobile?: boolean}) => {
     }, [currentMinPrice, currentMaxPrice, colors]);
 
     useEffect(() => {
-        // console.log('query 42', query)
-
         const delay = 500; // Задержка в миллисекундах
 
         // Удаляем предыдущий таймаут, если он есть
@@ -77,7 +74,6 @@ const Search = ({mobile = false}: {mobile?: boolean}) => {
                     minPrice: 0,
                     maxPrice: Infinity
                 } as IFilterSearchParams
-                dispatch(filterSlice.actions.setColors([]));
                 dispatch(fetchSearch(params));
             }
         }, delay);

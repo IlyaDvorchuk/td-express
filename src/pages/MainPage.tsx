@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import Container from "../components/container/Container";
 import Slider from "../components/slider/Slider";
 import {useAppSelector} from "../hooks/redux";
@@ -11,8 +11,24 @@ import MobileNavbar from "../components/mobile-navbar/MobileNavbar";
 import BoxLinkRegistration from "../components/boxes/box-link-registration/BoxLinkRegistration";
 
 const MainPage = () => {
+    const [windowWidth, setWindowWidth] = useState(window.innerWidth);
     const accessToken = useAppSelector((state) => state.shelterReducer.accessToken);
     const {categories} = useAppSelector(state => state.categoriesReducer)
+
+    useEffect(() => {
+        // Обработчик изменения размера окна браузера
+        const handleResize = () => {
+            setWindowWidth(window.innerWidth);
+        };
+
+        // Добавляем обработчик при монтировании компонента
+        window.addEventListener('resize', handleResize);
+
+        // Убираем обработчик при размонтировании компонента
+        return () => {
+            window.removeEventListener('resize', handleResize);
+        };
+    }, []);
 
     if (accessToken) {
         return <Navigate to="/seller/main" />;
@@ -23,7 +39,7 @@ const MainPage = () => {
             <MobileNavbar/>
             <BoxLinkRegistration/>
             <Container>
-                <Search mobile={true}/>
+                {windowWidth < 690 && <Search mobile={true} />}
                 <Slider/>
                 <HotCards limit={12}/>
                 <NewCards limit={12}/>

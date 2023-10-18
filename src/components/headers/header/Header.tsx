@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import './header.scss'
 import Container from "../../container/Container";
 import Geolocation from "../../geolocation/Geolocation";
@@ -24,6 +24,22 @@ const Header = () => {
     const {isUserModal, user} = useAppSelector(state => state.userReducer)
     const {changeIsUserModal} = userSlice.actions
     const {categories} = useAppSelector(state => state.categoriesReducer)
+    const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+
+    useEffect(() => {
+        // Обработчик изменения размера окна браузера
+        const handleResize = () => {
+            setWindowWidth(window.innerWidth);
+        };
+
+        // Добавляем обработчик при монтировании компонента
+        window.addEventListener('resize', handleResize);
+
+        // Убираем обработчик при размонтировании компонента
+        return () => {
+            window.removeEventListener('resize', handleResize);
+        };
+    }, []);
 
     useEffect(() => {
         if ((localStorage.getItem('access_token_user') !== null) && isObjectEmpty(user)) {
@@ -53,7 +69,7 @@ const Header = () => {
                     <Link to={'/'} className={'logo'}>
                         <img src={'/images/logo-market.svg'} alt={'TD Market'}/>
                     </Link>
-                    <Search/>
+                    {windowWidth > 690 && <Search />}
                     <Link to={'/favorites'} className={'link-icon link-icon_favorite'}>
                         <FavoritesSvg/>
                     </Link>

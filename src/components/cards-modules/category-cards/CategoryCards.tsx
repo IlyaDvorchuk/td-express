@@ -20,7 +20,7 @@ interface CategoryCardsProps {
 const CategoryCards = ({ id, title, limit, isFilter = false }: CategoryCardsProps) => {
     const { id: paramsId } = useParams();
     const {
-        currentMinPrice, currentMaxPrice, isChange, colors
+        currentMinPrice, currentMaxPrice, isChange, colors, isReset
     } = useAppSelector(state => state.filterReducer)
     const [categoryCards, setCategoryCards] = useState<IProductCard[]>([]);
     const [page, setPage] = useState(1);
@@ -42,6 +42,10 @@ const CategoryCards = ({ id, title, limit, isFilter = false }: CategoryCardsProp
 
     const fetchCategoryCards = async (isInputChange = false) => {
         try {
+            if (!isInputChange) {
+                dispatch(filterSlice.actions.setResetTrue())
+
+            }
             const categoryId = id || paramsId;
             if (categoryId) {
                 const currentMin = (prevParamsId !== paramsId) || !isFilter ? 0 : currentMinPrice
@@ -54,7 +58,7 @@ const CategoryCards = ({ id, title, limit, isFilter = false }: CategoryCardsProp
                     maxPrice: currentMax,
                 };
 
-                if (Array.isArray(colors)) {
+                if (Array.isArray(colors) && isInputChange) {
                     params.colors = colors
                 }
                 const response =  await GoodsService.getCategoryGoods
@@ -83,6 +87,7 @@ const CategoryCards = ({ id, title, limit, isFilter = false }: CategoryCardsProp
                     dispatch(filterSlice.actions.setColors([]))
                 }
             }
+            dispatch(filterSlice.actions.setResetFalse())
         } catch (error) {
             console.log('Ошибка при получении карточек товаров:', error);
         }
@@ -101,11 +106,10 @@ const CategoryCards = ({ id, title, limit, isFilter = false }: CategoryCardsProp
 
 
     useEffect(() => {
-        if (isFilter && isChange) {
+        if (isFilter && isChange && !isReset) {
             fetchCategoryCards(true);
-            console.log('colors', colors)
         }
-    }, [isChange, isFilter, currentMinPrice, currentMaxPrice, colors])
+    }, [isChange, isFilter, currentMinPrice, currentMaxPrice, colors, isReset])
 
 
     return (

@@ -9,7 +9,8 @@ const initialState = {
     currentMinPrice: -Infinity,
     currentMaxPrice: Infinity,
     isChange: false,
-    colors: null as ColorArrayOrNull
+    colors: null as ColorArrayOrNull,
+    isReset: false
 }
 
 export const filterSlice = createSlice({
@@ -35,7 +36,13 @@ export const filterSlice = createSlice({
                 state.isChange = true
             }
             state.colors = action.payload
-        }
+        },
+        setResetFalse(state) {
+            state.isReset = false
+        },
+        setResetTrue(state) {
+            state.isReset = true
+        },
     }
 })
 

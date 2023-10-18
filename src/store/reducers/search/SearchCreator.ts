@@ -9,8 +9,11 @@ export const fetchSearch = (
     params: IFilterSearchParams, isChange?: boolean
 ) => async (dispatch: AppDispatch) => {
     try {
+        if (!isChange) {
+            dispatch(filterSlice.actions.setResetTrue())
+        }
+
         dispatch(searchSlice.actions.searchFetching())
-        console.log('params 13', params)
         const response = await GoodsService.getSearchGoods(params);
         if (!isChange) {
             dispatch(filterSlice.actions.setRange({
@@ -21,8 +24,9 @@ export const fetchSearch = (
             dispatch(filterSlice.actions.setCurrentMinPrice(response.data.minPriceRange))
         }
 
-        console.log('hey hey', response)
         dispatch(searchSlice.actions.searchFetchingSuccess(response.data.productCards))
+        dispatch(filterSlice.actions.setResetFalse())
+
     } catch (e: any) {
         console.log('e', e)
         dispatch(categoriesSlice.actions.categoriesFetchingError(e.message))
