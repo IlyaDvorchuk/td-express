@@ -3,25 +3,52 @@
 .cart {
   margin: 93px 0 138px;
   font-size: $littleMediumSize;
-  color: $text4Color;
+
+
+  @media screen and (max-width: 1000px) {
+    margin-top: 45px;
+  }
+
+  @media screen and (max-width: 690px) {
+    margin: 12px 20px;
+  }
 
   & &__title {
     margin-bottom: 28px;
     font-size: $bigTitleSize;
     font-family: 'Nunito Sans', sans-serif;
     font-weight: 800;
+
+    @media screen and (max-width: 400px) {
+      font-size: $mediumMediumSize;
+      margin-bottom: 8px;
+    }
+
+  }
+
+  & &__count {
+    color: $text4Color;
   }
 
   & &__buttons {
     margin-bottom: 24px;
     display: flex;
     gap: 27px;
+
+    @media screen and (max-width: 400px) {
+      margin-bottom: 16px;
+    }
   }
 
   & &__checkbox {
     display: flex;
     align-items: center;
     gap: 7px;
+
+    @media screen and (max-width: 400px) {
+      gap: 0;
+      font-size: $veryLittleSize;
+    }
   }
 
   & &__button {
@@ -29,6 +56,10 @@
 
     & > img {
       margin-right: 6px;
+    }
+
+    @media screen and (max-width: 400px) {
+      display: none;
     }
   }
 
@@ -40,6 +71,14 @@
     display: flex;
     justify-content: space-between;
     gap: 109px;
+
+    @media screen and (max-width: 1160px) {
+      gap: 10px;
+    }
+
+    @media screen and (max-width: 850px) {
+      flex-direction: column;
+    }
   }
 
   & &__cards {
@@ -49,6 +88,11 @@
     gap: 39px;
     padding-top: 30px;
     border-top: 1px solid $borderColor;
+
+    @media screen and (max-width: 450px) {
+      padding-top: 0;
+      border-top: none;
+    }
   }
 }
 
@@ -58,6 +102,10 @@
   border: 1.5px solid $borderColor;
   border-radius: 15px;
   padding: 31px 50px 22px;
+
+  @media screen and (max-width: 1160px) {
+    padding: 31px 10px 22px;
+  }
 
   &__order {
     margin-bottom: 12px;

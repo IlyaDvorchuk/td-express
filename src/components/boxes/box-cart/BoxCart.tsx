@@ -5,12 +5,14 @@ import {UserService} from "../../../services/UserService";
 import {ICartRes} from "../../../models/response/ICartRes";
 import CartCard from "../../cards/cart-card/CartCard";
 import Checkbox from "../../checkbox/Checkbox";
+import {useWindowWidth} from "../../../hooks/useWindowWidth";
 
 const BoxCart = () => {
     const [goodsCart, setGoodCart] = useState<ICartRes[]>([])
     const [isAllChecked, setIsAllChecked] = useState(false)
     const [dedicatedCart, setDedicatedCart] = useState<ICartRes[]>([])
     const [changeCount, setChangeCount] = useState(0)
+    const windowWidth = useWindowWidth();
 
     const fetchCart = async () => {
         if (!getAccessTokenUser()) return
@@ -19,13 +21,8 @@ const BoxCart = () => {
     }
 
     useEffect(() => {
-
         fetchCart();
     }, []);
-
-    useEffect(() => {
-        console.log('goodsCart', goodsCart)
-    }, [goodsCart])
 
     const priseAll = useMemo(() => {
         return dedicatedCart.reduce((total, item) => {
@@ -38,9 +35,7 @@ const BoxCart = () => {
     const priseDiscount = useMemo(() => {
         return dedicatedCart.reduce((total, item) => {
             const itemPrice = (item.price.priceBeforeDiscount ? item.price.price : item.price.priceBeforeDiscount) * item.quantity;
-            console.log('itemPrice',itemPrice)
             if (!itemPrice) return (item.price.price * item.quantity)
-            console.log('gd;lfdg')
             return total + itemPrice;
         }, 0);
     }, [dedicatedCart, changeCount])
@@ -92,7 +87,7 @@ const BoxCart = () => {
                 </h2>
             <div className={'cart__buttons'}>
                 <div className={'cart__checkbox'}>
-                    <Checkbox sizes={36} isChecked={isAllChecked} onChange={chooseAll}/>
+                    <Checkbox sizes={windowWidth > 450 ? 36 : 16} isChecked={isAllChecked} onChange={chooseAll}/>
                     <span>Выбрать всё</span>
                 </div>
                 <button

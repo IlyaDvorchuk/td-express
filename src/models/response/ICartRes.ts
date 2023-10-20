@@ -1,6 +1,7 @@
 import {IPrice} from "../IProductCard";
 
 export interface ICartRes {
+    color?: string;
     productId: string;
     quantity: number;
     mainPhoto: string,

@@ -59,14 +59,25 @@ const BoxGood = ({card} : {card: IProductCardRes}) => {
 
     }, [])
 
-    const quantity = useMemo(() => {
+    const {quantity, typeId} = useMemo(() => {
         if (activeColor && activeSize && card.typeQuantity && card.typeQuantity?.length > 0) {
             const type = card.typeQuantity?.find(item => item.color?.name === activeColor && item.size === activeSize) as ITypeRes
-            return type?.quantity || 0
+            console.log('type 65', type)
+            return {
+                quantity: type?.quantity || 0,
+                typeId: type?._id || ''
+        }
         } else if (activeSize && card.typeQuantity && card.typeQuantity?.length > 0) {
             const type = card.typeQuantity?.find(item => item.size === activeSize) as ITypeRes
-            return type?.quantity || 0
-        } else return card.pricesAndQuantity.quantity
+            console.log('type 69', type)
+            return {
+                quantity: type?.quantity || 0,
+                typeId: type?._id || ''
+            }
+        } else return {
+            quantity: card.pricesAndQuantity.quantity,
+            typeId: ''
+        }
     }, [activeColor, activeSize])
 
     useEffect(() => {
@@ -184,12 +195,10 @@ const BoxGood = ({card} : {card: IProductCardRes}) => {
         await UserService.addToCart({
             productId: card._id,
             quantity: count,
-            // totalPrice: card.pricesAndQuantity.price ? card.pricesAndQuantity.price : card.pricesAndQuantity.priceBeforeDiscount,
-            // isFavorite: false,
-            size: 'activeSize?.size',
-            typeId: 'activeSize?._id' || ''
+            size: activeSize,
+            color: activeColor,
+            typeId: typeId || ''
         })
-        // if (response) setIsFavorite(true)
     }
 
     const onActiveGeolocation = () => {
@@ -289,7 +298,7 @@ const BoxGood = ({card} : {card: IProductCardRes}) => {
                                     onClick={() => onChangeColor(color.name)}
                                 >
                                     {color?.image ?
-                                        <img src={`https://api.td-market.md/${color.image}`}/>
+                                        <img src={`https://api.td-market.md/${color.image}`} alt={''}/>
                                         : <div style={{backgroundColor: color.color}}/>}
                                 </div>
                             ))}

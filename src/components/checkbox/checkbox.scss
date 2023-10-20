@@ -4,7 +4,11 @@
   position: relative;
   display: inline-block;
   cursor: pointer;
-  padding-left: 28px; /* Расстояние между чекбоксом и текстом */
+  padding-left: 28px;
+
+  @media screen and (max-width: 400px) {
+    padding-left: 20px;
+  }
 }
 
 /* Стили для самого чекбокса */

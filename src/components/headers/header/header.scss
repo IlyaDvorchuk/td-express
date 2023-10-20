@@ -38,7 +38,14 @@
     align-items: center;
     margin-bottom: 10px;
     position: relative;
+
+    @media screen and (max-width: 1000px) {
+      margin-bottom: 5px;
+      padding-top: 7px;
+    }
   }
+
+
 
   &__row-3 {
     display: flex;
@@ -80,11 +87,6 @@
   @media screen and (max-width: 800px) {
     width: 140px;
   }
-
-  @media screen and (max-width: 650px) {
-    width: 106px;
-    height: 27px;
-  }
 }
 
 .link-icon {
@@ -99,6 +101,14 @@
 
   &_favorite {
     margin-left: 27px;
+    @media screen and (max-width: 690px) {
+      margin-left: auto;
+    }
+  }
+
+  &_cart {
+    margin-left: 17px;
+    margin-right: 5px;
     @media screen and (max-width: 690px) {
       margin-left: auto;
     }

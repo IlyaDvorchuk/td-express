@@ -36,12 +36,16 @@ import AnswerOrder from "./pages/AnswerOrder";
 import FooterShelter from "./components/footers/footer-shelter/FooterShelter";
 import BoxSuccessOrder from "./components/boxes/box-success-order/BoxSuccessOrder";
 import BoxFailureOrder from "./components/boxes/box-failure-order/BoxFailureOrder";
+import Search from "./components/search/Search";
+import BoxLinkRegistration from "./components/boxes/box-link-registration/BoxLinkRegistration";
+import {useWindowWidth} from "./hooks/useWindowWidth";
 
 
 function App() {
     const accessToken = useAppSelector((state) => state.shelterReducer.accessToken);
     const dispatch = useDispatch();
     const {setLogoutSuccess} = shelterSlice.actions
+    const windowWidth = useWindowWidth();
 
     useEffect(() => {
         const token = getAccessTokenShelter();
@@ -155,6 +159,7 @@ function App() {
                         element={
                             <>
                                 <Header />
+                                {windowWidth < 690 && <Search mobile={true} />}
                                 <MobileNavbar/>
                                 <Cart />
                                 <Footer/>
@@ -220,6 +225,8 @@ function App() {
                         element={
                             <>
                                 <Header />
+                                <BoxLinkRegistration/>
+                                {windowWidth < 690 && <Search mobile={true} />}
                                 <MainPage />
                                 <Footer/>
 

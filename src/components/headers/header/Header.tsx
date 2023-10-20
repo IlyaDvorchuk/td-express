@@ -79,7 +79,7 @@ const Header = () => {
                     {!getAccessTokenUser() && <div onClick={openUserModal} className={'link-icon'}>
                         <UserSvg/>
                     </div>}
-                    {getAccessTokenUser() && !isObjectEmpty(user) &&
+                    {getAccessTokenUser() && !isObjectEmpty(user)&&
                         <div className={'link-icon'}>
                             <UserTools/>
                         </div>
@@ -88,7 +88,7 @@ const Header = () => {
                         <img src="/images/svg/faq.svg" alt="Вопросы"/>
                     </Link>
                     <Geolocation mobile={true}/>
-                    {isUserModal && <ModalLogin/>}
+                    {isUserModal && (windowWidth > 690) && !getAccessTokenUser() && <ModalLogin/>}
                 </div>
                 <div className={'header__row-3'}>
                     {categories.map((category) => (

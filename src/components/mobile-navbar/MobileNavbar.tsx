@@ -5,15 +5,20 @@ import MenuMobile from "../menus/menu-mobile/MenuMobile";
 import UserToolsMobile from "../tools/user-tools-mobile/UserToolsMobile";
 import {getAccessTokenUser} from "../../utils/tokens";
 import {isObjectEmpty} from "../../utils/isObjectEmpty";
-import {useAppSelector} from "../../hooks/redux";
+import {useAppDispatch, useAppSelector} from "../../hooks/redux";
+import ModalLogin from "../modals/modal-login/ModalLogin";
+import {userSlice} from "../../store/reducers/user/UserSlice";
 
 
 const MobileNavbar = () => {
+    const dispatch = useAppDispatch()
     const location = useLocation();
-    const {user} = useAppSelector(state => state.userReducer)
+    const {user, isUserModal} = useAppSelector(state => state.userReducer)
+    const {changeIsUserModal} = userSlice.actions
     const [activeLink, setActiveLink] = useState(localStorage.getItem('activeLink') || 'home');
     const [isPressedMenu, setIsPressedMenu] = useState(false)
     const [isPressedTools, setIsPressedTools] = useState(false)
+
 
     useEffect(() => {
         switch (location.pathname) {
@@ -44,6 +49,10 @@ const MobileNavbar = () => {
     const getActiveImageSrc = (imageName: string) => {
         return activeLink === imageName ? `${imageName}-active.svg` : `${imageName}.svg`;
     };
+
+    useEffect(() => {
+        console.log('isObjectEmpty(user)',user)
+    }, [user])
 
     return (
         <>
@@ -79,10 +88,14 @@ const MobileNavbar = () => {
                 </Link>
                 <div
                     className={`navbar__link ${activeLink === 'user' ? 'active' : ''}`}
-                    onClick={() => handleLinkClick('user')}
+                    onClick={() => {
+                        handleLinkClick('user');
+                        dispatch(changeIsUserModal(true))
+                    }}
                 >
                     <img src={`/images/svg/mobile-navbar/${getActiveImageSrc('user')}`} alt="User" />
                 </div>
+                {isUserModal && !getAccessTokenUser() && !user?._id && <ModalLogin/>}
             </div>
         </>
 

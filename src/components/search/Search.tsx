@@ -106,6 +106,7 @@ const Search = ({mobile = false}: {mobile?: boolean}) => {
             <input
                 className={'search-input'}
                 ref={inputRef}
+                placeholder={'Я ищу...'}
                 onChange={(e) => onChangeSearch(e.target.value)}
                 value={query}
                 onKeyDown={handleKeyDown}

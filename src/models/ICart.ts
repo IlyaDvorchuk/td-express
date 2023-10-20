@@ -4,6 +4,7 @@ export interface ICart {
     // totalPrice: number;
     // isFavorite: boolean;
     size?: string;
+    color?: string;
 }
 
 export interface ICartReq extends ICart{
