@@ -1,7 +1,8 @@
-import { useEffect } from 'react';
+import {ChangeEvent, useEffect, useState} from 'react';
 import './create-good-price.scss'
 import { useFormContext } from 'react-hook-form';
 import {IProductCard} from "../../../../models/IProductCard";
+import {ValidateNumberInput} from "../../../../utils/validateNumberInput";
 
 interface IProps {
     isClothes: boolean | null
@@ -9,6 +10,9 @@ interface IProps {
 }
 
 const CreateGoodPrice = ({isClothes, card}: IProps) => {
+    const [priceValue, setPriceValue] = useState('')
+    const [priceDiscountValue, setPriceDiscountValue] = useState('')
+    const [quantityInStockValue, setQuantityInStockValue] = useState('')
     const { register, watch } = useFormContext();
 
     const price = watch('price');
@@ -18,6 +22,19 @@ const CreateGoodPrice = ({isClothes, card}: IProps) => {
     useEffect(() => {
         // Действия, которые необходимо выполнить при изменении значений полей
     }, [price, priceDiscount, quantityInStock]);
+
+    const validationInput = (e: ChangeEvent<HTMLInputElement>, input: string) => {
+        const validInput = ValidateNumberInput.getValidInput(e.target.value)
+        const inputValue = ValidateNumberInput.removePoints(validInput)
+        console.log('input', input)
+        if (input === 'price') {
+            setPriceValue(inputValue)
+        } else if (input === 'priceDiscount') {
+            setPriceDiscountValue(inputValue)
+        } else if (input === 'quantityInStock') {
+            setQuantityInStockValue(inputValue)
+        }
+    }
 
     return (
         <>
@@ -32,6 +49,8 @@ const CreateGoodPrice = ({isClothes, card}: IProps) => {
                         className="modalInput description__input good-price__input"
                         defaultValue={card ? card.pricesAndQuantity.price : ''}
                         {...register('price')}
+                        value={priceValue}
+                        onChange={(e) => validationInput(e, 'price')}
                     />
                 </div>
                 <div className="description__block">
@@ -43,6 +62,8 @@ const CreateGoodPrice = ({isClothes, card}: IProps) => {
                         className="modalInput description__input good-price__input"
                         defaultValue={card ? card.pricesAndQuantity.priceBeforeDiscount : ''}
                         {...register('priceDiscount')}
+                        value={priceDiscountValue}
+                        onChange={(e) => validationInput(e, 'priceDiscount')}
                     />
                 </div>
                 {!isClothes && <div className="description__block">
@@ -54,6 +75,8 @@ const CreateGoodPrice = ({isClothes, card}: IProps) => {
                         className="modalInput description__input good-price__input"
                         defaultValue={card ? card.pricesAndQuantity.quantity : ''}
                         {...register('quantityInStock')}
+                        value={quantityInStockValue}
+                        onChange={(e) => validationInput(e, 'quantityInStock')}
                     />
                 </div>}
             </div>

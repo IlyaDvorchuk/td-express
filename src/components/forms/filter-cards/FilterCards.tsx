@@ -6,6 +6,7 @@ import {useAppDispatch, useAppSelector} from "../../../hooks/redux";
 import {filterSlice} from "../../../store/reducers/filter/FilterSlice";
 import {IColor} from "../../../models/IColor";
 import ColorCheckboxes from "../../inputs/color-checkboxes/ColorCheckboxes";
+import {ValidateNumberInput} from "../../../utils/validateNumberInput";
 
 
 const trackStyle = {
@@ -50,7 +51,8 @@ const FilterCards = () => {
     }, [dispatch, selectedColors, setColors])
 
     const onChangeMin = (e: ChangeEvent<HTMLInputElement>) => {
-        const validInput = e.target.value.replace(/[^0-9.,\s]/g, '');
+        ValidateNumberInput.getValidInput(e.target.value)
+        const validInput = ValidateNumberInput.getValidInput(e.target.value)
 
         setValuesPrice({
             ...valuesPrice,
