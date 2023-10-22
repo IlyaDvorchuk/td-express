@@ -1,8 +1,12 @@
 @import "/src/styles/constants";
+@import "/src/styles/mixins";
 
 .cart-card {
   display: flex;
 
+  @media screen and (max-width: 420px) {
+    border-bottom: 1px solid $borderColor;
+  }
 
   & &__checkbox {
     margin-right: 47px;
@@ -18,6 +22,11 @@
     @media screen and (max-width: 450px) {
       margin-right: 0;
     }
+
+    @media screen and (max-width: 420px) {
+      align-self: flex-start;
+      margin-top: 35px;
+    }
   }
 
   & &__image {
@@ -28,14 +37,20 @@
     border-radius: 5px;
     overflow: hidden;
 
+    @media screen and (max-width: 600px) {
+      margin-right: 9px;
+    }
+
+    @media screen and (max-width: 420px) {
+      width: 70px;
+      min-width: 70px;
+      height: 84px;
+      border-radius: 8px;
+    }
+
     & > img {
       width: 100%;
       height: 100%;
-    }
-
-    @media screen and (max-width: 500px) {
-      width: 107px;
-      min-width: 107px;
     }
   }
 
@@ -43,19 +58,45 @@
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
+
+    @media screen and (max-width: 530px) {
+      flex: 1;
+      justify-content: flex-start;
+    }
   }
-
-
-
+  
   & &__name {
     color: $title2Color;
     font-size: $bigMediumSize;
     font-weight: 500;
     margin-bottom: auto;
+
+    @media screen and (max-width: 610px) {
+      font-size: $mediumLittleSize;
+      margin-bottom: 4px;
+    }
   }
 
   & &__type {
     margin-bottom: 15px;
+
+    @media screen and (max-width: 610px) {
+      font-size: $veryLittleSize;
+      margin-bottom: 8px;
+    }
+  }
+
+  &__color {
+    @media screen and (max-width: 610px) {
+      font-size: $veryLittleSize;
+    }
+  }
+
+  & &__size {
+    @media screen and (max-width: 610px) {
+      margin-bottom: 0;
+
+    }
   }
 
   & &__buttons {
@@ -70,6 +111,18 @@
   & &__favorite {
     margin-left: 22px;
     margin-right: 12px;
+
+    @media screen and (max-width: 530px) {
+      margin-left: auto;
+      margin-right: 8px;
+    }
+  }
+
+  & &__mobile-button {
+    background: #EFEFEF;
+    @include square(24px);
+    @include flex(center, center);
+    border-radius: 8px;
   }
 
   & &__prices {
@@ -92,13 +145,26 @@
   & &__prices-mobile {
     display: none;
     margin-left: 0;
+    margin-bottom: 4px;
     align-items: flex-end;
     gap: 5px;
     flex-direction: row;
+
+    & .price {
+      font-size: 12.6px;
+
+
+    }
 
     @media screen and (max-width: 610px) {
       display: flex;
     }
 
+
+    &_discount {
+      font-size: $veryLittleSize;
+      color: #979798;
+      text-decoration: line-through;
+    }
   }
 }

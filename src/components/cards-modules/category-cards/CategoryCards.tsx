@@ -48,6 +48,8 @@ const CategoryCards = ({ id, title, limit, isFilter = false }: CategoryCardsProp
             }
             const categoryId = id || paramsId;
             if (categoryId) {
+                console.log('prevParamsId', prevParamsId)
+                console.log('paramsId', paramsId)
                 const currentMin = (prevParamsId !== paramsId) || !isFilter ? 0 : currentMinPrice
                 const currentMax =  (prevParamsId !== paramsId) || !isFilter ? Infinity : currentMaxPrice
                 const params: IFilterCategoriesParams = {
@@ -61,6 +63,7 @@ const CategoryCards = ({ id, title, limit, isFilter = false }: CategoryCardsProp
                 if (Array.isArray(colors) && isInputChange) {
                     params.colors = colors
                 }
+                console.log('params', params)
                 const response =  await GoodsService.getCategoryGoods
                 (
                     params

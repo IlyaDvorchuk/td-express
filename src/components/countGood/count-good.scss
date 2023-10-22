@@ -9,6 +9,10 @@
   border: 1.5px solid $title3Color;
   border-radius: 15px;
 
+  @media screen and (max-width: 530px) {
+    border: none;
+  }
+
   & > .count {
     min-width: 20px;
   }

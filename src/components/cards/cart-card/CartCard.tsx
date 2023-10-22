@@ -83,7 +83,7 @@ const CartCard = ({cart, isChecked, onCheckboxChange, deleteCart, setChangeCount
                     <p className={'price'}>
                         {cart.price.price} RUP
                     </p>
-                    {cart.price.priceBeforeDiscount > 0 && <p>
+                    {cart.price.priceBeforeDiscount > 0 && <p className={'cart-card__prices-mobile_discount'}>
                         {cart.price.priceBeforeDiscount + ' RUP'}
                     </p>}
                 </div>
@@ -93,17 +93,28 @@ const CartCard = ({cart, isChecked, onCheckboxChange, deleteCart, setChangeCount
                 {cart?.nameShelter && <p className={'cart-card__type'}>
                     Продавец: {cart.nameShelter}
                 </p>}
-                {cart?.color && <p>
+                {cart?.color && <p  className={'cart-card__color'}>
                     Цвет: {cart.color}
                 </p>}
-                    {cart?.size && <p className={'cart-card__type'}>
+                    {cart?.size && <p className={'cart-card__type cart-card__size'}>
                         Размер: {cart.size}
                     </p>}
 
                 <div className={'cart-card__buttons'}>
                     <CountGood count={count} onSetCount={onSetCount}/>
-                    <p className={'cart-card__favorite'} onClick={onAddFavorites}>В избранное</p>
-                    <p onClick={() => deleteCart(cart.typeId + cart.productId)}>Удалить</p>
+                    {windowWidth > 530 ? <>
+                        <p className={'cart-card__favorite'} onClick={onAddFavorites}>В избранное</p>
+                        <p onClick={() => deleteCart(cart.typeId + cart.productId)}>Удалить</p>
+                    </> :
+                        <>
+                            <p onClick={onAddFavorites} className={'cart-card__favorite cart-card__mobile-button'}>
+                                <img src="/images/svg/cart/cart-favorite.svg" alt="В избранное"/>
+                            </p>
+                            <p onClick={() => deleteCart(cart.typeId + cart.productId)} className={'cart-card__mobile-button'}>
+                                <img src='/images/svg/cart/cart-remove.svg' alt={'Удалить'}/>
+                            </p>
+                        </>
+                    }
                 </div>
             </div>
             <div className={'cart-card__prices'}>
