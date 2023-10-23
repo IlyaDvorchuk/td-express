@@ -27,8 +27,11 @@
 
 .modal-colors {
   & &__header {
-    position: relative;
+    position: sticky;
+    top: 0;
     box-shadow: $modalBoxShadow;
+    background-color: $backgroundColor;
+    z-index: 999;
   }
 
   & &__title {
@@ -65,7 +68,10 @@
   }
 
   & &__footer {
+    position: sticky;
+    bottom: 0;
     height: 48px;
+    background-color: $backgroundColor;
     @include flex(center, center);
     box-shadow: $modalBoxShadow;
   }

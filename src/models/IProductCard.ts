@@ -44,11 +44,11 @@ export interface IProductCard {
     },
     deliveryPoints: string[],
     typeQuantity?: IType[],
-    colors?: ({
-        image: string,
-        name: string,
-        color: string,
-    })[] | []
+    // colors?: ({
+    //     image: string,
+    //     name: string,
+    //     color: string,
+    // })[] | []
     nameShelter: string
 }
 
@@ -59,6 +59,11 @@ export interface IProductCardRes extends IProductCard {
     updatedAt: string,
     shelterId: string,
     isReject: boolean,
+    colors?: ({
+        image: string,
+        name: string,
+        color: string,
+    })[] | []
     typeQuantity?: ITypeRes[],
     activeSize?: ITypeRes,
     deliveryCities: IDeliveryCity[],
@@ -80,4 +85,7 @@ export interface ITypeRes extends IType{
     _id: string
 }
 
-
+export interface ICreateProductCardRes {
+    card: IProductCardRes,
+    productIdFolder: string,
+}

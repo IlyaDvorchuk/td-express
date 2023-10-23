@@ -1,7 +1,7 @@
 import {AxiosResponse} from "axios";
 import {$apiShelter} from "../http";
 import {IDeliveryPoint, IDeliveryPoint2} from "../models/IDeliveryPoint";
-import {IProductCard, IProductCardRes} from "../models/IProductCard";
+import {ICreateProductCardRes, IProductCard, IProductCardRes} from "../models/IProductCard";
 import {IShelterALL, IShelterData, IShelterRes, IShelterShop} from "../models/response/IShelter";
 import {INotification} from "../models/INotification";
 import {IDeliveryCity} from "../models/IDeliveryCity";
@@ -14,13 +14,22 @@ export class ShelterService {
         return $apiShelter.get<IDeliveryPoint2[]>('/shelters/delivery-points')
     }
 
-    static async createGoodCard(good: FormData): Promise<AxiosResponse<IProductCard>> {
+    static async createGoodCard(good: FormData): Promise<AxiosResponse<ICreateProductCardRes>> {
         return $apiShelter.post('/product-cards', good, {
             headers: {
                 "Content-Type": "multipart/form-data",
             }
         })
     }
+
+    static async addColorToCard(good: FormData, productFolder: string): Promise<boolean> {
+        return $apiShelter.post(`/upload/${productFolder}`, good, {
+            headers: {
+                "Content-Type": "multipart/form-data",
+            }
+        })
+    }
+
 
     static async updateGoodCard(
         good: IProductCard,

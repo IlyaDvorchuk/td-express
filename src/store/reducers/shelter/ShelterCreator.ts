@@ -117,7 +117,8 @@ export const createProductCard = (good: IProductCard, mainPhoto: File, additiona
             }
         });
         const response = await ShelterService.createGoodCard(formData)
-        if (response.data?._id) {
+        if (response.data?.card._id) {
+            console.log('response.data', response.data.productIdFolder)
             dispatch(shelterSlice.actions.setCreateGoodCard(true))
         } else dispatch(shelterSlice.actions.setCreateGoodCard(false))
     } catch (e: any) {

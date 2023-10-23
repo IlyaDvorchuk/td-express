@@ -12,7 +12,7 @@ import CreateGoodPoints from "./create-good-points/CreateGoodPoints";
 import {ICategory, ISection, ISubcategory} from "../../../models/ICategories";
 import {useForm, FormProvider} from "react-hook-form";
 import {useAppDispatch, useAppSelector} from "../../../hooks/redux";
-import {IProductCard, IType} from "../../../models/IProductCard";
+import {IProductCard, IProductCardRes, IType} from "../../../models/IProductCard";
 import {createProductCard, updateProductCard} from "../../../store/reducers/shelter/ShelterCreator";
 import {Link, useNavigate} from "react-router-dom";
 import {SIZES_CLOTHES, SIZES_CLOTHES_ID, SIZES_ID, SIZES_SHOE} from "../../../constants";
@@ -23,7 +23,7 @@ import CreateGoodColors from "./create-good-colors/CreateGoodColors";
 import {ColorImage, IColor} from "../../../models/IColor";
 import {fileToBase64} from "../../../utils/fileToBase64";
 
-const FormCreateGood = ({card} : {card: IProductCard | null}) => {
+const FormCreateGood = ({card} : {card: IProductCardRes | null}) => {
     const navigation = useNavigate()
     const dispatch = useAppDispatch()
     const methods = useForm();
@@ -159,12 +159,13 @@ const FormCreateGood = ({card} : {card: IProductCard | null}) => {
                 deliveryPoints: points,
                 typeQuantity: quantitySizes,
                 nameShelter: shelter.name,
-                colors: imageColorsWithBase64
+                // colors: imageColorsWithBase64
             } as IProductCard
             if (card) {
                 dispatch(updateProductCard(good, card._id, generalImage || card.mainPhoto, additionalImages))
                 return
             }
+            console.log('imageColorsWithBase64', imageColorsWithBase64)
             // @ts-ignore
             dispatch(createProductCard(good, generalImage, additionalImages))
 

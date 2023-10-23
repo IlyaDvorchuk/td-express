@@ -1,6 +1,6 @@
 import React, {ChangeEvent, useEffect, useState} from 'react';
 import './create-good-photos.scss'
-import {IProductCard} from "../../../../models/IProductCard";
+import {IProductCardRes} from "../../../../models/IProductCard";
 import {API_URL} from "../../../../http";
 import {ColorImage, IColor} from "../../../../models/IColor";
 
@@ -9,7 +9,7 @@ interface CreateGoodPhotosProps {
     setGeneralImage: React.Dispatch<React.SetStateAction<File | null>>;
     additionalImages: (File | string)[];
     setAdditionalImages: React.Dispatch<React.SetStateAction<(File | string)[]>>;
-    card: IProductCard | null,
+    card: IProductCardRes | null,
     selectedColors: IColor[],
     colorImages: (ColorImage)[],
     setColorImages:  React.Dispatch<React.SetStateAction<ColorImage[]>>
