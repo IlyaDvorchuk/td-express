@@ -161,11 +161,11 @@ const FormCreateGood = ({card} : {card: IProductCardRes | null}) => {
                 // colors: imageColorsWithBase64
             } as IProductCard
             if (card) {
-                dispatch(updateProductCard(good, card._id, generalImage || card.mainPhoto, additionalImages && []))
+                dispatch(updateProductCard(good, card._id, generalImage || card.mainPhoto, additionalImages ? additionalImages : []))
                 return
             }
             // @ts-ignore
-            dispatch(createProductCard(good, generalImage, additionalImages && [], imageColorsWithBase64))
+            dispatch(createProductCard(good, generalImage, additionalImages ? additionalImages : [], imageColorsWithBase64))
 
         } catch (error) {
             console.error('Error create good:', error);

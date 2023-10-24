@@ -106,6 +106,7 @@ export const createProductCard = (
     colorImages:  ColorImage[]
 ) => async (dispatch: AppDispatch) => {
     try {
+        console.log('additionalPhotos', additionalPhotos)
         const formData = new FormData();
         formData.append('mainPhoto', mainPhoto);
         additionalPhotos.forEach((photo) => {
