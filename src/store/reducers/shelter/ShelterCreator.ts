@@ -8,13 +8,13 @@ import {ShelterService} from "../../../services/ShelterService";
 import {IProductCard} from "../../../models/IProductCard";
 import {userSlice} from "../user/UserSlice";
 import {IDeliveryPoint} from "../../../models/IDeliveryPoint";
+import {ColorImage} from "../../../models/IColor";
 
 export const sendCodeShelter = (email: string,
                                 isNotExamination?: boolean) => async (dispatch: AppDispatch) => {
     try {
         dispatch(shelterSlice.actions.loginFetching())
         const response = await AuthService.sendCode(email, isNotExamination)
-        console.log('response', response)
         dispatch(shelterSlice.actions.setActivationCode(response.data))
         dispatch(shelterSlice.actions.loginSuccess())
     } catch (e: any) {
@@ -27,7 +27,6 @@ export const registrationShelter = (data: IShelter, imageShop: File) => async (d
     try {
         dispatch(shelterSlice.actions.loginFetching())
         const formData = new FormData();
-        console.log('data', data)
         // formData.append('fileScan', photo);
         formData.append('imageShop', imageShop);
         Object.entries(data).forEach(([key, value]) => {
@@ -38,7 +37,6 @@ export const registrationShelter = (data: IShelter, imageShop: File) => async (d
             }
         });
         const response = await AuthShelterService.registrationShelter(formData)
-        // console.log('response', response)
         dispatch(shelterSlice.actions.setAuth(true))
         dispatch(shelterSlice.actions.setShelter(response.data.shelter))
         const accessToken = response.data.token;
@@ -46,7 +44,6 @@ export const registrationShelter = (data: IShelter, imageShop: File) => async (d
             setAccessTokenShelter(accessToken);
             dispatch(shelterSlice.actions.setLoginSuccess(accessToken));
         }
-        console.log('hey hey')
         dispatch(shelterSlice.actions.setIsRegistered(true))
         // dispatch(shelterSlice.actions.loginSuccess())
     } catch (e: any) {
@@ -102,7 +99,12 @@ export const getPointIssues = () => async (dispatch: AppDispatch) => {
     }
 }
 
-export const createProductCard = (good: IProductCard, mainPhoto: File, additionalPhotos: File[]) => async (dispatch: AppDispatch) => {
+export const createProductCard = (
+    good: IProductCard,
+    mainPhoto: File,
+    additionalPhotos: File[],
+    colorImages:  ColorImage[]
+) => async (dispatch: AppDispatch) => {
     try {
         const formData = new FormData();
         formData.append('mainPhoto', mainPhoto);
@@ -117,8 +119,14 @@ export const createProductCard = (good: IProductCard, mainPhoto: File, additiona
             }
         });
         const response = await ShelterService.createGoodCard(formData)
-        if (response.data?.card._id) {
-            console.log('response.data', response.data.productIdFolder)
+        if (response.data?.card) {
+            for (let i = 0; i < colorImages.length; i++) {
+                await ShelterService.addColorToCard(
+                    colorImages[i],
+                    response.data.productIdFolder,
+                    response.data.card._id
+                )
+            }
             dispatch(shelterSlice.actions.setCreateGoodCard(true))
         } else dispatch(shelterSlice.actions.setCreateGoodCard(false))
     } catch (e: any) {
@@ -127,7 +135,10 @@ export const createProductCard = (good: IProductCard, mainPhoto: File, additiona
     }
 }
 
-export const updateProductCard = (good: IProductCard, id: string, mainPhoto: File | string, additionalPhotos: (File | string)[]) => async (dispatch: AppDispatch) => {
+export const updateProductCard = (good: IProductCard,
+                                  id: string, mainPhoto: File | string,
+                                  additionalPhotos: (File | string)[]
+) => async (dispatch: AppDispatch) => {
     try {
         let mainPhotoBase64: string | undefined;
         let additionalPhotosBase64: string[] = [];
@@ -178,7 +189,6 @@ export const updateProductCard = (good: IProductCard, id: string, mainPhoto: Fil
         // Удаление значений undefined из additionalPhotosBase64
         additionalPhotosBase64 = additionalPhotosBase64.filter(item => item !== undefined);
 
-        console.log('good', good)
         // Выполнение запроса с использованием mainPhotoBase64 и additionalPhotosBase64
         const response = await ShelterService.updateGoodCard(good, id, mainPhotoBase64, additionalPhotosBase64);
         if (response.data) {
@@ -239,8 +249,6 @@ export const updateShopShelter = (
 export const getShelter = () => async (dispatch: AppDispatch) => {
     try {
         const response = await ShelterService.getShelter()
-        // console.log('response.data', response.data)
-        console.log('response', response.data)
         dispatch(shelterSlice.actions.setShelterAll(response.data))
     } catch (e) {
         console.log('e', e)
@@ -251,7 +259,6 @@ export const checkShelter = (email: string, phone: string) => async (dispatch: A
     try {
         dispatch(shelterSlice.actions.loginFetching())
         const response = await AuthShelterService.checkShelter(email, phone)
-        // console.log('response checkEmailShelter', response)
         dispatch(shelterSlice.actions.loginSuccess())
         return response.data
     } catch (e:any) {

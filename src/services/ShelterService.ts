@@ -7,7 +7,7 @@ import {INotification} from "../models/INotification";
 import {IDeliveryCity} from "../models/IDeliveryCity";
 import {IOrderRes} from "../models/IOrder";
 import {OrderEnum} from "../models/enums";
-import {IColor} from "../models/IColor";
+import {ColorImage, IColor} from "../models/IColor";
 
 export class ShelterService {
     static async getPointsIssue(): Promise<AxiosResponse<IDeliveryPoint2[]>> {
@@ -22,12 +22,8 @@ export class ShelterService {
         })
     }
 
-    static async addColorToCard(good: FormData, productFolder: string): Promise<boolean> {
-        return $apiShelter.post(`/upload/${productFolder}`, good, {
-            headers: {
-                "Content-Type": "multipart/form-data",
-            }
-        })
+    static async addColorToCard(good: ColorImage, productFolder: string, productId: string): Promise<boolean> {
+        return $apiShelter.post(`/product-cards/upload/${productFolder}/${productId}`, good)
     }
 
 

@@ -94,7 +94,6 @@ const FormCreateGood = ({card} : {card: IProductCardRes | null}) => {
 
     const onSubmit = async (data: any) => {
         if ((!generalImage && !card?.mainPhoto)
-            || additionalImages.length === 0
             || !parentSelectedCategory
             || !parentSelectedSubCategory
             || !parentSelectedType
@@ -162,12 +161,11 @@ const FormCreateGood = ({card} : {card: IProductCardRes | null}) => {
                 // colors: imageColorsWithBase64
             } as IProductCard
             if (card) {
-                dispatch(updateProductCard(good, card._id, generalImage || card.mainPhoto, additionalImages))
+                dispatch(updateProductCard(good, card._id, generalImage || card.mainPhoto, additionalImages && []))
                 return
             }
-            console.log('imageColorsWithBase64', imageColorsWithBase64)
             // @ts-ignore
-            dispatch(createProductCard(good, generalImage, additionalImages))
+            dispatch(createProductCard(good, generalImage, additionalImages && [], imageColorsWithBase64))
 
         } catch (error) {
             console.error('Error create good:', error);
