@@ -106,7 +106,7 @@ const FormRegistrationData = ({shelterData, id}: IProps) => {
                         dispatch(setIsRegistry(false))
                         if (response.data) {
                             dispatch(shelterSlice.actions.setShelter(response.data))
-                            navigate('/shelter/main')
+                            navigate('/seller/main')
                         }
                         return
                     } catch (error) {
