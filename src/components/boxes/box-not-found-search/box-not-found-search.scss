@@ -1,0 +1,46 @@
+@import 'src/styles/constants';
+@import 'src/styles/mixins';
+
+.not-found {
+  @include flex(center, center);
+  flex-direction: column;
+  font-size: $subTitleSize;
+
+  & &__img {
+    margin-bottom: 37px;
+  }
+
+  & &__title {
+    margin-bottom: 24px;
+    font-weight: 800;
+    color: $title2Color;
+  }
+
+  & &__paragraph {
+    position: relative;
+    margin-bottom: 10px;
+    color: $text2Color;
+    line-height: 110%;
+
+    &::before {
+      content: '';
+      @include iconShop(4px);
+      border-radius: 50%;
+      background: $text2Color;
+      position: absolute;
+      left: -10px;
+      top: 10px;
+    }
+  }
+
+  &__link {
+    color: $additionalColor;
+    text-decoration: underline;
+    cursor: pointer;
+    transition: all linear .3s;
+
+    &:hover {
+      color: $linkColor;
+    }
+  }
+}

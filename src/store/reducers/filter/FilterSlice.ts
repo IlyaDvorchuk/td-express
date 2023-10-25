@@ -32,7 +32,6 @@ export const filterSlice = createSlice({
             state.isChange = true
         },
         setColors(state, action: PayloadAction<string[] | null>) {
-            console.log('action.payload setColors', action.payload)
             if (state.colors) {
                 state.isChange = true
             } else {

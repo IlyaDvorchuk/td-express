@@ -1,10 +1,10 @@
-import React, {useEffect} from 'react';
-import {useAppSelector} from "../../../hooks/redux";
+import React from 'react';
 import WrapperCard from "../../wrappers/wrapper-card/WrapperCard";
 import ProductCard from "../../cards/product-card/ProductCard";
+import {IProductCard} from "../../../models/IProductCard";
 
-const SearchCards = () => {
-    const {cards} = useAppSelector(state => state.searchReducer)
+const SearchCards = ({cards}: {cards: IProductCard[]}) => {
+
 
     // useEffect(() => {
     //     console.log('cards', cards)

@@ -1,0 +1,7 @@
+.category-not-p {
+  text-align: center;
+
+  &::before {
+    display: none;
+  }
+}

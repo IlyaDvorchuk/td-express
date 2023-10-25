@@ -8,6 +8,7 @@ import TitleCards from "../../title-cards/TitleCards";
 import {useAppDispatch, useAppSelector} from "../../../hooks/redux";
 import {filterSlice} from "../../../store/reducers/filter/FilterSlice";
 import {IFilterCategoriesParams} from "../../../models/IFilter";
+import BoxNotFoundCategory from "../../boxes/box-not-found-category/BoxNotFoundCategory";
 
 
 interface CategoryCardsProps {
@@ -117,8 +118,9 @@ const CategoryCards = ({ id, title, limit, isFilter = false }: CategoryCardsProp
         <div>
             {title && <TitleCards text={title}/>}
             <WrapperCard cardsLength={categoryCards.length} handleButtonClick={handleButtonClick} limit={limit}>
-                {categoryCards.length > 0 &&
-                    categoryCards.map((card, index) => <ProductCard card={card} key={index} />)}
+                {categoryCards.length > 0 ?
+                    categoryCards.map((card, index) => <ProductCard card={card} key={index} />)
+                : <BoxNotFoundCategory/>}
             </WrapperCard>
         </div>
     );
