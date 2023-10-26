@@ -13,15 +13,19 @@ const CreateGoodPrice = ({isClothes, card}: IProps) => {
     const [priceValue, setPriceValue] = useState('')
     const [priceDiscountValue, setPriceDiscountValue] = useState('')
     const [quantityInStockValue, setQuantityInStockValue] = useState('')
-    const { register, watch } = useFormContext();
+    const { register } = useFormContext();
 
-    const price = watch('price');
-    const priceDiscount = watch('priceDiscount');
-    const quantityInStock = watch('quantityInStock');
+    // const price = watch('price');
+    // const priceDiscount = watch('priceDiscount');
+    // const quantityInStock = watch('quantityInStock');
 
     useEffect(() => {
-        // Действия, которые необходимо выполнить при изменении значений полей
-    }, [price, priceDiscount, quantityInStock]);
+        if (card) {
+            setPriceValue(card?.pricesAndQuantity?.price.toString() ? card?.pricesAndQuantity?.price.toString() : '')
+            setPriceDiscountValue(card?.pricesAndQuantity?.priceBeforeDiscount.toString() ? card?.pricesAndQuantity?.priceBeforeDiscount.toString() : '')
+        }
+    }, [card])
+
 
     const validationInput = (e: ChangeEvent<HTMLInputElement>, input: string) => {
         const validInput = ValidateNumberInput.getValidInput(e.target.value)
@@ -47,7 +51,6 @@ const CreateGoodPrice = ({isClothes, card}: IProps) => {
                     <input
                         id="price"
                         className="modalInput description__input good-price__input"
-                        defaultValue={card ? card.pricesAndQuantity.price : ''}
                         {...register('price')}
                         value={priceValue}
                         onChange={(e) => validationInput(e, 'price')}

@@ -56,7 +56,6 @@ const CreateGoodSelects = ({
                             if (currentType) {
                                 setSelectedType(currentType)
                             } else {
-                                console.log('hey brus')
                                 setSelectedType({name: '', _id: 'missing'})
                             }
                     }

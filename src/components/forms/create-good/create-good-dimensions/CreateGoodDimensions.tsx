@@ -1,14 +1,24 @@
-import React, {ChangeEvent, ChangeEventHandler, useState} from 'react';
+import React, {ChangeEvent, useEffect, useState} from 'react';
 import './create-good-dimensions.scss'
 import { useFormContext } from 'react-hook-form';
 import {ValidateNumberInput} from "../../../../utils/validateNumberInput";
+import {IProductCard} from "../../../../models/IProductCard";
 
-const CreateGoodDimensions = () => {
+const CreateGoodDimensions = ({card}: {card: IProductCard | null}) => {
     const { register } = useFormContext();
     const [length, setLength] = useState('')
     const [width, setWidth] = useState('')
     const [height, setHeight] = useState('')
     const [weight, setWeight] = useState('')
+
+    useEffect(() => {
+        if (card) {
+            setLength(card?.dimensions.length.toString() ? card?.dimensions.length.toString() : '')
+            setWidth(card?.dimensions.width.toString() ? card?.dimensions.width.toString() : '')
+            setHeight(card?.dimensions.height.toString() ? card?.dimensions.height.toString() : '')
+            setWeight(card?.dimensions.weight.toString() ? card?.dimensions.weight.toString() : '')
+        }
+    }, [card])
 
     const validationInput = (e: ChangeEvent<HTMLInputElement>, input: string) => {
         const validInput = ValidateNumberInput.getValidInput(e.target.value)
