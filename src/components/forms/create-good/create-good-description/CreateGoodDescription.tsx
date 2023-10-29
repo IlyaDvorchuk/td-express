@@ -35,6 +35,10 @@ const CreateGoodDescription = React.memo(({description, setDescription, card}: I
     }, []) ;
 
     useEffect(() => {
+        console.log('card', card)
+    }, [card])
+
+    useEffect(() => {
         setDescription(card ? card.information.description : '')
     }, [card, setDescription]);
 

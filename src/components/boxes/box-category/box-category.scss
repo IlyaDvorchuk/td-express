@@ -5,14 +5,57 @@
   margin-top: 20px;
 
   &__header {
-    margin-bottom: 25px;
-    @include flex(space-between, center);
+    display: none;
+
+    @media screen and (max-width: 850px){
+      flex-wrap: wrap;
+      @include flex(space-between, center);
+      margin-bottom: 25px;
+
+    }
+
+    @media screen and (max-width: 510px){
+      width: 90%;
+      margin: 0 auto 25px;
+    }
   }
 
   &__categories {
 
     color: $text4Color;
     font-size: $mediumLittleSize;
+
+    @media screen and (max-width: 850px){
+      width: 100%;
+      margin-bottom: 10px;
+    }
+  }
+
+  & &__name {
+    width: 100%;
+    margin-bottom: 8px;
+    font-size: $bigMediumSize;
+    font-weight: 800;
+
+    @media screen and (min-width: 850px){
+      display: none;
+    }
+  }
+
+  & &__label {
+    @media screen and (max-width: 550px){
+      display: none;
+    }
+  }
+
+  & &__select {
+    @media screen and (max-width: 525px){
+      width: 174px;
+    }
+
+    @media screen and (max-width: 330px){
+      width: 154px;
+    }
   }
 
   &__main {
@@ -25,4 +68,12 @@
     flex: 1;
   }
 
+  & &__filter {
+    @include flex(flex-start, center, 8px);
+    cursor: pointer;
+
+    @media screen and (min-width: 895px){
+      display: none;
+    }
+  }
 }

@@ -158,12 +158,9 @@ const FormCreateGood = ({card} : {card: IProductCardRes | null}) => {
                 deliveryPoints: points,
                 typeQuantity: quantitySizes,
                 nameShelter: shelter.name,
+                // colors: imageColorsWithBase64
             } as IProductCard
             if (card) {
-                if (imageColorsWithBase64) {
-                    // @ts-ignore
-                    good.colors = imageColorsWithBase64
-                }
                 dispatch(updateProductCard(good, card._id, generalImage || card.mainPhoto, additionalImages ? additionalImages : []))
                 return
             }
@@ -249,7 +246,7 @@ const FormCreateGood = ({card} : {card: IProductCardRes | null}) => {
                     </>
                 )}
                 <hr className={'create__divider'}/>
-                <CreateGoodDimensions card={card}/>
+                <CreateGoodDimensions/>
                 <hr className={'create__divider'}/>
                 <CreateGoodPoints cardPoints={card ? card?.deliveryPoints : []}/>
                 {!card && <div className={'create__buttons'}>

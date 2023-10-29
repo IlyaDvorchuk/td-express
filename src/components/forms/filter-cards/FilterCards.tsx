@@ -13,7 +13,12 @@ const trackStyle = {
     backgroundColor: '#643ABE', // Задайте желаемый цвет для слайдера
 };
 
-const FilterCards = () => {
+interface IProps {
+    isFilterMobile: boolean;
+    setIsFilterMobile: React.Dispatch<React.SetStateAction<boolean>>
+}
+
+const FilterCards = ({isFilterMobile = false, setIsFilterMobile}: IProps) => {
     const dispatch = useAppDispatch()
     const {
         maxPrice, minPrice, isReset
@@ -28,6 +33,16 @@ const FilterCards = () => {
     const [minDebounceTimer, setMinDebounceTimer] = useState<NodeJS.Timeout | null>(null);
     const [maxDebounceTimer, setMaxDebounceTimer] = useState<NodeJS.Timeout | null>(null);
     const [selectedColors, setSelectedColors] = useState<IColor[]>([]);
+
+    useEffect(() => {
+        if (isFilterMobile) {
+            // Установите стиль overflow: hidden для элемента body при активации меню
+            document.documentElement.style.overflow = 'hidden';
+        } else {
+            // Восстановите стиль overflow: auto для элемента body при деактивации меню
+            document.documentElement.style.overflow = 'auto';
+        }
+    }, [isFilterMobile]);
 
     useEffect(() => {
         setDebouncedValues([minPrice, maxPrice]);
@@ -166,7 +181,15 @@ const FilterCards = () => {
     }
 
     return (
-        <aside className={'filter'}>
+        <aside className={`filter ${isFilterMobile ? 'active' : ''}`}>
+            <div className={'filter__header'}>
+                <h3 className={'filter__title'}>Фильтры</h3>
+                <p className={'filter__close'} onClick={() => setIsFilterMobile(false)}>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                        <path d="M9.17 14.83L14.83 9.17M14.83 14.83L9.17 9.17M12 22C17.5 22 22 17.5 22 12C22 6.5 17.5 2 12 2C6.5 2 2 6.5 2 12C2 17.5 6.5 22 12 22Z" stroke="#979798" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                    </svg>
+                </p>
+            </div>
             <h3>Цена, руб</h3>
             <div className={'filter__inputs'}>
                 <div>
@@ -214,6 +237,9 @@ const FilterCards = () => {
             </div>
             <button className={'button button_light filter__button'} onClick={onCleanFilter}>
                 Очистить всё
+            </button>
+            <button className={'button button_dark filter__save'}  onClick={() => setIsFilterMobile(false)}>
+                Показать
             </button>
         </aside>
     );

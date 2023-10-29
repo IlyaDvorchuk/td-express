@@ -15,7 +15,6 @@ export const sendCodeShelter = (email: string,
     try {
         dispatch(shelterSlice.actions.loginFetching())
         const response = await AuthService.sendCode(email, isNotExamination)
-        console.log('response', response)
         dispatch(shelterSlice.actions.setActivationCode(response.data))
         dispatch(shelterSlice.actions.loginSuccess())
     } catch (e: any) {
