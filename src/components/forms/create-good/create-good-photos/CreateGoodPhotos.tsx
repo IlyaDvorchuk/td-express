@@ -12,7 +12,8 @@ interface CreateGoodPhotosProps {
     card: IProductCardRes | null,
     selectedColors: IColor[],
     colorImages: (ColorImage)[],
-    setColorImages:  React.Dispatch<React.SetStateAction<ColorImage[]>>
+    setColorImages:  React.Dispatch<React.SetStateAction<ColorImage[]>>,
+    photosErrors: {main: boolean, additional: boolean}
 }
 
 
@@ -22,7 +23,8 @@ const CreateGoodPhotos = ({
                             additionalImages,
                             setAdditionalImages,
                             card, selectedColors,
-                            colorImages, setColorImages
+                            colorImages, setColorImages,
+                            photosErrors
                           }: CreateGoodPhotosProps) => {
 
     const [generalImageUrl, setGeneralImageUrl] = useState(card ? card.mainPhoto : '')
@@ -125,8 +127,8 @@ const CreateGoodPhotos = ({
             </h3>
             <ol className={'add-photos'}>
                 <li>
-                    <h4 className={'add-photos__title'}>
-                       Главное фото
+                    <h4 className={`add-photos__title ${photosErrors.main ? 'error-photo' : ''}`}>
+                       Главное фото*
                     </h4>
                     <p className={'annotation'}>
                         Загрузите фото, которое будет отображаться в каталоге.<br/>
@@ -135,9 +137,9 @@ const CreateGoodPhotos = ({
                     </p>
                     <div className={`image-good`}>
                         {!generalImage && !generalImageUrl &&
-                            <label className={''} htmlFor={'good-photo'}>
+                            <label className={photosErrors.main ? 'error-photo' : ''} htmlFor={'good-photo'}>
                                 <img src="/images/svg/plus.svg" alt={''}/>
-                                <span>Добавить фото</span>
+                                <span className={photosErrors.main ? 'error-photo' : ''}>Добавить фото</span>
                             </label>
                         }
                         {generalImage && !generalImageUrl &&
@@ -182,7 +184,7 @@ const CreateGoodPhotos = ({
                             </div>
                             <div className={`image-good`}>
                                 {colorImages[index]?.image === undefined &&
-                                    <label className={''} htmlFor={`color-photo=${index}`}>
+                                    <label htmlFor={`color-photo=${index}`}>
                                         <img src="/images/svg/plus.svg" alt={''}/>
                                         <span>Добавить фото</span>
                                     </label>
@@ -216,16 +218,16 @@ const CreateGoodPhotos = ({
                 </li>}
                 <li>
                     <h4 className={'add-photos__title'}>
-                        Дополнительные фото
+                        Дополнительные фото*
                     </h4>
                     <p className={'annotation'}>
                         Можете добавить дополнительные фото товара
                     </p>
                     <div className={'additional-photos'}>
                         <div className={`image-good`}>
-                            <label className={''} htmlFor={'good-photo-add'}>
+                            <label className={photosErrors.additional ? 'error-photo' : ''} htmlFor={'good-photo-add'}>
                                 <img src="/images/svg/plus.svg" alt={''}/>
-                                <span>Добавить фото</span>
+                                <span className={photosErrors.additional  ? 'error-photo' : ''}>Добавить фото</span>
                             </label>
                             <input
                                 type="file"

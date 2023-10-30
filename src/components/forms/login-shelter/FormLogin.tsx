@@ -12,22 +12,30 @@ import {shelterSlice} from "../../../store/reducers/shelter/ShelterSlice";
 const FormLogin = () => {
     const navigation = useNavigate()
     const dispatch = useAppDispatch()
-    const {isAuthenticated} = useAppSelector(state => state.shelterReducer)
+    const {isAuthenticated, error} = useAppSelector(state => state.shelterReducer)
     const {isUserModal} = useAppSelector(state => state.userReducer)
-    const {setEmailShelter} = shelterSlice.actions
+    const {setEmailShelter, loginCleanError} = shelterSlice.actions
     const [password, setPassword] = useState('')
     const [email, setEmail] = useState('')
-    const [isErrorMail, setIsErrorMail] = useState(false)
+    // const [isErrorMail, setIsErrorMail] = useState(false)
     const [errorEmail, setErrorEmail] = useState(false)
+    const [errorValidation, setErrorValidation] = useState(false)
     const {changeIsUserModal} = userSlice.actions
 
-    useEffect(() => {
-
-    }, [])
 
     useEffect(() => {
         isAuthenticated && navigation('/seller/main')
     }, [isAuthenticated, navigation])
+
+    useEffect(() => {
+        if (error === 401) {
+            setErrorValidation(true)
+        }
+
+        return () => {
+            dispatch(loginCleanError())
+        }
+    }, [error])
 
     const onSetPassword = (e: ChangeEvent<HTMLInputElement>) => {
         setPassword(e.target.value)
@@ -35,6 +43,7 @@ const FormLogin = () => {
 
     const onEnterShelter = (e: any) => {
         e.preventDefault()
+        if (!password) return;
         if (!validator.isEmail(email)) {
             setErrorEmail(true)
             return
@@ -45,7 +54,7 @@ const FormLogin = () => {
     const createNewPassword = () => {
         const errorMail = !validator.isEmail(email)
         if (errorMail) {
-            setIsErrorMail(true)
+            // setIsErrorMail(true)
             return
         }
         dispatch(changeIsUserModal(true))
@@ -59,21 +68,32 @@ const FormLogin = () => {
                 Добро пожаловать на td-market.md
             </h2>
             <div className={'reg-field log__field'}>
-                <label htmlFor="Mail" className={'label'}>E-mail</label>
-                <input id={'Mail'} className={`modalInput modalInput_light ${errorEmail && 'error'}`}
+                <label htmlFor="Mail" className={`label ${(errorEmail || errorValidation) ? 'error' : ''}`}>E-mail</label>
+                <input id={'Mail'} className={`modalInput modalInput_light ${(errorEmail || errorValidation) && 'error'}`}
                        type="text"
                        placeholder={'E-mail'}
                        value={email}
                        onChange={(e) => {
                            setEmail(e.target.value)
+                           setErrorEmail(false)
                        }}
                 />
             </div>
             <div>
-                <InputPassword password={password} onSetPassword={onSetPassword} placeholder={'Введите пароль'}/>
+                <InputPassword
+                    password={password}
+                    onSetPassword={onSetPassword}
+                    placeholder={'Введите пароль'}
+                    error={errorValidation}
+                />
                 <p className={'label label-pas'} onClick={createNewPassword}>Забыли пароль?</p>
+
+                {errorValidation && <p className={'warning-input log__error'}>Вы ввели неверный E-mail или Пароль </p>}
             </div>
-            <button className={'button button_dark reg__button'} onClick={onEnterShelter}>ВОЙТИ</button>
+            <button
+                className={'button button_dark reg__button'}
+                onClick={onEnterShelter}
+            >ВОЙТИ</button>
             {isUserModal && <ModalLogin observableModal={1} isShelter={true} forgotPassword={true}/>}
         </form>
     );

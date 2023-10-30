@@ -25,7 +25,7 @@ const InputPassword = ({password,
 
     return (
         <div className={'input-password'}>
-            <label className={'label'} htmlFor={'passwordInput'}>{label}</label>
+            <label className={`label ${error ? 'error' : ''}`} htmlFor={'passwordInput'}>{label}</label>
             <input
                 value={password}
                 onChange={onSetPassword}

@@ -13,7 +13,7 @@ const CreateGoodPrice = ({isClothes, card}: IProps) => {
     const [priceValue, setPriceValue] = useState('')
     const [priceDiscountValue, setPriceDiscountValue] = useState('')
     const [quantityInStockValue, setQuantityInStockValue] = useState('')
-    const { register, watch } = useFormContext();
+    const { register, watch, formState: { errors } } = useFormContext();
 
     const price = watch('price');
     const priceDiscount = watch('priceDiscount');
@@ -41,14 +41,14 @@ const CreateGoodPrice = ({isClothes, card}: IProps) => {
             <h3 className="subtitle">Цена и наличие товара</h3>
             <div className="good-price">
                 <div className="description__block">
-                    <label className="label" htmlFor="price">
-                        Цена
+                    <label className={`label ${errors.name ? 'error' : ''}`} htmlFor="price">
+                        Цена*
                     </label>
                     <input
                         id="price"
-                        className="modalInput description__input good-price__input"
+                        className={`modalInput description__input good-price__input  ${errors.name ? 'error' : ''}`}
                         defaultValue={card ? card.pricesAndQuantity.price : ''}
-                        {...register('price')}
+                        {...register('price', { required: 'Введите название товара' })}
                         value={priceValue}
                         onChange={(e) => validationInput(e, 'price')}
                     />

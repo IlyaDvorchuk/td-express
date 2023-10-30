@@ -48,7 +48,7 @@ export const registrationShelter = (data: IShelter, imageShop: File) => async (d
         // dispatch(shelterSlice.actions.loginSuccess())
     } catch (e: any) {
         console.log('e', e)
-        dispatch(shelterSlice.actions.loginFetchingError(e.message))
+        dispatch(shelterSlice.actions.loginFetchingError(e.response.status))
         dispatch(shelterSlice.actions.setIsRegistered(false))
     }
 }
@@ -62,7 +62,7 @@ export const loginShelter = (email: string, password: string) => async (dispatch
         // const accessToken = getAccessTokenFromCookieShelter();
         const accessToken = response.data.token
         // console.log('accessToken 75', accessToken)
-
+        console.log('response', response)
         if (accessToken) {
             setAccessTokenShelter(accessToken);
             dispatch(shelterSlice.actions.setLoginSuccess(accessToken));
@@ -71,7 +71,7 @@ export const loginShelter = (email: string, password: string) => async (dispatch
         dispatch(shelterSlice.actions.loginSuccess())
     } catch (e: any) {
         console.log('e', e)
-        dispatch(shelterSlice.actions.loginFetchingError(e.message))
+        dispatch(shelterSlice.actions.loginFetchingError(e.response.status))
     }
 }
 

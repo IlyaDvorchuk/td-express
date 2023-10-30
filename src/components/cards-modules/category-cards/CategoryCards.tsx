@@ -62,7 +62,6 @@ const CategoryCards = ({ id, title, limit, isFilter = false }: CategoryCardsProp
                 if (Array.isArray(colors) && isInputChange) {
                     params.colors = colors
                 }
-                console.log('params', params)
                 const response =  await GoodsService.getCategoryGoods
                 (
                     params
