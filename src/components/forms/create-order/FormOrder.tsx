@@ -154,7 +154,7 @@ const FormOrder = () => {
         const parameters = [
             { name: 'MerchantLogin', value: '000209' },
             { name: 'nivid', value: id },
-            { name: 'istest', value: '1' },
+            { name: 'istest', value: '0' },
             // { name: 'RequestSum', value: `${finalPrice * 100}` },
             { name: 'RequestSum', value: `50` },
             { name: 'RequestCurrCode', value: '000' },
@@ -165,7 +165,7 @@ const FormOrder = () => {
             form.appendChild(createHiddenInput(name, value));
         });
 
-        const signature = `000209:${id}:1:${parameters[3].value}:000:${parameters[5].value}:HBmWYiyiwWrCsYlsD6Qk`;
+        const signature = `000209:${id}:0:${parameters[3].value}:000:${parameters[5].value}:HBmWYiyiwWrCsYlsD6Qk`;
         localStorage.setItem('signature', signature)
 
         form.appendChild(createHiddenInput('SignatureValue', CryptoJS.MD5(signature).toString()));
