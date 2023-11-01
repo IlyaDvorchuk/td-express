@@ -44,11 +44,11 @@ export interface IProductCard {
     },
     deliveryPoints: string[],
     typeQuantity?: IType[],
-    colors?: ({
-        image: string,
-        name: string,
-        color: string,
-    })[] | []
+    // colors?: ({
+    //     image: string,
+    //     name: string,
+    //     color: string,
+    // })[] | []
     nameShelter: string
 }
 

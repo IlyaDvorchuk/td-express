@@ -26,6 +26,10 @@
 .select__control {
   border: 1.5px solid $additionalColor !important;
   border-radius: 15px !important;
+
+  &.error {
+    border-color: $errorColor !important;
+  }
 }
 
 .select__single-value {

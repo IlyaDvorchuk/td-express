@@ -14,6 +14,7 @@ interface IProps {
 const BoxCategory = ({children}: IProps) => {
     const { id } = useParams();
     const [category, setCategory] = useState<ICategory | ISubcategory | ISection | null>(null)
+    const [isFilterMobile, setIsFilterMobile] = useState(false)
 
     const getCategory = async (id: string) => {
         const response = await GoodsService.getCategory(id)
@@ -33,19 +34,28 @@ const BoxCategory = ({children}: IProps) => {
                 {category?.type === 'subcategory' && <div className={'category__categories'}>
                     <Link to={'/'}>Главная</Link> / <Link to={`/category/${category.parent}`}>{category?.parentName}</Link> / <span>{category.name}</span>
                 </div>}
+                <h3 className={'category__name'}>
+                    {category?.name}
+                </h3>
                 <div className={'select'}>
-                    <span className={'select__label'}>Показать товары:</span>
+                    <span className={'select__label category__label'}>Показать товары:</span>
                     <Select
                         // options={goodsOptions}
                         // defaultValue={goodsOptions[0]}
-                        className={'select-input favorites__select-input'}
+                        className={'select-input favorites__select-input category__select'}
                         classNamePrefix={'select'}
                         isSearchable={false}
                     />
                 </div>
+                <div className={'category__filter'} onClick={() => setIsFilterMobile(true)}>
+                    <p>
+                        Фильтры
+                    </p>
+                    <img src="/images/svg/filter/filters.svg" alt="Фильтры"/>
+                </div>
             </div>
             <div className={'category__main'}>
-                <FilterCards
+                <FilterCards isFilterMobile={isFilterMobile} setIsFilterMobile={setIsFilterMobile}
                 />
                 <div className={'category__container'}>
                     {children}

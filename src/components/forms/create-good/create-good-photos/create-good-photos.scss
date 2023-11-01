@@ -12,6 +12,8 @@
     font-weight: 400;
     font-size: $bigMediumSize;
     margin-bottom: 8px;
+
+
   }
 
   & .annotation {
@@ -48,6 +50,12 @@
 }
 
 .image-good {
+
+  & .error-photo {
+    color: $errorColor;
+    border-color: $errorColor;
+  }
+
   label {
     @include flex(center, center, 10.5px);
     flex-direction: column;
@@ -56,6 +64,8 @@
     border: 1px dashed #6F6E71;
     border-radius: 8px;
     cursor: pointer;
+
+
 
     & img {
       @include square(12px);

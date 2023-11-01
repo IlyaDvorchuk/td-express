@@ -31,8 +31,9 @@ const CodeModalLogin = ({setCurrentModal, isShelter, forgotPassword}: ICodeModal
         }
     }
 
-    const onCompareCode = () => {
-        if (forgotPassword) {
+    const onCompareCode = (e: any) => {
+        e.preventDefault()
+        if (!forgotPassword && !isShelter) {
             setCurrentModal(3)
             return
         }

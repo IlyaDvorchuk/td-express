@@ -10,11 +10,12 @@ import {IProductCard} from "../../../../models/IProductCard";
 interface IProps {
     description: string
     setDescription: (description: string) => void;
-    card: IProductCard | null
+    card: IProductCard | null,
+    descriptionError: boolean
 }
 
-const CreateGoodDescription = React.memo(({description, setDescription, card}: IProps) => {
-    const { register } = useFormContext();
+const CreateGoodDescription = React.memo(({description, setDescription, card, descriptionError}: IProps) => {
+    const { register, formState: { errors } } = useFormContext();
 
     // const name = watch('name');
     // const description = watch('description');
@@ -35,6 +36,10 @@ const CreateGoodDescription = React.memo(({description, setDescription, card}: I
     }, []) ;
 
     useEffect(() => {
+        console.log('card', card)
+    }, [card])
+
+    useEffect(() => {
         setDescription(card ? card.information.description : '')
     }, [card, setDescription]);
 
@@ -45,18 +50,18 @@ const CreateGoodDescription = React.memo(({description, setDescription, card}: I
     return (
         <div className="description">
             <div className="description__block">
-                <label className="label" htmlFor="name">Название</label>
+                <label className={`label ${errors.name ? 'error' : ''}`} htmlFor="name">Название*</label>
                 <input
                     id="name"
                     placeholder="Введите название товара"
-                    className="modalInput description__input"
-                    {...register('name')}
+                    className={`modalInput description__input ${errors.name ? 'error' : ''}`}
+                    {...register('name', { required: 'Введите название товара' })}
                 />
             </div>
             <div>
-                <label className="label" htmlFor="good-description">Описание</label>
+                <label className={`label ${descriptionError ? 'error' : ''}`} htmlFor="good-description">Описание*</label>
                 <SimpleMdeReact
-                    className="mde"
+                    className={`mde ${descriptionError ? 'mde-error' : ''}`}
                     placeholder="Добавьте описание вашему товару"
                     options={mdeReactOptions}
                     defaultValue={card ? card.information.description : ''}

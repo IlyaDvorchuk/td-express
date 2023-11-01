@@ -25,7 +25,7 @@ const InputPassword = ({password,
 
     return (
         <div className={'input-password'}>
-            <label className={'label'} htmlFor={'passwordInput'}>{label}</label>
+            <label className={`label ${error ? 'error' : ''}`} htmlFor={'passwordInput'}>{label}</label>
             <input
                 value={password}
                 onChange={onSetPassword}
@@ -40,6 +40,7 @@ const InputPassword = ({password,
                     alt={''}
                     onClick={onSwitchVisibility}/>
             </div>
+            {error && <p className={'warning-input warning-input_bottom'}>Вы ввели некорректный пароль</p>}
         </div>
     );
 };

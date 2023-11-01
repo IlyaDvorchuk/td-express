@@ -13,7 +13,8 @@ interface IProps {
     setSelectedSubCategory: (subcategory: ISubcategory | null) => void;
     selectedType: ISection | null;
     setSelectedType: (type: ISection | null) => void;
-    card: IProductCard | null
+    card: IProductCard | null,
+    categoryErrors:  {category: boolean, subcategory: boolean, type: boolean}
 }
 
 
@@ -24,7 +25,8 @@ const CreateGoodSelects = ({
                                setSelectedSubCategory,
                                selectedType,
                                setSelectedType,
-                               card
+                               card,
+                                categoryErrors
                            }: IProps) => {
     const dispatch = useAppDispatch();
     const {categories} = useAppSelector(state => state.categoriesReducer);
@@ -56,6 +58,7 @@ const CreateGoodSelects = ({
                             if (currentType) {
                                 setSelectedType(currentType)
                             } else {
+                                console.log('hey brus')
                                 setSelectedType({name: '', _id: 'missing'})
                             }
                     }
@@ -128,7 +131,7 @@ const CreateGoodSelects = ({
     return (
         <>
             <div className={'form-select'}>
-                <label className={'label'}>Категория</label>
+                <label className={`label ${categoryErrors.category ? 'error' : ''}`}>Категория*</label>
                 <Select
                     placeholder={'Выбрать категорию'}
                     className={'select-input form-select__select'}
@@ -141,7 +144,7 @@ const CreateGoodSelects = ({
                 />
             </div>
             <div className={'form-select'}>
-                <label className={'label'}>Подкатегория</label>
+                <label className={`label ${categoryErrors.subcategory ? 'error' : ''}`}>Подкатегория*</label>
                 <Select
                     placeholder={'Выбрать подкатегорию'}
                     className={'select-input form-select__select'}
@@ -153,7 +156,7 @@ const CreateGoodSelects = ({
                 />
             </div>
             <div className={'form-select'}>
-                <label className={'label'}>Тип</label>
+                <label className={`label ${categoryErrors.type ? 'error' : ''}`}>Тип</label>
                 <Select
                     placeholder={'Выбрать тип'}
                     className={'select-input form-select__select'}

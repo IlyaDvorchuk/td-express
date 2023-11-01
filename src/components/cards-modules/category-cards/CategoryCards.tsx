@@ -62,7 +62,6 @@ const CategoryCards = ({ id, title, limit, isFilter = false }: CategoryCardsProp
                 if (Array.isArray(colors) && isInputChange) {
                     params.colors = colors
                 }
-                console.log('params', params)
                 const response =  await GoodsService.getCategoryGoods
                 (
                     params
@@ -118,9 +117,8 @@ const CategoryCards = ({ id, title, limit, isFilter = false }: CategoryCardsProp
         <div>
             {title && <TitleCards text={title}/>}
             <WrapperCard cardsLength={categoryCards.length} handleButtonClick={handleButtonClick} limit={limit}>
-                {categoryCards.length > 0 ?
-                    categoryCards.map((card, index) => <ProductCard card={card} key={index} />)
-                : <BoxNotFoundCategory/>}
+                {categoryCards.length > 0 && categoryCards.map((card, index) => <ProductCard card={card} key={index} />)}
+                {categoryCards.length === 0 && !id && <BoxNotFoundCategory/>}
             </WrapperCard>
         </div>
     );

@@ -7,7 +7,7 @@ const BoxNotFoundCategory = () => {
         <div className={'not-found'}>
             <img src="/images/svg/categories/category-not-found.svg" alt="" className={'not-found__img'}/>
             <h3 className={'not-found__title'}>
-                В этой катгории пока нет товаров
+                В этой категории пока нет товаров
             </h3>
             <div>
                 <p className={'not-found__paragraph category-not-p'}>

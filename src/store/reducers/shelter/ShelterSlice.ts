@@ -11,7 +11,7 @@ const initialState = {
     isAuth: false,
     isLoading: false,
     activationCode: '',
-    error: '',
+    error: 0,
     isRegistry: false,
     isRegistered: false,
     isAuthenticated: false,
@@ -35,14 +35,14 @@ export const shelterSlice = createSlice({
             state.isLoading = true
         },
 
-        loginFetchingError(state, action: PayloadAction<string>) {
+        loginFetchingError(state, action: PayloadAction<number>) {
             state.isLoading = false
             state.error = action.payload
         },
 
         loginCleanError(state) {
             state.isLoading = true
-            state.error = ''
+            state.error = 0
         },
 
         setIsRegistry(state, action: PayloadAction<boolean>) {
@@ -106,7 +106,6 @@ export const shelterSlice = createSlice({
         setLogoutSuccess: (state) => {
             state.isAuthenticated = false;
             state.accessToken = null
-            console.log('state.isAuthenticated ', state.isAuthenticated )
         },
 
         setDeliveryPoints: (state, action: PayloadAction<IDeliveryPoint2[]>) => {

@@ -43,6 +43,16 @@ const FormCreateGood = ({card} : {card: IProductCardRes | null}) => {
     const [seasons, setSeasons] = useState<string[]>([])
     const [colorImages, setColorImages] = useState<(ColorImage)[]>([])
     const [submitButton, setSubmitButton] = useState('');
+    const [categoriesErrors, setCategoriesErrors] = useState({
+        category: false,
+        subcategory: false,
+        type: false
+    })
+    const [descriptionError, setDescriptionError] = useState(false)
+    const [photosErrors, setPhotosErrors] = useState({
+        main: false,
+        additional: false
+    })
 
     useEffect(() => {
         if (card) {
@@ -92,12 +102,38 @@ const FormCreateGood = ({card} : {card: IProductCardRes | null}) => {
         }
     },  [dispatch, isCreateGoodCard, navigation, submitButton])
 
+    const onClickSubmit = (button: string) => {
+        if (!parentSelectedCategory) {
+            setCategoriesErrors(prevState => ({...prevState, category: true}))
+        }
+        if (!parentSelectedSubCategory) {
+            setCategoriesErrors(prevState => ({...prevState, subcategory: true}))
+        }
+        if (!parentSelectedType) {
+            setCategoriesErrors(prevState => ({...prevState, type: true}))
+        }
+        if (!description) {
+            setDescriptionError(true)
+        }
+        if (!generalImage) {
+            setPhotosErrors(prevState => ({...prevState, main: true}))
+        }
+        if (additionalImages.length === 0) {
+            console.log('hey add')
+            setPhotosErrors(prevState => ({...prevState, additional: true}))
+        }
+        setSubmitButton(button)
+    }
+
     const onSubmit = async (data: any) => {
+
         if ((!generalImage && !card?.mainPhoto)
+            || additionalImages.length === 0
             || !parentSelectedCategory
             || !parentSelectedSubCategory
             || !parentSelectedType
             || quantitySizes.length === 0
+            || !description
         ) return;
         try {
             const points = Object.keys(data)
@@ -158,12 +194,9 @@ const FormCreateGood = ({card} : {card: IProductCardRes | null}) => {
                 deliveryPoints: points,
                 typeQuantity: quantitySizes,
                 nameShelter: shelter.name,
+                // colors: imageColorsWithBase64
             } as IProductCard
             if (card) {
-                if (imageColorsWithBase64) {
-                    // @ts-ignore
-                    good.colors = imageColorsWithBase64
-                }
                 dispatch(updateProductCard(good, card._id, generalImage || card.mainPhoto, additionalImages ? additionalImages : []))
                 return
             }
@@ -192,9 +225,15 @@ const FormCreateGood = ({card} : {card: IProductCardRes | null}) => {
                     selectedType={parentSelectedType}
                     setSelectedType={setParentSelectedType}
                     card={card}
+                    categoryErrors={categoriesErrors}
                 />
                 <hr className={'create__divider'}/>
-                <CreateGoodDescription description={description} setDescription={setDescription} card={card}/>
+                <CreateGoodDescription
+                    description={description}
+                    setDescription={setDescription}
+                    card={card}
+                    descriptionError={descriptionError}
+                />
                 {
                     parentSelectedCategory && isTypesClothes && (
                         <>
@@ -230,6 +269,7 @@ const FormCreateGood = ({card} : {card: IProductCardRes | null}) => {
                     selectedColors={selectedColors}
                     colorImages={colorImages}
                     setColorImages={setColorImages}
+                    photosErrors={photosErrors}
 
                 />
                 <hr className={'create__divider'}/>
@@ -249,7 +289,7 @@ const FormCreateGood = ({card} : {card: IProductCardRes | null}) => {
                     </>
                 )}
                 <hr className={'create__divider'}/>
-                <CreateGoodDimensions card={card}/>
+                <CreateGoodDimensions/>
                 <hr className={'create__divider'}/>
                 <CreateGoodPoints cardPoints={card ? card?.deliveryPoints : []}/>
                 {!card && <div className={'create__buttons'}>
@@ -257,7 +297,7 @@ const FormCreateGood = ({card} : {card: IProductCardRes | null}) => {
                         type="submit"
                         name="saveButton"
                         className={'button button_dark create__save'}
-                        onClick={() => setSubmitButton('saveButton')}
+                        onClick={() => onClickSubmit('saveButton')}
                     >
                         Сохранить
                     </button>
@@ -265,7 +305,7 @@ const FormCreateGood = ({card} : {card: IProductCardRes | null}) => {
                         type="submit"
                         name="addGoodButton"
                         className={'button button_light create__add-good'}
-                        onClick={() => setSubmitButton('addGoodButton')}
+                        onClick={() => onClickSubmit('addGoodButton')}
                     >
                         Добавить ещё карточку товара
                     </button>
@@ -275,7 +315,7 @@ const FormCreateGood = ({card} : {card: IProductCardRes | null}) => {
                         type="submit"
                         name="saveButton"
                         className={'button button_dark create__save'}
-                        onClick={() => setSubmitButton('saveButton')}
+                        onClick={() => onClickSubmit('saveButton')}
                     >
                         Изменить
                     </button>

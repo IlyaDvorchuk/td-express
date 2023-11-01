@@ -17,6 +17,7 @@ export class AuthService {
     }
 
     static async sendCode(email: string, isNotExamination?: boolean): Promise<AxiosResponse<string>> {
+        console.log('isNotExamination', isNotExamination)
         return $api.post<string>('/mail', {
             email,
             isShelter: true,
