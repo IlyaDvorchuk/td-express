@@ -167,7 +167,9 @@ const FormOrder = () => {
 
         const signature = `000209:${id}:0:${parameters[3].value}:000:${parameters[5].value}:HBmWYiyiwWrCsYlsD6Qk`;
         localStorage.setItem('signature', signature)
-
+        console.log('parameters', parameters)
+        console.log('signature', signature)
+        debugger
         form.appendChild(createHiddenInput('SignatureValue', CryptoJS.MD5(signature).toString()));
 
         console.log('form', form);
