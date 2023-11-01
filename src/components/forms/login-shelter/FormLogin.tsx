@@ -54,7 +54,7 @@ const FormLogin = () => {
     const createNewPassword = () => {
         const errorMail = !validator.isEmail(email)
         if (errorMail) {
-            // setIsErrorMail(true)
+            setErrorEmail(true)
             return
         }
         dispatch(changeIsUserModal(true))

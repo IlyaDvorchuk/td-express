@@ -40,6 +40,7 @@ const InputPassword = ({password,
                     alt={''}
                     onClick={onSwitchVisibility}/>
             </div>
+            {error && <p className={'warning-input warning-input_bottom'}>Вы ввели некорректный пароль</p>}
         </div>
     );
 };

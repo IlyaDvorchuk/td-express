@@ -67,13 +67,8 @@ const FormRegistrationData = ({shelterData, id}: IProps) => {
     useEffect(() => {
         const updateShelterData = async () => {
             if (isRegistry) {
+                console.log('isRegisrty')
                 let isCompletedFields = true;
-
-                for (let field of Object.values(closePerson)) {
-                    if (!field) {
-                        isCompletedFields = false;
-                    }
-                }
 
                 for (let field of Object.values(personalData)) {
                     if (!field) {
@@ -135,7 +130,7 @@ const FormRegistrationData = ({shelterData, id}: IProps) => {
                     }
                 };
                 setIsRegistry(false);
-                navigate('/shop-data');
+                // navigate('/shop-data');
             }
         };
 
@@ -199,7 +194,7 @@ const FormRegistrationData = ({shelterData, id}: IProps) => {
                 <div className={'mark error'}>
                     <img src="/images/svg/mark-error.svg" alt="Пометка"/>
                     <span className={'label'}>
-                            Обратите внимание, что все поля обязательны для заполнения.
+                            Обратите внимание, что поля помеченные звёздочкой "*" обязательны для заполнения.
                         </span>
                 </div>
             }
@@ -207,7 +202,7 @@ const FormRegistrationData = ({shelterData, id}: IProps) => {
                 <legend className={'legend'}>Личные данные</legend>
                 <div className={'form-data__inputs'}>
                     <div className={'reg-field'}>
-                        <label htmlFor="Name" className={'label'}>Имя</label>
+                        <label htmlFor="Name" className={'label'}>Имя*</label>
                         <input id={'Name'} className={`modalInput modalInput_light`}
                                type="text"
                                placeholder={'Введите Ваше имя'}
