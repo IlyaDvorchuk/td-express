@@ -1,4 +1,4 @@
-import React, {useEffect, useMemo, useState} from 'react';
+import React, {useEffect, useMemo, useRef, useState} from 'react';
 import './box-good.scss'
 import '../../../styles/elements/buttons.scss'
 import {Link, useNavigate} from "react-router-dom";
@@ -38,6 +38,7 @@ const BoxGood = ({card} : {card: IProductCardRes}) => {
         return window.innerWidth >= 450 ? 20 : 4;
     });
     const [isNewCard, setIsNewCard] = useState(true)
+    const swiperRef = useRef() as any;
 
     useEffect(() => {
 
@@ -62,14 +63,12 @@ const BoxGood = ({card} : {card: IProductCardRes}) => {
     const {quantity, typeId} = useMemo(() => {
         if (activeColor && activeSize && card.typeQuantity && card.typeQuantity?.length > 0) {
             const type = card.typeQuantity?.find(item => item.color?.name === activeColor && item.size === activeSize) as ITypeRes
-            console.log('type 65', type)
             return {
                 quantity: type?.quantity || 0,
                 typeId: type?._id || ''
         }
         } else if (activeSize && card.typeQuantity && card.typeQuantity?.length > 0) {
             const type = card.typeQuantity?.find(item => item.size === activeSize) as ITypeRes
-            console.log('type 69', type)
             return {
                 quantity: type?.quantity || 0,
                 typeId: type?._id || ''
@@ -244,17 +243,23 @@ const BoxGood = ({card} : {card: IProductCardRes}) => {
                             <img src="/images/svg/arrow-left-bold-little.svg" alt="Вернуться назад"/>
                         </div>
                         <div className={'good-additional-photos'}>
-                            {/*<div className="custom-navigation fdfgdfg">*/}
-                            {/*    <button className={'custom-navigation__up'} onClick={handleSlidePrev}>Previous</button>*/}
-                            {/*    <button className={'custom-navigation__down'} onClick={handleSlideNext}>Next</button>*/}
-                            {/*</div>*/}
+
                             <Swiper
                                 direction={'vertical'}
                                 slidesPerView={3}
                                 spaceBetween={isWindowWidth}
                                 modules={[Navigation]}
                                 className={'good-additional-photos__slider'}
+                                onSlideChange={() => console.log('slide change')}
+                                onSwiper={(swiper) => {
+                                    swiperRef.current = swiper;
+                                }}
+                                loop={additionalPhotos.length > 3}
+                                grabCursor={true}
                             >
+                                {/*<SwiperButtonPrev>Slide</SwiperButtonPrev>*/}
+                                {/*<SwiperButtonNext>Slide</SwiperButtonNext>*/}
+
                                 {additionalPhotos.map((photo, index) => (
                                     <SwiperSlide className={'good-additional-photos__slider-item'} key={index}>
                                         <div className={'good-additional-photos__item'} key={index}>
@@ -268,6 +273,21 @@ const BoxGood = ({card} : {card: IProductCardRes}) => {
                                 ))}
                             </Swiper>
                         </div>
+                        {additionalPhotos.length > 3 && <>
+                            <button className={'custom-button custom-button_up'} onClick={() => swiperRef.current.slidePrev()}>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48" fill="none">
+                                    <rect x="48" width="48" height="48" rx="15" transform="rotate(90 48 0)" fill="#FCF2FE"/>
+                                    <path d="M16.9998 28.9429L23.0909 20.7277C23.8103 19.7574 24.9874 19.7574 25.7067 20.7277L31.7979 28.9429" stroke="#643ABE" strokeWidth="1.5" strokeMiterlimit="10" strokeLinecap="round" strokeLinejoin="round"/>
+                                </svg>
+                            </button>
+                            <button className={'custom-button custom-button_down'} onClick={() => swiperRef.current.slideNext()}>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48" fill="none">
+                                    <rect x="48" width="48" height="48" rx="15" transform="rotate(90 48 0)" fill="#FCF2FE"/>
+                                    <path d="M16.9998 28.9429L23.0909 20.7277C23.8103 19.7574 24.9874 19.7574 25.7067 20.7277L31.7979 28.9429" stroke="#643ABE" strokeWidth="1.5" strokeMiterlimit="10" strokeLinecap="round" strokeLinejoin="round"/>
+                                </svg>
+                            </button>
+                        </>}
+
                     </div>
 
                     <div className={'main-photo'}>
