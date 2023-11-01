@@ -22,5 +22,5 @@ export function createIdOrder() {
     const minutes = currentDate.getMinutes().toString().padStart(2, '0'); // Минуты с ведущим нулем
     const seconds = currentDate.getSeconds().toString().padStart(2, '0'); // Секунды с ведущим нулем
 
-    return `${day}.${month}.${year}. ${hours}${minutes}${seconds}`;
+    return `${day}.${month}.${year}._${hours}${minutes}${seconds}`;
 }
