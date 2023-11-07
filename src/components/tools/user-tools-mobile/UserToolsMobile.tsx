@@ -36,7 +36,7 @@ const UserToolsMobile = ({isPressed}: {isPressed: boolean}) => {
                 </div>
             </div>
             <div className={'tools-buttons user-tools-mobile__buttons'}>
-                <Link className={'tools-link'} to={'/'}>
+                <Link className={'tools-link'} to={'/orders'}>
                     <img src="/images/svg/my-orders.svg" alt="Личные данные"/>
                     <span>Мои заказы</span>
                 </Link>

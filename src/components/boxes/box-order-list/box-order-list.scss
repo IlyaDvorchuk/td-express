@@ -4,6 +4,10 @@
   margin-top: 20px;
   margin-bottom: 173px;
 
+  @media screen and (max-width: 810px){
+    margin-bottom: 50px;
+  }
+
   & &__title {
     margin-bottom: 20px;
     font-size: $subTitleSize;
@@ -13,6 +17,10 @@
   & &__wrapper {
     display: flex;
     gap: 20px;
+
+    @media screen and (max-width: 810px){
+      flex-direction: column-reverse;
+    }
   }
 
   & &__container {
@@ -20,9 +28,14 @@
     display: flex;
     flex-direction: column;
     gap: 26px;
+
+    @media screen and (max-width: 810px) {
+      gap: 5px;
+    }
   }
 
   & &__selects {
+    min-width: 209px;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -34,14 +47,37 @@
     color: $title3Color;
     border: 1px solid $borderColor;
     border-radius: 20px;
+
+    @media screen and (max-width: 810px) {
+      padding-right: 60px;
+      padding-bottom: 15px;
+      overflow: scroll;
+      justify-content: flex-start;
+      padding-left: 0;
+      width: 557px;
+      height: auto;
+      border: none;
+      flex-direction: row;
+      font-size: $mediumMediumSize;
+    }
   }
 
   & &__select {
     position: relative;
     cursor: pointer;
 
+    @media screen and (max-width: 810px) {
+      text-align: center;
+      padding: 9px 12px;
+      min-width: 170px;
+    }
+
     &.active {
       color: $text2Color;
+
+      @media screen and (max-width: 810px) {
+        border-bottom: 2px solid $text2Color;
+      }
 
       &::before {
         content: '';
@@ -50,6 +86,10 @@
         height: 30px;
         width: 1px;
         background-color: $additionalColor;
+
+        @media screen and (max-width: 810px) {
+          content: none;
+        }
       }
     }
   }

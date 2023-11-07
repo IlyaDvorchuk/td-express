@@ -11,47 +11,63 @@ interface IProps {
     order: IOrderRes
 }
 
+const Status = ({status}: {status: string}) => {
+    return (
+        <div className={'order-user-card__status'}>
+            <div className={classNames('status-color', {
+                'status-color_grey': status === OrderEnum.AWAITING_CONFIRMATION,
+                'status-color_yellow': status === OrderEnum.AWAITING_SHIPMENT,
+                'status-color_orange': status === OrderEnum.DELIVERY,
+                'status-color_green': status === OrderEnum.COMPLETED,
+            })}/>
+            <div className={'status-text'}>
+                {status === OrderEnum.AWAITING_CONFIRMATION && 'ожидает подтверждения'}
+                {status === OrderEnum.AWAITING_SHIPMENT && 'заказ подтверждён'}
+                {status === OrderEnum.DELIVERY && 'заказ отправлен'}
+                {status === OrderEnum.COMPLETED && 'заказ завершён'}
+            </div>
+        </div>
+    )
+}
+
 const OrderUserCard = ({order}: IProps) => {
     const typeGoodArray = useTypeGoodArray(order);
 
     return (
-        <div className={'order-user-card'}>
-            <div className={'order-user-card__image'}>
-                <img src={`https://api.td-market.md/${order.goodPhoto}`} alt={order.goodName}/>
-            </div>
-            <div className={'order-user-card__data'}>
-                <h4 className={'order-user-card__name'}>{order.goodName}</h4>
-                <p className={'order-user-card__inf'}>
-                    {typeGoodArray.map((item, index) => (
-                        <span key={index}>{item}{index < typeGoodArray.length - 1  ? ', ' : ''}</span>
-                    ))}
-                </p>
-                <p className={'order-user-card__inf'}>{order.count} шт.</p>
-                <p className={'order-user-card__inf order-user-card__date'}>
-                    Дата заказа: <span>{formatDateDay(order.createdAt)}</span>
-                </p>
-            </div>
-            <div className={'order-user-card__right'}>
-                <div className={'order-user-card__status'}>
-                    <div className={classNames('status-color', {
-                        'status-color_grey': order.status === OrderEnum.AWAITING_CONFIRMATION,
-                        'status-color_yellow': order.status === OrderEnum.AWAITING_SHIPMENT,
-                        'status-color_orange': order.status === OrderEnum.DELIVERY,
-                        'status-color_green': order.status === OrderEnum.COMPLETED,
-                    })}/>
-                    <div className={'status-text'}>
-                        {order.status === OrderEnum.AWAITING_CONFIRMATION && 'ожидает подтверждения'}
-                        {order.status === OrderEnum.AWAITING_SHIPMENT && 'заказ подтверждён'}
-                        {order.status === OrderEnum.DELIVERY && 'заказ отправлен'}
-                        {order.status === OrderEnum.COMPLETED && 'заказ завершён'}
-                    </div>
+        <div>
+            <div className={'order-user-card__status-mobile'}>
+                <div className={'paragraph'}>
+                    Статус заказа
                 </div>
-                <p className={'order-user-card__price'}>{order.price} RUP</p>
-                <Link to={'/'} className={'button button_light order-user-card__button'}>
-                    Подробнее о заказе
-                </Link>
+                <Status status={order.status}/>
+            </div>
+            <div className={'order-user-card'}>
+                <div className={'order-user-card__image'}>
+                    <img src={`https://api.td-market.md/${order.goodPhoto}`} alt={order.goodName}/>
+                </div>
+                <div className={'order-user-card__data'}>
+                    <h4 className={'order-user-card__price-mobile'}>{order.price} RUP</h4>
+                    <h4 className={'order-user-card__name'}>{order.goodName}</h4>
+                    <p className={'order-user-card__inf'}>
+                        {typeGoodArray.map((item, index) => (
+                            <span key={index}>{item}{index < typeGoodArray.length - 1  ? ', ' : ''}</span>
+                        ))}
+                    </p>
+                    <p className={'order-user-card__inf'}>{order.count} шт.</p>
+                    <p className={'order-user-card__inf order-user-card__date'}>
+                        Дата заказа: <span>{formatDateDay(order.createdAt)}</span>
+                    </p>
+                </div>
+                <div className={'order-user-card__right'}>
+                    <Status status={order.status}/>
+                    <p className={'order-user-card__price'}>{order.price} RUP</p>
+                    <Link to={'/'} className={'button button_light order-user-card__button'}>
+                        Подробнее о заказе
+                    </Link>
+                </div>
             </div>
         </div>
+
     );
 };
 

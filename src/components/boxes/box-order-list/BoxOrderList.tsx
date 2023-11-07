@@ -54,25 +54,25 @@ const BoxOrderList = () => {
                         className={`orders-list__select ${activeStatus === OrderEnum.DEFAULT ? 'active' : ''}`}
                         onClick={() => setActiveStatus(OrderEnum.DEFAULT)}
                     >
-                        Все заказы ({ordersUser.length})
+                        Все заказы&nbsp;({ordersUser.length})
                     </p>
                     <p
                         className={`orders-list__select ${activeStatus === OrderEnum.DELIVERY ? 'active' : ''}`}
                         onClick={() => setActiveStatus(OrderEnum.DELIVERY)}
                     >
-                        Активные ({ordersUser.filter(order => order.status === OrderEnum.DELIVERY).length})
+                        Активные&nbsp;({ordersUser.filter(order => order.status === OrderEnum.DELIVERY).length})
                     </p>
                     <p
                         className={`orders-list__select ${(activeStatus === OrderEnum.AWAITING_CONFIRMATION || activeStatus === OrderEnum.AWAITING_SHIPMENT) ? 'active' : ''}`}
                         onClick={() => setActiveStatus(OrderEnum.AWAITING_CONFIRMATION)}
                     >
-                        Ожидают отзыв ({ordersUser.filter(order => order.status === OrderEnum.AWAITING_SHIPMENT || order.status === OrderEnum.AWAITING_CONFIRMATION).length})
+                        Ожидают отзыв&nbsp;({ordersUser.filter(order => order.status === OrderEnum.AWAITING_SHIPMENT || order.status === OrderEnum.AWAITING_CONFIRMATION).length})
                     </p>
                     <p
                         className={`orders-list__select ${activeStatus === OrderEnum.COMPLETED ? 'active' : ''}`}
                         onClick={() => setActiveStatus(OrderEnum.COMPLETED)}
                     >
-                        Завершённые ({ordersUser.filter(order => order.status === OrderEnum.COMPLETED).length})
+                        Завершённые&nbsp;({ordersUser.filter(order => order.status === OrderEnum.COMPLETED).length})
                     </p>
                 </aside>
             </section>

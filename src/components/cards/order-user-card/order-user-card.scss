@@ -1,11 +1,36 @@
 @import "src/styles/constants";
 @import "src/styles/mixins";
 
+.order-user-card__status-mobile {
+  display: none;
+  padding-bottom: 8px;
+  border-bottom: 1px solid $text4Color;
+
+  & > .paragraph {
+    font-size: $littleSize;
+    color: $text4Color;
+  }
+
+  @media screen and (max-width: 520px) {
+    @include flex(space-between, center)
+  }
+}
+
 .order-user-card {
   padding: 25px;
   border: 1px solid $borderColor;
   border-radius: 20px;
   @include flex();
+
+  @media screen and (max-width: 810px) {
+    border: none;
+    border-bottom: 1px solid $borderColor;
+    padding: 8px 0;
+  }
+
+  @media screen and (max-width: 520px) {
+    cursor: pointer;
+  }
 
   & &__image {
     margin-right: 15px;
@@ -25,6 +50,17 @@
     height: 172px;
     display: flex;
     flex-direction: column;
+  }
+
+  & &__price-mobile {
+    display: none;
+    font-size: $subTitleSize;
+    color: $title2Color;
+    font-weight: 800;
+
+    @media screen and (max-width: 520px) {
+      display: block;
+    }
   }
 
   & &__name {
@@ -54,12 +90,22 @@
     display: flex;
     flex-direction: column;
     align-items: flex-end;
+
+    @media screen and (max-width: 520px) {
+      display: none;
+    }
   }
 
-  & &__status {
+  &__status {
     @include flex();
     align-items: center;
     gap: 5px;
+
+    @media screen and (max-width: 520px) {
+      background-color: #F5F5F5;
+      border-radius: 8px;
+      padding: 4px 8px;
+    }
 
     & > .status-color {
       @include square(10px);
@@ -100,5 +146,11 @@
   & &__button {
     margin-top: 8px;
     padding: 0 16px;
+
+    @media screen and (max-width: 810px) {
+      display: none;
+    }
   }
+
+
 }
