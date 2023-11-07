@@ -7,7 +7,6 @@ import {removeAccessTokenShelter, setAccessTokenUser} from "../../../utils/token
 import {UserService} from "../../../services/UserService";
 import {IOrder} from "../../../models/IOrder";
 import {AdminService} from "../../../services/AdminService";
-import {ITypeRes} from "../../../models/IProductCard";
 
 export const loginUser = (email: string, password: string) => async (dispatch: AppDispatch) => {
     try {
@@ -114,7 +113,7 @@ export const getUser = () => async (dispatch: AppDispatch) => {
 }
 
 
-export const createOrder = (order: IOrder, typeOrder: ITypeRes | undefined) => async (dispatch: AppDispatch) => {
+export const createOrder = (order: IOrder) => async (dispatch: AppDispatch) => {
     try {
         dispatch(userSlice.actions.loginFetching())
         const response = await UserService.createOrder(order)
@@ -143,7 +142,7 @@ export const createOrder = (order: IOrder, typeOrder: ITypeRes | undefined) => a
         const formattedDate = `${currentDate.getDate()}.${currentDate.getMonth() + 1}.${currentDate.getFullYear().toString().slice(-2)} ${daysOfWeek[dayOfWeek]} ${currentDate.getHours()}:${String(currentDate.getMinutes()).padStart(2, '0')}`;
         await AdminService.createNotification(
             order.shelterId,
-            `<p>Ваш товар <b>“${order.goodName} ${typeOrder ? typeOrder.size : ''}”</b> был заказан в количестве  <b>${order.count} штук</b>.</p>
+            `<p>Ваш товар <b>“${order.goodName} ${order?.currentType?.size ? `, ${order.currentType.size}` : ''} ${order?.currentType?.color ? `, ${order.currentType.color}` : ''}”</b> был заказан в количестве  <b>${order.count} штук</b>.</p>
                 <p>${deliveryString}</p>
                 <p>${formattedDate}</p>`
         )

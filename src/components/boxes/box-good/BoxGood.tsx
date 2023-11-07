@@ -60,22 +60,25 @@ const BoxGood = ({card} : {card: IProductCardRes}) => {
 
     }, [])
 
-    const {quantity, typeId} = useMemo(() => {
+    const {quantity, typeId, currentType} = useMemo(() => {
         if (activeColor && activeSize && card.typeQuantity && card.typeQuantity?.length > 0) {
             const type = card.typeQuantity?.find(item => item.color?.name === activeColor && item.size === activeSize) as ITypeRes
             return {
                 quantity: type?.quantity || 0,
-                typeId: type?._id || ''
+                typeId: type?._id || '',
+                currentType: type
         }
         } else if (activeSize && card.typeQuantity && card.typeQuantity?.length > 0) {
             const type = card.typeQuantity?.find(item => item.size === activeSize) as ITypeRes
             return {
                 quantity: type?.quantity || 0,
-                typeId: type?._id || ''
+                typeId: type?._id || '',
+                currentType: type
             }
         } else return {
             quantity: card.pricesAndQuantity.quantity,
-            typeId: ''
+            typeId: '',
+            currentType: null
         }
     }, [activeColor, activeSize])
 
@@ -217,6 +220,7 @@ const BoxGood = ({card} : {card: IProductCardRes}) => {
             state: {
                 ...card,
                 deliveryCities,
+                currentType
                 // activeSize: activeSize
             }
         })

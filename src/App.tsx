@@ -39,6 +39,7 @@ import BoxFailureOrder from "./components/boxes/box-failure-order/BoxFailureOrde
 import Search from "./components/search/Search";
 import BoxLinkRegistration from "./components/boxes/box-link-registration/BoxLinkRegistration";
 import {useWindowWidth} from "./hooks/useWindowWidth";
+import OrdersList from "./pages/OrdersList";
 
 
 function App() {
@@ -182,6 +183,17 @@ function App() {
                                 <Header />
                                 <MobileNavbar/>
                                 <Faq/>
+                                <Footer/>
+                            </>
+                        }
+                    />
+                    <Route
+                        path="/orders"
+                        element={
+                            <>
+                                <Header />
+                                <MobileNavbar/>
+                                <OrdersList/>
                                 <Footer/>
                             </>
                         }

@@ -1,11 +1,12 @@
 import {AxiosResponse} from "axios";
 import {IUser} from "../models/response/IUser";
-import $api from "../http";
+import $api, {$apiShelter} from "../http";
 import {IProductCardRes} from "../models/IProductCard";
 import {ICartReq} from "../models/ICart";
 import {ICartRes} from "../models/response/ICartRes";
-import {IOrder} from "../models/IOrder";
+import {IOrder, IOrderRes} from "../models/IOrder";
 import {INotification} from "../models/INotification";
+import {OrderEnum} from "../models/enums";
 
 export class UserService {
     static async fetchUser(): Promise<AxiosResponse<IUser[]>> {
@@ -56,5 +57,13 @@ export class UserService {
         return $api.delete(`users/notifications`, {
             data: deleteNotifications
         })
+    }
+
+    static getOrdersOfUser(userId: string): Promise<AxiosResponse<IOrderRes[]>> {
+        return $apiShelter.get(`orders/user/${userId}`);
+    }
+
+    static changeStatus(idOrder: string, status: OrderEnum): Promise<AxiosResponse<IOrderRes[]>> {
+        return $apiShelter.put(`orders/${idOrder}/${status}`)
     }
 }

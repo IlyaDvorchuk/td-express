@@ -1,0 +1,56 @@
+@import "src/styles/constants";
+
+.orders-list {
+  margin-top: 20px;
+  margin-bottom: 173px;
+
+  & &__title {
+    margin-bottom: 20px;
+    font-size: $subTitleSize;
+    color: $title2Color;
+  }
+
+  & &__wrapper {
+    display: flex;
+    gap: 20px;
+  }
+
+  & &__container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 26px;
+  }
+
+  & &__selects {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 8px;
+    padding-left: 29px;
+    width: 24%;
+    height: 178px;
+    font-size: $bigMediumSize;
+    color: $title3Color;
+    border: 1px solid $borderColor;
+    border-radius: 20px;
+  }
+
+  & &__select {
+    position: relative;
+    cursor: pointer;
+
+    &.active {
+      color: $text2Color;
+
+      &::before {
+        content: '';
+        position: absolute;
+        left: -29px;
+        height: 30px;
+        width: 1px;
+        background-color: $additionalColor;
+      }
+    }
+  }
+}

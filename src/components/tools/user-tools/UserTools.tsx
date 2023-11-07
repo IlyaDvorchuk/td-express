@@ -90,7 +90,7 @@ const UserTools = () => {
 
                 </div>
                 {!isCover && <div className={'shelter-tools__buttons'}>
-                    <Link className={'shelter-link'} to={'/'}>
+                    <Link className={'shelter-link'} to={'/orders'}>
                         <img src="/images/svg/my-orders.svg" alt="Личные данные"/>
                         <span>Мои заказы</span>
                     </Link>

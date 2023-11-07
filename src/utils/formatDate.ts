@@ -12,6 +12,19 @@ export function formatDate(inputDate: string) {
     return `${day}.${month}.${year} ${hours}:${minutes}`;
 }
 
+export function formatDateDay(dateString: string): string {
+    const months: string[] = [
+        'января', 'февраля', 'марта', 'апреля', 'мая', 'июня',
+        'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря'
+    ];
+
+    const date = new Date(dateString);
+    const day = date.getDate();
+    const month = date.getMonth();
+
+    return `${day} ${months[month]}`;
+}
+
 export function createIdOrder() {
     const currentDate = new Date();
 

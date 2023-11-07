@@ -1,0 +1,104 @@
+@import "src/styles/constants";
+@import "src/styles/mixins";
+
+.order-user-card {
+  padding: 25px;
+  border: 1px solid $borderColor;
+  border-radius: 20px;
+  @include flex();
+
+  & &__image {
+    margin-right: 15px;
+    width: 124px;
+    height: 172px;
+    border-radius: 5px;
+    overflow: hidden;
+
+    & > img {
+      height: 100%;
+      width: 100%;
+      object-fit: cover;
+    }
+  }
+
+  & &__data {
+    height: 172px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  & &__name {
+    margin-bottom: 24px;
+    font-size: $subTitleSize;
+    color: $title2Color;
+    font-weight: 800;
+  }
+
+  & &__inf {
+    font-size: $littleMediumSize;
+    color: $text4Color;
+  }
+
+  & &__date {
+    margin-top: auto;
+    color: $title3Color;
+
+    & > span {
+      color: $text4Color;
+    }
+  }
+
+  & &__right {
+    height: 172px;
+    margin-left: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+  }
+
+  & &__status {
+    @include flex();
+    align-items: center;
+    gap: 5px;
+
+    & > .status-color {
+      @include square(10px);
+      border-radius: 50%;
+
+      &_grey {
+        background-color: $text4Color;
+      }
+
+      &_yellow {
+        background-color: #F2C94C;
+      }
+
+      &_orange {
+        background-color: $warningColor;
+      }
+
+      &_green {
+        background-color: $successColor;
+      }
+    }
+
+    & > .status-text {
+      position: relative;
+      bottom: 1px;
+      color: $text4Color;
+      font-size: $mediumLittleSize;
+    }
+  }
+
+  & &__price {
+    padding-right: 10px;
+    font-size: $subTitleSize;
+    font-weight: 800;
+    margin-top: auto;
+  }
+
+  & &__button {
+    margin-top: 8px;
+    padding: 0 16px;
+  }
+}

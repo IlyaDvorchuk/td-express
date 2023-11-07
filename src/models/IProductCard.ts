@@ -65,7 +65,7 @@ export interface IProductCardRes extends IProductCard {
         color: string,
     })[] | []
     typeQuantity?: ITypeRes[],
-    activeSize?: ITypeRes,
+    currentType?: ITypeRes,
     deliveryCities: IDeliveryCity[],
 }
 
