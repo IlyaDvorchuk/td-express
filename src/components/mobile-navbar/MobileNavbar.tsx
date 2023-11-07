@@ -50,10 +50,6 @@ const MobileNavbar = () => {
         return activeLink === imageName ? `${imageName}-active.svg` : `${imageName}.svg`;
     };
 
-    useEffect(() => {
-        console.log('isObjectEmpty(user)',user)
-    }, [user])
-
     return (
         <>
             <MenuMobile isPressed={isPressedMenu} setIsPressed={setIsPressedMenu}/>

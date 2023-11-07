@@ -15,12 +15,16 @@ const Search = ({mobile = false}: {mobile?: boolean}) => {
     const {
         currentMinPrice, currentMaxPrice, isChange, colors, isReset
     } = useAppSelector(state => state.filterReducer)
-    const [searchQuery, setSearchQuery]= useState('')
+    // const [searchQuery, setSearchQuery]= useState('')
     const [timeoutId, setTimeoutId] = useState<NodeJS.Timeout | null>(null);
     const inputRef = useRef<HTMLInputElement>(null);
 
     useEffect(() => {
-        if (inputRef.current && mobile && searchQuery) {
+        // console.log('inputRef.current', inputRef.current)
+        // console.log('mobile', mobile)
+        // console.log('searchQuery', searchQuery)
+        if (inputRef.current && mobile && query) {
+            // console.log('istrye focus')
             inputRef.current.focus(); // Устанавливаем фокус на инпуте
         }
     }, []);
@@ -87,7 +91,7 @@ const Search = ({mobile = false}: {mobile?: boolean}) => {
         if (location.pathname !== "/search") {
             navigation("/search");
         } else if (!value) navigation(-1)
-        setSearchQuery(value)
+        // setSearchQuery(value)
         dispatch(searchSetQuery(value))
     }
 
