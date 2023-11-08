@@ -5,7 +5,8 @@ import useTypeGoodArray from "../../../hooks/useTypeGoodArray";
 import {formatDateDay} from "../../../utils/formatDate";
 import {OrderEnum} from "../../../models/enums";
 import classNames from "classnames";
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
+import {useWindowWidth} from "../../../hooks/useWindowWidth";
 
 interface IProps {
     order: IOrderRes
@@ -31,7 +32,15 @@ const Status = ({status}: {status: string}) => {
 }
 
 const OrderUserCard = ({order}: IProps) => {
+    const navigation = useNavigate()
     const typeGoodArray = useTypeGoodArray(order);
+    const windowWidth = useWindowWidth();
+
+    const onClickCard = () => {
+        if (windowWidth < 810) {
+            navigation(`/order/${order._id}`)
+        }
+    }
 
     return (
         <div>
@@ -41,7 +50,7 @@ const OrderUserCard = ({order}: IProps) => {
                 </div>
                 <Status status={order.status}/>
             </div>
-            <div className={'order-user-card'}>
+            <div onClick={onClickCard} className={'order-user-card'}>
                 <div className={'order-user-card__image'}>
                     <img src={`https://api.td-market.md/${order.goodPhoto}`} alt={order.goodName}/>
                 </div>
@@ -61,7 +70,7 @@ const OrderUserCard = ({order}: IProps) => {
                 <div className={'order-user-card__right'}>
                     <Status status={order.status}/>
                     <p className={'order-user-card__price'}>{order.price} RUP</p>
-                    <Link to={'/'} className={'button button_light order-user-card__button'}>
+                    <Link to={`/order/${order._id}`} className={'button button_light order-user-card__button'}>
                         Подробнее о заказе
                     </Link>
                 </div>

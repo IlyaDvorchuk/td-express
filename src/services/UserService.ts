@@ -1,6 +1,6 @@
-import {AxiosResponse} from "axios";
+import axios, {AxiosResponse} from "axios";
 import {IUser} from "../models/response/IUser";
-import $api, {$apiShelter} from "../http";
+import $api, {$apiShelter, API_URL} from "../http";
 import {IProductCardRes} from "../models/IProductCard";
 import {ICartReq} from "../models/ICart";
 import {ICartRes} from "../models/response/ICartRes";
@@ -61,6 +61,10 @@ export class UserService {
 
     static getOrdersOfUser(userId: string): Promise<AxiosResponse<IOrderRes[]>> {
         return $apiShelter.get(`orders/user/${userId}`);
+    }
+
+    static async getOrder(id: string): Promise<AxiosResponse<IOrderRes>> {
+        return axios.get<IOrderRes>(`${API_URL}orders/${id}`)
     }
 
     static changeStatus(idOrder: string, status: OrderEnum): Promise<AxiosResponse<IOrderRes[]>> {

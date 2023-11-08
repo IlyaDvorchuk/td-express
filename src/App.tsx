@@ -40,6 +40,7 @@ import Search from "./components/search/Search";
 import BoxLinkRegistration from "./components/boxes/box-link-registration/BoxLinkRegistration";
 import {useWindowWidth} from "./hooks/useWindowWidth";
 import OrdersList from "./pages/OrdersList";
+import OrderUser from "./pages/OrderUser";
 
 
 function App() {
@@ -117,6 +118,7 @@ function App() {
                         element={
                             <>
                                 <Header />
+                                <MobileNavbar/>
                                 <Good />
                                 <Footer/>
 
@@ -195,6 +197,18 @@ function App() {
                                 <MobileNavbar/>
                                 <OrdersList/>
                                 <Footer/>
+                            </>
+                        }
+                    />
+                    <Route
+                        path="/order/:id"
+                        element={
+                            <>
+                                <Header />
+                                <MobileNavbar/>
+                                <OrderUser />
+                                <Footer/>
+
                             </>
                         }
                     />
