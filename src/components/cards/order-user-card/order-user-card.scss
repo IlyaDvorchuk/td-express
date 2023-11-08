@@ -96,45 +96,6 @@
     }
   }
 
-  &__status {
-    @include flex();
-    align-items: center;
-    gap: 5px;
-
-    @media screen and (max-width: 520px) {
-      background-color: #F5F5F5;
-      border-radius: 8px;
-      padding: 4px 8px;
-    }
-
-    & > .status-color {
-      @include square(10px);
-      border-radius: 50%;
-
-      &_grey {
-        background-color: $text4Color;
-      }
-
-      &_yellow {
-        background-color: #F2C94C;
-      }
-
-      &_orange {
-        background-color: $warningColor;
-      }
-
-      &_green {
-        background-color: $successColor;
-      }
-    }
-
-    & > .status-text {
-      position: relative;
-      bottom: 1px;
-      color: $text4Color;
-      font-size: $mediumLittleSize;
-    }
-  }
 
   & &__price {
     padding-right: 10px;

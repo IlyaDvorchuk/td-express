@@ -3,32 +3,12 @@ import './order-user-card.scss'
 import {IOrderRes} from "../../../models/IOrder";
 import useTypeGoodArray from "../../../hooks/useTypeGoodArray";
 import {formatDateDay} from "../../../utils/formatDate";
-import {OrderEnum} from "../../../models/enums";
-import classNames from "classnames";
 import {Link, useNavigate} from "react-router-dom";
 import {useWindowWidth} from "../../../hooks/useWindowWidth";
+import Status from "../../status/Status";
 
 interface IProps {
     order: IOrderRes
-}
-
-const Status = ({status}: {status: string}) => {
-    return (
-        <div className={'order-user-card__status'}>
-            <div className={classNames('status-color', {
-                'status-color_grey': status === OrderEnum.AWAITING_CONFIRMATION,
-                'status-color_yellow': status === OrderEnum.AWAITING_SHIPMENT,
-                'status-color_orange': status === OrderEnum.DELIVERY,
-                'status-color_green': status === OrderEnum.COMPLETED,
-            })}/>
-            <div className={'status-text'}>
-                {status === OrderEnum.AWAITING_CONFIRMATION && 'ожидает подтверждения'}
-                {status === OrderEnum.AWAITING_SHIPMENT && 'заказ подтверждён'}
-                {status === OrderEnum.DELIVERY && 'заказ отправлен'}
-                {status === OrderEnum.COMPLETED && 'заказ завершён'}
-            </div>
-        </div>
-    )
 }
 
 const OrderUserCard = ({order}: IProps) => {
