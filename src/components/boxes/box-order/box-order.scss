@@ -6,8 +6,12 @@
   margin-bottom: 122px;
 
   & &__wrapper {
-    @include flex();
+    @include flex(space-between);
     gap: 64px;
+  }
+
+  & &__main {
+    flex: 1;
   }
 
   & &__title {
@@ -69,6 +73,10 @@
     & > span {
       color: $title2Color;
     }
+  }
+
+  & &__price {
+    margin-left: auto;
   }
 
   & &__price {

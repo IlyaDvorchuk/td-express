@@ -41,6 +41,7 @@ import BoxLinkRegistration from "./components/boxes/box-link-registration/BoxLin
 import {useWindowWidth} from "./hooks/useWindowWidth";
 import OrdersList from "./pages/OrdersList";
 import OrderUser from "./pages/OrderUser";
+import Seller from "./pages/Seller";
 
 
 function App() {
@@ -207,6 +208,18 @@ function App() {
                                 <Header />
                                 <MobileNavbar/>
                                 <OrderUser />
+                                <Footer/>
+
+                            </>
+                        }
+                    />
+                    <Route
+                        path="/seller/:id"
+                        element={
+                            <>
+                                <Header />
+                                <MobileNavbar/>
+                                <Seller />
                                 <Footer/>
 
                             </>

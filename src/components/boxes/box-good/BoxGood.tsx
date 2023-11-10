@@ -303,7 +303,7 @@ const BoxGood = ({card} : {card: IProductCardRes}) => {
                         {card?.information?.name}
                     </h2>
                     <div className={'good-information__shelter-block'}>
-                        <Link to={`/seller/${shelter?.id}`} className={'good-information__shelter'}>
+                        <Link to={`/seller/${shelter?.name}`} className={'good-information__shelter'}>
                             <div className={'good-information__icon'}>
                                 <img src={`https://api.td-market.md/${shelter?.imageShop}`} alt={shelter?.name}/>
                             </div>

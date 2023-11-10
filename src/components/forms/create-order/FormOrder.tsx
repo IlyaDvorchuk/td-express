@@ -150,40 +150,6 @@ const FormOrder = () => {
         return input;
     };
 
-    const onTestBankForm = async () => {
-        const id = createIdOrder();
-        const form = document.createElement('form');
-        form.method = 'POST';
-        form.action = 'https://www.agroprombank.com/payments/PaymentStart';
-
-        const parameters = [
-            { name: 'MerchantLogin', value: '000209' },
-            { name: 'nivid', value: id },
-            { name: 'istest', value: '0' },
-            // { name: 'RequestSum', value: `${finalPrice * 100}` },
-            { name: 'RequestSum', value: `50` },
-            { name: 'RequestCurrCode', value: '000' },
-            { name: 'Desc', value: `Оплата заказа №${id.split(' ')[1]}, ${card?.information.name}` },
-        ];
-
-        parameters.forEach(({ name, value }) => {
-            form.appendChild(createHiddenInput(name, value));
-        });
-
-        
-        const signature = `000209:${id}:0:${parameters[3].value}:000:${parameters[5].value}:HBmWYiyiwWrCsYlsD6Qk`;
-        localStorage.setItem('signature', signature)
-        console.log('parameters', parameters)
-        console.log('signature', signature)
-        debugger
-        form.appendChild(createHiddenInput('SignatureValue', CryptoJS.MD5(signature).toString()));
-
-        console.log('form', form);
-        document.body.appendChild(form);
-        form.submit();
-    };
-
-
     const onSubmit = (data: any) => {
         // if (selectedDelivery === 'doorstep') {
         //     setErrorCity(true)

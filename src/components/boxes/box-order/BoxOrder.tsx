@@ -12,7 +12,7 @@ const BoxOrder = ({order}: {order: IOrderRes}) => {
         <div className={'box-order'}>
             <h2 className={'box-order__title'}>Заказ № {order?.orderId?.split('_')[0]}</h2>
             <section className={'box-order__wrapper'}>
-                <div>
+                <div className={'box-order__main'}>
                     <div className={'box-order__upper'}>
                         <div className={'box-order__image'}>
                             <img src={`https://api.td-market.md/${order.goodPhoto}`} alt={order.goodName}/>
@@ -32,7 +32,7 @@ const BoxOrder = ({order}: {order: IOrderRes}) => {
                                 Статус: <span>{order.status}</span>
                             </p>
                         </div>
-                        <div>
+                        <div className={'box-order__right'}>
                             <Status status={order.status}/>
                             <p className={'box-order__price'}>{order.price} RUP</p>
                         </div>
