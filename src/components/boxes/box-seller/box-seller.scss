@@ -1,0 +1,39 @@
+@import "src/styles/constants";
+@import "src/styles/mixins";
+
+.box-seller {
+  margin: 20px 0;
+  padding: 16px 16px 48px;
+  border: 1px solid $borderColor;
+  border-radius: 8px;
+
+  & &__header {
+    margin-bottom: 12px;
+    @include flex();
+    align-items: flex-end;
+    gap: 8px;
+  }
+
+  & &__icon {
+    @include iconShop(64px);
+    border: 1px solid $titleColor;
+  }
+
+  & &__title {
+    font-size: $subTitleSize;
+    margin-bottom: 12px;
+    font-family: Nunito Sans, sans-serif;
+
+  }
+
+  & &__count {
+    font-size: $mediumLittleSize;
+    margin-bottom: 15px;
+    color: $title3Color;
+  }
+
+  & &__description {
+    font-size: $mediumMediumSize;
+    line-height: 110%;
+  }
+}

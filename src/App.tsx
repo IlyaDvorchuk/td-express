@@ -214,7 +214,7 @@ function App() {
                         }
                     />
                     <Route
-                        path="/seller/:id"
+                        path="/seller/:name"
                         element={
                             <>
                                 <Header />

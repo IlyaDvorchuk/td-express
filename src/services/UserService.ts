@@ -7,6 +7,7 @@ import {ICartRes} from "../models/response/ICartRes";
 import {IOrder, IOrderRes} from "../models/IOrder";
 import {INotification} from "../models/INotification";
 import {OrderEnum} from "../models/enums";
+import {ISellerByUser} from "../models/response/ISellerByUser";
 
 export class UserService {
     static async fetchUser(): Promise<AxiosResponse<IUser[]>> {
@@ -69,5 +70,9 @@ export class UserService {
 
     static changeStatus(idOrder: string, status: OrderEnum): Promise<AxiosResponse<IOrderRes[]>> {
         return $apiShelter.put(`orders/${idOrder}/${status}`)
+    }
+
+    static getSeller(name: string): Promise<AxiosResponse<ISellerByUser>> {
+        return axios.get<ISellerByUser>(`${API_URL}shelters/user/${name}`)
     }
 }

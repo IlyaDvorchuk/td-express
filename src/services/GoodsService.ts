@@ -4,7 +4,7 @@ import {IPaginationCards} from "../models/response/IPaginationCards";
 import {IProductCardRes, ITypeRes} from "../models/IProductCard";
 import {ICategory, ISection, ISubcategory} from "../models/ICategories";
 import {IShelterForGood} from "../models/response/IShelter";
-import {IFilterCategoriesParams, IFilterSearchParams} from "../models/IFilter";
+import {IFilterCategoriesParams, IFilterSearchParams, IFilterSellerParams} from "../models/IFilter";
 
 export class GoodsService {
     static async getNewGoods(page: number, limit: number): Promise<AxiosResponse<IPaginationCards>> {
@@ -21,6 +21,19 @@ export class GoodsService {
             params: {
                 page,
                 limit
+            }
+        })
+    }
+
+    static async getSellerCards(params: IFilterSellerParams): Promise<AxiosResponse<IPaginationCards>> {
+        const { name, page, limit, minPrice, maxPrice, colors } = params;
+        return axios.get<IPaginationCards>(`${API_URL}shelters/seller-cards/${name}`, {
+            params: {
+                page,
+                limit,
+                minPrice,
+                maxPrice,
+                colors
             }
         })
     }

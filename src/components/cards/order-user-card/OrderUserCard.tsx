@@ -18,7 +18,9 @@ const OrderUserCard = ({order}: IProps) => {
 
     const onClickCard = () => {
         if (windowWidth < 810) {
-            navigation(`/order/${order._id}`)
+            navigation(`/order/${order._id}`, {
+                state: order
+            })
         }
     }
 
@@ -50,7 +52,7 @@ const OrderUserCard = ({order}: IProps) => {
                 <div className={'order-user-card__right'}>
                     <Status status={order.status}/>
                     <p className={'order-user-card__price'}>{order.price} RUP</p>
-                    <Link to={`/order/${order._id}`} className={'button button_light order-user-card__button'}>
+                    <Link to={`/order/${order._id}`} state={{ ...order }} className={'button button_light order-user-card__button'}>
                         Подробнее о заказе
                     </Link>
                 </div>
