@@ -19,6 +19,7 @@
     "crypto-js": "^4.1.1",
     "easymde": "2.18.0",
     "multer": "1.4.5-lts.1",
+    "next": "^14.0.2",
     "rc-slider": "^10.3.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",
@@ -38,6 +39,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
+    "dev": "next dev",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"

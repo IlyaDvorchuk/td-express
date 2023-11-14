@@ -95,6 +95,7 @@ const CreateGoodQuantity = ({sizes, inputValues,  setInputValues, cardQuantity, 
                                     , Цвет: <b>{item.color.name}</b>
                                 </>
                             )}
+                            *
                         </div>
                         <div>
                             <label htmlFor={`input-${index}`} className={'label'}>

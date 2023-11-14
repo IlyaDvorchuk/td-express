@@ -93,11 +93,11 @@ const FormCreateGood = ({card} : {card: IProductCardRes | null}) => {
 
     useEffect(() => {
         if (isCreateGoodCard) {
-            // if (submitButton === 'saveButton') {
-            //     navigation('/seller/goods');
-            // } else if (submitButton === 'addGoodButton') {
-            //     window.location.reload();
-            // }
+            if (submitButton === 'saveButton') {
+                navigation('/seller/goods');
+            } else if (submitButton === 'addGoodButton') {
+                window.location.reload();
+            }
             dispatch(shelterSlice.actions.setCreateGoodCard(false))
         }
     },  [dispatch, isCreateGoodCard, navigation, submitButton])
