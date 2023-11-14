@@ -39,6 +39,9 @@ import BoxFailureOrder from "./components/boxes/box-failure-order/BoxFailureOrde
 import Search from "./components/search/Search";
 import BoxLinkRegistration from "./components/boxes/box-link-registration/BoxLinkRegistration";
 import {useWindowWidth} from "./hooks/useWindowWidth";
+import OrdersList from "./pages/OrdersList";
+import OrderUser from "./pages/OrderUser";
+import Seller from "./pages/Seller";
 
 
 function App() {
@@ -116,6 +119,7 @@ function App() {
                         element={
                             <>
                                 <Header />
+                                <MobileNavbar/>
                                 <Good />
                                 <Footer/>
 
@@ -183,6 +187,41 @@ function App() {
                                 <MobileNavbar/>
                                 <Faq/>
                                 <Footer/>
+                            </>
+                        }
+                    />
+                    <Route
+                        path="/orders"
+                        element={
+                            <>
+                                <Header />
+                                <MobileNavbar/>
+                                <OrdersList/>
+                                <Footer/>
+                            </>
+                        }
+                    />
+                    <Route
+                        path="/order/:id"
+                        element={
+                            <>
+                                <Header />
+                                <MobileNavbar/>
+                                <OrderUser />
+                                <Footer/>
+
+                            </>
+                        }
+                    />
+                    <Route
+                        path="/seller/:name"
+                        element={
+                            <>
+                                <Header />
+                                <MobileNavbar/>
+                                <Seller />
+                                <Footer/>
+
                             </>
                         }
                     />

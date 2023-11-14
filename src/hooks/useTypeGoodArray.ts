@@ -9,9 +9,8 @@ function useTypeGoodArray(order: IOrderRes) {
         const fetchType = async () => {
             try {
                 const response = await GoodsService.getType(order.goodId, order.typeId);
-
                 if (response.data) {
-                    const { _id, ...rest } = response.data;
+                    const { _id, quantity, ...rest } = response.data;
 
                     const valuesArray = Object.values(rest);
 

@@ -1,0 +1,129 @@
+@import "src/styles/constants";
+@import "src/styles/mixins";
+
+.box-order {
+  margin-top: 20px;
+  margin-bottom: 122px;
+
+  & &__wrapper {
+    @include flex(space-between);
+    gap: 64px;
+  }
+
+  & &__main {
+    flex: 1;
+  }
+
+  & &__title {
+    margin-bottom: 24px;
+    font-weight: 800;
+    font-size: $subTitleSize;
+  }
+
+  & &__upper {
+    @include flex();
+    margin-bottom: 32px;
+  }
+
+  & &__image {
+    margin-right: 14.5px;
+    width: 124px;
+    height: 172px;
+    border-radius: 5px;
+    overflow: hidden;
+
+    & > img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+
+  & &__data {
+    height: 172px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  & &__name {
+    margin-bottom: 24px;
+    font-size: $subTitleSize;
+    color: $title2Color;
+    font-weight: 800;
+  }
+
+  & &__inf {
+    font-size: $littleMediumSize;
+    color: $text4Color;
+  }
+
+  & &__date {
+    margin-top: auto;
+    color: $text4Color;
+
+    & > span {
+      color: $title2Color;
+    }
+  }
+
+  & &__last {
+    margin-top: 4px;
+    color: $text4Color;
+
+    & > span {
+      color: $title2Color;
+    }
+  }
+
+  & &__price {
+    margin-left: auto;
+  }
+
+  & &__price {
+    font-size: $subTitleSize;
+    font-weight: 800;
+    margin-top: 11px;
+    margin-right: 5px;
+    text-align: right;
+  }
+
+  & &__bottom {
+    margin-left: 139px;
+
+    & p {
+      color: $text2Color;
+      font-size: $littleMediumSize;
+    }
+  }
+
+  & &__subtitle {
+    margin-bottom: 10px;
+    font-size: $subTitleSize;
+  }
+
+  & &__buyer {
+    width: 163px;
+  }
+
+  & &__button {
+    margin-top: 35px;
+  }
+
+  & &__aside {
+    max-width: 306px;
+    border: 1px solid $borderColor;
+    border-radius: 20px;
+    padding: 22px 33px 41px;
+    font-size: $littleMediumSize;
+    color: $text4Color;
+
+    & > p {
+      margin-bottom: 20px;
+    }
+  }
+
+  & &__first-p {
+    color: $text2Color;
+    margin-bottom: 30px;
+  }
+}

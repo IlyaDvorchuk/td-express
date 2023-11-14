@@ -13,3 +13,7 @@ export interface IFilterCategoriesParams extends IFilterParams{
 export interface IFilterSearchParams extends IFilterParams{
     query: string;
 }
+
+export interface IFilterSellerParams extends IFilterParams{
+    name: string;
+}

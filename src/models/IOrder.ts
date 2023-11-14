@@ -1,6 +1,9 @@
 import {OrderEnum} from "./enums";
+import {IType} from "./IProductCard";
 
 export interface IOrder {
+    currentType?: IType,
+    orderId: string
     goodName: string
     goodPhoto: string,
     goodId: string,

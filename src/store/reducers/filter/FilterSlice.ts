@@ -4,8 +4,8 @@ import {IRangePrice} from "../../../models/response/IPaginationCards";
 type ColorArrayOrNull = string[] | null;
 
 const initialState = {
-    minPrice: -Infinity,
-    maxPrice: Infinity,
+    minPrice: 0,
+    maxPrice: 15000,
     currentMinPrice: -Infinity,
     currentMaxPrice: Infinity,
     isChange: false,
@@ -32,11 +32,7 @@ export const filterSlice = createSlice({
             state.isChange = true
         },
         setColors(state, action: PayloadAction<string[] | null>) {
-            if (state.colors) {
-                state.isChange = true
-            } else {
-                state.isChange = false
-            }
+            state.isChange = !!state.colors;
             state.colors = action.payload
         },
         setResetFalse(state) {
