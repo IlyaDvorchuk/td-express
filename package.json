@@ -27,7 +27,6 @@
     "react-markdown": "8.0.7",
     "react-redux": "8.0.5",
     "react-router-dom": "6.11.0",
-    "react-scripts": "5.0.1",
     "react-select": "^5.7.2",
     "react-simplemde-editor": "5.2.0",
     "sass": "^1.64.1",
@@ -38,11 +37,10 @@
     "yup": "1.1.1"
   },
   "scripts": {
-    "start": "react-scripts start",
     "dev": "next dev",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
   },
   "eslintConfig": {
     "extends": [

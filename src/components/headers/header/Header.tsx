@@ -1,3 +1,4 @@
+'use client'
 import React, {useEffect, useState} from 'react';
 import './header.scss'
 import Container from "../../container/Container";
