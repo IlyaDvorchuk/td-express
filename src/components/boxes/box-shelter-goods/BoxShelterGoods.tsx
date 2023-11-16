@@ -3,7 +3,7 @@ import './box-shelter-goods.scss'
 import '../../../styles/elements/buttons.scss'
 import '../../../styles/elements/selects.scss'
 import Select from "react-select";
-import {useNavigate} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import {IProductCardShelter} from "../../../models/IProductCard";
 import {ShelterService} from "../../../services/ShelterService";
 import {useAppSelector} from "../../../hooks/redux";
@@ -155,9 +155,17 @@ const BoxShelterGoods = () => {
 
     return (
         <div className={'goods'}>
+            <div className={'goods__header'}>
+                <h2>Мои товары</h2>
+                <Link to={'create'} className={'goods__mobile-button'}>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                        <path d="M6 12H18M12 18V6" stroke="#28232C" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                    </svg>
+                </Link>
+            </div>
             <div className={'goods__selects'}>
                 <div className={'select'}>
-                    <span className={'select__label'}>Показать товары:</span>
+                    <span className={'select__label goods__label goods__label_first'}>Показать товары:</span>
                     <Select
                         options={goodsOptions}
                         value={selectedStatus}
@@ -168,7 +176,7 @@ const BoxShelterGoods = () => {
                     />
                 </div>
                 <div className={'select'}>
-                    <span className={'select__label'}>Отсортировать:</span>
+                    <span className={'select__label goods__label'}>Отсортировать:</span>
                     <Select
                         options={filterOptions}
                         defaultValue={filterOptions[0]}

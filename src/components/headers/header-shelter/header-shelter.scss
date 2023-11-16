@@ -1,5 +1,5 @@
-@import "./src/styles/constants";
-@import "./src/styles/mixins";
+@import "/src/styles/constants";
+@import "/src/styles/mixins";
 
 
 .header-shelter {
@@ -8,6 +8,10 @@
   font-size: $bigMediumSize;
   color: $backgroundColor;
   background: $backgroundGradient;
+
+  @media screen and (max-width: 600px){
+    display: none;
+  }
 
   &__content {
     @include flex(flex-end, center, 12px)
@@ -40,6 +44,16 @@
   display: flex;
   gap: 24px;
 
+  @media screen and (max-width: 910px) {
+    justify-content: space-between;
+    padding: 26px 10px 0;
+    gap: 0;
+  }
+
+  @media screen and (max-width: 618px){
+    padding: 27px 10px 0;
+  }
+
   &__item {
     padding: 5px 12px;
     border-radius: 8px 8px 0 0;
@@ -50,6 +64,15 @@
     &.active {
       background: $backgroundColor;
       color: $additionalColor;
+    }
+
+    @media screen and (max-width: 910px) {
+      font-size: $mediumMediumSize;
+      padding: 5px 5px;
+    }
+
+    @media screen and (max-width: 618px){
+      font-size: $littleMediumSize;
     }
   }
 }

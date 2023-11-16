@@ -6,6 +6,7 @@ import FooterShelter from "../components/footers/footer-shelter/FooterShelter";
 import {useAppDispatch, useAppSelector} from "../hooks/redux";
 import {isObjectEmpty} from "../utils/isObjectEmpty";
 import {getShelter} from "../store/reducers/shelter/ShelterCreator";
+import SellerNavbar from "../components/navbars/seller-navbar/SellerNavbar";
 
 const Shelter = () => {
     const location = useLocation()
@@ -37,6 +38,7 @@ const Shelter = () => {
             <BoxShelter isImage={false}>
                 <Outlet/>
             </BoxShelter>
+            <SellerNavbar/>
             <FooterShelter/>
         </main>
     );

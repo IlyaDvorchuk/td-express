@@ -1,0 +1,58 @@
+@import "/src/styles/constants";
+@import "/src/styles/mixins";
+
+.seller-navbar {
+  height: 56px;
+  padding: 5px 16px;
+  display: flex;
+  justify-content: space-between;
+  background: $backgroundColor;
+  box-shadow: -8px -5px 19px 0px rgba(0, 0, 0, 0.15);
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  z-index: 999;
+
+  @media screen and (min-width: 600px) {
+    display: none;
+  }
+
+  @media screen and (max-width: 400px) {
+    height: 46px;
+  }
+
+  & &__link {
+    @include flex(center, center);
+    flex-direction: column;
+    cursor: pointer;
+
+    & > span {
+      font-family: 'Open Sans', sans-serif;
+      font-size: $mediumMediumSize;
+      color: $title3Color;
+
+      @media screen and (max-width: 500px) {
+        font-size: $littleMediumSize;
+      }
+
+      @media screen and (max-width: 400px) {
+        font-size: $veryLittleSize;
+      }
+    }
+  }
+
+  & &__button {
+
+    position: relative;
+    bottom: 19px;
+    @include square(58px);
+    border-radius: 50%;
+    background: $linkColor;
+    @include flex(center, center);
+    cursor: pointer;
+
+    @media screen and (max-width: 430px) {
+      @include square(48px);
+    }
+  }
+}

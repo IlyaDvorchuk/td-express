@@ -5,7 +5,17 @@
   flex-wrap: wrap;
   max-width: 847px;
 
+  @media screen and (max-width: 430px){
+    & > .description__block {
+      width: 100%;
+    }
+  }
+
   &__input {
     width: 413px;
+
+    @media screen and (max-width: 430px){
+      width: 100%;
+    }
   }
 }

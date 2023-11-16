@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import SearchCards from "../components/cards-modules/search-cards/SearchCards";
 import Container from "../components/container/Container";
-import MobileNavbar from "../components/mobile-navbar/MobileNavbar";
+import MobileNavbar from "../components/navbars/mobile-navbar/MobileNavbar";
 import BoxCategory from "../components/boxes/box-category/BoxCategory";
 import Search from "../components/search/Search";
 import {useAppSelector} from "../hooks/redux";

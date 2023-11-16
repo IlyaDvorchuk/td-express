@@ -6,7 +6,7 @@ import {Navigate} from "react-router-dom";
 import NewCards from "../components/cards-modules/new-cards/NewCards";
 import HotCards from "../components/cards-modules/hot-cards/HotCards";
 import CategoryCards from "../components/cards-modules/category-cards/CategoryCards";
-import MobileNavbar from "../components/mobile-navbar/MobileNavbar";
+import MobileNavbar from "../components/navbars/mobile-navbar/MobileNavbar";
 
 const MainPage = () => {
     const accessToken = useAppSelector((state) => state.shelterReducer.accessToken);

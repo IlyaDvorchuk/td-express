@@ -3,10 +3,55 @@
 .goods {
   width: 100%;
 
+  & &__header {
+    display: none;
+    position: relative;
+    font-family: Nunito Sans, sans-serif;
+    font-size: $mediumMediumSize;
+
+    @media screen and (max-width: 600px) {
+      margin-top: 8px;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  }
+
+  & &__mobile-button {
+    position: absolute;
+    top: 5px;
+    right: 16px;
+    background: transparent;
+    border: none;
+  }
+
   &__selects {
     margin-bottom: 66px;
     display: flex;
     gap: 36px;
+
+    @media screen and (max-width: 800px) {
+      gap: 10px;
+    }
+
+    @media screen and (max-width: 730px) {
+      flex-wrap: wrap;
+    }
+  }
+
+  & &__label {
+
+    &_first {
+      @media screen and (max-width: 1010px){
+        width: 66px;
+      }
+    }
+
+
+    @media screen and (max-width: 730px) {
+      display: none;
+    }
   }
 
   &__button {
@@ -14,6 +59,10 @@
     margin-left: auto;
     width: 157px;
     margin-bottom: 0;
+
+    @media screen and (max-width: 600px) {
+      display: none;
+    }
   }
 
   & .goods-wrapper {
@@ -22,6 +71,10 @@
     flex-wrap: wrap;
     column-gap: 22px;
     row-gap: 32px;
+
+    @media screen and (max-width: 890px){
+      column-gap: 0;
+    }
   }
 }
 

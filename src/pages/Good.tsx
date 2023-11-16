@@ -4,7 +4,7 @@ import BoxGood from "../components/boxes/box-good/BoxGood";
 import BoxGoodInformation from "../components/boxes/box-good-information/BoxGoodInformation";
 import HotCards from "../components/cards-modules/hot-cards/HotCards";
 import NewCards from "../components/cards-modules/new-cards/NewCards";
-import MobileNavbar from "../components/mobile-navbar/MobileNavbar";
+import MobileNavbar from "../components/navbars/mobile-navbar/MobileNavbar";
 import useFetchCard from "../hooks/fetch-card";
 
 const Good = () => {

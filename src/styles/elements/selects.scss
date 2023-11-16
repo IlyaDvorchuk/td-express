@@ -5,6 +5,10 @@
   gap: 12px;
   align-items: center;
 
+  @media screen and (max-width: 800px) {
+    gap: 6px;
+  }
+
   &__label {
     font-size: $littleMediumSize;
     color: $title3Color;
@@ -16,16 +20,28 @@
 
   &_goods {
     width: 170px;
+
+    @media screen and (max-width: 920px) {
+      width: 120px;
+    }
   }
 
   &_filter {
     width: 297px;
+
+    @media screen and (max-width: 920px) {
+      width: 247px;
+    }
   }
 }
 
 .select__control {
   border: 1.5px solid $additionalColor !important;
   border-radius: 15px !important;
+
+  @media screen and (max-width: 600px) {
+    border: none !important;
+  }
 
   &.error {
     border-color: $errorColor !important;
@@ -36,4 +52,15 @@
   color: $additionalColor !important;
   font-weight: 800;
   font-size: $littleMediumSize;
+
+  @media screen and (max-width: 600px) {
+    color: $title2Color !important;
+    font-weight: 400;
+  }
+}
+
+.select__indicator-separator {
+  @media screen and (max-width: 600px) {
+    display: none;
+  }
 }

@@ -28,7 +28,7 @@ import Header from "./components/headers/header/Header";
 import SearchPage from "./pages/SearchPage";
 import Faq from "./pages/Faq";
 import Footer from "./components/footers/footer-user/Footer";
-import MobileNavbar from "./components/mobile-navbar/MobileNavbar";
+import MobileNavbar from "./components/navbars/mobile-navbar/MobileNavbar";
 import Admin from "./pages/Admin";
 import Order from "./pages/Order";
 import ShelterDelivery from "./pages/ShelterDelivery";
