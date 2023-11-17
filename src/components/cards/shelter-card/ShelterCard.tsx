@@ -1,7 +1,6 @@
 import React, {useEffect, useMemo, useState} from 'react';
 import './shelter-card.scss'
 import {IProductCardRes} from "../../../models/IProductCard";
-import {API_URL} from "../../../http";
 import ButtonBurger from "../../buttons/button-burger/ButtonBurger";
 import {useNavigate} from "react-router-dom";
 import Cover from "../../cover/Cover";
@@ -75,14 +74,14 @@ const ShelterCard = ({card, onDelete, selectedStatus}: IProps) => {
         <div className={'shelter-card'}>
             <div className={'shelter-card__header'}>
                 <div className={'shelter-card__image'}>
-                    <img src={`${API_URL}${card.mainPhoto}`} alt={card.information.name}/>
+                    <img src={`https://api.td-market.md/${card.mainPhoto}`} alt={card.information.name}/>
                 </div>
 
                 <div className={'shelter-card__statistic'}>
 
                     <div className={'shelter-card__row-first'}>
                         <div>
-                            <div className={classNames('status', {
+                            <div className={classNames('status shelter-card__status', {
                                 'status_green': status === StatusEnum.APPROVED,
                                 'status_yellow': status === StatusEnum.MODERATION || status === StatusEnum.PENDING_MODERATION,
                                 'status_red': status === StatusEnum.OVER,

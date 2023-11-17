@@ -9,6 +9,26 @@
   border-radius: 20px;
   transition: $fastTransition;
 
+  @media screen and (max-width: 870px) {
+    width: 300px;
+    height: 255px;
+  }
+
+  @media screen and (max-width: 632px){
+    padding: 10px 10px 18px;
+    width: 280px;
+  }
+
+  @media screen and (max-width: 600px){
+    width: 100%;
+    margin: 0 8px;
+    background-color: $backgroundColor;
+    padding: 4px 8px 10px 14px;
+
+    background: var(--wireframes-primary, #FFF);
+
+  }
+
   &:hover {
     box-shadow: 6px 6px 4px 0 rgba(0, 0, 0, 0.10);
   }
@@ -27,6 +47,10 @@
     margin-bottom: 22px;
     display: flex;
     gap: 12px;
+
+    @media screen and (max-width: 600px) {
+      gap: 15px;
+    }
   }
 
   &__tools {
@@ -95,6 +119,16 @@
     border-radius: 15px;
     background-color: $plugColor;
     @extend %card-image;
+
+    @media screen and (max-width: 870px) {
+      width: 100px;
+      height: 125px;
+    }
+
+    @media screen and (max-width: 600px){
+      width: 19.77%;
+      min-width: 67px;
+    }
   }
 
   &__category {
@@ -122,6 +156,12 @@
     margin-left: auto;
   }
 
+  & &__status {
+    @media screen and (max-width: 870px) {
+      font-size: $veryLittleSize;
+    }
+  }
+
   &__analytics {
     @include flex(space-between, flex-end, 6px);
     margin-bottom: 4px;
@@ -129,11 +169,19 @@
     & > div {
       color: $text4Color;
       font-size: $littleMediumSize;
+
+      @media screen and (max-width: 870px) {
+        font-size: $littleSize;
+      }
     }
 
     & > output {
       color: $titleColor;
       font-size: $mediumLittleSize;
+
+      @media screen and (max-width: 870px) {
+        font-size: $veryLittleSize;
+      }
     }
   }
 }

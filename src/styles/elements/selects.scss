@@ -23,6 +23,13 @@
 
     @media screen and (max-width: 920px) {
       width: 120px;
+
+    }
+
+
+    @media screen and (max-width: 400px) {
+      width: 100px;
+      font-size: $veryLittleSize;
     }
   }
 
@@ -31,6 +38,12 @@
 
     @media screen and (max-width: 920px) {
       width: 247px;
+    }
+
+
+    @media screen and (max-width: 400px) {
+      width: 200px;
+      font-size: $veryLittleSize;
     }
   }
 }

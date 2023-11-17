@@ -10,17 +10,18 @@
     font-size: $mediumMediumSize;
 
     @media screen and (max-width: 600px) {
-      margin-top: 8px;
-      margin-bottom: 10px;
+      padding-top: 8px;
+      padding-bottom: 10px;
       display: flex;
       align-items: center;
       justify-content: center;
+      background-color: $backgroundColor;
     }
   }
 
   & &__mobile-button {
     position: absolute;
-    top: 5px;
+    top: calc(50% - 12px);
     right: 16px;
     background: transparent;
     border: none;
@@ -31,12 +32,28 @@
     display: flex;
     gap: 36px;
 
+    @media screen and (max-width: 870px) {
+      margin-bottom: 36px;
+    }
+
     @media screen and (max-width: 800px) {
       gap: 10px;
     }
 
     @media screen and (max-width: 730px) {
       flex-wrap: wrap;
+    }
+
+    @media screen and (max-width: 600px) {
+      padding-bottom: 5px;
+      margin-bottom: 4px;
+      padding-left: 22px;
+      background-color: $backgroundColor;
+      box-shadow: 4px 4px 16px 0 rgba(0, 0, 0, 0.16);
+    }
+
+    @media screen and (max-width: 600px) {
+      padding-left: 10px;
     }
   }
 
@@ -46,6 +63,7 @@
       @media screen and (max-width: 1010px){
         width: 66px;
       }
+
     }
 
 
@@ -72,8 +90,24 @@
     column-gap: 22px;
     row-gap: 32px;
 
-    @media screen and (max-width: 890px){
+    @media screen and (max-width: 870px){
+      column-gap: 100px;
+    }
+
+    @media screen and (max-width: 740px){
+      column-gap: 60px;
+    }
+
+    @media screen and (max-width: 700px){
+      column-gap: 30px;
+    }
+
+    @media screen and (max-width: 700px){
       column-gap: 0;
+    }
+
+    @media screen and (max-width: 600px){
+      row-gap: 4px;
     }
   }
 }
