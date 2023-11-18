@@ -20,11 +20,7 @@ const Search = ({mobile = false}: {mobile?: boolean}) => {
     const inputRef = useRef<HTMLInputElement>(null);
 
     useEffect(() => {
-        console.log('inputRef.current', inputRef.current)
-        console.log('mobile', mobile)
-        console.log('searchQuery', query)
         if (inputRef.current && mobile && query) {
-            console.log('istrye focus')
             inputRef.current.focus(); // Устанавливаем фокус на инпуте
         }
     }, []);

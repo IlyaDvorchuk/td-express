@@ -1,4 +1,5 @@
 @import '../constants';
+@import '../mixins';
 
 .status {
   display: inline-block;
@@ -53,3 +54,14 @@
     background: linear-gradient(180deg, rgba(100, 58, 190, 0.15) 0%, rgba(174, 82, 218, 0.15) 100%);
   }
 }
+
+
+.status-mobile {
+  @include flex(flex-start, flex-end);
+  flex-direction: column;
+
+  &_green {
+    color: $successColor;
+  }
+}
+
