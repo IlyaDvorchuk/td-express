@@ -12,10 +12,22 @@
   &__container {
     display: flex;
     justify-content: space-between;
+    gap: 10px;
+
+    @media screen and (max-width: 940px) {
+      align-items: center;
+      gap: 37px;
+      flex-direction: column;
+    }
   }
 
   &__img {
     max-height: 584px;
+
+    @media screen and (max-width: 940px) {
+      width: 75%;
+    }
+
   }
 
   & > form {

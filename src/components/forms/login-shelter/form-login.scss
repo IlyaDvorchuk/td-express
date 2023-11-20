@@ -3,11 +3,21 @@
 .log  {
   max-width: 411px;
 
+  @media screen and (max-width: 940px) {
+    max-width: 411px;
+    margin: 0 20px;
+  }
+
   &__title {
     font-size: $bigTitleSize;
     line-height: 114.9%;
     margin-bottom: 52px;
     max-width: 414px;
+
+    @media screen and (max-width: 460px) {
+      font-size: $subTitleSize;
+      margin-bottom: 24px;
+    }
   }
 
   &__field {
