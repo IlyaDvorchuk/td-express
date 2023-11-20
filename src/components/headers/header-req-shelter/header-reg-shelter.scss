@@ -8,6 +8,11 @@
   color: $backgroundColor;
   background: $backgroundGradient;
 
+  @media screen and (max-width: 640px) {
+    padding-top: 15px;
+    height: 110px;
+  }
+
   &__content {
     @include flex(flex-end, center, 12px)
   }
