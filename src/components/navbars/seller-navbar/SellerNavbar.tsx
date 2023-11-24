@@ -1,10 +1,13 @@
 import React, {useEffect, useState} from 'react';
 import './seller-navbar.scss';
 import {Link, useLocation} from "react-router-dom";
+import {getAccessTokenShelter} from "../../../utils/tokens";
+import ShelterToolsMobile from "../../tools/shelter-tools-mobile/ShelterToolsMobile";
 
 const SellerNavbar = () => {
     const location = useLocation();
     const [activeLink, setActiveLink] = useState(localStorage.getItem('activeLinkSeller') || 'home');
+    const [isPressedTools, setIsPressedTools] = useState(false)
 
     useEffect(() => {
         switch (location.pathname) {
@@ -27,7 +30,8 @@ const SellerNavbar = () => {
     }, [activeLink]);
 
     const handleLinkClick = (link: string) => {
-
+        setIsPressedTools(link === 'tabs')
+        setActiveLink(link);
     }
 
     const getActiveImageSrc = (imageName: string) => {
@@ -36,6 +40,7 @@ const SellerNavbar = () => {
 
     return (
         <div className={'seller-navbar'}>
+            {getAccessTokenShelter() && <ShelterToolsMobile isPressed={isPressedTools}/>}
             <Link
                 to={'/seller/main'}
                 className={`seller-navbar__link ${activeLink === 'home' ? 'active' : ''}`}
@@ -66,8 +71,10 @@ const SellerNavbar = () => {
                 <span>Мои заказы</span>
             </Link>
             <div
-                className={`seller-navbar__link ${activeLink === 'delivery' ? 'menu' : ''}`}
-                onClick={() => handleLinkClick('menu')}
+                className={`seller-navbar__link ${activeLink === 'tabs' ? 'active' : ''}`}
+                onClick={() => {
+                    handleLinkClick('tabs')
+                }}
             >
                 <img src={`/images/svg/mobile-navbar/${getActiveImageSrc('tabs')}`} alt="Home" />
                 <span>Меню</span>

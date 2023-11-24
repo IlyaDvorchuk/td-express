@@ -5,24 +5,66 @@
   margin-top: 20px;
   margin-bottom: 122px;
 
+  & &__back {
+    @include flex();
+    align-items: center;
+    gap: 15px;
+    font-size: $subTitleSize;
+    font-weight: 800;
+    cursor: pointer;
+    margin-bottom: 18.5px;
+
+    @media screen and (min-width: 700px) {
+      display: none;
+    }
+  }
+
+  @media screen and (max-width: 430px) {
+    margin-bottom: 60px;
+  }
+
   & &__wrapper {
     @include flex(space-between);
     gap: 64px;
+
+    @media screen and (max-width: 920px){
+      gap: 14px;
+    }
   }
 
   & &__main {
     flex: 1;
   }
 
-  & &__title {
+  & &__header {
     margin-bottom: 24px;
+    @include flex(space-between, center);
+
+    @media screen and (max-width: 430px) {
+      margin-bottom: 8px;
+    }
+  }
+
+  & &__title {
     font-weight: 800;
     font-size: $subTitleSize;
+
+    @media screen and (max-width: 430px) {
+      font-size: $mediumLittleSize;
+      font-weight: 400;
+      color: $text4Color;
+    }
   }
+
+
 
   & &__upper {
     @include flex();
     margin-bottom: 32px;
+
+    @media screen and (max-width: 430px) {
+      margin-bottom: 16px
+    }
   }
 
   & &__image {
@@ -31,6 +73,11 @@
     height: 172px;
     border-radius: 5px;
     overflow: hidden;
+
+    @media screen and (max-width: 365px) {
+     width: 62px;
+      height: 82px;
+    }
 
     & > img {
       width: 100%;
@@ -43,6 +90,14 @@
     height: 172px;
     display: flex;
     flex-direction: column;
+
+    @media screen and (max-width: 365px) {
+      height: auto;
+    }
+  }
+
+  & &__right {
+    margin-left: auto;
   }
 
   & &__name {
@@ -50,15 +105,42 @@
     font-size: $subTitleSize;
     color: $title2Color;
     font-weight: 800;
+
+    @media screen and (max-width: 430px) {
+      margin-bottom: 8px;
+      font-size: $littleMediumSize;
+    }
+  }
+
+  & &__price-mobile {
+    margin-bottom: 4px;
+    color: $title2Color;
+    font-size: $littleMediumSize;
+    font-weight: 800;
+
+    @media screen and (max-width: 400px) {
+      margin-bottom: 0;
+      font-size: $littleSize;
+    }
   }
 
   & &__inf {
     font-size: $littleMediumSize;
     color: $text4Color;
+
+    @media screen and (max-width: 400px) {
+      margin-bottom: 0;
+      font-size: $littleSize;
+    }
   }
 
   & &__date {
     margin-top: auto;
+
+    @media screen and (max-width: 400px) {
+      margin-top: 0;
+    }
+
     color: $text4Color;
 
     & > span {
@@ -77,9 +159,6 @@
 
   & &__price {
     margin-left: auto;
-  }
-
-  & &__price {
     font-size: $subTitleSize;
     font-weight: 800;
     margin-top: 11px;
@@ -89,24 +168,55 @@
 
   & &__bottom {
     margin-left: 139px;
+    display: flex;
+    gap: 40px;
+    flex-wrap: wrap;
+
+    @media screen and (max-width: 400px) {
+     margin-left: 0;
+    }
 
     & p {
       color: $text2Color;
       font-size: $littleMediumSize;
+
+      @media screen and (max-width: 430px) {
+        font-size: $littleSize;
+        font-weight: 400;
+      }
     }
   }
 
   & &__subtitle {
     margin-bottom: 10px;
     font-size: $subTitleSize;
+
+    @media screen and (max-width: 430px) {
+      margin-bottom: 8px;
+      font-size: $mediumLittleSize;
+      color: $text4Color;
+      font-weight: 400;
+    }
   }
 
   & &__buyer {
     width: 163px;
+
+    @media screen and (max-width: 400px) {
+      width: 100%;
+    }
   }
 
   & &__button {
+
     margin-top: 35px;
+
+    @media screen and (max-width: 430px) {
+      margin-top: 12px;
+      border-radius: 8px;
+      text-transform: none;
+      font-weight: 800;
+    }
   }
 
   & &__aside {
@@ -116,6 +226,10 @@
     padding: 22px 33px 41px;
     font-size: $littleMediumSize;
     color: $text4Color;
+
+    @media screen and (max-width: 700px) {
+      display: none;
+    }
 
     & > p {
       margin-bottom: 20px;
