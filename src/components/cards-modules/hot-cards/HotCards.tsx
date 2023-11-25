@@ -19,7 +19,6 @@ const HotCards = ({limit}: {limit: number}) => {
     };
 
     const handleButtonClick = () => {
-        console.log('page', page)
         setPage(prevPage => {
             return prevPage + 1;
         });

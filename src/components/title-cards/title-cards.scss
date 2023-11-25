@@ -1,11 +1,21 @@
+@import "./src/styles/constants";
 @import "./src/styles/mixins";
 
 .title {
   @include flex(flex-start, center, 16px);
   margin-bottom: 36px;
 
+  @media screen and (max-width: 500px){
+    font-size: $mediumMediumSize;
+    margin-bottom: 15px;
+  }
+
   & img {
     position: relative;
     top: 2px;
+
+    @media screen and (max-width: 500px){
+      transform: scale(.7);
+    }
   }
 }

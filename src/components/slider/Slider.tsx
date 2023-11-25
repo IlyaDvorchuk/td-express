@@ -1,6 +1,6 @@
-import React from 'react';
-import {Swiper, SwiperSlide, useSwiper} from "swiper/react";
-import { Navigation, Pagination } from "swiper";
+import React, {useRef} from 'react';
+import {Swiper, SwiperSlide} from "swiper/react";
+import { Navigation, Pagination, Autoplay } from "swiper";
 import 'swiper/scss';
 import "swiper/css/navigation";
 import "swiper/css/pagination";
@@ -8,7 +8,7 @@ import './slider.scss'
 
 
 const Slider = () => {
-    const swiper = useSwiper();
+    const swiperRef = useRef() as any;
 
     return (
         <div className={'slider'}>
@@ -20,24 +20,30 @@ const Slider = () => {
                 pagination={{
                     dynamicBullets: true
                 }}
-                modules={[Navigation, Pagination]}
+                modules={[Navigation, Pagination, Autoplay]}
                 spaceBetween={50}
                 slidesPerView={1}
                 onSlideChange={() => console.log('slide change')}
-                onSwiper={(swiper) => console.log(swiper)}
+                onSwiper={(swiper) => {
+                    swiperRef.current = swiper;
+                }}
                 loop={true}
                 grabCursor={true}
+                // autoplay={{
+                //     delay: 5000
+                // }}
             >
-                <SwiperSlide className={'slider__item'}>Slide 1</SwiperSlide>
-                <SwiperSlide className={'slider__item'}>Slide 2</SwiperSlide>
-                <SwiperSlide className={'slider__item'}>Slide 3</SwiperSlide>
-                <SwiperSlide className={'slider__item'}>Slide 4</SwiperSlide>
-                <SwiperSlide className={'slider__item'}>Slide 5</SwiperSlide>
+                <SwiperSlide className={'slider__item'}>
+                    <img src="/images/slider/slider-main.png" alt=""/>
+                </SwiperSlide>
+                <SwiperSlide className={'slider__item'}>
+                    <img src="/images/slider/shop-sport.png" alt=""/>
+                </SwiperSlide>
             </Swiper>
-            <button className={'slider-button swiper-button-prev'}  onClick={() => swiper.slidePrev()}>
+            <button className={'slider-button swiper-button-prev'} onClick={() => swiperRef.current.slidePrev()}>
                 <img src={'/images/svg/arrow-left.svg'} alt={'arrow right'}/>
             </button>
-            <button className={'slider-button swiper-button-next'}  onClick={() => swiper.slideNext()}>
+            <button className={'slider-button swiper-button-next'} onClick={() => swiperRef.current.slideNext()}>
                 <img src={'/images/svg/arrow-right-little.svg'} alt={'arrow right'}/>
             </button>
 
