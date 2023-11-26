@@ -45,12 +45,12 @@
   }
 
   &__buttons {
-    margin-top: 20px;
-    gap: 18px !important;
+    //gap: 18px !important;
 
     & .tools-link {
-      margin-left: 10%;
+      margin-left: 8%;
       transform: scale(1.2);
+      padding: 6px 8px 6px 12px;
     }
   }
 }

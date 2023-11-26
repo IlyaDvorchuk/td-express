@@ -1,12 +1,33 @@
 @import "./src/styles/constants";
 @import "./src/styles/mixins";
 
+.shelter-mobile-header {
+  position: relative;
+  bottom: 1px;
+  padding: 8px 9px 9px;
+  font-size: 20px;
+  font-weight: 800;
+  color: $backgroundColor;
+  background: $backgroundGradient;
+}
+
+.shelter-wrapper {
+  @media screen and (max-width: 500px) {
+    width: 100%;
+  }
+}
+
 .shelter-warning {
   padding: 10px 8px;
   color: $backgroundColor;
   background-color: $errorColor;
   opacity: 0.7;
   border-radius: 15px;
+
+  @media screen and (max-width: 600px) {
+    margin: 0 8px;
+    font-size: $littleSize;
+  }
 }
 
 .shelter {
@@ -15,22 +36,54 @@
   justify-content: space-between;
   gap: 19px;
 
+  @media screen and (max-width: 750px) {
+    padding: 0 8px;
+    flex-direction: column;
+  }
+
+  @media screen and (max-width: 500px) {
+    margin-top: 14px;
+    gap: 23px;
+  }
+
   &__left {
     max-width: 522px;
 
+    @media screen and (max-width: 750px) {
+      max-width: 100%;
+    }
   }
 
   &__information {
 
     margin-bottom: 26px;
-
+    @media screen and (max-width: 500px) {
+      margin-bottom: 0;
+    }
 
     & .shelter__information-title {
       margin-bottom: 14px;
+
+      @media screen and (max-width: 500px) {
+        display: none;
+      }
     }
   }
 
   &__news {
+
+    @media screen and (max-width: 975px) {
+      width: 200%;
+    }
+
+    @media screen and (max-width: 750px) {
+      width: 100%;
+    }
+
+    @media screen and (max-width: 500px) {
+      display: none;
+    }
+
     & .shelter__news-title {
       margin-bottom: 18px;
     }
@@ -41,6 +94,10 @@
 
     & .shelter__goods-title {
       margin-bottom: 14px;
+
+      @media screen and (max-width: 500px) {
+        font-size: $mediumMediumSize;
+      }
     }
   }
 
@@ -49,12 +106,23 @@
     font-weight: 800;
     margin-left: 3px;
   }
+  
+  & &__orders {
+    @media screen and (max-width: 1070px) {
+      display: none;
+    }
+  }
 }
 
 .rate {
   padding: 30px 36px 26px;
   border: 1.5px solid $text3CColor;
   border-radius: 15px;
+
+  @media screen and (max-width: 1070px) {
+    padding: 0;
+    border: none;
+  }
 
   &__header {
     margin-bottom: 17px;
@@ -64,15 +132,24 @@
 
   &__icon {
     @include iconShop(120px);
+
+    @media screen and (max-width: 500px) {
+      @include iconShop(52px);
+    }
   }
 
   &__name {
     padding-top: 17px;
 
+    @media screen and (max-width: 500px) {
+      padding-top: 2px;
+    }
+
     & .name-market {
       font-weight: 800;
       font-size: $subTitleSize;
       margin-bottom: 2px;
+
     }
 
     & .isIndividual-name {
@@ -85,6 +162,10 @@
     font-weight: 800;
     font-size: $subTitleSize;
 
+    @media screen and (max-width: 500px) {
+      font-size: $littleSize;
+    }
+
     & > p {
       line-height: 25px;
     }
@@ -92,7 +173,12 @@
 
   &__button {
     margin-top: 17px;
-    max-width: 175px;
+    max-width: 235px;
+
+    @media screen and (max-width: 500px) {
+      max-width: 100%;
+      margin-top: 0;
+    }
   }
 }
 
@@ -100,6 +186,8 @@
   padding: 27px 30px 23px;
   border: 1.5px solid $text3CColor;
   border-radius: 15px;
+
+
 
   &__time {
     margin-bottom: 7px;
@@ -109,6 +197,10 @@
 .shelter-goods {
   display: flex;
   gap: 20px;
+
+  @media screen and (max-width: 975px) {
+    flex-wrap: wrap;
+  }
 }
 
 .statistics {
@@ -117,10 +209,29 @@
   border: 1.5px solid $text3CColor;
   border-radius: 15px;
 
+  @media screen and (max-width: 1070px) {
+    width: 430px;
+    min-width: 430px;
+  }
+
+  @media screen and (max-width: 750px) {
+    min-width: 100%;
+    width: 100%;
+  }
+
+  @media screen and (max-width: 500px) {
+    padding: 0;
+    border: none;
+  }
+
   &__item {
     color: $text2Color;
     display: flex;
     justify-content: space-between;
+
+    @media screen and (max-width: 500px) {
+      font-size: $mediumLittleSize;
+    }
   }
 }
 
@@ -132,6 +243,14 @@
   border-radius: 15px;
   border: 1.5px solid $additionalColor;
   cursor: pointer;
+
+  @media screen and (max-width: 975px) {
+    width: 100%;
+  }
+
+  @media screen and (max-width: 400px) {
+    display: none;
+  }
 
   &__img {
     @include square(60px);

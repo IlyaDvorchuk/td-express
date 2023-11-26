@@ -12,6 +12,11 @@
   text-transform: uppercase;
   @include flex(center, center);
 
+  @media screen and (max-width: 500px) {
+    text-transform: none;
+    border-radius: 8px;
+  }
+
 }
 
 .button_dark {

@@ -1,19 +1,59 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import './shelter-tools-mobile.scss'
 import {useAppDispatch, useAppSelector} from "../../../hooks/redux";
 import {userSlice} from "../../../store/reducers/user/UserSlice";
 import {shelterSlice} from "../../../store/reducers/shelter/ShelterSlice";
 import {API_URL} from "../../../http";
+import {useNavigate} from "react-router-dom";
+import {ShelterService} from "../../../services/ShelterService";
+import {INotification} from "../../../models/INotification";
+import NotificationsWrapper from "../../notifications/notifications-wrapper/NotificationsWrapper";
 
 const ShelterToolsMobile = ({isPressed}: {isPressed: boolean}) => {
     const dispatch = useAppDispatch()
+    const navigation = useNavigate()
     const {shelter, unreadCount} = useAppSelector(state => state.shelterReducer)
+    const {setReadNotifications} = shelterSlice.actions
+    const [isCover, setIsCover] = useState(false)
+    const [notifications, setNotifications] = useState<INotification[]>([])
+    const [removeNotifications, setRemoveNotifications] = useState<string[]>([])
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                if (!isCover && removeNotifications.length > 0) {
+                    const response = await ShelterService.deleteNotificationsOfShelter(removeNotifications)
+                    if (response.data) setRemoveNotifications([])
+                }
+            } catch (error) {
+                console.error('Ошибка при удалении уведомлений:', error);
+            }
+        };
+
+        fetchData();
+    }, [removeNotifications, isCover]);
 
     const onLogout = () => {
         dispatch(userSlice.actions.removeAccessToken())
     }
 
+    const onPersonalData = () => {
+        navigation(`/personal-data/${shelter._id}`, {
+            state: {
+                ...shelter
+            }
+        })
+    }
 
+    const onClickNotifications = async () => {
+        setIsCover(true)
+        const response = await ShelterService.getNotificationsOfShelter()
+        setNotifications(response.data.reverse())
+        const readNotifications = await ShelterService.readNotificationsOfShelter()
+        if (readNotifications.data) {
+            dispatch(setReadNotifications)
+        }
+    }
 
     return (
         <div className={`shelter-tools-mobile  ${isPressed && 'active'}`}>
@@ -34,12 +74,12 @@ const ShelterToolsMobile = ({isPressed}: {isPressed: boolean}) => {
                 </div>
             </div>
             <div className={'tools-buttons shelter-tools-mobile__buttons'}>
-                <div className={'tools-link'}>
+                <div className={'tools-link'} onClick={onClickNotifications}>
                     <img src="/images/svg/bell.svg" alt="Уведомления"/>
                     <span>Уведомления</span>
                     {unreadCount > 0 && <div className={'unread'}/>}
                 </div>
-                <div className={'tools-link'}>
+                <div className={'tools-link'} onClick={onPersonalData}>
                     <img src="/images/svg/personal-data.svg" alt="Личные данные"/>
                     <span>Личные данные</span>
                 </div>
@@ -52,7 +92,11 @@ const ShelterToolsMobile = ({isPressed}: {isPressed: boolean}) => {
                     <span>Выйти</span>
                 </div>
             </div>
-
+            {isCover && <NotificationsWrapper
+                notifications={notifications}
+                setRemoveNotifications={setRemoveNotifications}
+                isSeller={true}
+            />}
         </div>
     );
 };
