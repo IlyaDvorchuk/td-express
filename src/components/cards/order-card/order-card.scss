@@ -17,6 +17,11 @@
     display: flex;
     gap: 12px;
     min-width: 239px;
+
+    @media screen and (max-width: 1250px){
+      min-width: 170px;
+
+    }
   }
 
   & &__img {
@@ -77,6 +82,11 @@
   & &__status {
     min-width: 124px;
     display: flex;
+
+    @media screen and (max-width: 1285px){
+      min-width: 70px;
+
+    }
   }
 
   & &__status_delivery {
