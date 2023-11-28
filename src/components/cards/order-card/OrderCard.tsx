@@ -44,7 +44,7 @@ const OrderCard = ({order, isEven}: IProps) => {
             setStatus(newStatus)
         }
     }
-    console.log('order.price', order.price)
+
     return (
         <div className={`order-card ${isEven ? 'order-card_even' : 'order-card_odd'}`}>
             <div className={'order-card__name'}>

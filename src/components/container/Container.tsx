@@ -1,15 +1,17 @@
 import React, {ReactNode} from 'react';
 import './container.scss'
 import {useLocation} from "react-router-dom";
+import {useWindowWidth} from "../../hooks/useWindowWidth";
 
 interface IProps {
     children: ReactNode,
     isWideMobile?: boolean
-    isGreyContainer?: boolean
 }
 
-const Container = ({children, isWideMobile = false, isGreyContainer = false}: IProps) => {
+const Container = ({children, isWideMobile = false}: IProps) => {
     const location = useLocation();
+    const windowWidth = useWindowWidth()
+    const isGreyContainer = location.pathname.endsWith('/seller/orders') && (windowWidth < 600)
     const isScrollOrders = location.pathname.endsWith('/seller/orders');
 
     return (

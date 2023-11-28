@@ -3,6 +3,8 @@
 
 .orders {
 
+  width: 100%;
+
   @media screen and (max-width: 940px){
     margin-left: 300px;
 
@@ -28,13 +30,45 @@
 
   }
 
+  @media screen and (max-width: 670px){
+    margin-left: 0;
+
+  }
+
+  & &__header {
+    display: none;
+    position: relative;
+    font-family: Nunito Sans, sans-serif;
+    font-size: $mediumMediumSize;
+
+    @media screen and (max-width: 600px) {
+      padding-top: 8px;
+      padding-bottom: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: $backgroundColor;
+    }
+  }
 
   &__select {
     margin-bottom: 48px;
+
+    @media screen and (max-width: 600px) {
+      padding-bottom: 5px;
+      margin-bottom: 4px;
+      background-color: $backgroundColor;
+      box-shadow: 4px 4px 16px 0 rgba(0, 0, 0, 0.16);
+      @include flex(center);
+    }
   }
 
   & .select-input__orders {
     width: 220px;
+    @media screen and (max-width: 600px) {
+      width: 145px;
+    }
+
   }
 
   &__titles {
@@ -64,11 +98,5 @@
     &_address {
       margin-right: 2%;
     }
-  }
-
-
-
-  & &__button {
-
   }
 }

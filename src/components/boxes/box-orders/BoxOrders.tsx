@@ -5,6 +5,8 @@ import {OrderEnum} from "../../../models/enums";
 import {IOrderRes} from "../../../models/IOrder";
 import OrderCard from "../../cards/order-card/OrderCard";
 import {ShelterService} from "../../../services/ShelterService";
+import {useWindowWidth} from "../../../hooks/useWindowWidth";
+import OrderCardMobile from "../../cards/order-card-mobile/OrderCardMobile";
 
 const ordersOptions = [
     {
@@ -30,6 +32,7 @@ const ordersOptions = [
 ]
 
 const BoxOrders = () => {
+    const windowWidth = useWindowWidth()
     const [ordersSeller, setOrdersSeller] = useState<IOrderRes[]>([]);
     const [filteredOrders, setFilteredOrders] = useState<IOrderRes[]>([]);
     const [selectedStatus, setSelectedStatus] = useState({
@@ -67,6 +70,9 @@ const BoxOrders = () => {
 
     return (
         <div className={'orders'}>
+            <div className={'goods__header'}>
+                <h2>Мои товары</h2>
+            </div>
             <div className={'orders__select'}>
                 <div className={'select'}>
                     <span className={'select__label'}>Показать товары:</span>
@@ -79,7 +85,7 @@ const BoxOrders = () => {
                     />
                 </div>
             </div>
-            {<div className={'orders__titles'}>
+            {windowWidth > 600 && <div className={'orders__titles'}>
                 <h4 className={'orders__title orders__title_first'}>
                     Товар
                 </h4>
@@ -107,7 +113,12 @@ const BoxOrders = () => {
             </div>}
             <div className={'orders-wrapper'}>
                 {filteredOrders.map((order, index) => (
-                    <OrderCard order={order} key={order._id} isEven={index % 2 === 0}/>
+                    <>
+                        {windowWidth < 600
+                            ? <OrderCardMobile key={order._id} order={order} />
+                            : <OrderCard order={order} key={order._id} isEven={index % 2 === 0}/>
+                        }
+                    </>
                 ))}
             </div>
         </div>

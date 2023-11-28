@@ -3,9 +3,7 @@ import BoxOrders from "../components/boxes/box-orders/BoxOrders";
 
 const ShelterOrders = () => {
     return (
-        <div>
             <BoxOrders/>
-        </div>
     );
 };
 
