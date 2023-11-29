@@ -59,9 +59,24 @@
 .status-mobile {
   @include flex(flex-start, flex-end);
   flex-direction: column;
+  padding-bottom: 0;
+
+  & span {
+    text-align: right;
+    width: 70px;
+    line-height: 109%;
+  }
 
   &_green {
     color: $successColor;
+  }
+
+  &_yellow {
+    color: $warningColor;
+  }
+
+  &_violet {
+    color: $additionalColor;
   }
 }
 

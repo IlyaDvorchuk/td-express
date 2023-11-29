@@ -6,8 +6,12 @@
   padding: 7px 7px 8px 4px;
   border-radius: 20px;
   background-color: $backgroundColor;
-  @include flex();
   cursor: pointer;
+
+  & &__visible {
+    @include flex();
+    margin-bottom: 8px;
+  }
 
   & &__image {
     margin-right: 8px;
@@ -47,5 +51,47 @@
   & &__delivery {
     color: $title2Color;
     font-size: $mediumLittleSize;
+  }
+
+  & &__right {
+    margin-left: auto;
+    @include flex();
+    gap:17px;
+    align-items: flex-end;
+    flex-direction: column;
+  }
+
+  & &__arrow {
+    margin-right: 12px;
+    transition: all .3s ease-in;
+
+    &.active {
+      transform: rotate(180deg);
+    }
+
+  }
+
+  & &__hidden {
+
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height .5s ease-in;
+
+    &.active {
+      max-height: 220px;
+    }
+  }
+
+  & &__add-inf {
+    margin-left: 76px;
+    font-size: $mediumLittleSize;
+
+    & > div {
+      margin-bottom: 12px;
+    }
+
+    & h4 {
+      font-weight: 400;
+    }
   }
 }
