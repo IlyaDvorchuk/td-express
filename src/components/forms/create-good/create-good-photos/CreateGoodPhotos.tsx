@@ -106,12 +106,14 @@ const CreateGoodPhotos = ({
     function onAdditionalSubmitFile(e: ChangeEvent<HTMLInputElement>) {
         const { files } = e.target;
         const selectedFiles = files as FileList;
-        const newImage = selectedFiles?.[0];
-        if (newImage && newImage !== generalImage) {
 
-            setAdditionalImages([...additionalImages, newImage]);
-        }
+        // Преобразование FileList в массив
+        const newImagesArray = Array.from(selectedFiles);
+
+        // Добавление новых изображений к существующему списку
+        setAdditionalImages([...additionalImages, ...newImagesArray]);
     }
+
 
     const onDeleteAdditionalFile = (index: number) => {
         if (additionalImages.length > 10) return
@@ -221,7 +223,7 @@ const CreateGoodPhotos = ({
                         Дополнительные фото*
                     </h4>
                     <p className={'annotation'}>
-                        Можете добавить дополнительные фото товара
+                        Можете добавить дополнительные фото товара (для выбора сразу нескольких фотографий зажмите клавишу Ctrl (или Command на Mac) и выберите несколько фотографий мышкой).
                     </p>
                     <div className={'additional-photos'}>
                         <div className={`image-good`}>
@@ -232,6 +234,7 @@ const CreateGoodPhotos = ({
                             <input
                                 type="file"
                                 id={'good-photo-add'}
+                                multiple={true}
                                 onChange={onAdditionalSubmitFile}
                                 value={''}
                             />

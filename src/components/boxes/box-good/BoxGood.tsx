@@ -314,19 +314,22 @@ const BoxGood = ({card} : {card: IProductCardRes}) => {
                     </div>
                     {cardTypes.colorsGood && cardTypes.colorsGood.length > 0 && <div className={'good-information__colors'}>
                         <h4 className={'good-information__color'}>Цвет: {activeColor}</h4>
-                        <div className={'good-information__images'}>
-                            {cardTypes.colorsGood.map((color, index) => (
-                                <div
-                                    key={index}
-                                    className={`good-information__image ${color.name === activeColor ? 'active' : ''}`}
-                                    onClick={() => onChangeColor(color.name)}
-                                >
-                                    {color?.image ?
-                                        <img src={`https://api.td-market.md/${color.image}`} alt={''}/>
-                                        : <div style={{backgroundColor: color.color}}/>}
-                                </div>
-                            ))}
-                        </div>
+                        {/*<div className={'good-information__images-wrapper'}>*/}
+                            <div className={'good-information__images'}>
+                                {cardTypes.colorsGood.map((color, index) => (
+                                    <div
+                                        key={index}
+                                        className={`good-information__image ${color.name === activeColor ? 'active' : ''}`}
+                                        onClick={() => onChangeColor(color.name)}
+                                    >
+                                        {color?.image ?
+                                            <img src={`https://api.td-market.md/${color.image}`} alt={''}/>
+                                            : <div style={{backgroundColor: color.color}}/>}
+                                    </div>
+                                ))}
+                            </div>
+                        {/*</div>*/}
+
                     </div>}
                     {cardTypes.sizes && <div className={'good-information__sizes'}>
                         <p className={'good-information__subtitle'}>Размер:</p>

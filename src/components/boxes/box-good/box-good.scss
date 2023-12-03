@@ -21,7 +21,7 @@
 }
 
 .good-wrapper {
-  @include flex(space-between, center, 64px);
+  @include flex(space-between, flex-start, 64px);
   margin-bottom: 176px;
   height: 100%;
 
@@ -279,7 +279,7 @@
   }
 
   & .good-information {
-    height: 637px;
+    //height: 637px;
     position: relative;
     display: flex;
     flex-direction: column;
@@ -287,11 +287,11 @@
     justify-content: flex-start;
 
     @media screen and (max-width: 1000px) {
-      height: 582px;
+      //height: 582px;
     }
 
     @media screen and (max-width: 950px) {
-      height: 525px;
+      //height: 525px;
     }
 
     @media screen and (max-width: 880px){
@@ -355,6 +355,7 @@
       font-weight: 400;
       color: $text2Color;
     }
+
 
     &__images {
       @include flex();
