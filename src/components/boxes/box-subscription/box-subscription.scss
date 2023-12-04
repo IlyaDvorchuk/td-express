@@ -1,0 +1,83 @@
+@import "/src/styles/constants";
+@import "/src/styles/mixins";
+
+.subscription {
+  font-size: $subTitleSize;
+  margin-bottom: 40px;
+
+  & &__title {
+    margin-bottom: 47px;
+    font-size: $subTitleSize;
+  }
+
+  & &__wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 47px;
+  }
+
+  & &__card {
+    padding: 18px 30px 30px 44px;
+    border-radius: 32px;
+    border: 1px solid $titleColor;
+  }
+
+  & &__subtitle {
+    margin-bottom: 6px;
+    font-size: 25px;
+  }
+
+  & &__information {
+    margin-bottom: 7px;
+    font-size: $subTitleSize;
+  }
+
+  & &__button {
+    margin-left: auto;
+    max-width: 245px;
+  }
+
+  & &__modal {
+    max-width: 793px;
+    padding: 48px 44px 63px;
+    position: fixed;
+    left: calc(50vw - 35%);
+    top: calc(50vh - 35%);
+    background: $backgroundColor;
+    border-radius: 32px;
+    font-family: Open Sans, sans-serif;
+    z-index: 999;
+
+  }
+
+  & &__modal-title {
+    margin-bottom: 20px;
+    font-size: $subTitleSize;
+    font-family: Nunito Sans, sans-serif;
+
+  }
+
+  & &__modal-inf {
+    margin-bottom: 6px;
+    font-size: $bigMediumSize;
+  }
+
+  & &__modal-link {
+    margin-bottom: 34px;
+    font-size: 14px;
+    color: $hoverColor;
+    text-decoration: underline;
+    cursor: pointer;
+    transition: all .3s linear;
+
+    &:hover {
+      color: $linkColor;
+    }
+  }
+
+  & &__modal-buttons {
+    @include flex(center);
+    gap: 28px;
+  }
+
+}

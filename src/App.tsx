@@ -42,6 +42,7 @@ import {useWindowWidth} from "./hooks/useWindowWidth";
 import OrdersList from "./pages/OrdersList";
 import OrderUser from "./pages/OrderUser";
 import Seller from "./pages/Seller";
+import Subscription from "./pages/Subscription";
 
 
 function App() {
@@ -113,6 +114,7 @@ function App() {
                         <Route index path="delivery" element={<ShelterDelivery />} />
                         <Route index path={`goods/create`} element={<CreateGood />} />
                         <Route index path={`goods/create/:id`} element={<CreateGood />} />
+                        <Route index path={`subscription`} element={<Subscription />} />
                     </Route>
                     <Route
                         path="/card/:id"

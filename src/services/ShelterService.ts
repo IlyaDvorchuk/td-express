@@ -115,4 +115,8 @@ export class ShelterService {
     static getColors(): Promise<AxiosResponse<IColor[]>> {
         return $apiShelter.get(`colors`)
     }
+
+    static changeRate(sellerId: string, rate: string): Promise<AxiosResponse<boolean>> {
+        return $apiShelter.put(`shelters/update-rate/${sellerId}/${rate}`)
+    }
 }

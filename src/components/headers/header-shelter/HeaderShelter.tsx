@@ -30,7 +30,7 @@ const HeaderShelter = () => {
         },
         {
             href: '/seller/subscription',
-            name: 'Оформить подписку',
+            name: 'Выбрать тариф',
         },
     ]
 
