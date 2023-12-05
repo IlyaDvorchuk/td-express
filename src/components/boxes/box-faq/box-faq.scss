@@ -21,10 +21,11 @@
   & .aside {
     position: sticky;
     top: 0;
-    height: 336px; & .r {
-    height: 2000px;
-    position: relative;
-  }
+    height: 336px;
+
+    @media screen and (max-width: 700px){
+      display: none;
+    }
 
     min-width: 305px;
 

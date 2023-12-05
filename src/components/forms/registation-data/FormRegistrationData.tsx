@@ -130,7 +130,7 @@ const FormRegistrationData = ({shelterData, id}: IProps) => {
                     }
                 };
                 setIsRegistry(false);
-                // navigate('/shop-data');
+                navigate('/shop-data');
             }
         };
 
