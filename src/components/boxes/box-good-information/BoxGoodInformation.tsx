@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import ReactMarkdown from 'react-markdown'
 import './box-good-information.scss'
 import {IProductCard} from "../../../models/IProductCard";
+import BoxReviews from "../box-reviews/BoxReviews";
 
 const BoxGoodInformation = ({card} : {card: IProductCard}) => {
 
@@ -69,6 +70,7 @@ const BoxGoodInformation = ({card} : {card: IProductCard}) => {
                     </div>}
                 </div>
             }
+            {activeTab === 2 && <BoxReviews/>}
         </div>
     );
 };

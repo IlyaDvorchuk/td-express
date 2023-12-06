@@ -1,0 +1,26 @@
+@import "src/styles/constants";
+@import "src/styles/mixins";
+
+.reviews {
+
+  & &__form {
+    @include flex(flex-start, flex-end, 20px)
+  }
+
+  & &__textarea {
+    max-width: 736px;
+    padding: 12px 15px;
+    width: 100%;
+    height: 84px;
+    border-radius: 15px;
+    border: 1.5px solid $title3Color;
+    font-family: Open Sans, sans-serif;
+    color: $text4Color;
+    font-size: $mediumLittleSize;
+  }
+
+  & &__button {
+    max-width: 129px;
+    gap: 6px;
+  }
+}
