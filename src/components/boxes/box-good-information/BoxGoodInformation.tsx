@@ -70,7 +70,7 @@ const BoxGoodInformation = ({card} : {card: IProductCard}) => {
                     </div>}
                 </div>
             }
-            {activeTab === 2 && <BoxReviews/>}
+            {activeTab === 2 && <BoxReviews productId={card._id}/>}
         </div>
     );
 };

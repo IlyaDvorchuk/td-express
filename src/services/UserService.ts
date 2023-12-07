@@ -1,6 +1,6 @@
 import axios, {AxiosResponse} from "axios";
 import {IUser} from "../models/response/IUser";
-import $api, {$apiShelter, API_URL} from "../http";
+import $api, {API_URL} from "../http";
 import {IProductCardRes} from "../models/IProductCard";
 import {ICartReq} from "../models/ICart";
 import {ICartRes} from "../models/response/ICartRes";
@@ -8,6 +8,7 @@ import {IOrder, IOrderRes} from "../models/IOrder";
 import {INotification} from "../models/INotification";
 import {OrderEnum} from "../models/enums";
 import {ISellerByUser} from "../models/response/ISellerByUser";
+import {IComment} from "../models/IComment";
 
 export class UserService {
     static async fetchUser(): Promise<AxiosResponse<IUser[]>> {
@@ -61,7 +62,7 @@ export class UserService {
     }
 
     static getOrdersOfUser(userId: string): Promise<AxiosResponse<IOrderRes[]>> {
-        return $apiShelter.get(`orders/user/${userId}`);
+        return $api.get(`orders/user/${userId}`);
     }
 
     static async getOrder(id: string): Promise<AxiosResponse<IOrderRes>> {
@@ -69,10 +70,14 @@ export class UserService {
     }
 
     static changeStatus(idOrder: string, status: OrderEnum): Promise<AxiosResponse<IOrderRes[]>> {
-        return $apiShelter.put(`orders/${idOrder}/${status}`)
+        return $api.put(`orders/${idOrder}/${status}`)
     }
 
     static getSeller(name: string): Promise<AxiosResponse<ISellerByUser>> {
         return axios.get<ISellerByUser>(`${API_URL}shelters/user/${name}`)
+    }
+
+    static createComment(comment: IComment): Promise<AxiosResponse<ISellerByUser>> {
+        return $api.post<ISellerByUser>(`${API_URL}reviews`, comment)
     }
 }
