@@ -16,6 +16,7 @@ import {locationSlice} from "../../../store/reducers/LocationSlice";
 import {ShelterService} from "../../../services/ShelterService";
 import {IDeliveryCity} from "../../../models/IDeliveryCity";
 import {calculateCardTypes} from "../../../utils/calculateCardTypes";
+import {useWindowWidth} from "../../../hooks/useWindowWidth";
 
 const BoxGood = ({card} : {card: IProductCardRes}) => {
     const dispatch = useAppDispatch()
@@ -38,6 +39,7 @@ const BoxGood = ({card} : {card: IProductCardRes}) => {
         return window.innerWidth >= 450 ? 20 : 4;
     });
     const [isNewCard, setIsNewCard] = useState(true)
+    const windowWidth = useWindowWidth()
     const swiperRef = useRef() as any;
 
     useEffect(() => {
@@ -45,6 +47,7 @@ const BoxGood = ({card} : {card: IProductCardRes}) => {
     }, [])
 
     const [deliveryCities, setDeliveryCities] = useState<IDeliveryCity[]>([])
+    const [isFavorite, setIsFavorite] = useState(false)
 
     useEffect(() => {
 
@@ -230,6 +233,12 @@ const BoxGood = ({card} : {card: IProductCardRes}) => {
         setActiveColor(str)
     }
 
+    const onAddFavorites = async (event: React.MouseEvent<HTMLDivElement>) => {
+        event.stopPropagation();
+        const response = await UserService.addToFavorites(card._id)
+        if (response) setIsFavorite(true)
+    }
+
     return (
         <div className={'good'}>
             {card.categories.category?.name && <div className={'good__categories'}>
@@ -296,22 +305,48 @@ const BoxGood = ({card} : {card: IProductCardRes}) => {
 
                     <div className={'main-photo'}>
                         <img src={`https://api.td-market.md/${mainPhoto}`} alt={card.information.name}/>
+                        <div className={'photo-count'}>
+                            {additionalPhotos.findIndex(elem => elem === mainPhoto)} / {additionalPhotos.length}
+                        </div>
+                        <div className={'main-photo__favorites'} onClick={onAddFavorites}>
+                            {!isFavorite ?
+                                <img
+                                    src="/images/svg/favorite-button-add.svg"
+                                    alt="Добавить в фавориты"
+                                />
+                                :
+                                <svg width="22" height="20" viewBox="0 0 22 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M11.62 18.81C11.28 18.93 10.72 18.93 10.38 18.81C7.48 17.82 1 13.69 1 6.68998C1 3.59998 3.49 1.09998 6.56 1.09998C8.38 1.09998 9.99 1.97998 11 3.33998C11.5138 2.64585 12.183 2.0817 12.954 1.69272C13.725 1.30374 14.5764 1.10074 15.44 1.09998C18.51 1.09998 21 3.59998 21 6.68998C21 13.69 14.52 17.82 11.62 18.81Z" stroke="#3A373D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            }
+
+                        </div>
                     </div>
                 </div>
                 <div className={'good-information'}>
-                    <h2 className={'good-information__title'}>
-                        {card?.information?.name}
-                    </h2>
-                    <div className={'good-information__shelter-block'}>
-                        <Link to={`/seller/${shelter?.name}`} className={'good-information__shelter'}>
-                            <div className={'good-information__icon'}>
-                                <img src={`https://api.td-market.md/${shelter?.imageShop}`} alt={shelter?.name}/>
-                            </div>
-                            <div>
-                                <h4 className={'name'}>{shelter?.name}</h4>
-                            </div>
-                        </Link>
-                    </div>
+                    {windowWidth > 500 && <>
+                        <h2 className={'good-information__title'}>
+                            {card?.information?.name}
+                        </h2>
+                        <div className={'good-information__shelter-block'}>
+                            <Link to={`/seller/${shelter?.name}`} className={'good-information__shelter'}>
+                                <div className={'good-information__icon'}>
+                                    <img src={`https://api.td-market.md/${shelter?.imageShop}`} alt={shelter?.name}/>
+                                </div>
+                                <div>
+                                    <h4 className={'name'}>{shelter?.name}</h4>
+                                </div>
+                            </Link>
+                        </div>
+                    </>}
+                    {windowWidth < 500 && <div className={'good-information__prices'}>
+                        <span className={'good-information__priceBeforeDiscount'}>
+                            {card.pricesAndQuantity.price} RUP
+                        </span>
+                        {card.pricesAndQuantity.priceBeforeDiscount > 0 && <span className={'good-information__price'}>
+                            {card.pricesAndQuantity.priceBeforeDiscount} RUP
+                        </span>}
+                    </div>}
                     {cardTypes.colorsGood && cardTypes.colorsGood.length > 0 && <div className={'good-information__colors'}>
                         <h4 className={'good-information__color'}>Цвет: {activeColor}</h4>
                         {/*<div className={'good-information__images-wrapper'}>*/}
@@ -332,7 +367,7 @@ const BoxGood = ({card} : {card: IProductCardRes}) => {
 
                     </div>}
                     {cardTypes.sizes && <div className={'good-information__sizes'}>
-                        <p className={'good-information__subtitle'}>Размер:</p>
+                        <p className={'good-information__subtitle'}>Размер: {activeSize}</p>
                         <div className={'sizes'}>
                             {cardTypes.sizes.map((size, index) => (
                                 <div
@@ -345,7 +380,7 @@ const BoxGood = ({card} : {card: IProductCardRes}) => {
                                 </div>
                             ))}
                         </div>
-                        <p className={'good-information__subtitle'}>Таблица размеров</p>
+                        <p className={'good-information__subtitle not-margin'}>Таблица размеров</p>
                     </div>}
                     <div className={'good-information__count'}>
                         Количество: {count}
@@ -357,14 +392,51 @@ const BoxGood = ({card} : {card: IProductCardRes}) => {
                             В наличии: {quantity}
                         </div>
                     </div>
-                    <div className={'good-information__prices'}>
+                    {windowWidth < 500 && <div className={'mobile-block'}>
+                        <div>
+                            <h2>
+                                {card?.information?.name}
+                            </h2>
+                            {card.categories.category?.name && <div>
+                                <Link to={'/'}>Главная </Link>
+                                / <Link to={`/category/${card.categories.category.id}`}>{card.categories.category.name} </Link>
+                                / <Link to={`/category/${card.categories.subcategory.id}`}>{card.categories.subcategory.name} </Link>
+                                {card.categories.section.name && <>
+                                    / <Link to={`/category/${card.categories.section.id}`}>{card.categories.section.name} </Link>
+                                </>}
+                            </div>}
+                        </div>
+                        <Link to={`/category/${card.categories.category.id}`}>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                <path d="M8.90991 19.92L15.4299 13.4C16.1999 12.63 16.1999 11.37 15.4299 10.6L8.90991 4.07996" stroke="#3A373D" strokeWidth="1.5" strokeMiterlimit="10" strokeLinecap="round" strokeLinejoin="round"/>
+                            </svg>
+                        </Link>
+
+                    </div>}
+                    {windowWidth < 500 && <div className={'mobile-block'}>
+                        <div>
+                            <div>
+                                Продавец
+                            </div>
+                            <h2>
+                                {shelter?.name}
+                            </h2>
+                        </div>
+                        <Link to={`/seller/${shelter?.name}`}>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                <path d="M8.90991 19.92L15.4299 13.4C16.1999 12.63 16.1999 11.37 15.4299 10.6L8.90991 4.07996" stroke="#3A373D" strokeWidth="1.5" strokeMiterlimit="10" strokeLinecap="round" strokeLinejoin="round"/>
+                            </svg>
+                        </Link>
+
+                    </div>}
+                    {windowWidth > 500 && <div className={'good-information__prices'}>
                         <span className={'good-information__priceBeforeDiscount'}>
                             {card.pricesAndQuantity.price} RUP
                         </span>
-                        { card.pricesAndQuantity.priceBeforeDiscount > 0 && <span className={'good-information__price'}>
+                        {card.pricesAndQuantity.priceBeforeDiscount > 0 && <span className={'good-information__price'}>
                             {card.pricesAndQuantity.priceBeforeDiscount} RUP
                         </span>}
-                    </div>
+                    </div>}
                     {priceDelivery !== null ? <div className={'good-information__delivery'}>
                         Стоимость доставки в <span className={'good-information__city'} onClick={onActiveGeolocation}>
                             {city}</span>

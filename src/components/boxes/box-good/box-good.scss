@@ -205,13 +205,40 @@
     }
   }
 
+  & .photo-count {
+    position: absolute;
+    top: 9px;
+    right: 6px;
+    background: $headerColor;
+    border-radius: 12px;
+    height: 20px;
+    width: 44px;
+    @include flex(center, center);
+    font-size: $veryLittleSize;
+    color: $text4Color;
+
+    @media screen and (min-width: 700px) {
+      display: none;
+    };
+  }
+
   & .main-photo {
     width: 560px;
     height: 637px;
 
     position: relative;
-    overflow: hidden;
     background-color:  #BAB5B5;
+
+    &__favorites {
+      position: absolute;
+      top: calc(100% - 13px);
+      right: 12px;
+      background: #F5F5F5;
+      border-radius: 50%;
+      @include square(40px);
+      @include flex(center, center);
+      z-index: 99;
+    }
 
     @media screen and (max-width: 1000px) {
         width: 510px;
@@ -343,10 +370,24 @@
       margin-bottom: 12px;
       font-size: $littleMediumSize;
       color: $text2Color;
+
+      @media screen and (max-width: 500px) {
+        font-size: $veryLittleSize;
+        margin-left: 10px;
+        margin-bottom: 8px;
+      }
+    }
+
+    & .not-margin {
+      margin-left: 0;
     }
 
     &__colors {
       margin-bottom: 20px;
+
+      @media screen and (max-width: 500px) {
+        margin-bottom: 12px;
+      }
     }
 
     &__color {
@@ -354,6 +395,12 @@
       font-size: $littleMediumSize;
       font-weight: 400;
       color: $text2Color;
+
+      @media screen and (max-width: 500px) {
+        margin-bottom: 8px;
+        font-size: $veryLittleSize;
+        margin-left: 10px;
+      }
     }
 
 
@@ -369,6 +416,11 @@
       overflow: hidden;
       border-radius: 10px;
       cursor: pointer;
+
+      @media screen and (max-width: 500px) {
+        width: 60px;
+        height: 85px;
+      }
 
       & > img {
         @include square(100%);
@@ -386,6 +438,10 @@
 
     &__sizes {
       margin-bottom: 20px;
+
+      @media screen and (max-width: 500px){
+        margin-bottom: 9px;
+      }
     }
 
     & .sizes {
@@ -394,7 +450,9 @@
       gap: 15px;
       flex-wrap: wrap;
 
-
+      @media screen and (max-width: 500px){
+        gap: 4px;
+      }
     }
 
     & .size-item {
@@ -412,6 +470,13 @@
         min-width: 40px;
         height: 52px;
       }
+
+      @media screen and (max-width: 500px){
+        min-width: 48px;
+        height: 48px;
+        font-size: $littleSize;
+        color: $title2Color;
+      }
     }
 
     & .size-item.active {
@@ -422,6 +487,11 @@
     &__count {
       margin-bottom: 12px;
       font-size: $littleMediumSize;
+
+      @media screen and (max-width: 500px){
+        margin-left: 10px;
+        font-size: $veryLittleSize;
+      }
     }
 
     &__update-count {
@@ -429,6 +499,10 @@
       display: flex;
       align-items: center;
       gap: 10px;
+
+      @media screen and (max-width: 500px){
+        margin-bottom: 20px;
+      }
 
       & > .good-information__quantity {
         color: $text4Color;
@@ -441,15 +515,27 @@
       align-items: center;
       gap: 9px;
 
+      @media screen and (max-width: 500px) {
+        margin-bottom: 8px;
+      }
+
       & > .good-information__priceBeforeDiscount {
         font-weight: 800;
         font-size: $subTitleSize;
+
+        @media screen and (max-width: 500px) {
+          font-size: $mediumMediumSize;
+        }
       }
 
       & > .good-information__price {
         color: $text4Color;
         font-size: $littleSize;
         text-decoration: line-through;
+
+        @media screen and (max-width: 500px) {
+          font-size: $veryLittleSize;
+        }
       }
     }
 
@@ -457,6 +543,10 @@
       margin-bottom: 18px;
       font-size: $littleMediumSize;
       color: $text2Color;
+
+      @media screen and (max-width: 500px) {
+        font-size: $littleSize;
+      }
     }
 
     &__city {
@@ -478,6 +568,21 @@
           width: 100%;
         }
       }
+    }
+  }
+
+  .mobile-block {
+    margin-bottom: 10px;
+    @include flex(space-between, center, 30px);
+    padding: 9px 0;
+    font-size: $veryLittleSize;
+    color: $title3Color;
+
+
+    & h2 {
+      font-size: $littleSize;
+      font-family: Nunito Sans, 'sans-serif';
+      color: $text2Color;
     }
   }
 }
