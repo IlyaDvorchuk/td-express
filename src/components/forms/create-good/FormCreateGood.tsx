@@ -15,7 +15,14 @@ import {useAppDispatch, useAppSelector} from "../../../hooks/redux";
 import {IProductCard, IProductCardRes, IType} from "../../../models/IProductCard";
 import {createProductCard, updateProductCard} from "../../../store/reducers/shelter/ShelterCreator";
 import {Link, useNavigate} from "react-router-dom";
-import {SIZES_CLOTHES, SIZES_CLOTHES_ID, SIZES_ID, SIZES_SHOE} from "../../../constants";
+import {
+    SIZES_CLOTHES,
+    SIZES_CLOTHES_ID, SIZES_CLOTHES_KIND,
+    SIZES_ID,
+    SIZES_SHOE,
+    SIZES_SHOE_ID, SIZES_SHOE_KIND,
+    SIZES_SHOE_KIND_ID
+} from "../../../constants";
 import CreateGoodSizes from "./create-good-sizes/CreateGoodSizes";
 import CreateGoodQuantity from "./create-good-quantity/CreateGoodQuantity";
 import {shelterSlice} from "../../../store/reducers/shelter/ShelterSlice";
@@ -242,7 +249,10 @@ const FormCreateGood = ({card} : {card: IProductCardRes | null}) => {
                                 options={
                                 SIZES_CLOTHES_ID.includes(parentSelectedCategory?._id) ?
                                     SIZES_CLOTHES
-                                    : SIZES_SHOE
+                                    : SIZES_SHOE_ID.includes(parentSelectedCategory?._id) ?
+                                        SIZES_SHOE
+                                        : SIZES_SHOE_KIND_ID === parentSelectedCategory?._id ?
+                                        SIZES_SHOE_KIND : SIZES_CLOTHES_KIND
                                 }
                                 selectedOptions={selectedSizes}
                                 setSelectedOptions={setSelectedSizes}
