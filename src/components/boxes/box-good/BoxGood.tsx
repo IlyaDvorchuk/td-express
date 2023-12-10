@@ -121,12 +121,17 @@ const BoxGood = ({card} : {card: IProductCardRes}) => {
     useEffect(() => {
 
         const fetchDelivery = async () => {
-            if (card.shelterId) {
-                const response = await ShelterService.getDelivery(card.shelterId)
-                if (response.data) {
-                    setDeliveryCities(response.data)
+            try {
+                if (card.shelterId) {
+                    const response = await ShelterService.getDelivery(card.shelterId)
+                    if (response.data) {
+                        setDeliveryCities(response.data)
+                    }
                 }
+            } catch (e) {
+                console.log('fetchDelivery', e)
             }
+
         }
 
         fetchDelivery()
