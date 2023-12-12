@@ -13,20 +13,20 @@ const CreateGoodPrice = ({isClothes, card}: IProps) => {
     const [priceValue, setPriceValue] = useState('')
     const [priceDiscountValue, setPriceDiscountValue] = useState('')
     const [quantityInStockValue, setQuantityInStockValue] = useState('')
-    const { register, watch, formState: { errors } } = useFormContext();
-
-    const price = watch('price');
-    const priceDiscount = watch('priceDiscount');
-    const quantityInStock = watch('quantityInStock');
+    const { register, formState: { errors } } = useFormContext();
 
     useEffect(() => {
-        // Действия, которые необходимо выполнить при изменении значений полей
-    }, [price, priceDiscount, quantityInStock]);
+        if (card) {
+            setPriceValue(card.pricesAndQuantity.price.toString())
+            if (card.pricesAndQuantity.priceBeforeDiscount) {
+                setPriceDiscountValue(card.pricesAndQuantity.priceBeforeDiscount.toString())
+            }
+        }
+    }, [card]);
 
     const validationInput = (e: ChangeEvent<HTMLInputElement>, input: string) => {
         const validInput = ValidateNumberInput.getValidInput(e.target.value)
         const inputValue = ValidateNumberInput.removePoints(validInput)
-        console.log('input', input)
         if (input === 'price') {
             setPriceValue(inputValue)
         } else if (input === 'priceDiscount') {

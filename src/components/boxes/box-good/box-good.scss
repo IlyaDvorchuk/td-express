@@ -238,6 +238,11 @@
       @include square(40px);
       @include flex(center, center);
       z-index: 99;
+
+      @media screen and (min-width: 500px) {
+        display: none;
+      }
+
     }
 
     @media screen and (max-width: 1000px) {

@@ -78,8 +78,8 @@ const FormCreateGood = ({card} : {card: IProductCardRes | null}) => {
                 material: card?.additionalInformation?.material,
                 recommendations: card?.additionalInformation?.recommendations,
                 seasons: card?.additionalInformation?.seasons,
-                price: card.pricesAndQuantity.price,
-                priceDiscount: card.pricesAndQuantity.priceBeforeDiscount,
+                price: card.pricesAndQuantity.price.toString(),
+                priceDiscount: card.pricesAndQuantity.priceBeforeDiscount.toString(),
                 length: card.dimensions.length,
                 width: card.dimensions.width,
                 height: card.dimensions.height,
@@ -201,7 +201,7 @@ const FormCreateGood = ({card} : {card: IProductCardRes | null}) => {
                 deliveryPoints: points,
                 typeQuantity: quantitySizes,
                 nameShelter: shelter.name,
-                // colors: imageColorsWithBase64
+                colors: imageColorsWithBase64
             } as IProductCard
             if (card) {
                 dispatch(updateProductCard(good, card._id, generalImage || card.mainPhoto, additionalImages ? additionalImages : []))

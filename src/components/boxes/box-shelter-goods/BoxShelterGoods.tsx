@@ -179,7 +179,7 @@ const BoxShelterGoods = () => {
                     <span className={'select__label goods__label'}>Отсортировать:</span>
                     <Select
                         options={filterOptions}
-                        defaultValue={filterOptions[0]}
+                        defaultValue={filterOptions[1]}
                         className={'select-input select-input_filter'}
                         classNamePrefix={'select'}
                         isSearchable={false}
