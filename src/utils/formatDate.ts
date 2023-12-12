@@ -25,6 +25,20 @@ export function formatDateDay(dateString: string): string {
     return `${day} ${months[month]}`;
 }
 
+export function formatDateOnRussian(inputDateStr: string) {
+    const options = {
+        day: 'numeric',
+        month: 'long',
+        year: 'numeric',
+        hour: 'numeric',
+        minute: 'numeric',
+        timeZone: 'UTC',
+    } as Intl.DateTimeFormatOptions;
+
+    const inputDate = new Date(inputDateStr);
+    return inputDate.toLocaleDateString('ru-RU', options);
+}
+
 export function createIdOrder() {
     const currentDate = new Date();
 

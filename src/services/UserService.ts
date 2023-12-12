@@ -8,7 +8,7 @@ import {IOrder, IOrderRes} from "../models/IOrder";
 import {INotification} from "../models/INotification";
 import {OrderEnum} from "../models/enums";
 import {ISellerByUser} from "../models/response/ISellerByUser";
-import {IComment} from "../models/IComment";
+import {IComment, ICommentRes} from "../models/IComment";
 
 export class UserService {
     static async fetchUser(): Promise<AxiosResponse<IUser[]>> {
@@ -79,5 +79,9 @@ export class UserService {
 
     static createComment(comment: IComment): Promise<AxiosResponse<ISellerByUser>> {
         return $api.post<ISellerByUser>(`${API_URL}reviews`, comment)
+    }
+
+    static getCommentsByProduct(productId: string): Promise<AxiosResponse<ICommentRes[]>> {
+        return $api.get<ICommentRes[]>(`${API_URL}reviews/${productId}`)
     }
 }

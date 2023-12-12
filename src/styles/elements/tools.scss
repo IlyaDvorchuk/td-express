@@ -16,6 +16,12 @@
     min-width: 50px;
     font-size: $subTitleSize;
   }
+
+  &.big {
+    @include square(88px);
+    min-width: 88px;
+    font-size: $bigTitleSize;
+  }
 }
 
 .user-tools-name {
@@ -42,9 +48,7 @@
   flex-direction: column;
   gap: 10px;
 
-
   & > .tools-link {
-
     position: relative;
     display: flex;
     align-items: center;

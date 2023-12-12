@@ -2,9 +2,16 @@
 @import "src/styles/mixins";
 
 .reviews {
-
+  & &__not-registration {
+    font-size: $littleSize;
+    color: $text4Color;
+    margin-left: 10px;
+    margin-bottom: 10px;
+  }
   & &__form {
-    @include flex(flex-start, flex-end, 20px)
+    @include flex(flex-start, flex-end, 20px);
+    margin-bottom: 40px;
+
   }
 
   & &__textarea {
@@ -22,5 +29,43 @@
   & &__button {
     max-width: 129px;
     gap: 6px;
+  }
+
+  & &__wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 36px;
+  }
+}
+
+.comment {
+  display: flex;
+  gap: 20px;
+
+
+  & &__inf {
+    margin-top: 10px;
+  }
+
+  & h4 {
+    font-family: 'Nunito Sans', sans-serif;
+    font-size: $littleSize;
+    color: $text2Color;
+    margin-bottom: 2px;
+  }
+
+  //& &__rate {
+  //  margin-bottom: 3px;
+  //  height: 14px;
+  //}
+
+  & &__date {
+    font-size: $mediumLittleSize;
+    color: $text4Color;
+    margin-bottom: 40px;
+  }
+  & &__text {
+    font-size: $bigMediumSize;
+    color: $title2Color;
   }
 }
