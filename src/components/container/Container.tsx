@@ -15,7 +15,9 @@ const Container = ({children, isWideMobile = false}: IProps) => {
     const isScrollOrders = location.pathname.endsWith('/seller/orders');
 
     return (
-        <div className={`container ${isWideMobile && 'wide-mobile'} ${isGreyContainer && 'container_grey'}  ${isScrollOrders && 'container_scroll'}`}>
+        <div className={`
+        container ${isWideMobile ? 'wide-mobile' : ''} ${isGreyContainer ? 'container_grey' : ''}  ${isScrollOrders ? 'container_scroll' : ''}
+        `}>
             {children}
         </div>
     )

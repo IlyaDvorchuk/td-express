@@ -2,6 +2,7 @@
 @import "./src/styles/mixins";
 
 .shelter-mobile-header {
+  //width: 100vw;
   position: relative;
   bottom: 1px;
   padding: 8px 9px 9px;
@@ -80,12 +81,23 @@
       width: 100%;
     }
 
-    @media screen and (max-width: 500px) {
-      display: none;
+    & a {
+      color: $linkColor;
+      text-decoration: underline;
+      cursor: pointer;
+
+      &:hover {
+        color: $hoverColor;
+      }
     }
 
     & .shelter__news-title {
       margin-bottom: 18px;
+
+      @media screen and (max-width: 500px) {
+        font-size: $mediumMediumSize;
+        margin-bottom: 5px;
+      }
     }
   }
 
@@ -187,7 +199,18 @@
   border: 1.5px solid $text3CColor;
   border-radius: 15px;
 
+  @media screen and (max-width: 600px) {
+    padding: 0;
+    border: none;
+  }
 
+  @media screen and (max-width: 500px) {
+    font-size: $mediumLittleSize;
+  }
+
+  & ol {
+    padding-left: 15px;
+  }
 
   &__time {
     margin-bottom: 7px;

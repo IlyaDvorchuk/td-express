@@ -67,15 +67,23 @@ const BoxShelterMain = () => {
                                 <button className={`button ${windowWidth > 500 ? 'button_dark' : 'button_light'} rate__button`}>Изменить тарифный план </button>
                             </div>
                         </div>
-                        <div className={'shelter__news'}>
+                        {windowWidth > 500 && <div className={'shelter__news'}>
                             <h3 className={'shelter__subtitle shelter__news-title'}>Новости</h3>
                             <div className="news">
-                                <h4 className={'news__time'}>30.06.2023</h4>
                                 <p>
-                                    Учитывая ключевые сценарии поведения, базовый вектор развития предопределяет высокую востребованность позиций, занимаемых участниками в отношении поставленных задач. В целом, конечно, постоянный количественный рост и сфера нашей активности говорит о возможностях новых предложений.
+                                    У маркетплейса TD-Market есть собственный телеграм бот <a
+                                    href={'https://t.me/TDMarket_bot'} target={'_blank'}>https://t.me/TDMarket_bot</a>,
+                                    в котором вы сможете найти много полезных функций, например:
+
+                                    Получать уведомления от совершенных покупках;
+                                    Предлагать свою рекламу за наши деньги;
+                                    Разместить свой магазин на слайдере;
+                                    Сотрудничать с нами и получать промокоды на скидку каждый месяц.
+                                    Все эти пункты и не только вы сможете найти в нашем телеграм боте.
+
                                 </p>
                             </div>
-                        </div>
+                        </div>}
                     </div>
                     <div className={'shelter__right'}>
                         <div className={'shelter__goods'}>
@@ -109,6 +117,33 @@ const BoxShelterMain = () => {
                                 </div>
                             </div>
                         </div>
+                        {windowWidth < 500 && <div className={'shelter__news'}>
+                            <h3 className={'shelter__subtitle shelter__news-title'}>Новости</h3>
+                            <div className="news">
+                                <p>
+                                    У маркетплейса TD-Market есть собственный телеграм бот <a
+                                    href={'https://t.me/TDMarket_bot'} target={'_blank'}>https://t.me/TDMarket_bot</a>,
+                                    в котором вы сможете найти много полезных функций, например:
+
+                                    <ol>
+                                        <li>
+                                            Получать уведомления от совершенных покупках;
+                                        </li>
+                                        <li>
+                                            Предлагать свою рекламу за наши деньги;
+                                        </li>
+                                        <li>
+                                            Разместить свой магазин на слайдере;
+                                        </li>
+                                        <li>
+                                            Сотрудничать с нами и получать промокоды на скидку каждый месяц.
+                                        </li>
+                                    </ol>
+                                    Все эти пункты и не только вы сможете найти в нашем телеграм боте.
+
+                                </p>
+                            </div>
+                        </div>}
                         <div className={'shelter__orders'}>
                             <div className={'orders-header'}>
                                 <h3 className={'shelter__subtitle'}>Информация о заказах</h3>
