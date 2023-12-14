@@ -3,12 +3,12 @@
 
 .shelter-tools-mobile {
   position: fixed;
-  height: calc(100vh - 56px);
+  height: calc(100vh - 46px);
   right: -100vw;
   width: 100vw;
   top: 0;
-  padding: 32px 0;
-  background-color: $backgroundColor;
+  padding: 0 8px;
+  background-color: #F5F5F5;
   transition: $slowTransition;
   z-index: 997;
 
@@ -17,7 +17,6 @@
   }
 
   .shelter-icon {
-    padding-left: 11px;
     @include iconShop(60px);
   }
 
@@ -36,12 +35,13 @@
   }
 
   &__header {
-    padding-bottom: 32px;
+    margin-bottom: 8px;
+    padding: 28px 8px 32px;
     display: flex;
     align-items: center;
     gap: 18px;
     border-radius: 0 0 8px 8px;
-    border-bottom: 8px solid #F5F5F5;
+    background-color: $backgroundColor
   }
 
   &__buttons {
@@ -50,7 +50,12 @@
     & .tools-link {
       margin-left: 8%;
       transform: scale(1.2);
-      padding: 6px 8px 6px 12px;
+      padding: 10px 12px 10px 12px;
     }
+  }
+
+  & &__item {
+    background-color: $backgroundColor;
+    border-radius: 8px;
   }
 }

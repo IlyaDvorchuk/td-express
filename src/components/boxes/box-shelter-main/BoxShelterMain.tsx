@@ -64,7 +64,7 @@ const BoxShelterMain = () => {
                                 </div>
                                 <p className={'rate__inf'}>Ваш тарифный план: базовый</p>
                                 <p className={'rate__inf'}>&nbsp;</p>
-                                <button className={`button ${windowWidth > 500 ? 'button_dark' : 'button_light'} rate__button`}>Изменить тарифный план </button>
+                                <Link to={'/seller/subscription'} className={`button ${windowWidth > 500 ? 'button_dark' : 'button_light'} rate__button`}>Изменить тарифный план </Link>
                             </div>
                         </div>
                         {windowWidth > 500 && <div className={'shelter__news'}>

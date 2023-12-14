@@ -10,6 +10,7 @@ const SellerNavbar = () => {
     const [isPressedTools, setIsPressedTools] = useState(false)
 
     useEffect(() => {
+        setIsPressedTools(false)
         switch (location.pathname) {
             case '/seller/main':
                 setActiveLink('home');
@@ -30,7 +31,11 @@ const SellerNavbar = () => {
     }, [activeLink]);
 
     const handleLinkClick = (link: string) => {
-        setIsPressedTools(link === 'tabs')
+        if (isPressedTools) {
+            setIsPressedTools(!isPressedTools)
+        } else {
+            setIsPressedTools(link === 'tabs')
+        }
         setActiveLink(link);
     }
 

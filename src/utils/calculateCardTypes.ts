@@ -2,8 +2,9 @@ import {ITypeRes} from "../models/IProductCard";
 import {IColor} from "../models/IColor";
 
 export function calculateCardTypes(typeQuantity: ITypeRes[] | undefined) {
-
-    const uniqueColors = typeQuantity
+    const existingTypes = typeQuantity?.filter(type => type)
+    console.log('existingTypes', existingTypes)
+    const uniqueColors = existingTypes
         ?.filter((type, index, self) =>
             self.findIndex(t => t.color?.name === type.color?.name) === index
         )
@@ -11,7 +12,7 @@ export function calculateCardTypes(typeQuantity: ITypeRes[] | undefined) {
 
     const existingColors = uniqueColors.filter(color => color !== null && color !== undefined);
 
-    const sizes = typeQuantity?.map(type => type.size) || [];
+    const sizes = existingTypes?.map(type => type.size) || [];
 
     return {
         colorsGood: existingColors as IColor[],

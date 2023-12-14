@@ -4,9 +4,9 @@ import '../../../styles/elements/buttons.scss'
 import {Link, useNavigate} from "react-router-dom";
 import {IProductCardRes, ITypeRes} from "../../../models/IProductCard";
 import {Swiper, SwiperSlide} from "swiper/react";
-import { Navigation } from "swiper";
-import 'swiper/scss';
-import "swiper/scss/navigation";
+import {FreeMode} from "swiper";
+import 'swiper/css';
+import "swiper/css/free-mode";
 import {UserService} from "../../../services/UserService";
 import CountGood from "../../countGood/CountGood";
 import {GoodsService} from "../../../services/GoodsService";
@@ -145,7 +145,7 @@ const BoxGood = ({card} : {card: IProductCardRes}) => {
 
     useEffect(() => {
         if (activeColor) {
-            const sizesColor = card.typeQuantity?.filter(type => type.color?.name === activeColor).map((size => size.size))
+            const sizesColor = card.typeQuantity?.filter(type => type && type.color?.name === activeColor).map((size => size.size))
             if (sizesColor) {
                 setCardTypes((prevCardTypes) => {
                     return {
@@ -264,15 +264,14 @@ const BoxGood = ({card} : {card: IProductCardRes}) => {
 
                             <Swiper
                                 direction={'vertical'}
-                                slidesPerView={3}
+                                slidesPerView={'auto'} // 3 2.4
                                 spaceBetween={isWindowWidth}
-                                modules={[Navigation]}
+                                freeMode={true}
+                                modules={[FreeMode]}
                                 className={'good-additional-photos__slider'}
-                                onSlideChange={() => console.log('slide change')}
                                 onSwiper={(swiper) => {
                                     swiperRef.current = swiper;
                                 }}
-                                loop={additionalPhotos.length > 3}
                                 grabCursor={true}
                             >
                                 {/*<SwiperButtonPrev>Slide</SwiperButtonPrev>*/}
@@ -305,9 +304,7 @@ const BoxGood = ({card} : {card: IProductCardRes}) => {
                                 </svg>
                             </button>
                         </>}
-
                     </div>
-
                     <div className={'main-photo'}>
                         <img src={`https://api.td-market.md/${mainPhoto}`} alt={card.information.name}/>
                         <div className={'photo-count'}>
