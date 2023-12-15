@@ -1,4 +1,4 @@
-import React, {useRef, useState} from 'react';
+import React, { useState} from 'react';
 import './notifications-wrapper.scss'
 import NotificationSvg from "../../svg/NotificationSvg";
 import TechnicalSupportSvg from "../../svg/TechnicalSupportSvg";
@@ -6,21 +6,28 @@ import CommunicationSvg from "../../svg/CommunicationSvg";
 import NotificationCard from "../notification-card/NotificationCard";
 import {useAppSelector} from "../../../hooks/redux";
 import {INotification} from "../../../models/INotification";
+import {useWindowWidth} from "../../../hooks/useWindowWidth";
 
 interface IPropsNotificationsWrapper {
     notifications: INotification[],
     setRemoveNotifications: React.Dispatch<React.SetStateAction<string[]>>,
     isSeller?: boolean
+    setIsCover?: () => void
 }
 
-const NotificationsWrapper = ({notifications, setRemoveNotifications, isSeller = false}: IPropsNotificationsWrapper) => {
+const NotificationsWrapper = ({notifications, setRemoveNotifications, isSeller = false, setIsCover = () => {}}: IPropsNotificationsWrapper) => {
     const {unreadCount} = useAppSelector(state => state.shelterReducer)
     const [activeNotification, setActiveNotification] = useState(0)
-    const notificationsWrapperRef = useRef(null)
+    const windowWidth = useWindowWidth()
 
     return (
-        <>
+        <div className={'notifications'}>
             <div className={'notifications__tabs'}>
+                {windowWidth < 600 && <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                      onClick={setIsCover}>
+                    <path d="M9.57 5.93018L3.5 12.0002L9.57 18.0702M20.5 12.0002H3.67" stroke="#8554EA" strokeWidth="2"
+                          strokeMiterlimit="10" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>}
                 <div
                     className={`notifications-item ${activeNotification === 0 && 'active'} ${!isSeller && 'user'}`}
                     onClick={() => setActiveNotification(0)}
@@ -68,7 +75,7 @@ const NotificationsWrapper = ({notifications, setRemoveNotifications, isSeller =
                         setRemoveNotifications={setRemoveNotifications}/>
                 ))}
             </div>
-        </>
+        </div>
     );
 };
 

@@ -133,6 +133,7 @@ const ShelterToolsMobile = ({isPressed}: {isPressed: boolean}) => {
                 notifications={notifications}
                 setRemoveNotifications={setRemoveNotifications}
                 isSeller={true}
+                setIsCover={() => setIsCover(false)}
             />}
         </div>
     );

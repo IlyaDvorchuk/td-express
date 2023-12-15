@@ -7,6 +7,13 @@
   padding: 20px 50px 20px 16px;
   color: $title2Color;
 
+  @media screen and (max-width: 600px) {
+    width: 98%;
+    padding: 12px;
+    background: $backgroundColor;
+    border: none;
+  }
+
   &__remove {
     position: absolute;
     display: flex;
@@ -16,12 +23,20 @@
     right: 13px;
     cursor: pointer;
 
+    @media screen and (max-width: 600px) {
+      display: none;
+    }
+
     & > p {
       margin-right: -14px;
       padding: 9px 85px 9px 10px;
       font-size: $littleMediumSize;
       border: 1px solid #C3C3C3;
       border-radius: 8px;
+
+      @media screen and (max-width: 600px) {
+        font-size: $littleSize
+      }
     }
   }
 
@@ -34,6 +49,10 @@
 
   &__date {
     font-size: $mediumLittleSize;
+
+    @media screen and (max-width: 600px) {
+      font-size: $veryLittleSize
+    }
   }
 }
 

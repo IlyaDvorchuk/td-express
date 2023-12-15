@@ -2,38 +2,56 @@
 @import "../../../styles/mixins";
 
 .notifications {
-  color: $text4Color;
 
-  &__header {
-    top: 23px;
-    left: 28px;
-    position: absolute;
-    display: flex;
-    align-items: center;
-    gap: 13px;
-
-    & > img {
-      @include square(13.5px);
-      cursor: pointer;
-    }
-
-    & > .shelter-link {
-      position: relative;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      font-size: $littleMediumSize;
-
-    }
+  @media screen and (max-width: 600px) {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    background: #F5F5F5;
   }
+  //color: $text4Color;
+  //
+  //&__header {
+  //  top: 23px;
+  //  left: 28px;
+  //  position: absolute;
+  //  display: flex;
+  //  align-items: center;
+  //  gap: 13px;
+  //
+  //  & > img {
+  //    @include square(13.5px);
+  //    cursor: pointer;
+  //  }
+  //
+  //  & > .shelter-link {
+  //    position: relative;
+  //    display: flex;
+  //    align-items: center;
+  //    gap: 8px;
+  //    font-size: $littleMediumSize;
+  //
+  //  }
+  //}
 
   &__tabs {
     display: flex;
 
+    & > svg {
+      margin-top: 10px;
+    }
+
+    @media screen and (max-width: 600px) {
+      padding-top: 15px;
+
+      padding-left: 8px;
+      overflow: scroll;
+      background: $backgroundColor;
+    }
+
     & .notifications-item {
       width: 202px;
       padding-left: 12px;
-      padding-bottom: 6px;
       display: flex;
       align-items: center;
       border-bottom: 1.5px solid $additionalColor;
@@ -42,6 +60,18 @@
       font-size: $littleMediumSize;
       color: $text4Color;
       transition: all .5s linear;
+
+      @media screen and (max-width: 600px) {
+        border: none;
+        width: auto;
+        padding: 0 0 11px;
+      }
+
+      & svg {
+        @media screen and (max-width: 600px) {
+          display: none;
+        }
+      }
 
       & div {
         padding-right: 33px;
@@ -56,6 +86,10 @@
         padding-right: 5px;
         max-width: 133px;
         position: relative;
+
+        @media screen and (max-width: 600px) {
+          max-width: 100%;
+        }
       }
     }
 
@@ -77,6 +111,11 @@
       border-style: solid;
       border-color: #643ABE;
       border-bottom: none;
+
+      @media screen and (max-width: 600px) {
+        border: none;
+        border-bottom: 1px solid $additionalColor;
+      }
 
       & div {
 
@@ -100,4 +139,9 @@
   display: flex;
   flex-direction: column;
   gap: 12px;
+
+  @media screen and (max-width: 600px) {
+    width: 100%;
+    gap: 8px;
+  }
 }
