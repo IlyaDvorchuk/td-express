@@ -7,6 +7,7 @@ import HeaderAdmin from "../components/headers/header-admin/HeaderAdmin";
 import {ADMIN_SCREEN} from "../models/enums";
 import ModerationSeller from "../components/admin-screens/moderation-seller/ModerationSeller";
 import ModerationGood from "../components/admin-screens/moderation-good/ModerationGood";
+import AdminDelivery from "../components/admin-screens/admin-delivery/AdminDelivery";
 
 
 const Admin = () => {
@@ -34,6 +35,7 @@ const Admin = () => {
             <HeaderAdmin setCurrentScreen={setCurrentScreen} currentScreen={currentScreen}/>
             {currentScreen === ADMIN_SCREEN.MODERATION_AD && <ModerationGood/>}
             {currentScreen === ADMIN_SCREEN.MODERATION_SELLERS && <ModerationSeller/>}
+            {currentScreen === ADMIN_SCREEN.PRODUCT_LIST && <AdminDelivery/>}
         </div>
     );
 };

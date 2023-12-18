@@ -36,6 +36,10 @@ const FormOrder = () => {
     }, [card?.deliveryCities])
 
 
+    useEffect(() => {
+
+    }, [card])
+
     const {
         register,
         handleSubmit,
@@ -178,7 +182,8 @@ const FormOrder = () => {
             },
             price: finalPrice - ((city && selectedDelivery === 'doorstep') ? +city.price : 0),
             count: typeGood || 1,
-            city: city?.value || ''
+            city: city?.value || '',
+            isTdMarket: card?.marketDelivery !== 'self-delivery'
         } as IOrder
 
         if (data.delivery === 'doorstep') {

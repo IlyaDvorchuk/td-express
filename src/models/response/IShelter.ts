@@ -78,5 +78,6 @@ export interface IShelterForGood {
     name: string,
     description: string,
     imageShop: string,
-    id: string
+    id: string,
+    marketDelivery: 'td-delivery' | 'self-delivery'
 }

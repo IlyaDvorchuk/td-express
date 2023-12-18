@@ -1,0 +1,23 @@
+@import "/src/styles/constants";
+@import "/src/styles/mixins";
+
+.admin-delivery {
+  display: flex;
+  width: 100%;
+
+  & > div {
+    width: 50%;
+  }
+
+  & > div:first-child {
+    border-right: 1px solid #B6B6B6;
+  }
+
+  & h3 {
+    font-weight: 400;
+    text-align: center;
+    margin-top: 30px;
+    padding-bottom: 19px;
+    border-bottom: 1px solid #B6B6B6;
+  }
+}

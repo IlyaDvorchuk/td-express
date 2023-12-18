@@ -30,6 +30,7 @@ export interface IOrder {
         comment?: string,
         deliveryPrice: number
     }
+    isTdMarket: boolean
 }
 
 export interface IOrderRes extends IOrder {
