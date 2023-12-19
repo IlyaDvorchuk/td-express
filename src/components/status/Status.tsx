@@ -13,7 +13,7 @@ const Status = ({status}: {status: string}) => {
                 'status-color_green': status === OrderEnum.COMPLETED,
             })}/>
             <div className={'status-text'}>
-                {status === OrderEnum.AWAITING_CONFIRMATION && 'ожидает подтверждения.svg'}
+                {status === OrderEnum.AWAITING_CONFIRMATION && 'ожидает подтверждения'}
                 {status === OrderEnum.AWAITING_SHIPMENT && 'заказ подтверждён'}
                 {status === OrderEnum.DELIVERY && 'заказ отправлен'}
                 {status === OrderEnum.COMPLETED && 'заказ завершён'}

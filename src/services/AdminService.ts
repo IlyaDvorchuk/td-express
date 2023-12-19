@@ -2,6 +2,7 @@ import {AxiosResponse} from "axios";
 import $api from "../http";
 import {IShelterRes} from "../models/response/IShelter";
 import {IProductCardRes} from "../models/IProductCard";
+import {IOrderRes} from "../models/IOrder";
 
 export class AdminService {
     static async fetchNotVerifiedShelters(): Promise<AxiosResponse<IShelterRes[]>> {
@@ -38,5 +39,13 @@ export class AdminService {
 
     static async rejectGood(id: string): Promise<AxiosResponse<boolean>> {
         return $api.get<boolean>(`/admin/reject-good/${id}`)
+    }
+
+    static async getMarketOrders(): Promise<AxiosResponse<IOrderRes[]>> {
+        return $api.get<IOrderRes[]>(`/orders/market/`)
+    }
+
+    static async getSellerOrders(): Promise<AxiosResponse<IOrderRes[]>> {
+        return $api.get<IOrderRes[]>(`/orders/market/`)
     }
 }

@@ -17,7 +17,9 @@ const BoxCart = () => {
     const fetchCart = async () => {
         if (!getAccessTokenUser()) return
         const response = await UserService.getCart()
-        setGoodCart(response.data.reverse())
+        if (response?.data) {
+            setGoodCart(response.data.reverse())
+        }
     }
 
     useEffect(() => {

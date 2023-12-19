@@ -103,6 +103,7 @@ const FormCreateGood = ({card} : {card: IProductCardRes | null}) => {
             if (submitButton === 'saveButton') {
                 navigation('/seller/goods');
             } else if (submitButton === 'addGoodButton') {
+                window.scrollTo({top: 0, behavior: 'smooth'})
                 window.location.reload();
             }
             dispatch(shelterSlice.actions.setCreateGoodCard(false))

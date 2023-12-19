@@ -27,7 +27,8 @@ export interface IShelterRes {
     shop: IShelterShop,
     deliveryPoints: IDeliveryPoint2[],
     isVerified: boolean,
-    createdAt: Date
+    createdAt: Date,
+    isDeliveryMarket: boolean
 }
 
 export interface IShelterALL {

@@ -4,7 +4,7 @@ import Container from "../components/container/Container";
 
 const OrdersList = () => {
     return (
-        <div>
+        <div style={{minHeight: '75vh'}}>
             <Container>
                 <BoxOrderList/>
             </Container>
