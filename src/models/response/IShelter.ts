@@ -28,7 +28,7 @@ export interface IShelterRes {
     deliveryPoints: IDeliveryPoint2[],
     isVerified: boolean,
     createdAt: Date,
-    isDeliveryMarket: boolean
+    rate: 'td-delivery' | 'self-delivery'
 }
 
 export interface IShelterALL {

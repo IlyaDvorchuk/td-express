@@ -1,6 +1,7 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {IUser} from "../../../models/response/IUser";
 import {getAccessTokenUser, removeAccessTokenUser} from "../../../utils/tokens";
+import {PopupEnum} from "../../../models/enums";
 
 const initialState = {
     user: {} as IUser,
@@ -12,6 +13,7 @@ const initialState = {
     error: '',
     isHoverTools: false,
     accessToken: getAccessTokenUser(),
+    popup: PopupEnum.DEFAULT as PopupEnum
 }
 
 export const userSlice = createSlice({
@@ -68,6 +70,9 @@ export const userSlice = createSlice({
         },
         setReadNotificationsUser: (state) => {
             state.unreadCount = 0
+        },
+        setPopup: (state, action: PayloadAction<PopupEnum>) => {
+            state.popup = action.payload
         },
     }
 })

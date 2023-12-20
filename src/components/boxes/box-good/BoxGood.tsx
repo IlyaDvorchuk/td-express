@@ -17,6 +17,8 @@ import {ShelterService} from "../../../services/ShelterService";
 import {IDeliveryCity} from "../../../models/IDeliveryCity";
 import {calculateCardTypes} from "../../../utils/calculateCardTypes";
 import {useWindowWidth} from "../../../hooks/useWindowWidth";
+import {userSlice} from "../../../store/reducers/user/UserSlice";
+import {PopupEnum} from "../../../models/enums";
 
 const BoxGood = ({card} : {card: IProductCardRes}) => {
     const dispatch = useAppDispatch()
@@ -28,6 +30,8 @@ const BoxGood = ({card} : {card: IProductCardRes}) => {
         return newPhotos;
     }, [card.additionalPhotos, card.mainPhoto]);
     const {city} = useAppSelector(state => state.locationReducer)
+    const {user} = useAppSelector(state => state.userReducer)
+    const {setPopup} = userSlice.actions
     const {changeActive} = locationSlice.actions
     const [mainPhoto, setMainPhoto] = useState(card.mainPhoto);
     const [shelter, setShelter] = useState<IShelterForGood | null>(null)
@@ -202,13 +206,25 @@ const BoxGood = ({card} : {card: IProductCardRes}) => {
 
     const addToCart = async () => {
         if (count > quantity) return
-        await UserService.addToCart({
-            productId: card._id,
-            quantity: count,
-            size: activeSize,
-            color: activeColor,
-            typeId: typeId || ''
-        })
+        if (user) {
+            dispatch(setPopup( PopupEnum.ADD_CART_NOT_USER))
+        }
+        try {
+            const response = await UserService.addToCart({
+                productId: card._id,
+                quantity: count,
+                size: activeSize,
+                color: activeColor,
+                typeId: typeId || ''
+            })
+            if (response.status === 201) {
+
+                dispatch(setPopup(PopupEnum.ADD_CART))
+            }
+        } catch (e) {
+            console.log('e', e)
+        }
+
     }
 
     const onActiveGeolocation = () => {

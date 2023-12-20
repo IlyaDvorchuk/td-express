@@ -12,7 +12,7 @@ interface IProps {
     cart: ICartRes,
     isChecked: boolean
     onCheckboxChange:  (cart: ICartRes, isChecked: boolean) => void,
-    deleteCart: (id: string) => void,
+    deleteCart: (id: string, productId: string) => void,
     setChangeCount:  React.Dispatch<React.SetStateAction<number>>,
 }
 
@@ -104,13 +104,13 @@ const CartCard = ({cart, isChecked, onCheckboxChange, deleteCart, setChangeCount
                     <CountGood count={count} onSetCount={onSetCount}/>
                     {windowWidth > 530 ? <>
                         <p className={'cart-card__favorite'} onClick={onAddFavorites}>В избранное</p>
-                        <p onClick={() => deleteCart(cart.typeId + cart.productId)}>Удалить</p>
+                        <p onClick={() => deleteCart(cart.typeId, cart.productId)}>Удалить</p>
                     </> :
                         <>
                             <p onClick={onAddFavorites} className={'cart-card__favorite cart-card__mobile-button'}>
                                 <img src="/images/svg/cart/cart-favorite.svg" alt="В избранное"/>
                             </p>
-                            <p onClick={() => deleteCart(cart.typeId + cart.productId)} className={'cart-card__mobile-button'}>
+                            <p onClick={() => deleteCart(cart.typeId, cart.productId)} className={'cart-card__mobile-button'}>
                                 <img src='/images/svg/cart/cart-remove.svg' alt={'Удалить'}/>
                             </p>
                         </>
@@ -121,7 +121,7 @@ const CartCard = ({cart, isChecked, onCheckboxChange, deleteCart, setChangeCount
                 <p className={'price'}>
                     {cart.price.price} RUP
                 </p>
-                {cart.price.priceBeforeDiscount > 0 && <p>
+                {cart.price.priceBeforeDiscount > 0 && <p className={'price-discount'}>
                     {cart.price.priceBeforeDiscount + ' RUP'}
                 </p>}
             </div>

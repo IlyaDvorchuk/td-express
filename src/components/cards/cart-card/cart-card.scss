@@ -64,7 +64,7 @@
       justify-content: flex-start;
     }
   }
-  
+
   & &__name {
     color: $title2Color;
     font-size: $bigMediumSize;
@@ -139,6 +139,13 @@
     & > .price {
       font-size: $subTitleSize;
       color: $title2Color;
+    }
+
+    & > .price-discount {
+      font-size: $littleSize;
+      color: $text4Color;
+      font-weight: 800;
+      text-decoration: line-through;
     }
   }
 

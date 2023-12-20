@@ -43,6 +43,7 @@ import OrdersList from "./pages/OrdersList";
 import OrderUser from "./pages/OrderUser";
 import Seller from "./pages/Seller";
 import Subscription from "./pages/Subscription";
+import Popup from "./components/popup/Popup";
 
 
 function App() {
@@ -283,6 +284,7 @@ function App() {
                     />
                 </Routes>
             </BrowserRouter>
+            <Popup/>
         </div>
     );
 }

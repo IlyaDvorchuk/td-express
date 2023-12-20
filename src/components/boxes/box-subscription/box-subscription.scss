@@ -20,6 +20,10 @@
     padding: 18px 30px 30px 44px;
     border-radius: 32px;
     border: 1px solid $titleColor;
+
+    &.selected {
+      border: 1px solid $additionalColor;
+    }
   }
 
   & &__subtitle {
@@ -41,8 +45,8 @@
     max-width: 793px;
     padding: 48px 44px 63px;
     position: fixed;
-    left: calc(50vw - 35%);
-    top: calc(50vh - 35%);
+    left: calc(50vw - 22%);
+    top: calc(50vh - 22%);
     background: $backgroundColor;
     border-radius: 32px;
     font-family: Open Sans, sans-serif;

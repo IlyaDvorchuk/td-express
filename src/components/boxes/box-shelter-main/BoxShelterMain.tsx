@@ -62,7 +62,7 @@ const BoxShelterMain = () => {
                                         </p>
                                     </div>
                                 </div>
-                                <p className={'rate__inf'}>Ваш тарифный план: {shelter?.isDeliveryMarket ? 'FBS (Fulfillment by Seller)' : 'DBS (Delivery by Seller)'}</p>
+                                <p className={'rate__inf'}>Ваш тарифный план: {shelter?.rate === 'td-delivery' ? 'FBS (Fulfillment by Seller)' : 'DBS (Delivery by Seller)'}</p>
                                 <p className={'rate__inf'}>&nbsp;</p>
                                 <Link to={'/seller/subscription'} className={`button ${windowWidth > 500 ? 'button_dark' : 'button_light'} rate__button`}>Изменить тарифный план </Link>
                             </div>

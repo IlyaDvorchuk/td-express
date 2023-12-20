@@ -4,6 +4,10 @@ import '../../../styles/elements/buttons.scss'
 import {IProductCard} from "../../../models/IProductCard";
 import {Link} from "react-router-dom";
 import {UserService} from "../../../services/UserService";
+import {useAppDispatch, useAppSelector} from "../../../hooks/redux";
+import {userSlice} from "../../../store/reducers/user/UserSlice";
+import {PopupEnum} from "../../../models/enums";
+import {isObjectEmpty} from "../../../utils/isObjectEmpty";
 
 interface IProductCardProps {
     card: IProductCard,
@@ -11,6 +15,9 @@ interface IProductCardProps {
 }
 
 const ProductCard = ({card, isFavoriteCard = false}: IProductCardProps) => {
+    const dispatch = useAppDispatch()
+    const {setPopup} = userSlice.actions
+    const {user, } = useAppSelector(state => state.userReducer)
     const [isFavorite, setIsFavorite] = useState(isFavoriteCard)
 
     const onClickCard = () => {
@@ -19,12 +26,21 @@ const ProductCard = ({card, isFavoriteCard = false}: IProductCardProps) => {
 
     const onAddFavorites = async (event: React.MouseEvent<HTMLDivElement>) => {
         event.stopPropagation();
+        console.log('user', user)
+        if (isObjectEmpty(user)) {
+            console.log('brus')
+            dispatch(setPopup(PopupEnum.ADD_FAVORITE_NOT_USER))
+        }
         const response = await UserService.addToFavorites(card._id)
-        if (response) setIsFavorite(true)
+        if (response?.status === 201) {
+            console.log('response', response)
+            setIsFavorite(true)
+            dispatch(setPopup(PopupEnum.ADD_FAVORITE))
+        }
     }
 
     return (
-        <Link to={`/card/${card._id}`} state={{ ...card }} onClick={onClickCard} className={'card'}>
+        <div className={'card'}>
             <div className={'card__favorites'} onClick={onAddFavorites}>
                 {!isFavorite ?
                     <img
@@ -39,22 +55,25 @@ const ProductCard = ({card, isFavoriteCard = false}: IProductCardProps) => {
                 }
 
             </div>
-            <div className={'card-image'}>
-                <img src={`https://api.td-market.md/${card.mainPhoto}`} alt={card.information.name}/>
-            </div>
-            <div className={'card__price'}>
+            <Link to={`/card/${card._id}`} state={{ ...card }} onClick={onClickCard}>
+
+                <div className={'card-image'}>
+                    <img src={`https://api.td-market.md/${card.mainPhoto}`} alt={card.information.name}/>
+                </div>
+                <div className={'card__price'}>
                 <span className={'price'}>
                     {card.pricesAndQuantity.price} RUP
                 </span>
-                {
-                    card.pricesAndQuantity.priceBeforeDiscount > 0 &&
-                    <span className={'discount'}>{card.pricesAndQuantity.priceBeforeDiscount} RUP</span>
-                }
-            </div>
-            <h4 className={'card-name'} title={card.information.name}>
-                {card.information.name}
-            </h4>
-        </Link>
+                    {
+                        card.pricesAndQuantity.priceBeforeDiscount > 0 &&
+                        <span className={'discount'}>{card.pricesAndQuantity.priceBeforeDiscount} RUP</span>
+                    }
+                </div>
+                <h4 className={'card-name'} title={card.information.name}>
+                    {card.information.name}
+                </h4>
+            </Link>
+        </div>
     );
 };
 
