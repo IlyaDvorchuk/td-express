@@ -15,6 +15,7 @@ import {shelterSlice} from "../../../store/reducers/shelter/ShelterSlice";
 const FormRegistrationShop = ({shelter}: {shelter: IShelterRes | null}) => {
     const dispatch = useAppDispatch()
     const navigate = useNavigate();
+    const {setIsRegistry} = shelterSlice.actions
     const {isRegistered, isUpdateShopShelter} = useAppSelector(state => state.shelterReducer)
     const {
         register,
@@ -31,6 +32,10 @@ const FormRegistrationShop = ({shelter}: {shelter: IShelterRes | null}) => {
             notes: ''
         }
     ]);
+
+    useEffect(() => {
+        dispatch(setIsRegistry(false));
+    }, [])
 
     useEffect(() => {
         if (shelter) {
@@ -90,14 +95,14 @@ const FormRegistrationShop = ({shelter}: {shelter: IShelterRes | null}) => {
         //     });
         // };
         if (shelter && shelterData && imageShop) {
-
+            const updateDeliveryPoints = deliveryPoints.filter(point => point?.city)
             dispatch(
                 registrationShelter(
                     {
                         ...JSON.parse(shelter),
                         shelterData: JSON.parse(shelterData),
                         shop: data,
-                        deliveryPoints
+                        deliveryPoints: updateDeliveryPoints
                     },
                     imageShop
                 )
@@ -136,12 +141,11 @@ const FormRegistrationShop = ({shelter}: {shelter: IShelterRes | null}) => {
             {!shelter && <p className={'form-shop__inf'}>
                 Для успешной работы на td-market заполните, пожалуйста, данные вашего магазина и нажмите кнопку
                 “Сохранить”.
-                Вы сможете сделать это позже в Личном кабинете, однако мы не рекомендуем пропускать этот шаг.
             </p>}
             <form className={'form-shop__block'} onSubmit={handleSubmit(onSubmit)}>
                 <legend className={'legend'}>Основные данные</legend>
                 <div className={'input-box'}>
-                    <label className={'label required'} htmlFor="name-shop">Название</label>
+                    <label className={'label required'} htmlFor="name-shop">Название<span className={'red-span'}>*</span></label>
                     <input
                         type="text"
                         id={'name-shop'}
@@ -161,7 +165,7 @@ const FormRegistrationShop = ({shelter}: {shelter: IShelterRes | null}) => {
                 </div>
             </form>
             <fieldset className={'form-shop__block'}>
-                <legend className={'legend required'}>Добавление фото</legend>
+                <legend className={'legend required'}>Добавление фото<span className={'red-span'}>*</span></legend>
                 <p className={'form-shop__p'}>Загрузите фото, которое будет отображаться на странице вашего магазина.</p>
                 <InputFile
                     image={imageShop}

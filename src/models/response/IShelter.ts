@@ -63,7 +63,7 @@ export interface IClosePerson {
 }
 
 export interface IEntity {
-    isIndividual: boolean,
+    isIndividual: 'individual' | 'IE' | 'company',
     code: string,
     // photo: File,
     bic: string,

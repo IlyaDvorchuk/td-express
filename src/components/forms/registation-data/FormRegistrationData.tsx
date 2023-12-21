@@ -33,7 +33,7 @@ const FormRegistrationData = ({shelterData, id}: IProps) => {
         birthday: '',
     })
     const [entityData, setEntityData] = useState({
-        isIndividual: false,
+        isIndividual: 'individual',
         code: '',
         // photo: null,
         bic: '',
@@ -65,21 +65,20 @@ const FormRegistrationData = ({shelterData, id}: IProps) => {
     },[shelterData])
 
     useEffect(() => {
+        console.log('isRegistry', isRegistry)
+    }, [isRegistry])
+
+    useEffect(() => {
         const updateShelterData = async () => {
             if (isRegistry) {
                 console.log('isRegisrty')
                 let isCompletedFields = true;
 
-                for (let field of Object.values(personalData)) {
-                    if (!field) {
-                        isCompletedFields = false;
-                    }
+                if (!personalData.name || !personalData.family) {
+                    isCompletedFields = false;
                 }
-
-                for (let field of Object.values(entityData)) {
-                    if (!(typeof field === 'boolean') && !field) {
-                        isCompletedFields = false;
-                    }
+                if (!entityData.check) {
+                    isCompletedFields = false;
                 }
 
                 // if (!image) {
@@ -100,6 +99,7 @@ const FormRegistrationData = ({shelterData, id}: IProps) => {
                         });
                         dispatch(setIsRegistry(false))
                         if (response.data) {
+                            console.log('response.data', response.data)
                             dispatch(shelterSlice.actions.setShelter(response.data))
                             navigate('/seller/main')
                         }
@@ -129,7 +129,7 @@ const FormRegistrationData = ({shelterData, id}: IProps) => {
                         console.error('Не удалось прочитать файл');
                     }
                 };
-                setIsRegistry(false);
+                dispatch(setIsRegistry(false));
                 navigate('/shop-data');
             }
         };
@@ -186,23 +186,22 @@ const FormRegistrationData = ({shelterData, id}: IProps) => {
 
     return (
         <div className={'form-data'}>
-            {!isCompletedInputs ?
                 <p className={'form-data__description'}>
                     Для получения доступа к личному кабинету td-market, заполните, пожалуйста, ваши личные и юридические
                     данные и нажмите кнопку “Сохранить”.
-                </p> :
-                <div className={'mark error'}>
-                    <img src="/images/svg/mark-error.svg" alt="Пометка"/>
-                    <span className={'label'}>
+                </p>
+
+            <div className={`mark ${!isCompletedInputs ? 'error' : 'error'}`}>
+                <img src="/images/svg/mark-error.svg" alt="Пометка"/>
+                <span className={'label'}>
                             Обратите внимание, что поля помеченные звёздочкой "*" обязательны для заполнения.
                         </span>
-                </div>
-            }
+            </div>
             <fieldset>
                 <legend className={'legend'}>Личные данные</legend>
                 <div className={'form-data__inputs'}>
                     <div className={'reg-field'}>
-                        <label htmlFor="Name" className={'label'}>Имя*</label>
+                        <label htmlFor="Name" className={'label'}>Имя<span className={'red-span'}>*</span></label>
                         <input id={'Name'} className={`modalInput modalInput_light`}
                                type="text"
                                placeholder={'Введите Ваше имя'}
@@ -211,7 +210,7 @@ const FormRegistrationData = ({shelterData, id}: IProps) => {
                         />
                     </div>
                     <div className={'reg-field'}>
-                        <label htmlFor="Family" className={'label'}>Фамилия</label>
+                        <label htmlFor="Family" className={'label'}>Фамилия<span className={'red-span'}>*</span></label>
                         <input id={'Family'} className={`modalInput modalInput_light`}
                                type="text"
                                placeholder={'Введите Вашу фамилию'}
@@ -291,40 +290,61 @@ const FormRegistrationData = ({shelterData, id}: IProps) => {
             <fieldset>
                 <div className={'form-data__nearly'}>
                     <legend className={'legend'}>Данные юридического лица</legend>
+
                     <div className={'mark'}>
                         <input
-                            className={'checkbox'}
-                            id={'checkbox'}
-                            type="checkbox"
-                            onChange={() => setEntityData({...entityData, isIndividual: !entityData.isIndividual})}
+                            type="radio"
+                            id="radio-individual"
+                            name="legalType"
+                            value="individual"
+                            className="radio-input"
+                            onChange={() => setEntityData({...entityData, isIndividual: 'individual'})}
+                            defaultChecked={true}
                         />
-                        <label className={'label'} htmlFor="checkbox">Я - самозанятый (физ.лицо, ИП)</label>
+                        <label className={'label'} htmlFor="radio-individual">Я - физ.лицо</label>
+                    </div>
+                    <div className={'mark'}>
+                        <input
+                            type="radio"
+                            id="radio-IE"
+                            name="legalType"
+                            value="IE"
+                            className="radio-input"
+                            onChange={() => setEntityData({...entityData, isIndividual: 'IE'})}
+                        />
+                        <label className={'label'} htmlFor="radio-IE">Я - ИП</label>
+                    </div>
+                    <div className={'mark'}>
+                        <input
+                            type="radio"
+                            id="radio-company"
+                            name="legalType"
+                            value="company"
+                            className="radio-input"
+                            onChange={() => setEntityData({...entityData, isIndividual: 'company'})}
+                        />
+                        <label className={'label'} htmlFor="radio-company">Я - юр.лицо</label>
                     </div>
                 </div>
 
                 <div className={'form-data__inputs'}>
                     <div className={'form-data__block'}>
-                        <div className={'reg-field'}>
+                        {entityData.isIndividual !== 'individual' && <div className={'reg-field'}>
                             <label htmlFor="Naming" className={'label'}>
                                 {entityData.isIndividual ? 'Регистрационный номер' : 'Фискальный код'}
                             </label>
                             <input id={'Naming'} className={`modalInput modalInput_light`}
                                    type="text"
-                                   placeholder={`Введите ${entityData.isIndividual ? 'регистрационный номер' : 'фискальный код'}`}
+                                   placeholder={`Введите ${entityData.isIndividual === 'IE' ? 'регистрационный номер' : 'фискальный код'}`}
                                    value={entityData.code}
                                    onChange={onSetCode}
                             />
-                            <div className={'mark mark_absolute'}>
-                                <img src="/images/svg/mark.svg" alt="Пометка"/>
-                                <span className={'label'}>
-                                Для проверки необходимо прикрепить скан (фото) ИНН
-                            </span>
-                            </div>
-                        </div>
+
+                        </div>}
                         {/*<InputFile image={image} setImage={setImage} position={'right'}/>*/}
                     </div>
 
-                    <div className={'reg-field'}>
+                    {entityData.isIndividual !== 'individual' && <div className={'reg-field'}>
                         <label htmlFor="Bank" className={'label'}>БИК банка</label>
                         <input id={'Bank'} className={`modalInput modalInput_light`}
                                type="text"
@@ -338,15 +358,21 @@ const FormRegistrationData = ({shelterData, id}: IProps) => {
                                 БИК – уникальный номер, который выступает в роли идентификационного кода банковского учреждения
                             </span>
                         </div>
-                    </div>
+                    </div>}
                     <div className={'reg-field'}>
-                        <label htmlFor="Check" className={'label'}>Номер расчётного счёта</label>
+                        <label htmlFor="Check" className={'label'}>{entityData.isIndividual === 'individual' ? 'Номер банковской карты' : 'Номер расчётного счёта'}<span className={'red-span'}>*</span></label>
                         <input id={'Check'} className={`modalInput modalInput_light reg-field__check`}
                                type="text"
-                               placeholder={'Введите номер вашего расчетного счета'}
+                               placeholder={entityData.isIndividual === 'individual' ? 'Введите номер банковской карты' : 'Введите номер вашего расчетного счета'}
                                value={entityData.check}
                                onChange={onSetCheck}
                         />
+                        {entityData.isIndividual === 'individual' && <div className={'mark mark_absolute'}>
+                            <img src="/images/svg/mark.svg" alt="Пометка"/>
+                            <span className={'label'}>
+                                Номер банковской карты необходим для перевода денег продавцу после покупки товара.
+                            </span>
+                        </div>}
                     </div>
                 </div>
             </fieldset>
