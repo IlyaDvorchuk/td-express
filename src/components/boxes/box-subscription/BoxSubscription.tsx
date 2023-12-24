@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState} from 'react';
 import './box-subscription.scss'
 import Cover from "../../cover/Cover";
 import {ShelterService} from "../../../services/ShelterService";
@@ -25,7 +25,7 @@ const BoxSubscription = () => {
                 Выбор тарифов для продавца
             </h2>
             <div className={'subscription__wrapper'}>
-                <div className={'subscription__card'}>
+                <div className={`subscription__card ${shelter.rate === 'self-delivery' ? 'selected' : ''}`}>
                     <h3 className={'subscription__subtitle'}>
                         DBS (Delivery by Seller)
                     </h3>
@@ -33,11 +33,11 @@ const BoxSubscription = () => {
                         Вы отвечаете за доставку товара покупателю: своими силами или по средством курьерской службы. Маркеплейс взымает с вас комиссию в размере 9% от стоимости реализованного товара.
                     </p>
 
-                    <button className={'button button_dark subscription__button'} onClick={() => onClickRate('td-delivery')}>
+                    <button className={`button  ${shelter.rate === 'self-delivery' ? 'button_light' : 'button_dark'} subscription__button`} onClick={() => onClickRate('td-delivery')}>
                         ВЫБРАТЬ Тариф
                     </button>
                 </div>
-                <div className={'subscription__card'}>
+                <div className={`subscription__card ${shelter.rate === 'td-delivery' ? 'selected' : ''}`}>
                     <h3 className={'subscription__subtitle'}>
                         FBS (Fulfillment by Seller)
                     </h3>
@@ -47,8 +47,8 @@ const BoxSubscription = () => {
                     <p className={'subscription__information'}>
                         Первый месяц бесплатный
                     </p>
-                    <button className={'button button_dark subscription__button'} onClick={() => onClickRate('self-delivery')}>
-                        ВЫБРАТЬ Тариф
+                    <button className={`button ${shelter.rate === 'td-delivery' ? 'button_light' : 'button_dark'} subscription__button`} onClick={() => onClickRate('self-delivery')}>
+                        {shelter.rate === 'td-delivery' ? 'Выбран' : 'ВЫБРАТЬ'} Тариф
                     </button>
                 </div>
             </div>

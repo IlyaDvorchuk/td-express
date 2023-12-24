@@ -40,16 +40,20 @@ const FormShelterDelivery = () => {
     useEffect(() => {
 
         const fetchDelivery = async () => {
-            if (shelter?._id) {
-                const response = await ShelterService.getDelivery(shelter._id)
+            try {
+                if (shelter?._id) {
+                    const response = await ShelterService.getDelivery(shelter._id)
 
-                if (response.data) {
-                    remove(0)
-                    response.data.forEach((field => append({
-                        city: field.city,
-                        price: field.price,
-                    })))
+                    if (response.data) {
+                        remove(0)
+                        response.data.forEach((field => append({
+                            city: field.city,
+                            price: field.price,
+                        })))
+                    }
                 }
+            } catch (e) {
+                console.log('e', e)
             }
         }
 

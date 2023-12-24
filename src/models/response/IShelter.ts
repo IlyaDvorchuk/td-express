@@ -28,7 +28,7 @@ export interface IShelterRes {
     deliveryPoints: IDeliveryPoint2[],
     isVerified: boolean,
     createdAt: Date,
-    isDeliveryMarket: boolean
+    rate: 'td-delivery' | 'self-delivery'
 }
 
 export interface IShelterALL {
@@ -63,7 +63,7 @@ export interface IClosePerson {
 }
 
 export interface IEntity {
-    isIndividual: boolean,
+    isIndividual: 'individual' | 'IE' | 'company',
     code: string,
     // photo: File,
     bic: string,

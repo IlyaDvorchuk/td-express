@@ -1,0 +1,27 @@
+@import "/src/styles/constants";
+@import "/src/styles/mixins";
+
+.popup {
+  background: $backgroundColor;
+  width: 305px;
+  padding: 20px 17px 23px;
+  border-radius: 20px;
+  position: fixed;
+  right: -50%;
+  bottom: 20px;
+  font-size: $mediumMediumSize;
+  color: $text2Color;
+  box-shadow: 2px 4px 12px 0 rgba(0, 0, 0, 0.25);
+  transition: all .5s cubic-bezier(.47,-0.4,.69,1.31);
+  line-height: 100%;
+
+  &.active {
+    right: 20px;
+  }
+
+  & &__link {
+    color: $additionalColor;
+    text-decoration: underline;
+    cursor: pointer;
+  }
+}

@@ -2,7 +2,7 @@ import {AxiosResponse} from "axios";
 import {$apiShelter} from "../http";
 import {IDeliveryPoint, IDeliveryPoint2} from "../models/IDeliveryPoint";
 import {ICreateProductCardRes, IProductCard, IProductCardRes} from "../models/IProductCard";
-import {IShelterALL, IShelterData, IShelterRes, IShelterShop} from "../models/response/IShelter";
+import {IPersonalData, IShelterALL, IShelterData, IShelterRes, IShelterShop} from "../models/response/IShelter";
 import {INotification} from "../models/INotification";
 import {IDeliveryCity} from "../models/IDeliveryCity";
 import {IOrderRes} from "../models/IOrder";
@@ -65,7 +65,11 @@ export class ShelterService {
         return $apiShelter.delete(`product-cards/${id}`)
     }
 
-    static updateDataShelter(id: string, shelterData: IShelterData): Promise<AxiosResponse<IShelterRes>> {
+    static updateDataShelter(id: string, shelterData: {
+        closePerson: { phoneClose: string; patronymic: string; name: string; family: string };
+        personalData: IPersonalData;
+        entity: { code: string; isIndividual: string; check: string; bic: string }
+    }): Promise<AxiosResponse<IShelterRes>> {
         return $apiShelter.put(`shelters/update-data/${id}`, shelterData)
     }
 

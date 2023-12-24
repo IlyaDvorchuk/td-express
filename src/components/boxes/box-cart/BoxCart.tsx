@@ -60,6 +60,7 @@ const BoxCart = () => {
     const deleteCarts = async () => {
         if (!dedicatedCart.length) return
         try {
+            console.log('dedicatedCart', dedicatedCart.map(cart => cart.typeId))
             const response = await UserService.deleteCarts(dedicatedCart.map(cart => cart.typeId))
             if (response.data) {
                 setGoodCart(carts => carts.filter(cartItem => !dedicatedCart.some(dedicatedItem => dedicatedItem.typeId === cartItem.typeId)));
@@ -70,17 +71,20 @@ const BoxCart = () => {
         }
     }
 
-    const deleteCart = async (id: string) => {
+    const deleteCart = async (id: string, productId: string) => {
         try {
+            console.log('[id]', [id])
             const response = await UserService.deleteCarts([id])
             if (response.data) {
-                setGoodCart(carts => carts.filter(cartItem => id !== (cartItem.typeId + cartItem.productId)));
-                setDedicatedCart(carts => carts.filter(cartItem => id !== (cartItem.typeId + cartItem.productId)))
+                setGoodCart(carts => carts.filter(cartItem => (id + productId) !== (cartItem.typeId + cartItem.productId)));
+                setDedicatedCart(carts => carts.filter(cartItem => (id + productId) !== (cartItem.typeId + cartItem.productId)))
             }
         } catch (e) {
             console.log('Не получилось удалить')
         }
     }
+
+
 
 
     return (

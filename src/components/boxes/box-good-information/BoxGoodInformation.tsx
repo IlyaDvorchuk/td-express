@@ -33,12 +33,6 @@ const BoxGoodInformation = ({card} : {card: IProductCard}) => {
                 >
                     Отзывы
                 </h4>
-                <h4
-                    className={`good-tabs__item not-mobile ${activeTab === 3 && 'active'}`}
-                    onClick={() => handleTabClick(3)}
-                >
-                    Описание
-                </h4>
             </div>
             {activeTab === 0 &&
                 <div className={'good-additional__information'}>

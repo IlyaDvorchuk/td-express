@@ -21,3 +21,11 @@ export enum OrderEnum {
     DELIVERY = 'в процессе доставки',
     COMPLETED = 'заказ завершен',
 }
+
+export enum PopupEnum {
+    DEFAULT = '',
+    ADD_CART = 'add_cart',
+    ADD_CART_NOT_USER = 'add_cart_not_user',
+    ADD_FAVORITE = 'add_favorite',
+    ADD_FAVORITE_NOT_USER = 'add_favorite_not_user',
+}
