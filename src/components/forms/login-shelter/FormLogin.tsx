@@ -84,7 +84,6 @@ const FormLogin = () => {
                     password={password}
                     onSetPassword={onSetPassword}
                     placeholder={'Введите пароль'}
-                    error={errorValidation}
                 />
                 <p className={'label label-pas'} onClick={createNewPassword}>Забыли пароль?</p>
 
