@@ -1,4 +1,4 @@
-import React, {ChangeEvent, Dispatch, SetStateAction, useState} from 'react';
+import React, {ChangeEvent, Dispatch, SetStateAction, useEffect, useState} from 'react';
 import './code-modal-login.scss'
 import {useAppDispatch, useAppSelector} from "../../../../hooks/redux";
 import {sendCode} from "../../../../store/reducers/user/UserCreators";
@@ -33,23 +33,37 @@ const CodeModalLogin = ({setCurrentModal, isShelter, forgotPassword}: ICodeModal
 
     const onCompareCode = (e: any) => {
         e.preventDefault()
-        if (!forgotPassword && !isShelter) {
-            setCurrentModal(3)
-            return
-        }
-        if (!isShelter) {
+        if (!isShelter && forgotPassword) {
             const stringCode = activationCode.toString()
             if (stringCode === code) {
+                setCurrentModal(3)
+                return
+            } else setIsError(true)
+        }
+        if (!isShelter && !forgotPassword) {
+            const stringCode = activationCode.toString()
+            if (stringCode === code) {
+
                 setCurrentModal(2)
             } else setIsError(true)
-        } else  {
+        }
+
+        if (isShelter && !forgotPassword) {
             const stringCode = activationCodeShelter.toString()
             if (stringCode === code) {
-                console.log('CodeModalLogin personal-data 48')
                 navigate('/personal-data')
                 setIsRegistered(true)
 
             } else setIsError(true)
+            return;
+        }
+
+        if (isShelter && forgotPassword) {
+            const stringCode = activationCodeShelter.toString()
+            if (stringCode === code) {
+                setCurrentModal(3)
+            } else setIsError(true)
+            return
         }
     }
 
@@ -58,15 +72,19 @@ const CodeModalLogin = ({setCurrentModal, isShelter, forgotPassword}: ICodeModal
         !isShelter ? dispatch(sendCode(email)) : dispatch(sendCodeShelter(emailShelter))
     }
 
+    useEffect(() => {
+        console.log('forgotPassword')
+    }, [])
+
     return (
         <div className={'modalCode'}>
             {!forgotPassword ?
                 <p className={'modalCode__text'}>
-                    Мы отправили письмо с кодом на почту <strong>{emailShelter}</strong>. Введите код для завершения регистрации.
+                    Мы отправили письмо с кодом на почту <strong>{isShelter ? emailShelter: email}</strong>. Введите код для завершения регистрации.
                 </p>
                 :
                 <p className={'modalCode__text'}>
-                    Мы отправили письмо с кодом на почту <strong>{emailShelter}</strong>. Введите код для создания нового пароля.
+                    Мы отправили письмо с кодом на почту <strong>{isShelter ? emailShelter: email}</strong>. Введите код для создания нового пароля.
                 </p>
             }
 

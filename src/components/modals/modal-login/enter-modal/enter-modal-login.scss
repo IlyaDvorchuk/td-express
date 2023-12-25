@@ -16,4 +16,8 @@
   &__img {
     top: 8px !important;
   }
+
+  & &__label {
+    cursor: pointer;
+  }
 }

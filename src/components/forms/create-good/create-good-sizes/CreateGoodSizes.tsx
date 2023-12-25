@@ -11,9 +11,10 @@ interface IProps {
     cardQuantity: IType[] | null,
     seasons: string[],
     setSeasons: (selectedOptions: string[]) => void;
+    sizesError: boolean
 }
 
-const CreateGoodSizes = ({ options, selectedOptions, setSelectedOptions, cardQuantity, seasons, setSeasons }: IProps) => {
+const CreateGoodSizes = ({ options, selectedOptions, setSelectedOptions, cardQuantity, seasons, setSeasons, sizesError }: IProps) => {
 
     const handleCheckboxChange = (event: ChangeEvent<HTMLInputElement>) => {
         const value = event.target.value;
@@ -59,8 +60,8 @@ const CreateGoodSizes = ({ options, selectedOptions, setSelectedOptions, cardQua
                     </div>
                 ))}
             </div>
-            <h3 className={'subtitle'}>
-                Размер
+            <h3 className={`subtitle ${sizesError ? 'error' : ''}`}>
+                Размер*
             </h3>
             <div className={'checkboxes-size'}>
                 {options.map((option, index) => (

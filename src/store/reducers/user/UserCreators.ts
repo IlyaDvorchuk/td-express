@@ -112,6 +112,16 @@ export const getUser = () => async (dispatch: AppDispatch) => {
     }
 }
 
+export const createNewPasswordUser = (email: string ,password: string) => async (dispatch: AppDispatch) => {
+    try {
+        dispatch(userSlice.actions.loginFetching())
+        await AuthService.createNewPassword(email, password)
+        dispatch(userSlice.actions.loginSuccess())
+    } catch (e: any) {
+        console.log('e', e)
+        dispatch(userSlice.actions.loginFetchingError(e.message))
+    }
+}
 
 export const createOrder = (order: IOrder) => async (dispatch: AppDispatch) => {
     try {

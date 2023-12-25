@@ -38,6 +38,10 @@
   font-size: $bigMediumSize;
   font-weight: 400;
 
+  &.error {
+    color: $errorColor;
+  }
+
   &_add {
     margin-bottom: 4px;
   }

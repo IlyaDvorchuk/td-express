@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import './modal-login.scss'
 import './../../../styles/elements/buttons.scss'
 import './../../../styles/elements/inputs.scss'
@@ -25,7 +25,12 @@ const ModalLogin = ({observableModal = 0, isShelter = false, forgotPassword = fa
     // 2 - NameModalLogin
     // 3 - CreateModalLogin
     // 4 - EnterModalLogin
+    const [isForgotPasswordUser, setIsForgotPasswordUser] = useState(false)
     const [currentModal, setCurrentModal] = useState(observableModal)
+
+    useEffect(() => {
+        console.log('isForgotPasswordUser', isForgotPasswordUser)
+    }, [isForgotPasswordUser])
 
     const closeUserModal = () => {
         dispatch(changeIsUserModal(false))
@@ -36,10 +41,12 @@ const ModalLogin = ({observableModal = 0, isShelter = false, forgotPassword = fa
             <div className={'userAuthModal'}>
                 {currentModal === 0 && <InitialModalLogin setCurrentModal={setCurrentModal}/>}
                 {currentModal === 1 &&
-                    <CodeModalLogin setCurrentModal={setCurrentModal} isShelter={isShelter} forgotPassword={forgotPassword}/>}
+                    <CodeModalLogin setCurrentModal={setCurrentModal} isShelter={isShelter} forgotPassword={isForgotPasswordUser || forgotPassword}/>}
                 {currentModal === 2 && <NameModalLogin setCurrentModal={setCurrentModal}/>}
-                {currentModal === 3 && <CreateModalLogin closeUserModal={closeUserModal} forgotPassword={forgotPassword}/>}
-                {currentModal === 4 && <EnterModalLogin closeUserModal={closeUserModal}/>}
+                {currentModal === 3 &&
+                    <CreateModalLogin closeUserModal={closeUserModal} forgotPassword={isForgotPasswordUser || forgotPassword} setCurrentModal={setCurrentModal} isShelter={isShelter}/>}
+                {currentModal === 4 &&
+                    <EnterModalLogin closeUserModal={closeUserModal} setCurrentModal={setCurrentModal} setIsForgotPasswordUser={setIsForgotPasswordUser}/>}
             </div>
             <Cover callback={closeUserModal}/>
         </>

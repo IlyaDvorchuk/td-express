@@ -1,11 +1,17 @@
-import React, {ChangeEvent, useState} from 'react';
+import React, {ChangeEvent, Dispatch, SetStateAction, useState} from 'react';
 import './enter-modal-login.scss'
 import {TVisibility} from "../../../../models/types";
 import {useAppDispatch, useAppSelector} from "../../../../hooks/redux";
-import {loginUser} from "../../../../store/reducers/user/UserCreators";
+import {loginUser, sendCode} from "../../../../store/reducers/user/UserCreators";
 import {userSlice} from "../../../../store/reducers/user/UserSlice";
 
-const EnterModalLogin = ({closeUserModal} : {closeUserModal: () => void}) => {
+interface IEnterModalLogin {
+    closeUserModal: () => void,
+    setCurrentModal: Dispatch<SetStateAction<number>>,
+    setIsForgotPasswordUser: React.Dispatch<React.SetStateAction<boolean>>
+}
+
+const EnterModalLogin = ({closeUserModal, setCurrentModal, setIsForgotPasswordUser}: IEnterModalLogin) => {
     const dispatch = useAppDispatch()
     const {email} = useAppSelector(state => state.userReducer.user)
     const {error: networkError} = useAppSelector(state => state.userReducer)
@@ -36,6 +42,12 @@ const EnterModalLogin = ({closeUserModal} : {closeUserModal: () => void}) => {
         closeUserModal()
     }
 
+    const onNewPassword = () => {
+        dispatch(sendCode(email))
+        setIsForgotPasswordUser(true)
+        setCurrentModal(1)
+    }
+
     return (
         <div className={'enterModal'}>
             <h3 className={'userAuthModal__title'}>Введите пароль</h3>
@@ -56,7 +68,7 @@ const EnterModalLogin = ({closeUserModal} : {closeUserModal: () => void}) => {
                     alt={''}
                     onClick={onSwitchVisibility}
                 />
-                <a className={'userAuthModal__label'} href={'/'}>Забыли пароль?</a>
+                <span onClick={onNewPassword} className={'userAuthModal__label enterModal__label'}>Забыли пароль?</span>
             </div>
             <button className={'button button_dark'} onClick={onFinishLogin}>ВОЙТИ</button>
         </div>

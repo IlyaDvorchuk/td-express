@@ -60,6 +60,8 @@ const FormCreateGood = ({card} : {card: IProductCardRes | null}) => {
         main: false,
         additional: false
     })
+    const [sizesError, setSizesError] = useState(false)
+
 
     useEffect(() => {
         if (card) {
@@ -130,6 +132,9 @@ const FormCreateGood = ({card} : {card: IProductCardRes | null}) => {
             console.log('hey add')
             setPhotosErrors(prevState => ({...prevState, additional: true}))
         }
+        if (quantitySizes.length === 0) {
+            setSizesError(true)
+        }
         setSubmitButton(button)
     }
 
@@ -142,7 +147,10 @@ const FormCreateGood = ({card} : {card: IProductCardRes | null}) => {
             || !parentSelectedType
             || quantitySizes.length === 0
             || !description
-        ) return;
+        ) {
+            window.scrollTo({top: 0, behavior: 'smooth'})
+            return
+        };
         try {
             const points = Object.keys(data)
                 .filter(key => key.startsWith("checkbox-") && data[key])
@@ -260,6 +268,7 @@ const FormCreateGood = ({card} : {card: IProductCardRes | null}) => {
                                 cardQuantity={card?.typeQuantity ? card.typeQuantity : null}
                                 seasons={seasons}
                                 setSeasons={setSeasons}
+                                sizesError={sizesError}
                             />
                             <hr className={'create__divider'}/>
                             <CreateGoodColors

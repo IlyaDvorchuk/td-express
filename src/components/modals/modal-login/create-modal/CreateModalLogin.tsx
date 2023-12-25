@@ -1,16 +1,18 @@
-import React, {ChangeEvent, useState} from 'react';
+import React, {ChangeEvent, Dispatch, SetStateAction, useState} from 'react';
 import './create-modal-login.scss'
 import {useAppDispatch, useAppSelector} from "../../../../hooks/redux";
-import {registrationUser} from "../../../../store/reducers/user/UserCreators";
+import {createNewPasswordUser, registrationUser} from "../../../../store/reducers/user/UserCreators";
 import {TVisibility} from "../../../../models/types";
 import {createNewPasswordShelter} from "../../../../store/reducers/shelter/ShelterCreator";
 
 interface ICreateModalLogin {
     closeUserModal: () => void,
-    forgotPassword?: boolean
+    isShelter?: boolean,
+    forgotPassword?: boolean,
+    setCurrentModal: Dispatch<SetStateAction<number>>,
 }
 
-const CreateModalLogin = ({closeUserModal, forgotPassword = false} : ICreateModalLogin) => {
+const CreateModalLogin = ({closeUserModal, isShelter, forgotPassword = false, setCurrentModal} : ICreateModalLogin) => {
     const dispatch = useAppDispatch()
     const {user} = useAppSelector(state => state.userReducer)
     const {email} = useAppSelector(state => state.shelterReducer.shelter)
@@ -40,7 +42,7 @@ const CreateModalLogin = ({closeUserModal, forgotPassword = false} : ICreateModa
 
     const onFinalRegistry = () => {
         if (password.trim() === repeatPassword.trim()) {
-            dispatch(registrationUser(user, password))
+             dispatch(registrationUser(user, password))
             closeUserModal()
         } else {
             setError(true)
@@ -49,8 +51,13 @@ const CreateModalLogin = ({closeUserModal, forgotPassword = false} : ICreateModa
 
     const onNewPassword = () => {
         if (password.trim() === repeatPassword.trim()) {
-            dispatch(createNewPasswordShelter(email, password))
-            closeUserModal()
+
+            dispatch(isShelter ? createNewPasswordShelter(email, password) : createNewPasswordUser(user?.email, password))
+            if (isShelter) {
+                closeUserModal()
+            } else {
+                setCurrentModal(4)
+            }
         } else {
             setError(true)
         }

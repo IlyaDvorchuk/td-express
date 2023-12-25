@@ -28,4 +28,8 @@ export class AuthService {
     static async checkEmail(email: string): Promise<AxiosResponse<boolean>> {
         return axios.post<boolean>(`${API_URL}auth/check`, {email})
     }
+
+    static async createNewPassword(email: string, password: string) {
+        return $api.post<boolean>('/auth/create-password', {email, password})
+    }
 }
