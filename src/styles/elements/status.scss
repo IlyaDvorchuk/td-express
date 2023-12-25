@@ -58,6 +58,7 @@
 
 .status-mobile {
   @include flex(flex-start, flex-end);
+  font-size: $veryLittleSize;
   flex-direction: column;
   padding-bottom: 0;
 
