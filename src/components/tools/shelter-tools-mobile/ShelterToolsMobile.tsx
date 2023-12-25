@@ -40,6 +40,7 @@ const ShelterToolsMobile = ({isPressed}: {isPressed: boolean}) => {
 
 
     const onPersonalData = () => {
+        console.log('ShelterToolsMobile 43')
         navigation(`/personal-data/${shelter._id}`, {
             state: {
                 ...shelter

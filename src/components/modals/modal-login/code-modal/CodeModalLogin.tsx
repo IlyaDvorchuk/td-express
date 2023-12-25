@@ -45,6 +45,7 @@ const CodeModalLogin = ({setCurrentModal, isShelter, forgotPassword}: ICodeModal
         } else  {
             const stringCode = activationCodeShelter.toString()
             if (stringCode === code) {
+                console.log('CodeModalLogin personal-data 48')
                 navigate('/personal-data')
                 setIsRegistered(true)
 
@@ -81,7 +82,7 @@ const CodeModalLogin = ({setCurrentModal, isShelter, forgotPassword}: ICodeModal
                     Вы ввели неверный код авторизации. Попробуйте ввести полученный код еще раз.
                 </p>}
             </div>
-            <button className={'button button_dark'} onClick={onCompareCode}>ПРОДОЛЖИТЬ</button>
+            <button className={'button button_dark modalCode__button'} onClick={onCompareCode}>ПРОДОЛЖИТЬ</button>
             <button className={'button button_light'} onClick={onRepeatCode}>ВЫСЛАТЬ КОД ЕЩЁ РАЗ-</button>
         </div>
     );

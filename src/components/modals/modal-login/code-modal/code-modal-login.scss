@@ -1,6 +1,10 @@
 @import "src/styles/constants";
 
 .modalCode {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+
   &__text {
     margin-bottom: 16px;
     font-size: $littleSize;
@@ -15,12 +19,12 @@
     position: relative;
   }
 
-  & .modalInput {
-   margin-bottom: 47px;
-  }
-
   & .warning-input {
     position: absolute;
     bottom: 15px;
+  }
+
+  & &__button {
+    margin-top: auto;
   }
 }

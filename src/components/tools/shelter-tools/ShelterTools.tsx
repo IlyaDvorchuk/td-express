@@ -86,6 +86,10 @@ const ShelterTools = () => {
         dispatch(sendCodeShelter(shelter.email, true))
     }
 
+    useEffect(() => {
+        console.log('shelter', shelter)
+    }, [shelter])
+
     return (
         <>
             <div className={`shelter-tools ${isHoverTools && 'active-tools'} ${isCover && 'notifications'}`} onMouseLeave={onMouseLeave}>
@@ -106,7 +110,11 @@ const ShelterTools = () => {
                             {shelter?.shop?.nameMarket}
                         </p>
                         <p className={'isIndividual-name'}>
-                            {(shelter?.shelterData?.entity.isIndividual ? 'ИП ' : 'Ю.л ') + shelter?.name}
+                            {
+                                (shelter?.shelterData?.entity.isIndividual === 'individual' ) && 'Физ.лицо ' + (shelter?.shelterData.personalData.name + ' ' + shelter?.shelterData.personalData.family || '')
+                            }
+                            {(shelter?.shelterData?.entity.isIndividual === 'IE') && 'И.П. '  + (shelter?.shelterData.personalData.name + ' ' + shelter?.shelterData.personalData.family || '') }
+                            {(shelter?.shelterData?.entity.isIndividual === 'company') && 'Юр.лицо ' + (shelter?.shop.nameMarket || '') }
                         </p>
                     </div>
                     {shelter.imageShop && <div
