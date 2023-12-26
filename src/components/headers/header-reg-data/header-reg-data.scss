@@ -1,6 +1,14 @@
-.header-reg-_data {
-  display: flex;
-  justify-content: space-between;
+@import "./src/styles/constants";
+@import "./src/styles/mixins";
+
+.header-reg_data {
+  @include flex(space-between, center, 8px);
+
+  & h2 {
+    @media screen and (max-width: 430px) {
+      font-size: $mediumMediumSize;
+    }
+  }
 
   &.shop {
     justify-content: flex-start;

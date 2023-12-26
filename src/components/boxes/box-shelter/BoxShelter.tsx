@@ -8,12 +8,13 @@ interface IBoxRegistrationShelter {
     children: ReactNode,
     isImage?: boolean,
     isRegistry?: boolean,
+    isWideMobile?: boolean
 }
 
-const BoxShelter = ({children, isImage = true, isRegistry = false}: IBoxRegistrationShelter) => {
+const BoxShelter = ({children, isImage = true, isRegistry = false, isWideMobile = true}: IBoxRegistrationShelter) => {
     return (
         <main className={'reg-main'}>
-            <Container isWideMobile={true}>
+            <Container isWideMobile={isWideMobile}>
                 {isRegistry && <div className={'reg-main__back'}>
                     <ButtonBack/>
                 </div>}

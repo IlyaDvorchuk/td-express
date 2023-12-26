@@ -24,7 +24,7 @@ const HeaderRegData = ({isData = true, isShop = false}) => {
     return (
         <header className={`header-reg`}>
             <Container>
-                <div className={`header-reg-_data ${isShop && 'shop'}`}>
+                <div className={`header-reg_data ${isShop && 'shop'}`}>
                     <ButtonBack/>
                     {
                         isData ?

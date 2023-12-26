@@ -10,7 +10,7 @@ const RegistrShop = () => {
     return (
         <div>
             <HeaderRegData isData={false} isShop={true}/>
-            <BoxShelter isImage={false}>
+            <BoxShelter isImage={false} isWideMobile={false}>
                 <FormRegistrationShop shelter={location.state}/>
             </BoxShelter>
         </div>

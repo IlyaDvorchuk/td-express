@@ -10,7 +10,7 @@ const RegistrData = () => {
     return (
         <div>
             <HeaderRegData/>
-            <BoxShelter isImage={false}>
+            <BoxShelter isImage={false} isWideMobile={false}>
                 <FormRegistrationData shelterData={location.state?.shelterData} id={location.state?._id}/>
             </BoxShelter>
         </div>

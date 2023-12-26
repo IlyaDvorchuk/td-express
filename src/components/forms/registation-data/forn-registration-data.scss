@@ -25,12 +25,20 @@ fieldset {
     font-size: $subTitleSize;
     color: $title2Color;
     margin-bottom: 8px;
+
+    @media screen and (max-width: 500px) {
+      font-size: $mediumMediumSize;
+    }
   }
 
   &__inputs {
     display: flex;
     flex-wrap: wrap;
     gap: 20px;
+
+    @media screen and (max-width: 500px) {
+      gap: 15px;
+    }
   }
 
   &__block {
@@ -45,6 +53,10 @@ fieldset {
 
     &__check {
       min-width: 413px;
+
+      @media screen and (max-width: 435px) {
+        min-width: 100%;
+      }
     }
   }
 
@@ -54,8 +66,15 @@ fieldset {
     gap: 12px;
     align-items: center;
 
+    @media screen and (max-width: 435px) {
+      flex-wrap: wrap;
+    }
+
     & .legend {
       margin-bottom: 0;
+      @media screen and (max-width: 435px) {
+        margin-right: 100px;
+      }
     }
   }
 
@@ -69,6 +88,10 @@ fieldset {
 
       & > span {
         white-space: nowrap;
+
+        @media screen and (max-width: 570px) {
+          white-space: normal;
+        }
       }
     }
 
