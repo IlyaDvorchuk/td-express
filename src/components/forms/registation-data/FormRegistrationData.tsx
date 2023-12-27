@@ -151,11 +151,22 @@ const FormRegistrationData = ({shelterData, id}: IProps) => {
     }
 
     const onSetBirthDay = (e: ChangeEvent<HTMLInputElement>) => {
-        if (/[a-zа-яё!?&^%$#@*()'"]/i.test(e.target.value)) return
-        if (e.target.value.length > 10) return
-        setPersonalData({...personalData, birthday: e.target.value})
-    }
+        // Удаляем все символы, кроме цифр
+        const cleanedValue = e.target.value.replace(/[^0-9]/g, '');
 
+        // Проверяем, что введено не более 8 цифр
+        if (cleanedValue.length > 8) return;
+
+        // Добавляем символ '/' после ввода двух цифр
+        let formattedValue = cleanedValue;
+        if (cleanedValue.length > 2 && cleanedValue.length <= 4) {
+            formattedValue = `${cleanedValue.slice(0, 2)}/${cleanedValue.slice(2)}`;
+        } else if (cleanedValue.length > 4) {
+            formattedValue = `${cleanedValue.slice(0, 2)}/${cleanedValue.slice(2, 4)}/${cleanedValue.slice(4)}`;
+        }
+
+        setPersonalData({ ...personalData, birthday: formattedValue });
+    };
     const onSetNamePerson = (e: ChangeEvent<HTMLInputElement>) => {
         setClosePerson({...closePerson, name: e.target.value})
     }
