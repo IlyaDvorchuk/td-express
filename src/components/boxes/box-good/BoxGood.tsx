@@ -120,7 +120,7 @@ const BoxGood = ({card} : {card: IProductCardRes}) => {
         }
 
         fetchShelter()
-    }, [])
+    }, [card])
 
     useEffect(() => {
 
