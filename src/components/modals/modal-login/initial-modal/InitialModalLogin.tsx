@@ -74,8 +74,7 @@ const InitialModalLogin = ({setCurrentModal}: {setCurrentModal: Dispatch<SetStat
                 <div className={'modalLogin__row'}>
                     <input type={'checkbox'} className={'modalLogin__checkBox'} onChange={onAgreeRules}/>
                     <p className={'modalLogin__conditions'}>
-                        Согласен с условиями, <a href={'/'} className={'modalLogin__link'}>правилами возврата</a> и
-                        <a href="/" className={'modalLogin__link'}> правилами пользования торговой площадкой</a>.
+                        Согласен с <a href={'/documents/Пользовательское соглашение.pdf'} target={'_blank'} rel="noopener noreferrer" className={'modalLogin__link'}> правилами пользования торговой площадкой</a>.
                     </p>
                 </div>
             </div>

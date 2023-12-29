@@ -14,18 +14,21 @@ const Admin = () => {
     const navigation = useNavigate()
     const {user} = useAppSelector((state) => state.userReducer);
     const [currentScreen, setCurrentScreen] = useState(ADMIN_SCREEN.GENERAL)
+    const [isFirstLoading, setIsFirstLoading] = useState(false)
 
     useEffect(() => {
+        if (isFirstLoading) {
+            console.log('user', user)
+            if (!isObjectEmpty(user)) {
 
-
-        if (!isObjectEmpty(user)) {
-            if (isObjectEmpty(user)) navigation('/')
-            if (!(user.role === 'ADMIN' && user.email === 'tabakevgenijj@gmail.com')) {
-                navigation('/')
-            }
+                if (!(user.role === 'ADMIN' || user.email === 'tabakevgenijj@gmail.com')) {
+                    navigation('/')
+                }
+            } else navigation('/')
         }
 
-    }, [navigation, user])
+        setIsFirstLoading(true)
+    }, [user])
 
     return (
         <div>

@@ -118,7 +118,7 @@ const FormRegistration = () => {
                 <button onClick={onContinueRegistry} className={'button button_dark reg__button'}>ПРОДОЛЖИТЬ</button>
                 <p className={'contract'}>
                     Нажимая на кнопку “Продолжить”,
-                    вы соглашаетесь c <a href={'/'} target={'_blank'} rel="noreferrer">Договором Оферты</a> и <a href={'/'} target={'_blank'} rel="noreferrer">Политикой Конфиденциальности</a>.
+                    вы соглашаетесь c <a href={'/documents/oferta_td_market.pdf'} target={'_blank'} rel="noopener noreferrer">Договором Оферты</a> и <a href={'/'} target={'_blank'} rel="noreferrer">Политикой Конфиденциальности</a>.
                 </p>
             </form>
             {isCover && <ModalLogin observableModal={1} isShelter={true}/>}
