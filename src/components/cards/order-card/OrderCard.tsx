@@ -36,7 +36,6 @@ const OrderCard = ({order, isEven}: IProps) => {
         } else return
         const response = await ShelterService.changeStatus(order._id, newStatus)
         if (order.userId) {
-            console.log('order.userId', order.userId)
             await AdminService.createNotification(order.userId, text, true)
         }
         if (response.data) {

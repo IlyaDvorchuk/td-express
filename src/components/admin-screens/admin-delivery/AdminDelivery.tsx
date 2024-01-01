@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 import './admin-delivery.scss'
 import {IOrderRes} from "../../../models/IOrder";
 import {AdminService} from "../../../services/AdminService";
+import AdminDeliveryCard from "../admin-cards/admin-delivery-card/AdminDeliveryCard";
 
 const AdminDelivery = () => {
     const [marketDeliveryOrders, setMarketDeliveryOrders] = useState<IOrderRes[]>([])
@@ -22,21 +23,25 @@ const AdminDelivery = () => {
         fetchOrders()
     }, [])
 
-    useEffect(() => {
-        console.log('marketDeliveryOrders', marketDeliveryOrders)
-    }, [marketDeliveryOrders])
-
     return (
         <main className={'admin-delivery'}>
             <div>
                 <h3>
                     Доставляются силами продавца
                 </h3>
+                <div>
+                    {sellerDeliveryOrders.map(order => (
+                        <AdminDeliveryCard order={order} key={order._id}/>
+                    ))}
+                </div>
             </div>
             <div>
                 <h3>
                     Доставляются силами td-market
                 </h3>
+                {marketDeliveryOrders.map(order => (
+                    <AdminDeliveryCard order={order} key={order._id} isMarket={true}/>
+                ))}
             </div>
         </main>
     );

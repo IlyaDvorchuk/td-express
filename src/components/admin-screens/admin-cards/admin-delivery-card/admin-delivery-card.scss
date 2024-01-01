@@ -1,0 +1,61 @@
+@import "/src/styles/constants";
+@import "/src/styles/mixins";
+
+.admin-delivery-card {
+  margin-top: 20px;
+  padding-bottom: 30px;
+  border-bottom: 1px solid #B6B6B6;
+
+  &.market {
+    padding-left: 10px;
+  }
+
+  & h4 {
+    font-weight: 400;
+    padding-top: 12px;
+    padding-bottom: 10px;
+    text-align: left;
+  }
+
+  & p {
+    margin-bottom: 10px;
+  }
+
+  & &__header {
+    @include flex();
+    gap: 15px;
+
+
+  }
+
+  & &__seller {
+    @include flex();
+    flex-direction: column;
+    flex-wrap: wrap;
+  }
+
+  & &__image {
+    width: 85px;
+    min-width: 85px;
+    height: 130px;
+    border-radius: 10px;
+    overflow: hidden;
+
+    & > img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+
+  & &__block {
+    @include flex();
+    flex-wrap: wrap;
+    column-gap: 30px;
+  }
+
+  & &__button {
+    margin-top: 20px;
+    max-width: 200px;
+  }
+}

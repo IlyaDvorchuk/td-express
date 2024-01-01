@@ -2,8 +2,10 @@
 @import "/src/styles/mixins";
 
 .admin-delivery {
+  padding: 0 31px;
   display: flex;
   width: 100%;
+  font-size: $bigMediumSize;
 
   & > div {
     width: 50%;

@@ -1,8 +1,9 @@
-import {AxiosResponse} from "axios";
-import $api from "../http";
+import axios, {AxiosResponse} from "axios";
+import $api, {API_URL} from "../http";
 import {IShelterRes} from "../models/response/IShelter";
 import {IProductCardRes} from "../models/IProductCard";
 import {IOrderRes} from "../models/IOrder";
+import {ISellerByAdmin} from "../models/response/ISellerByAdmin";
 
 export class AdminService {
     static async fetchNotVerifiedShelters(): Promise<AxiosResponse<IShelterRes[]>> {
@@ -46,6 +47,10 @@ export class AdminService {
     }
 
     static async getSellerOrders(): Promise<AxiosResponse<IOrderRes[]>> {
-        return $api.get<IOrderRes[]>(`/orders/market/`)
+        return $api.get<IOrderRes[]>(`/orders/self-delivery/`)
+    }
+
+    static getSeller(name: string): Promise<AxiosResponse<ISellerByAdmin>> {
+        return axios.get<ISellerByAdmin>(`${API_URL}shelters/admin/${name}`)
     }
 }

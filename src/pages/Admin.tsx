@@ -8,26 +8,25 @@ import {ADMIN_SCREEN} from "../models/enums";
 import ModerationSeller from "../components/admin-screens/moderation-seller/ModerationSeller";
 import ModerationGood from "../components/admin-screens/moderation-good/ModerationGood";
 import AdminDelivery from "../components/admin-screens/admin-delivery/AdminDelivery";
+import {getAccessTokenUser} from "../utils/tokens";
 
 
 const Admin = () => {
     const navigation = useNavigate()
     const {user} = useAppSelector((state) => state.userReducer);
     const [currentScreen, setCurrentScreen] = useState(ADMIN_SCREEN.GENERAL)
-    const [isFirstLoading, setIsFirstLoading] = useState(false)
 
     useEffect(() => {
-        if (isFirstLoading) {
+        if (getAccessTokenUser()) {
             console.log('user', user)
             if (!isObjectEmpty(user)) {
 
                 if (!(user.role === 'ADMIN' || user.email === 'tabakevgenijj@gmail.com')) {
                     navigation('/')
                 }
-            } else navigation('/')
-        }
+            }
+        } else navigation('/')
 
-        setIsFirstLoading(true)
     }, [user])
 
     return (
