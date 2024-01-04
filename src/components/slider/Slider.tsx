@@ -11,6 +11,8 @@ import {Link} from "react-router-dom";
 const Slider = () => {
     const swiperRef = useRef() as any;
 
+
+
     return (
         <div className={'slider'}>
             <Swiper
