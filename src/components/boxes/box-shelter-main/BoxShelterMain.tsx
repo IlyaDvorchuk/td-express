@@ -13,13 +13,16 @@ const BoxShelterMain = () => {
     const navigation = useNavigate()
     const [orders, setOrders] = useState<IOrderRes[]>([])
     const windowWidth = useWindowWidth()
+    const [countView, setCountView] = useState(0)
 
 
     useEffect(() => {
         const fetchData = async () => {
             try {
                 const response = await ShelterService.getOrdersOfSeller(5)
+                const responseView = await ShelterService.getViewGoods(shelter._id)
                 if (response.data) setOrders(response.data)
+                if (responseView.data) setCountView(responseView.data)
             } catch (error) {
                 console.error('Ошибка при удалении уведомлений:', error);
             }
@@ -92,7 +95,7 @@ const BoxShelterMain = () => {
                                 <div className={'statistics'}>
                                     <div className={'statistics__item'}>
                                         <span>Количество просмотров:</span>
-                                        <span>0</span>
+                                        <span>{countView}</span>
                                     </div>
                                     <div className={'statistics__item'}>
                                         <span>Количество продаж:</span>

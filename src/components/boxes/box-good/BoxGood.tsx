@@ -465,7 +465,7 @@ const BoxGood = ({card} : {card: IProductCardRes}) => {
                         <span>: {priceDelivery} RUP</span>
                     </div> :
                         <div className={'good-information__delivery'}>
-                            В Ваш город отсутствует доставка. <span className={'good-information__city'} onClick={onActiveGeolocation}>
+                            В Ваш город отсутствует доставка, но есть доставка экспресс-почтой. <span className={'good-information__city'} onClick={onActiveGeolocation}>
                             Можете поменять город</span>
                         </div>
                     }

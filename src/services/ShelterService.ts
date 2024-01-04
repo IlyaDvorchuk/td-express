@@ -2,7 +2,7 @@ import {AxiosResponse} from "axios";
 import {$apiShelter} from "../http";
 import {IDeliveryPoint, IDeliveryPoint2} from "../models/IDeliveryPoint";
 import {ICreateProductCardRes, IProductCard, IProductCardRes} from "../models/IProductCard";
-import {IPersonalData, IShelterALL, IShelterData, IShelterRes, IShelterShop} from "../models/response/IShelter";
+import {IPersonalData, IShelterALL, IShelterRes, IShelterShop} from "../models/response/IShelter";
 import {INotification} from "../models/INotification";
 import {IDeliveryCity} from "../models/IDeliveryCity";
 import {IOrderRes} from "../models/IOrder";
@@ -122,5 +122,9 @@ export class ShelterService {
 
     static changeRate(sellerId: string, rate: string): Promise<AxiosResponse<boolean>> {
         return $apiShelter.put(`shelters/update-rate/${sellerId}/${rate}`)
+    }
+
+    static getViewGoods(sellerId: string): Promise<AxiosResponse<number>> {
+        return $apiShelter.get(`shelters/view-goods/${sellerId}`)
     }
 }

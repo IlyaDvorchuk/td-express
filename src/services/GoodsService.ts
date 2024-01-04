@@ -80,4 +80,8 @@ export class GoodsService {
     static async getType(productId: string, typeId: string) {
         return axios.get<ITypeRes>(`${API_URL}product-cards/type/${productId}/${typeId}`)
     }
+
+    static async updateCountGood(productId: string) {
+        return axios.get(`${API_URL}product-cards/view-count/${productId}`)
+    }
 }

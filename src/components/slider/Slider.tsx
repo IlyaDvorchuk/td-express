@@ -5,6 +5,7 @@ import 'swiper/scss';
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import './slider.scss'
+import {Link} from "react-router-dom";
 
 
 const Slider = () => {
@@ -29,15 +30,17 @@ const Slider = () => {
                 }}
                 loop={true}
                 grabCursor={true}
-                // autoplay={{
-                //     delay: 5000
-                // }}
+                autoplay={{
+                    delay: 9000
+                }}
             >
                 <SwiperSlide className={'slider__item'}>
                     <img src="/images/slider/slider-main.png" alt=""/>
                 </SwiperSlide>
                 <SwiperSlide className={'slider__item'}>
-                    <img src="/images/slider/shop-sport.png" alt=""/>
+                    <Link to={'seller/FIT%20KIT'}>
+                        <img src="/images/slider/shop-sport.png" alt=""/>
+                    </Link>
                 </SwiperSlide>
             </Swiper>
             <button className={'slider-button swiper-button-prev'} onClick={() => swiperRef.current.slidePrev()}>
