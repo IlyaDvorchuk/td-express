@@ -20,9 +20,7 @@ const BoxShelterMain = () => {
         const fetchData = async () => {
             try {
                 const response = await ShelterService.getOrdersOfSeller(5)
-                const responseView = await ShelterService.getViewGoods(shelter._id)
                 if (response.data) setOrders(response.data)
-                if (responseView.data) setCountView(responseView.data)
             } catch (error) {
                 console.error('Ошибка при удалении уведомлений:', error);
             }
@@ -30,6 +28,22 @@ const BoxShelterMain = () => {
 
         fetchData();
     }, []);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            if (shelter?._id) {
+                try {
+                    const responseView = await ShelterService.getViewGoods(shelter._id)
+                    if (responseView.data) setCountView(responseView.data)
+                } catch (error) {
+                    console.error('Ошибка при получении количества:', error);
+                }
+            }
+
+        };
+
+        fetchData();
+    }, [shelter]);
 
     const onCreateGood = () => {
         navigation('/seller/goods/create')
