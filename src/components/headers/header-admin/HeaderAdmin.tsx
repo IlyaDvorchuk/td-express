@@ -34,11 +34,6 @@ const HeaderAdmin = ({currentScreen , setCurrentScreen}: IProps) => {
                     style={{fontWeight: currentScreen === ADMIN_SCREEN.PRODUCT_LIST ? 800 : 400}}>
                     Список доставляемых товаров
                 </div>
-                <div
-                    onClick={() => setCurrentScreen(ADMIN_SCREEN.DELIVERY_PRICE)}
-                    style={{fontWeight: currentScreen === ADMIN_SCREEN.DELIVERY_PRICE ? 800 : 400}}>
-                    Стоимость доставки
-                </div>
             </div>
             {/*{bankPageContent && <div dangerouslySetInnerHTML={{ __html: bankPageContent }} />}*/}
         </div>
