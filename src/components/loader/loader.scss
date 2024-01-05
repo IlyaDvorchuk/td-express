@@ -1,6 +1,89 @@
-.loader {
+@import "./src/styles/constants";
+@import "./src/styles/mixins";
+
+.loader-wrapper {
   position: fixed;
+  top: 0;
+  left: 0;
   height: 100vh;
   width: 100vw;
   z-index: 100000;
+  background-color: white;
+  @include flex(center, center);
+
+  & &__content {
+    position: relative;
+    @include flex(center, center);
+  }
 }
+
+/* styles.css */
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.spinner-container {
+  position: absolute;
+  width: 220px;
+  height: 220px;
+}
+
+.spinner {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: conic-gradient(from 180deg at 50% 50%, rgba(217, 217, 217, 0.00) 178.17332983016968deg, #9747FF 262.1230387687683deg);
+  border-top: 8px solid transparent;
+  border-radius: 50%;
+  animation: spin 2s linear infinite;
+
+  &::before {
+    content: '';
+    top: -25px;
+    left: 10px;
+    position: absolute;
+    background: white;
+    width: 200px;
+    height: 220px;
+    border-radius: 50%;
+  }
+
+  &::after {
+    content: '';
+    bottom: -1px;
+    left: calc(50% - 10px);
+    position: absolute;
+    background: white;
+    width: 20px;
+    height: 20px;
+    border: 3px solid $additionalColor;
+    border-radius: 50%;
+  }
+}
+
+.spinner-text {
+  position: relative;
+  text-align: center;
+  font-size: $bigMediumSize;
+  color: $text2Color;
+  max-width: 153px;
+  line-height: 116%;
+  font-weight: 700;
+  z-index: 100002;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+

@@ -108,7 +108,6 @@ export const createProductCard = (
 ) => async (dispatch: AppDispatch) => {
     try {
         dispatch(shelterSlice.actions.setIsLoadingGood(true))
-        console.log('additionalPhotos', additionalPhotos)
         const formData = new FormData();
         formData.append('mainPhoto', mainPhoto);
         additionalPhotos.forEach((photo) => {
@@ -145,6 +144,7 @@ export const updateProductCard = (good: IProductCard,
                                   additionalPhotos: (File | string)[]
 ) => async (dispatch: AppDispatch) => {
     try {
+        dispatch(shelterSlice.actions.setIsLoadingGood(true))
         let mainPhotoBase64: string | undefined;
         let additionalPhotosBase64: string[] = [];
 
@@ -199,9 +199,11 @@ export const updateProductCard = (good: IProductCard,
         if (response.data) {
             dispatch(shelterSlice.actions.updateCardSuccess())
         }
+        dispatch(shelterSlice.actions.setIsLoadingGood(false))
     } catch (e: any) {
         console.log('e', e);
         dispatch(shelterSlice.actions.updateCardFalse());
+        dispatch(shelterSlice.actions.setIsLoadingGood(false))
     }
 };
 
