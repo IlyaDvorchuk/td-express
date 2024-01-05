@@ -37,7 +37,6 @@ const FormCreateGood = ({card} : {card: IProductCardRes | null}) => {
     const {shelter} = useAppSelector(state => state.shelterReducer)
     const {isCreateGoodCard, isUpdateCard} = useAppSelector(state => state.shelterReducer)
     const {updateCardFalse} = shelterSlice.actions
-
     const [parentSelectedCategory, setParentSelectedCategory] = useState<ICategory | null>(null);
     const [parentSelectedSubCategory, setParentSelectedSubCategory] = useState<ISubcategory | null>(null);
     const [parentSelectedType, setParentSelectedType] = useState<ISection | null>(null);
@@ -151,6 +150,7 @@ const FormCreateGood = ({card} : {card: IProductCardRes | null}) => {
             window.scrollTo({top: 0, behavior: 'smooth'})
             return
         };
+
         try {
             const points = Object.keys(data)
                 .filter(key => key.startsWith("checkbox-") && data[key])

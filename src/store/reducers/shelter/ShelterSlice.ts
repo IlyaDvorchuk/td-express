@@ -10,6 +10,7 @@ const initialState = {
     unreadCount: 0,
     isAuth: false,
     isLoading: false,
+    isLoadingGood: false,
     activationCode: '',
     error: 0,
     isRegistry: false,
@@ -132,6 +133,10 @@ export const shelterSlice = createSlice({
         },
         updateShopShelter: (state, action: PayloadAction<boolean>) => {
             state.isUpdateShopShelter = action.payload
+        },
+
+        setIsLoadingGood: (state, action: PayloadAction<boolean>) => {
+          state.isLoadingGood = action.payload
         },
     }
 })

@@ -107,6 +107,7 @@ export const createProductCard = (
     colorImages:  ColorImage[]
 ) => async (dispatch: AppDispatch) => {
     try {
+        dispatch(shelterSlice.actions.setIsLoadingGood(true))
         console.log('additionalPhotos', additionalPhotos)
         const formData = new FormData();
         formData.append('mainPhoto', mainPhoto);
@@ -131,9 +132,11 @@ export const createProductCard = (
             }
             dispatch(shelterSlice.actions.setCreateGoodCard(true))
         } else dispatch(shelterSlice.actions.setCreateGoodCard(false))
+        dispatch(shelterSlice.actions.setIsLoadingGood(false))
     } catch (e: any) {
         console.log('e', e)
         dispatch(shelterSlice.actions.setCreateGoodCard(false))
+        dispatch(shelterSlice.actions.setIsLoadingGood(false))
     }
 }
 
