@@ -91,6 +91,10 @@
   &__cities {
     margin-bottom: 39px;
     width: 197px;
+
+    &.large {
+      width: 300px;
+    }
   }
 
   &__inputs {

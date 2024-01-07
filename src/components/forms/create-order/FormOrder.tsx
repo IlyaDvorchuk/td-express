@@ -8,6 +8,7 @@ import {IOrder} from "../../../models/IOrder";
 import {useNavigate} from "react-router-dom";
 import {createIdOrder} from "../../../utils/formatDate";
 import CryptoJS from 'crypto-js';
+import {EXPRESS_POINTS} from "../../../constants";
 
 type TCity = {
     value: string; label: string; price: string
@@ -24,6 +25,14 @@ const FormOrder = () => {
     const [isActiveButton, setIsActiveButton] = useState<boolean>(false)
 
     const deliveryCities = useMemo(() => {
+        if (selectedDelivery === 'express') {
+            return EXPRESS_POINTS.map(city => ({
+                value: city,
+                label: city,
+                price: 0
+            })) as unknown as TCity[]
+        }
+
         if (!card?.deliveryCities) {
             return []
         }
@@ -33,7 +42,7 @@ const FormOrder = () => {
             label: city.city,
             price: city.price
         }))
-    }, [card?.deliveryCities])
+    }, [card?.deliveryCities, selectedDelivery])
 
 
     useEffect(() => {
@@ -174,7 +183,7 @@ const FormOrder = () => {
             shelterId: card?.shelterId,
             status: 'ожидает подтверждения',
             deliveryMethod: data.delivery,
-            paymentMethod: data.paymentMethod,
+            paymentMethod: data?.paymentMethod || 'bankCard',
             buyer: {
                 family: data.family,
                 name: data.name,
@@ -292,30 +301,31 @@ const FormOrder = () => {
                         </div>
                     </div>
                     <div>
-                        <label htmlFor="order-city" className={`label order__label_up`}>Выберите город доставки</label>
+                        <label htmlFor="order-city" className={`label order__label_up`}>Выберите {selectedDelivery === 'express' ? 'место' : 'город'} доставки</label>
                         <Controller
                             name="city" // Укажите имя поля, которое будет использоваться в react-hook-form
                             control={control} // Передайте объект control из useForm
                             render={({ field }) => (
                                 <Select
-                                    className={'order__cities'}
+                                    className={`order__cities ${selectedDelivery === 'express' ? 'large' : ''}`}
                                     id={'order-city'}
                                     classNamePrefix={'select'}
                                     options={deliveryCities}
                                     {...field}
                                     isSearchable={false}
-                                    value={city}
+                                    value={selectedDelivery === 'doorstep' ? city : deliveryCities[0]}
                                     onChange={onChangeCity}
                                 />
                             )}
                         />
                     </div>
 
-                    <div className={'order__inputs'}>
+                    {selectedDelivery === 'doorstep' && <div className={'order__inputs'}>
                         <h4 className={'order__subtitle'}>Адрес доставки</h4>
                         <div className={'order__inputs-container'}>
                             <div className={'input-box'}>
-                                <label className={'label'} htmlFor="street">Улица{selectedDelivery === 'doorstep' ? '*' : ''}</label>
+                                <label className={'label'}
+                                       htmlFor="street">Улица{selectedDelivery === 'doorstep' ? '*' : ''}</label>
                                 <input
                                     id={'street'}
                                     disabled={selectedDelivery !== 'doorstep'}
@@ -324,7 +334,8 @@ const FormOrder = () => {
                                 />
                             </div>
                             <div className={'input-box order__input_short'}>
-                                <label className={'label'} htmlFor="house">Дом{selectedDelivery === 'doorstep' ? '*' : ''}</label>
+                                <label className={'label'}
+                                       htmlFor="house">Дом{selectedDelivery === 'doorstep' ? '*' : ''}</label>
                                 <input
                                     id={'house'}
                                     disabled={selectedDelivery !== 'doorstep'}
@@ -358,14 +369,15 @@ const FormOrder = () => {
                                 />
                             </div>
                             <div className={'input-box'}>
-                                <label className={'label'} htmlFor="">Комментарий для курьера (домофон не работает, оставить у двери и т.д.)</label>
+                                <label className={'label'} htmlFor="">Комментарий для курьера (домофон не работает,
+                                    оставить у двери и т.д.)</label>
                                 <textarea
                                     className={'modalInput modalInput_light order__textarea'}
                                     {...register('comment')}
                                 />
                             </div>
                         </div>
-                    </div>
+                    </div>}
 
                     <div className={'order__inputs'}>
                         <h4 className={'order__subtitle'}>Данные о получателе</h4>
@@ -393,48 +405,38 @@ const FormOrder = () => {
                             </div>
                         </div>
                     </div>
-                    <div className={'order__inputs'}>
+                    {selectedDelivery === 'pickup' &&  <div className={'order__inputs'}>
                         <h4 className={'order__subtitle'}>Способ оплаты</h4>
-                        {card && card?.deliveryPoints?.length > 0 && <div className={'wrapper-radio'}>
-                            <label htmlFor="bankCard" className={`custom-radio ${errors.paymentMethod ? 'error' : ''} ${selectedPayment === 'bankCard' ? 'selected' : ''}`}>
+                        <div className={'wrapper-radio'}>
+                            <label htmlFor="bankCard"
+                                   className={`custom-radio ${errors.paymentMethod ? 'error' : ''} ${selectedPayment === 'bankCard' ? 'selected' : ''}`}>
                                 <input
                                     type="radio"
                                     id="bankCard"
                                     value="bankCard"
-                                    {...register('paymentMethod' as const, { required: true })}
+                                    {...register('paymentMethod' as const, {required: true})}
                                     className="radio-input"
                                     onChange={() => onChangePayment('bankCard')}
                                 />
                             </label>
-                            <p className={`wrapper-radio__text ${selectedPayment === 'pickup' ? 'selected' : ''}`}>Карта Клевер</p>
-                        </div>}
-                        <div className={'wrapper-radio'}>
-                            <label htmlFor="qrCode" className={`custom-radio ${errors.paymentMethod ? 'error' : ''} ${selectedPayment === 'qrCode' ? 'selected' : ''}`}>
-                                <input
-                                    type="radio"
-                                    id="qrCode"
-                                    value="qrCode"
-                                    {...register('paymentMethod' as const, { required: true })}
-                                    className="radio-input"
-                                    onChange={() => onChangePayment('qrCode')}
-                                />
-                            </label>
-                            <p className={`wrapper-radio__text ${selectedPayment === 'express' ? 'selected' : ''}`}>QR-код</p>
+                            <p className={`wrapper-radio__text ${selectedPayment === 'pickup' ? 'selected' : ''}`}>Банковская
+                                карта</p>
                         </div>
                         <div className={'wrapper-radio'}>
-                            <label htmlFor="cash" className={`custom-radio ${errors.paymentMethod ? 'error' : ''} ${errors.delivery ? 'error' : ''} ${selectedPayment === 'cash' ? 'selected' : ''}`}>
+                            <label htmlFor="cash"
+                                   className={`custom-radio ${errors.paymentMethod ? 'error' : ''} ${errors.delivery ? 'error' : ''} ${selectedPayment === 'cash' ? 'selected' : ''}`}>
                                 <input
                                     type="radio"
                                     id="cash"
                                     value="cash"
-                                    {...register('paymentMethod' as const, { required: true })}
+                                    {...register('paymentMethod' as const, {required: true})}
                                     className="radio-input"
                                     onChange={() => onChangePayment('cash')}
                                 />
                             </label>
                             <p className={`wrapper-radio__text ${selectedPayment === 'doorstep' ? 'selected' : ''}`}>Наличными</p>
                         </div>
-                    </div>
+                    </div>}
                 </div>
                 <div>
                     <div className={'cart-ordering'}>
@@ -469,7 +471,7 @@ const FormOrder = () => {
                         </span>
                             <span>{finalPrice} RUP</span>
                         </div>
-                        <button className={`button cart-ordering__buttons ${!isActiveButton ? 'button_not-active' : 'button_light'}`}>Подтвердить и оплатить</button>
+                        <button className={`button cart-ordering__buttons ${!isActiveButton ? 'button_not-active' : 'button_light'}`}>Подтвердить {selectedDelivery !== 'pickup' ? 'и оплатить' : ''}</button>
                     </div>
                 </div>
 
