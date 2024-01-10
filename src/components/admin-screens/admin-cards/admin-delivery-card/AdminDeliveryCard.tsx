@@ -14,14 +14,17 @@ interface IProps {
 }
 
 const AdminDeliveryCard = ({order, isMarket = false}: IProps) => {
-    const [seller, setSeller] = useState<ISellerByAdmin>()
+    const [sellers, setSellers] = useState<ISellerByAdmin[]>([])
     const [status, setStatus] = useState<OrderEnum>(order.status)
 
     useEffect(() => {
         const fetchSeller = async () => {
                 try {
-                    const response = await AdminService.getSeller(order.shelterId);
-                    setSeller(response.data)
+                    for (let i = 0; i < order.orderTypes.length; i++) {
+                        const response = await AdminService.getSeller(order.orderTypes[i].shelterId);
+                        setSellers(prevState => [...prevState, response.data])
+                    }
+
                 } catch (error) {
                     console.error("Error fetching seller:", error);
                 }
@@ -34,15 +37,16 @@ const AdminDeliveryCard = ({order, isMarket = false}: IProps) => {
     const onChangeStatus = async (status: OrderEnum) => {
         let newStatus: OrderEnum
         let text;
+        const productNames = order.orderTypes.map(orderType => orderType.goodName).join(', ');
         if (status === OrderEnum.AWAITING_CONFIRMATION) {
             newStatus = OrderEnum.AWAITING_SHIPMENT
-            text = `Ваш товар <b>${order.goodName}</b> ожидает отправки`
+            text = `Ваш товар${order.orderTypes.length > 1 ? 'ы' : ''} <b>${productNames}</b> ожидает отправки`
         } else if (status === OrderEnum.AWAITING_SHIPMENT) {
             newStatus = OrderEnum.DELIVERY
-            text = `Ваш товар  <b>${order.goodName}</b> доставляется`
+            text = `Ваш товар${order.orderTypes.length > 1 ? 'ы' : ''} <b>${productNames}</b> доставляется`
         } else if (status === OrderEnum.DELIVERY) {
             newStatus = OrderEnum.COMPLETED
-            text = `Ваш товар <b>${order.goodName}</b> доставлен`
+            text = `Ваш${order.orderTypes.length > 1 ? 'ы' : ''} <b>${productNames}</b> доставлен${order.orderTypes.length > 1 ? 'ы' : ''}`
         } else return
         const response = await ShelterService.changeStatus(order._id, newStatus)
         if (order.userId) {
@@ -66,17 +70,25 @@ const AdminDeliveryCard = ({order, isMarket = false}: IProps) => {
         <div className={`admin-delivery-card ${isMarket ? 'market' : ''}`}>
             <div className={'admin-delivery-card__header'}>
                 <div className={'admin-delivery-card__image'}>
-                    <img src={`https://api.td-market.md/${order.goodPhoto}`} alt=""/>`
+                    {order.orderTypes.map((type, key) => (
+                        <img src={`https://api.td-market.md/${type.goodPhoto}`} alt="" key={key}/>
+                    ))}
+
                 </div>
-                <div className={'admin-delivery-card__seller'}>
-                    <p>Продавец: {seller?.nameShop}</p>
-                    <p>Прошло дней: {daysHavePassed(order.createdAt)}</p>
-                    <p>Имя продавца: {seller?.name}</p>
-                    <p>Email продавца: {seller?.email}</p>
-                    <p>Дата покупки: {formatDate(order.createdAt)}</p>
-                    <p>Телефон продавца: {seller?.phone}</p>
-                    {seller?.closePhone &&  <p>Телефон близкого: {seller?.closePhone}</p>}
-                </div>
+                {
+                    sellers.map((seller, index) => (
+                        <div className={'admin-delivery-card__seller'}>
+                            <p>Продавец: {seller?.nameShop}</p>
+                            <p>Прошло дней: {daysHavePassed(order.createdAt)}</p>
+                            <p>Имя продавца: {seller?.name}</p>
+                            <p>Email продавца: {seller?.email}</p>
+                            <p>Дата покупки: {formatDate(order.createdAt)}</p>
+                            <p>Телефон продавца: {seller?.phone}</p>
+                            {seller?.closePhone &&  <p>Телефон близкого: {seller?.closePhone}</p>}
+                        </div>
+                    ))
+                }
+
             </div>
 
             <h4>Информация о покупателе:</h4>

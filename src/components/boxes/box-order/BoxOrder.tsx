@@ -9,7 +9,7 @@ import {Link} from "react-router-dom";
 
 const BoxOrder = ({order}: {order: IOrderRes}) => {
     const windowWidth = useWindowWidth();
-    const typeGoodArray = useTypeGoodArray(order);
+    const typeGoodArray = useTypeGoodArray(order.orderTypes) as string[];
 
     return (
         <div className={'box-order'}>
@@ -25,31 +25,36 @@ const BoxOrder = ({order}: {order: IOrderRes}) => {
             </div>
             <section className={'box-order__wrapper'}>
                 <div className={'box-order__main'}>
-                    <div className={'box-order__upper'}>
-                        <div className={'box-order__image'}>
-                            <img src={`https://api.td-market.md/${order.goodPhoto}`} alt={order.goodName}/>
-                        </div>
-                        <div className={'box-order__data'}>
-                            {windowWidth < 865 && <p className={'box-order__price-mobile'}>{order.price} RUP</p>}
-                            <h4 className={'box-order__name'}>{order.goodName}</h4>
-                            <p className={'box-order__inf'}>
-                                {typeGoodArray.map((item, index) => (
-                                    <span key={index}>{item}{index < typeGoodArray.length - 1  ? ', ' : ''}</span>
-                                ))}
-                            </p>
-                            <p className={'box-order__inf'}>{order.count} шт.</p>
-                            <p className={'box-order__inf box-order__date'}>
-                                Дата заказа: <span>{formatDateDay(order.createdAt)}</span>
-                            </p>
-                            <p className={'box-order__inf box-order__last'}>
-                                Статус: <span>{order.status}</span>
-                            </p>
-                        </div>
-                        {windowWidth > 865 && <div className={'box-order__right'}>
-                            <Status status={order.status}/>
-                            <p className={'box-order__price'}>{order.price} RUP</p>
-                        </div>}
-                    </div>
+                    {
+                        order.orderTypes.map((type, index) => (
+                            <div className={'box-order__upper'} key={index}>
+                                <div className={'box-order__image'}>
+                                    <img src={`https://api.td-market.md/${type.goodPhoto}`} alt={type.goodName}/>
+                                </div>
+                                <div className={'box-order__data'}>
+                                    {windowWidth < 865 && <p className={'box-order__price-mobile'}>{order.price} RUP</p>}
+                                    <h4 className={'box-order__name'}>{type.goodName}</h4>
+                                    <p className={'box-order__inf'}>
+                                        {typeGoodArray.map((item, index) => (
+                                            <span key={index}>{item}{index < typeGoodArray.length - 1  ? ', ' : ''}</span>
+                                        ))}
+                                    </p>
+                                    <p className={'box-order__inf'}>{type.count} шт.</p>
+                                    <p className={'box-order__inf box-order__date'}>
+                                        Дата заказа: <span>{formatDateDay(order.createdAt)}</span>
+                                    </p>
+                                    <p className={'box-order__inf box-order__last'}>
+                                        Статус: <span>{order.status}</span>
+                                    </p>
+                                </div>
+                                {windowWidth > 865 && <div className={'box-order__right'}>
+                                    <Status status={order.status}/>
+                                    <p className={'box-order__price'}>{order.price} RUP</p>
+                                </div>}
+                            </div>
+                        ))
+                    }
+
                     <div className={'box-order__bottom'}>
                         {order.deliveryAddress && <div>
                             <h3>Адрес доставки:</h3>

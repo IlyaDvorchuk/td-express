@@ -12,7 +12,7 @@ interface IProps {
 }
 
 const OrderMiniCard = ({order, isEven}: IProps) => {
-    const typeGoodArray = useTypeGoodArray(order);
+    const typeGoodArray = useTypeGoodArray(order.orderTypes);
 
     const dateOrder = useMemo(() => {
         return formatDate(order.createdAt)
@@ -21,13 +21,17 @@ const OrderMiniCard = ({order, isEven}: IProps) => {
     return (
         <div className={`order-mini-card ${isEven ? 'order-mini-card_even' : 'order-mini-card_odd'}`}>
             <div className={'order-mini-card__name'}>
-                <div className={'order-mini-card__img'}>
-                    <img src={`https://api.td-market.md/${order.goodPhoto}`} alt=""/>
-                </div>
+                {order.orderTypes.map((type, index) => (
+                    <div className={'order-mini-card__img'} key={index}>
+                        <img src={`https://api.td-market.md/${type.goodPhoto}`} alt=""/>
+                    </div>
+                ))}
                 <div>
-                    <h2 className={'order-mini-card__title'}>
-                        {order.goodName}
-                    </h2>
+                    {order.orderTypes.map((type, index) => (
+                        <h2 className={'order-mini-card__title'} key={index}>
+                            {type.goodName}
+                        </h2>
+                    ))}
                     <p className={'order-mini-card__type'}>
                         {typeGoodArray.map((item, index) => (
                             <span key={index}>{item}{index < typeGoodArray.length - 1  ? ', ' : ''}</span>
@@ -43,10 +47,11 @@ const OrderMiniCard = ({order, isEven}: IProps) => {
                     {order.buyer.phone}
                 </p>
             </div>
-
-            <div className={'order-mini-card__count'}>
-                {order.count} шт.
-            </div>
+            {order.orderTypes.map((type, index) => (
+                <div className={'order-mini-card__count'} key={index}>
+                    {type.count} шт.
+                </div>
+            ))}
             <div className={'order-mini-card__payment'}>
                 <p>
                     {order.paymentMethod === 'bankCard' && 'Онлайн'}

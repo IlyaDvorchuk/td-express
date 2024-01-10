@@ -1,15 +1,23 @@
 import {OrderEnum} from "./enums";
 import {IType} from "./IProductCard";
 
-export interface IOrder {
-    currentType?: IType,
-    orderId: string
+export interface OrderType {
     goodName: string
     goodPhoto: string,
     goodId: string,
     typeId: string,
-    userId: string | null,
     shelterId: string,
+    price: number,
+    count: number,
+}
+
+export interface IOrder {
+    currentType?: IType,
+    orderId: string
+    orderTypes: OrderType[],
+    price: number,
+    userId: string | null,
+    shelterIds: string[],
     status: OrderEnum,
     deliveryMethod: 'pickup' | 'express' | 'doorstep',
     paymentMethod: 'bankCard' | 'qrCode' | 'cash',
@@ -18,8 +26,7 @@ export interface IOrder {
         name: string,
         phone: string,
     },
-    price: number,
-    count: number,
+
     city: string,
     deliveryAddress?: {
         street: string,

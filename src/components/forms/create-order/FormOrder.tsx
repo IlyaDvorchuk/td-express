@@ -175,12 +175,21 @@ const FormOrder = () => {
 
         const order = {
             orderId: id,
-            goodName: card?.information.name,
-            goodPhoto: card?.mainPhoto,
-            goodId: card?._id,
-            typeId: card?.currentType?._id,
+            orderTypes: [
+                {
+                    goodName: card?.information.name,
+                    typeId: card?.currentType?._id,
+                    goodPhoto: card?.mainPhoto,
+                    goodId: card?._id,
+                    price: finalPrice - ((city && selectedDelivery === 'doorstep') ? +city.price : 0),
+                    count: typeGood || 1,
+                    shelterId: card?.shelterId,
+
+                }
+            ],
+            price: finalPrice - ((city && selectedDelivery === 'doorstep') ? +city.price : 0),
+            shelterIds: [card?.shelterId],
             userId: user ? user._id : null,
-            shelterId: card?.shelterId,
             status: 'ожидает подтверждения',
             deliveryMethod: data.delivery,
             paymentMethod: data?.paymentMethod || 'bankCard',
@@ -189,8 +198,6 @@ const FormOrder = () => {
                 name: data.name,
                 phone: data.phone,
             },
-            price: finalPrice - ((city && selectedDelivery === 'doorstep') ? +city.price : 0),
-            count: typeGood || 1,
             city: city?.value || '',
             isTdMarket: card?.marketDelivery !== 'self-delivery'
         } as IOrder

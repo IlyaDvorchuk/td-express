@@ -15,7 +15,7 @@ interface IProps {
 
 const OrderCard = ({order, isEven}: IProps) => {
     const [status, setStatus] = useState<OrderEnum>(order.status)
-    const typeGoodArray = useTypeGoodArray(order);
+    const typeGoodArray = useTypeGoodArray(order.orderTypes);
 
     const dateOrder = useMemo(() => {
         return formatDate(order.createdAt)
@@ -24,15 +24,16 @@ const OrderCard = ({order, isEven}: IProps) => {
     const onChangeStatus = async (status: OrderEnum) => {
         let newStatus: OrderEnum
         let text;
+        const productNames = order.orderTypes.map(orderType => orderType.goodName).join(', ');
         if (status === OrderEnum.AWAITING_CONFIRMATION) {
             newStatus = OrderEnum.AWAITING_SHIPMENT
-            text = `Ваш товар <b>${order.goodName}</b> ожидает отправки`
+            text = `Ваш товар: <b>${productNames}</b> ожидает отправки`
         } else if (status === OrderEnum.AWAITING_SHIPMENT) {
             newStatus = OrderEnum.DELIVERY
-            text = `Ваш товар  <b>${order.goodName}</b> доставляется`
+            text = `Ваш  товар: <b>${productNames}</b> доставляется`
         } else if (status === OrderEnum.DELIVERY) {
             newStatus = OrderEnum.COMPLETED
-            text = `Ваш товар <b>${order.goodName}</b> доставлен`
+            text = `Ваш  товар: <b>${productNames}</b> доставлен`
         } else return
         const response = await ShelterService.changeStatus(order._id, newStatus)
         if (order.userId) {
@@ -47,13 +48,17 @@ const OrderCard = ({order, isEven}: IProps) => {
     return (
         <div className={`order-card ${isEven ? 'order-card_even' : 'order-card_odd'}`}>
             <div className={'order-card__name'}>
-                <div className={'order-card__img'}>
-                    <img src={`https://api.td-market.md/${order.goodPhoto}`} alt=""/>
-                </div>
+                {order.orderTypes.map((type, index) => (
+                    <div className={'order-card__img'} key={index}>
+                        <img src={`https://api.td-market.md/${type.goodPhoto}`} alt=""/>
+                    </div>
+                ))}
                 <div>
-                    <h2 className={'order-card__title'}>
-                        {order.goodName}
-                    </h2>
+                    {order.orderTypes.map((type, index) => (
+                        <h2 className={'order-card__title'} key={index}>
+                            {type.goodName}
+                        </h2>
+                    ))}
                     <p className={'order-card__type'}>
                         {typeGoodArray.map((item, index) => (
                             <span key={index}>{item}{index < typeGoodArray.length - 1  ? ', ' : ''}</span>
@@ -72,9 +77,11 @@ const OrderCard = ({order, isEven}: IProps) => {
             <div className={'order-card__price'}>
                 {order.price + (order?.deliveryAddress?.deliveryPrice || 0)} р.
             </div>
-            <div className={'order-card__count'}>
-                {order.count} шт.
-            </div>
+            {order.orderTypes.map((type, index) => (
+                <div className={'order-card__count'} key={index}>
+                    {type.count} шт.
+                </div>
+            ))}
             <div className={'order-card__payment'}>
                 <p>
                     {order.paymentMethod === 'bankCard' && 'Онлайн'}

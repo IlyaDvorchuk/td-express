@@ -16,7 +16,7 @@ interface IProps {
 const OrderCardMobile = ({order}: IProps) => {
     const [status, setStatus] = useState<OrderEnum>(order.status)
     const [isActive, setIsActive] = useState(false)
-    const typeGoodArray = useTypeGoodArray(order);
+    const typeGoodArrays = useTypeGoodArray(order.orderTypes) as string[];
 
     const dateOrder = useMemo(() => {
         return formatDate(order.createdAt)
@@ -25,15 +25,16 @@ const OrderCardMobile = ({order}: IProps) => {
     const onChangeStatus = async (status: OrderEnum) => {
         let newStatus: OrderEnum
         let text;
+        const productNames = order.orderTypes.map(orderType => orderType.goodName).join(', ');
         if (status === OrderEnum.AWAITING_CONFIRMATION) {
             newStatus = OrderEnum.AWAITING_SHIPMENT
-            text = `Ваш товар <b>${order.goodName}</b> ожидает отправки`
+            text = `Ваш товар: <b>${productNames}</b> ожидает отправки`
         } else if (status === OrderEnum.AWAITING_SHIPMENT) {
             newStatus = OrderEnum.DELIVERY
-            text = `Ваш товар  <b>${order.goodName}</b> доставляется`
+            text = `Ваш товар:  <b>${productNames}</b> доставляется`
         } else if (status === OrderEnum.DELIVERY) {
             newStatus = OrderEnum.COMPLETED
-            text = `Ваш товар <b>${order.goodName}</b> доставлен`
+            text = `Ваш товар: <b>${productNames}</b> доставлен`
         } else return
         const response = await ShelterService.changeStatus(order._id, newStatus)
         if (order.userId) {
@@ -57,24 +58,32 @@ const OrderCardMobile = ({order}: IProps) => {
     return (
         <div className={'order-card-mobile'} onClick={onClickCard}>
             <div className={'order-card-mobile__visible'}>
-                <div className={'order-card-mobile__image'}>
-                    <img src={`https://api.td-market.md/${order.goodPhoto}`} alt={order.goodName}/>
-                </div>
+                {order.orderTypes.map((type, index) => (
+                    <div className={'order-card-mobile__image'} key={index}>
+                        <img src={`https://api.td-market.md/${type.goodPhoto}`} alt={type.goodName}/>
+                    </div>
+                ))}
+
                 <div>
-                    <h2 className={'order-card-mobile__title'}>
-                        {order.goodName}
-                    </h2>
+                    {order.orderTypes.map((type, index) => (
+                        <h2 className={'order-card-mobile__title'} key={index}>
+                            {type.goodName}
+                        </h2>
+                    ))}
+
                     <p className={'order-card-mobile__title order-card-mobile__price'}>
                         {order.price + (order?.deliveryAddress?.deliveryPrice || 0)} Руб.
                     </p>
                     <p className={'order-card-mobile__types'}>
-                        {typeGoodArray.map((item, index) => (
-                            <span key={index}>{item}{index < typeGoodArray.length - 1  ? ', ' : ''}</span>
+                        {typeGoodArrays.map((item, index) => (
+                            <span key={index}>{item}{index < typeGoodArrays.length - 1  ? ', ' : ''}</span>
                         ))}
                     </p>
-                    <div className={'order-card-mobile__types order-card-mobile__count'}>
-                        {order.count} шт.
-                    </div>
+                    {order.orderTypes.map((type, index) => (
+                        <div className={'order-card-mobile__types order-card-mobile__count'} key={index}>
+                            {type.count} шт.
+                        </div>
+                    ))}
                     <p className={'order-card-mobile__delivery'}>
                         {order.deliveryMethod === 'pickup' && 'Самовывоз'}
                         {order.deliveryMethod === 'express' && 'Экспресс-почтой'}

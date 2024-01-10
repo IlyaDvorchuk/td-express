@@ -13,7 +13,7 @@ interface IProps {
 
 const OrderUserCard = ({order}: IProps) => {
     const navigation = useNavigate()
-    const typeGoodArray = useTypeGoodArray(order);
+    const typeGoodArray = useTypeGoodArray(order.orderTypes);
     const windowWidth = useWindowWidth();
 
     const onClickCard = () => {
@@ -33,22 +33,27 @@ const OrderUserCard = ({order}: IProps) => {
                 <Status status={order.status}/>
             </div>
             <div onClick={onClickCard} className={'order-user-card'}>
-                <div className={'order-user-card__image'}>
-                    <img src={`https://api.td-market.md/${order.goodPhoto}`} alt={order.goodName}/>
-                </div>
-                <div className={'order-user-card__data'}>
-                    <h4 className={'order-user-card__price-mobile'}>{order.price} RUP</h4>
-                    <h4 className={'order-user-card__name'}>{order.goodName}</h4>
-                    <p className={'order-user-card__inf'}>
-                        {typeGoodArray.map((item, index) => (
-                            <span key={index}>{item}{index < typeGoodArray.length - 1  ? ', ' : ''}</span>
-                        ))}
-                    </p>
-                    <p className={'order-user-card__inf'}>{order.count} шт.</p>
-                    <p className={'order-user-card__inf order-user-card__date'}>
-                        Дата заказа: <span>{formatDateDay(order.createdAt)}</span>
-                    </p>
-                </div>
+                {order.orderTypes.map((type, index) => (
+                    <div className={'order-user-card__image'} key={index}>
+                        <img src={`https://api.td-market.md/${type.goodPhoto}`} alt={type.goodName}/>
+                    </div>
+                ))}
+                {order.orderTypes.map((type, index) => (
+                    <div className={'order-user-card__data'} key={index}>
+                        <h4 className={'order-user-card__price-mobile'}>{order.price} RUP</h4>
+                        <h4 className={'order-user-card__name'}>{type.goodName}</h4>
+                        <p className={'order-user-card__inf'}>
+                            {typeGoodArray.map((item, index) => (
+                                <span key={index}>{item}{index < typeGoodArray.length - 1  ? ', ' : ''}</span>
+                            ))}
+                        </p>
+                        <p className={'order-user-card__inf'}>{type.count} шт.</p>
+                        <p className={'order-user-card__inf order-user-card__date'}>
+                            Дата заказа: <span>{formatDateDay(order.createdAt)}</span>
+                        </p>
+                    </div>
+                ))}
+
                 <div className={'order-user-card__right'}>
                     <Status status={order.status}/>
                     <p className={'order-user-card__price'}>{order.price} RUP</p>

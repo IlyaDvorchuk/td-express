@@ -125,6 +125,7 @@ export const createNewPasswordUser = (email: string ,password: string) => async 
 
 export const createOrder = (order: IOrder) => async (dispatch: AppDispatch) => {
     try {
+
         dispatch(userSlice.actions.loginFetching())
         const response = await UserService.createOrder(order)
 
@@ -150,12 +151,18 @@ export const createOrder = (order: IOrder) => async (dispatch: AppDispatch) => {
         const daysOfWeek = ['вс', 'пн', 'вт', 'ср', 'чт', 'пт', 'сб'];
 
         const formattedDate = `${currentDate.getDate()}.${currentDate.getMonth() + 1}.${currentDate.getFullYear().toString().slice(-2)} ${daysOfWeek[dayOfWeek]} ${currentDate.getHours()}:${String(currentDate.getMinutes()).padStart(2, '0')}`;
-        await AdminService.createNotification(
-            order.shelterId,
-            `<p>Ваш товар <b>“${order.goodName} ${order?.currentType?.size ? `, ${order.currentType.size}` : ''} ${order?.currentType?.color ? `, ${order.currentType.color}` : ''}”</b> был заказан в количестве  <b>${order.count} штук</b>.</p>
+
+        for (let type of order.orderTypes) {
+            const totalOrderCount = order.orderTypes.reduce((sum, orderType) => sum + orderType.count, 0);
+
+            await AdminService.createNotification(
+                type.shelterId,
+                `<p>Ваш товар <b>“${type.goodName} ${order?.currentType?.size ? `, ${order.currentType.size}` : ''} ${order?.currentType?.color ? `, ${order.currentType.color}` : ''}”</b> был заказан в количестве  <b>${totalOrderCount} штук</b>.</p>
                 <p>${deliveryString}</p>
                 <p>${formattedDate}</p>`
-        )
+            )
+        }
+
         if (response.data) {
             dispatch(userSlice.actions.loginSuccess())
         } else {
