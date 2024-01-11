@@ -5,6 +5,7 @@ import userReducer from './reducers/user/UserSlice'
 import shelterReducer from './reducers/shelter/ShelterSlice'
 import searchReducer from './reducers/search/SearchSlice'
 import filterReducer from './reducers/filter/FilterSlice'
+import orderReducer from './reducers/OrderSlice'
 
 const rootReducer = combineReducers({
     locationReducer,
@@ -12,7 +13,8 @@ const rootReducer = combineReducers({
     userReducer,
     shelterReducer,
     searchReducer,
-    filterReducer
+    filterReducer,
+    orderReducer
 })
 
 export const setupStore = () => {

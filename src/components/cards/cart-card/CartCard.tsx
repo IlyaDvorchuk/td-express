@@ -51,6 +51,10 @@ const CartCard = ({cart, isChecked, onCheckboxChange, deleteCart, setChangeCount
         onCheckboxChange(cart, !localChecked);
     };
 
+    useEffect(() => {
+        console.log('cart', cart)
+    }, [cart])
+
     const onSetCount = (operator: '+' | '-') => {
         setChangeCount(prev => ++prev)
         if (operator === '+') {

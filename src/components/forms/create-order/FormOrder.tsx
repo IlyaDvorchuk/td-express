@@ -19,10 +19,15 @@ const FormOrder = () => {
     const card = useFetchCard();
 
     const {user} = useAppSelector(state => state.userReducer)
+    const orderStore = useAppSelector(state => state.orderReducer)
     const [selectedDelivery, setSelectedDelivery] = useState<string | null>(null);
     const [selectedPayment, setSelectedPayment] = useState<string | null>(null);
     const [city, setCity] = useState<TCity | null>(null)
     const [isActiveButton, setIsActiveButton] = useState<boolean>(false)
+
+    useEffect(() => {
+        console.log('order', orderStore)
+    }, [orderStore])
 
     const deliveryCities = useMemo(() => {
         if (selectedDelivery === 'express') {
@@ -33,21 +38,21 @@ const FormOrder = () => {
             })) as unknown as TCity[]
         }
 
-        if (!card?.deliveryCities) {
+        if (!orderStore?.deliveryCities) {
             return []
         }
 
-        return card?.deliveryCities.map(city => ({
+        return orderStore?.deliveryCities.map(city => ({
             value: city.city,
             label: city.city,
             price: city.price
         }))
-    }, [card?.deliveryCities, selectedDelivery])
+    }, [orderStore?.deliveryCities, selectedDelivery])
 
 
     useEffect(() => {
 
-    }, [card])
+    }, [orderStore])
 
     const {
         register,
@@ -95,7 +100,7 @@ const FormOrder = () => {
 
 
     useEffect(() => {
-        const deliveryCities = card?.deliveryCities || [];
+        const deliveryCities = orderStore?.deliveryCities || [];
 
         const cityIndex = deliveryCities.findIndex(city => city.city === localStorage.getItem('city'));
 
@@ -121,22 +126,22 @@ const FormOrder = () => {
             return
         }
         setCity(null)
-    }, [card?.deliveryCities])
+    }, [orderStore?.deliveryCities])
 
-
-    useEffect(() => {
-        console.log('card', card)
-    }, [card])
 
     const finalPrice = useMemo(() => {
-        if (!card) {
+        if (!orderStore.cards ) {
+            return 0; // По умолчанию вернем 0 или другое значение, в зависимости от вашей логики
+        }
+        if (!(orderStore.cards.length > 0) ) {
             return 0; // По умолчанию вернем 0 или другое значение, в зависимости от вашей логики
         }
 
         const deliveryCharge = (selectedDelivery === 'doorstep' && city) ? +city.price : 0;
 
-        return card?.pricesAndQuantity.price * typeGood + deliveryCharge;
-    }, [selectedDelivery, card, city, selectedDelivery]);
+        const totalOrderCount = orderStore.cards.reduce((sum, orderType) => sum + orderType.card.pricesAndQuantity.price, 0);
+        return totalOrderCount * typeGood + deliveryCharge;
+    }, [selectedDelivery, orderStore, city, selectedDelivery]);
 
 
     const onChangeDelivery = (delivery: string) => {
@@ -163,32 +168,38 @@ const FormOrder = () => {
         return input;
     };
 
+    const sellerIds = useMemo(() => {
+        return orderStore.cards.map(card => card.card.shelterId)
+    }, [orderStore.cards])
+
+
     const onSubmit = (data: any) => {
         // if (selectedDelivery === 'doorstep') {
         //     setErrorCity(true)
         //     return
         // }
-        if (!card
+        if (!orderStore.marketDelivery
             && !isActiveButton
         ) return
         const id = createIdOrder();
 
+        const orderTypes = orderStore.cards.map(card => {
+            return {
+                goodName: card.card?.information.name,
+                typeId: card?.currentType?._id,
+                goodPhoto: card.card?.mainPhoto,
+                goodId: card.card?._id,
+                price: finalPrice - ((city && selectedDelivery === 'doorstep') ? +city.price : 0),
+                count: typeGood || 1,
+                shelterId: card.card?.shelterId,
+            }
+        })
+
         const order = {
             orderId: id,
-            orderTypes: [
-                {
-                    goodName: card?.information.name,
-                    typeId: card?.currentType?._id,
-                    goodPhoto: card?.mainPhoto,
-                    goodId: card?._id,
-                    price: finalPrice - ((city && selectedDelivery === 'doorstep') ? +city.price : 0),
-                    count: typeGood || 1,
-                    shelterId: card?.shelterId,
-
-                }
-            ],
+            orderTypes: orderTypes,
             price: finalPrice - ((city && selectedDelivery === 'doorstep') ? +city.price : 0),
-            shelterIds: [card?.shelterId],
+            shelterIds: sellerIds,
             userId: user ? user._id : null,
             status: 'ожидает подтверждения',
             deliveryMethod: data.delivery,
@@ -199,7 +210,7 @@ const FormOrder = () => {
                 phone: data.phone,
             },
             city: city?.value || '',
-            isTdMarket: card?.marketDelivery !== 'self-delivery'
+            isTdMarket: orderStore?.marketDelivery !== 'self-delivery'
         } as IOrder
 
         if (data.delivery === 'doorstep') {
@@ -214,7 +225,7 @@ const FormOrder = () => {
             }
         }
 
-
+        const productNames = order.orderTypes.map(orderType => orderType.goodName).join(', ');
         localStorage.setItem('id-order', id.split(' ')[1])
         const form = document.createElement('form');
         form.method = 'POST';
@@ -227,7 +238,7 @@ const FormOrder = () => {
             // { name: 'RequestSum', value: `${finalPrice * 100}` },
             { name: 'RequestSum', value: `5` },
             { name: 'RequestCurrCode', value: '000' },
-            { name: 'Desc', value: `Оплата заказа №${id.split(' ')[1]}, ${card?.information.name}` },
+            { name: 'Desc', value: `Оплата заказа №${id.split(' ')[1]}, ${productNames}` },
         ];
 
         parameters.forEach(({ name, value }) => {
@@ -236,8 +247,7 @@ const FormOrder = () => {
 
 
         const signature = `000209:${id}:0:${parameters[3].value}:000:${parameters[5].value}:HBmWYiyiwWrCsYlsD6Qk`;
-        localStorage.setItem('SignatureValue', JSON.stringify({...order, currentType: card?.currentType
-    }))
+        localStorage.setItem('SignatureValue', JSON.stringify({...orderStore}))
         form.appendChild(createHiddenInput('SignatureValue', CryptoJS.MD5(signature).toString()));
 
         console.log('form', form);
@@ -264,7 +274,7 @@ const FormOrder = () => {
                 <div className={'order__ordering'}>
                     <div className={'order__radio'}>
                         <p className={`label order__label_up ${errors.delivery ? 'error' : ''}`}>Выберите способ доставки*</p>
-                        {card && card?.deliveryPoints?.length > 0 && <div className={'wrapper-radio'}>
+                        {orderStore && sellerIds.length === 1 && orderStore.cards[0]?.card.deliveryPoints.length > 0 && <div className={'wrapper-radio'}>
                             <label htmlFor="pickup"
                                    className={`custom-radio ${errors.delivery ? 'error' : ''} ${selectedDelivery === 'pickup' ? 'selected' : ''}`}>
                                 <input

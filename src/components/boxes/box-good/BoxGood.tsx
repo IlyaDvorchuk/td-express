@@ -19,6 +19,7 @@ import {calculateCardTypes} from "../../../utils/calculateCardTypes";
 import {useWindowWidth} from "../../../hooks/useWindowWidth";
 import {userSlice} from "../../../store/reducers/user/UserSlice";
 import {PopupEnum} from "../../../models/enums";
+import {orderSlice} from "../../../store/reducers/OrderSlice";
 
 const BoxGood = ({card} : {card: IProductCardRes}) => {
     const dispatch = useAppDispatch()
@@ -33,6 +34,7 @@ const BoxGood = ({card} : {card: IProductCardRes}) => {
     const {user} = useAppSelector(state => state.userReducer)
     const {setPopup} = userSlice.actions
     const {changeActive} = locationSlice.actions
+    const {createStoreOrder} = orderSlice.actions
     const [mainPhoto, setMainPhoto] = useState(card.mainPhoto);
     const [shelter, setShelter] = useState<IShelterForGood | null>(null)
     const [count, setCount] = useState(1)
@@ -45,10 +47,11 @@ const BoxGood = ({card} : {card: IProductCardRes}) => {
     const [isNewCard, setIsNewCard] = useState(true)
     const windowWidth = useWindowWidth()
     const swiperRef = useRef() as any;
+    const order = useAppSelector(state => state.orderReducer)
 
     useEffect(() => {
-
-    }, [])
+        console.log('order', order)
+    }, [order])
 
     const [deliveryCities, setDeliveryCities] = useState<IDeliveryCity[]>([])
     const [isFavorite, setIsFavorite] = useState(false)
@@ -215,7 +218,8 @@ const BoxGood = ({card} : {card: IProductCardRes}) => {
                 quantity: count,
                 size: activeSize,
                 color: activeColor,
-                typeId: typeId || ''
+                typeId: typeId || '',
+                nameShelter: shelter?.name || ''
             })
             if (response.status === 201) {
 
@@ -239,6 +243,16 @@ const BoxGood = ({card} : {card: IProductCardRes}) => {
         localStorage.setItem('typeGood', typeGood)
         // const response = await UserService.setBank()
         // console.log('response', response)
+        dispatch(createStoreOrder({
+            cards: [
+                {
+                    card,
+                    currentType
+                }
+            ],
+            deliveryCities,
+            marketDelivery: shelter?.marketDelivery
+        }))
 
         navigate(`/buy/${card._id}`, {
             state: {

@@ -5,6 +5,7 @@ export interface ICart {
     // isFavorite: boolean;
     size?: string;
     color?: string;
+    nameShelter: string
 }
 
 export interface ICartReq extends ICart{
