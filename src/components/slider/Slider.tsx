@@ -44,6 +44,11 @@ const Slider = () => {
                         <img src="/images/slider/shop-sport.png" alt=""/>
                     </Link>
                 </SwiperSlide>
+                <SwiperSlide className={'slider__item'}>
+                    <Link to={'seller/maicom'}>
+                        <img src="/images/slider/slider-maicom.png" alt=""/>
+                    </Link>
+                </SwiperSlide>
             </Swiper>
             <button className={'slider-button swiper-button-prev'} onClick={() => swiperRef.current.slidePrev()}>
                 <img src={'/images/svg/arrow-left.svg'} alt={'arrow right'}/>

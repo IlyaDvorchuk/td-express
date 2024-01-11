@@ -151,7 +151,7 @@ function App() {
                     }
                     />
                     <Route
-                        path="/buy/:id"
+                        path="/buy"
                         element={
                             <>
                                 <Header />

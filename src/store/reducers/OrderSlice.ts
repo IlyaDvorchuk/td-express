@@ -5,7 +5,8 @@ import {IDeliveryCity} from "../../models/IDeliveryCity";
 interface IOrderSlice {
     cards: {
         card: IProductCardRes,
-        currentType: ITypeRes | null
+        currentType: ITypeRes | null,
+        count: number,
     }[]
     deliveryCities: IDeliveryCity[],
     marketDelivery: "td-delivery" | "self-delivery" | undefined,

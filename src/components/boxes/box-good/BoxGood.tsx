@@ -236,33 +236,21 @@ const BoxGood = ({card} : {card: IProductCardRes}) => {
     }
 
     const onBuy = async () => {
-        const typeGood = JSON.stringify({
-            count,
-            // activeSize
-        })
-        localStorage.setItem('typeGood', typeGood)
         // const response = await UserService.setBank()
         // console.log('response', response)
         dispatch(createStoreOrder({
             cards: [
                 {
                     card,
-                    currentType
+                    currentType,
+                    count
                 }
             ],
             deliveryCities,
             marketDelivery: shelter?.marketDelivery
         }))
 
-        navigate(`/buy/${card._id}`, {
-            state: {
-                ...card,
-                deliveryCities,
-                currentType,
-                marketDelivery: shelter?.marketDelivery
-                // activeSize: activeSize
-            }
-        })
+        navigate(`/buy`)
     }
 
     const onChangeColor = (str: string) => {

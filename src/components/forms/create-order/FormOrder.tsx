@@ -1,6 +1,5 @@
 import React, {useEffect, useMemo, useState} from 'react';
 import './form-order.scss'
-import useFetchCard from "../../../hooks/fetch-card";
 import {useForm, Controller } from "react-hook-form";
 import Select, {SingleValue} from "react-select";
 import {useAppSelector} from "../../../hooks/redux";
@@ -16,7 +15,6 @@ type TCity = {
 
 const FormOrder = () => {
     const navigate = useNavigate()
-    const card = useFetchCard();
 
     const {user} = useAppSelector(state => state.userReducer)
     const orderStore = useAppSelector(state => state.orderReducer)
@@ -93,12 +91,6 @@ const FormOrder = () => {
         setIsActiveButton(isActive);
     }, [formData]);
 
-    const typeGood = useMemo(() => {
-        // @ts-ignore
-        return JSON.parse(localStorage.getItem('typeGood')).count
-    }, [])
-
-
     useEffect(() => {
         const deliveryCities = orderStore?.deliveryCities || [];
 
@@ -128,6 +120,20 @@ const FormOrder = () => {
         setCity(null)
     }, [orderStore?.deliveryCities])
 
+    const priceOrder = useMemo(() => {
+        const priceBeforeDiscount = orderStore.cards.reduce((sum, orderType) => {
+            return orderType.card?.pricesAndQuantity.priceBeforeDiscount ?
+                (orderType.card.pricesAndQuantity.priceBeforeDiscount * orderType.count) : (orderType.card.pricesAndQuantity.price * orderType.count)
+        }, 0)
+        const discount = orderStore.cards.reduce((sum, orderType) => {
+            return orderType.card?.pricesAndQuantity.priceBeforeDiscount ? (orderType.card?.pricesAndQuantity.priceBeforeDiscount - orderType.card?.pricesAndQuantity.price) * orderType.count : 0
+        }, 0)
+        return {
+            priceBeforeDiscount,
+            discount
+        }
+    }, [orderStore.cards])
+
 
     const finalPrice = useMemo(() => {
         if (!orderStore.cards ) {
@@ -139,8 +145,8 @@ const FormOrder = () => {
 
         const deliveryCharge = (selectedDelivery === 'doorstep' && city) ? +city.price : 0;
 
-        const totalOrderCount = orderStore.cards.reduce((sum, orderType) => sum + orderType.card.pricesAndQuantity.price, 0);
-        return totalOrderCount * typeGood + deliveryCharge;
+        const totalOrderCount = orderStore.cards.reduce((sum, orderType) => sum + (orderType.card.pricesAndQuantity.price * orderType.count), 0);
+        return totalOrderCount + deliveryCharge;
     }, [selectedDelivery, orderStore, city, selectedDelivery]);
 
 
@@ -190,7 +196,7 @@ const FormOrder = () => {
                 goodPhoto: card.card?.mainPhoto,
                 goodId: card.card?._id,
                 price: finalPrice - ((city && selectedDelivery === 'doorstep') ? +city.price : 0),
-                count: typeGood || 1,
+                count: card.count || 1,
                 shelterId: card.card?.shelterId,
             }
         })
@@ -247,7 +253,7 @@ const FormOrder = () => {
 
 
         const signature = `000209:${id}:0:${parameters[3].value}:000:${parameters[5].value}:HBmWYiyiwWrCsYlsD6Qk`;
-        localStorage.setItem('SignatureValue', JSON.stringify({...orderStore}))
+        localStorage.setItem('SignatureValue', JSON.stringify({...order}))
         form.appendChild(createHiddenInput('SignatureValue', CryptoJS.MD5(signature).toString()));
 
         console.log('form', form);
@@ -265,6 +271,7 @@ const FormOrder = () => {
     const houseValidation = register('house', {
         required: isDoorstepDelivery === 'doorstep' ? 'Дом обязателен' : false,
     });
+
 
 
     return (
@@ -460,16 +467,15 @@ const FormOrder = () => {
                         <h4 className={'order__subtitle'}>Ваш заказ</h4>
                         <div className={'cart-ordering__price'}>
                         <span>
-                            Товары, {typeGood || 1}
+                            Товары, {orderStore.cards.reduce((sum, orderType) => (sum + orderType.count), 0) || 1}
                         </span>
-                            <span>{card && (card?.pricesAndQuantity.priceBeforeDiscount ?
-                                (card.pricesAndQuantity.priceBeforeDiscount * typeGood) : (card.pricesAndQuantity.price * typeGood))} RUP</span>
+                            <span>{priceOrder.priceBeforeDiscount} RUP</span>
                         </div>
-                        {card?.pricesAndQuantity.priceBeforeDiscount && <div className={'cart-ordering__price'}>
+                        {priceOrder.discount > 0 && <div className={'cart-ordering__price'}>
                         <span>
                             Скидка
                         </span>
-                            <span>{(card?.pricesAndQuantity.priceBeforeDiscount - card?.pricesAndQuantity.price) * typeGood} RUP</span>
+                            <span>{priceOrder.discount} RUP</span>
                         </div>}
                         <div className={'cart-ordering__price'}>
                             {selectedDelivery === 'doorstep' && <>
