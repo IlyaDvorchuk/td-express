@@ -76,8 +76,12 @@ export class GoodsService {
         })
     }
 
-    static async getGood(id: string): Promise<AxiosResponse<IProductCardRes>> {
-        return axios.get<IProductCardRes>(`${API_URL}product-cards/${id}`)
+    static async getGood(id: string, userId: string = ''): Promise<AxiosResponse<IProductCardRes>> {
+        return axios.get<IProductCardRes>(`${API_URL}product-cards/${id}`, {
+            params: {
+                userId
+            }
+        })
     }
 
     static async getShelterByGood(id: string) {

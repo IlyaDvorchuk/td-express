@@ -27,10 +27,9 @@ const Footer = () => {
                             <img src={'/images/svg/arrow-down.svg'} alt={'Переключить'} className={'footer__arrow'}/>
                         </h3>
                         <div className={'footer__list'}>
-                            <Link to={'/'} className={'footer__link'}>Как сделать покупку</Link>
-                            <Link to={'/'} className={'footer__link'}>Возврат товара</Link>
-                            <Link to={'/'} className={'footer__link'}>Возврат денежных товаров</Link>
-                            <Link to={'/'} className={'footer__link'}>Поддержка</Link>
+                            <Link to={'/faq#howToOrder'} className={'footer__link'}>Как сделать покупку</Link>
+                            <Link to={'/faq#delivery'} className={'footer__link'}>Как работает доставка</Link>
+                            <a href={'https://t.me/TDMarket_bot'} target={'_blank'} rel="noopener noreferrer" className={'footer__link'}>Поддержка</a>
                         </div>
                     </div>
                     <div className={`footer__column ${isExpanded[1] ? 'expanded' : ''}`}>
@@ -41,9 +40,9 @@ const Footer = () => {
                             <img src={'/images/svg/arrow-down.svg'} alt={'Переключить'} className={'footer__arrow'}/>
                         </h3>
                         <div className={'footer__list'}>
-                            <Link to={'/'} className={'footer__link'}>Продавайте на td-market</Link>
-                            <Link to={'/'} className={'footer__link'}>Личный кабинет продавца</Link>
-                            <Link to={'/'} className={'footer__link'}>Документация</Link>
+                            <Link to={'/registration'} className={'footer__link'}>Продавайте на td-market</Link>
+                            <Link to={'/seller'} className={'footer__link'}>Личный кабинет продавца</Link>
+                            <a href={'/documents/oferta_td_market.pdf'} target={'_blank'} rel="noopener noreferrer" className={'footer__link'}>Документация</a>
                         </div>
                     </div>
                     <div className={`footer__column ${isExpanded[2] ? 'expanded' : ''}`}>
@@ -54,9 +53,8 @@ const Footer = () => {
                             <img src={'/images/svg/arrow-down.svg'} alt={'Переключить'} className={'footer__arrow'}/>
                         </h3>
                         <div className={'footer__list'}>
-                            <Link to={'/'} className={'footer__link'}>О нас</Link>
-                            <Link to={'/'} className={'footer__link'}>Вопрос - ответ</Link>
-                            <Link to={'/'} className={'footer__link'}>Договор публичной оферты</Link>
+                            <Link to={'/faq'} className={'footer__link'}>Вопрос - ответ</Link>
+                            <a href={'/documents/oferta_td_market.pdf'} target={'_blank'} rel="noopener noreferrer" className={'footer__link'}>Договор публичной оферты</a>
                         </div>
                     </div>
                     <div className={`footer__column ${isExpanded[3] ? 'expanded' : ''}`}>
@@ -68,14 +66,11 @@ const Footer = () => {
                         </h3>
                         <div className={'footer__list'}>
                             <div className={'footer__icons'}>
-                                <a href={'/'} target={"_blank"} rel="noreferrer">
+                                <a href={'https://t.me/td_market'} target={"_blank"} rel="noreferrer">
                                     <img src="/images/svg/telegram.svg" alt="Telegram"/>
                                 </a>
-                                <a href={'/'} target={"_blank"} rel="noreferrer">
+                                <a href={'https://www.instagram.com/td_market_official/'} target={"_blank"} rel="noreferrer">
                                     <img src="/images/svg/instagram.svg" alt="Instagram"/>
-                                </a>
-                                <a href={'/'} target={"_blank"} rel="noreferrer">
-                                    <img src="/images/svg/wk.svg" alt="Wk"/>
                                 </a>
                             </div>
                         </div>

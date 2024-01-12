@@ -20,6 +20,7 @@ import {useWindowWidth} from "../../../hooks/useWindowWidth";
 import {userSlice} from "../../../store/reducers/user/UserSlice";
 import {PopupEnum} from "../../../models/enums";
 import {orderSlice} from "../../../store/reducers/OrderSlice";
+import {isObjectEmpty} from "../../../utils/isObjectEmpty";
 
 const BoxGood = ({card} : {card: IProductCardRes}) => {
     const dispatch = useAppDispatch()
@@ -47,11 +48,12 @@ const BoxGood = ({card} : {card: IProductCardRes}) => {
     const [isNewCard, setIsNewCard] = useState(true)
     const windowWidth = useWindowWidth()
     const swiperRef = useRef() as any;
-    const order = useAppSelector(state => state.orderReducer)
 
     useEffect(() => {
-        console.log('order', order)
-    }, [order])
+        if (card?.isFavorite) {
+            setIsFavorite(true)
+        }
+    }, [card?.isFavorite])
 
     const [deliveryCities, setDeliveryCities] = useState<IDeliveryCity[]>([])
     const [isFavorite, setIsFavorite] = useState(false)
@@ -207,6 +209,28 @@ const BoxGood = ({card} : {card: IProductCardRes}) => {
         navigate(-1)
     }
 
+    const onAddFavorites = async (event: React.MouseEvent<HTMLDivElement>) => {
+        event.stopPropagation();
+        if (isObjectEmpty(user)) {
+            dispatch(setPopup(PopupEnum.ADD_FAVORITE_NOT_USER))
+        }
+        const response = await UserService.addToFavorites(card._id)
+        if (response?.status === 200) {
+            console.log('response', response)
+            dispatch(setPopup(PopupEnum.ADD_FAVORITE))
+        }
+        setIsFavorite(true)
+
+    }
+
+    const onRemoveFavorites = async (event: React.MouseEvent<SVGSVGElement>) => {
+        event.stopPropagation();
+        if (!isObjectEmpty(user)) {
+            await UserService.deleteFavorites(card._id)
+        }
+        setIsFavorite(false)
+    }
+
     const addToCart = async () => {
         if (count > quantity) return
         if (user) {
@@ -255,12 +279,6 @@ const BoxGood = ({card} : {card: IProductCardRes}) => {
 
     const onChangeColor = (str: string) => {
         setActiveColor(str)
-    }
-
-    const onAddFavorites = async (event: React.MouseEvent<HTMLDivElement>) => {
-        event.stopPropagation();
-        const response = await UserService.addToFavorites(card._id)
-        if (response) setIsFavorite(true)
     }
 
     return (
@@ -336,8 +354,8 @@ const BoxGood = ({card} : {card: IProductCardRes}) => {
                                     alt="Добавить в фавориты"
                                 />
                                 :
-                                <svg width="22" height="20" viewBox="0 0 22 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M11.62 18.81C11.28 18.93 10.72 18.93 10.38 18.81C7.48 17.82 1 13.69 1 6.68998C1 3.59998 3.49 1.09998 6.56 1.09998C8.38 1.09998 9.99 1.97998 11 3.33998C11.5138 2.64585 12.183 2.0817 12.954 1.69272C13.725 1.30374 14.5764 1.10074 15.44 1.09998C18.51 1.09998 21 3.59998 21 6.68998C21 13.69 14.52 17.82 11.62 18.81Z" stroke="#3A373D" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                                <svg width="22" height="20" viewBox="0 0 22 20" fill="none" xmlns="http://www.w3.org/2000/svg" onClick={onRemoveFavorites}>
+                                    <path d="M11.62 18.81C11.28 18.93 10.72 18.93 10.38 18.81C7.48 17.82 1 13.69 1 6.68998C1 3.59998 3.49 1.09998 6.56 1.09998C8.38 1.09998 9.99 1.97998 11 3.33998C11.5138 2.64585 12.183 2.0817 12.954 1.69272C13.725 1.30374 14.5764 1.10074 15.44 1.09998C18.51 1.09998 21 3.59998 21 6.68998C21 13.69 14.52 17.82 11.62 18.81Z" stroke="#FF0000" fill={'#FF0000'}  strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
                                 </svg>
                             }
 

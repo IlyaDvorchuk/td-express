@@ -32,7 +32,6 @@ const ProductCard = ({card, isFavoriteCard = false}: IProductCardProps) => {
 
     const onAddFavorites = async (event: React.MouseEvent<HTMLDivElement>) => {
         event.stopPropagation();
-        console.log('user', user)
         if (isObjectEmpty(user)) {
             dispatch(setPopup(PopupEnum.ADD_FAVORITE_NOT_USER))
         }
