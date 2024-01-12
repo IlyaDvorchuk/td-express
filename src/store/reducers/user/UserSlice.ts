@@ -7,6 +7,7 @@ const initialState = {
     user: {} as IUser,
     unreadCount: 0,
     isUserModal: false,
+    isLoaded: false,
     isAuth: false,
     isLoading: false,
     activationCode: '',
@@ -73,6 +74,9 @@ export const userSlice = createSlice({
         },
         setPopup: (state, action: PayloadAction<PopupEnum>) => {
             state.popup = action.payload
+        },
+        setIsLoaded: (state, action: PayloadAction<boolean>) => {
+            state.isLoaded = action.payload
         },
     }
 })

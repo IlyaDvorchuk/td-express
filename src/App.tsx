@@ -14,8 +14,7 @@ import Shelter from "./pages/Shelter";
 import ShelterGoods from "./pages/ShelterGoods";
 import CreateGood from "./pages/CreateGood";
 import RegistrShop from "./pages/RegistrShop";
-import {useAppSelector} from "./hooks/redux";
-import {useDispatch} from "react-redux";
+import {useAppDispatch, useAppSelector} from "./hooks/redux";
 import {getAccessTokenShelter, isTokenExpired, removeAccessTokenShelter} from "./utils/tokens";
 import {shelterSlice} from "./store/reducers/shelter/ShelterSlice";
 import ShelterMain from "./pages/ShelterMain";
@@ -44,13 +43,29 @@ import OrderUser from "./pages/OrderUser";
 import Seller from "./pages/Seller";
 import Subscription from "./pages/Subscription";
 import Popup from "./components/popup/Popup";
+import {isObjectEmpty} from "./utils/isObjectEmpty";
+import {getUser} from "./store/reducers/user/UserCreators";
+import {userSlice} from "./store/reducers/user/UserSlice";
 
 
 function App() {
     const accessToken = useAppSelector((state) => state.shelterReducer.accessToken);
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch();
     const {setLogoutSuccess} = shelterSlice.actions
+    const {setIsLoaded} = userSlice.actions
     const windowWidth = useWindowWidth();
+    const {user, isLoaded} = useAppSelector(state => state.userReducer)
+
+    useEffect(() => {
+
+        if ((localStorage.getItem('access_token_user') !== null) && isObjectEmpty(user)) {
+            dispatch(getUser())
+        } else {
+            dispatch(setIsLoaded(true))
+
+        }
+
+    }, [])
 
     useEffect(() => {
         const token = getAccessTokenShelter();
@@ -117,171 +132,174 @@ function App() {
                         <Route index path={`goods/create/:id`} element={<CreateGood />} />
                         <Route index path={`subscription`} element={<Subscription />} />
                     </Route>
-                    <Route
-                        path="/card/:id"
-                        element={
-                            <>
-                                <Header />
-                                <MobileNavbar/>
-                                <Good />
-                                <Footer/>
+                    {isLoaded && <>
+                        <Route
+                            path="/card/:id"
+                            element={
+                                <>
+                                    <Header/>
+                                    <MobileNavbar/>
+                                    <Good/>
+                                    <Footer/>
 
-                            </>
-                        }
-                    />
-                    <Route
-                        path="/category/:id"
-                        element={
-                            <>
-                                <Header />
-                                <Category />
-                                <Footer/>
-                            </>
-                        }
-                    />
-                    <Route
-                        path="/favorites"
-                        element={
-                        <>
-                            <Header />
-                            <MobileNavbar/>
-                            <Favorites />
-                            <Footer/>
-                        </>
-                    }
-                    />
-                    <Route
-                        path="/buy"
-                        element={
-                            <>
-                                <Header />
-                                <MobileNavbar/>
-                                <Order />
-                                <Footer/>
-                            </>
-                        }
-                    />
-                    <Route
-                        path="/cart"
-                        element={
-                            <>
-                                <Header />
-                                {windowWidth < 690 && <Search mobile={true} />}
-                                <MobileNavbar/>
-                                <Cart />
-                                <Footer/>
-                            </>
-                        }
-                    />
-                    <Route
-                        path="/search"
-                        element={
-                            <>
-                                <Header />
-                                <SearchPage />
-                            </>
-                        }
-                    />
-                    <Route
-                        path="/faq"
-                        element={
-                            <>
-                                <Header />
-                                <MobileNavbar/>
-                                <Faq/>
-                                <Footer/>
-                            </>
-                        }
-                    />
-                    <Route
-                        path="/orders"
-                        element={
-                            <>
-                                <Header />
-                                <MobileNavbar/>
-                                <OrdersList/>
-                                <Footer/>
-                            </>
-                        }
-                    />
-                    <Route
-                        path="/order/:id"
-                        element={
-                            <>
-                                <Header />
-                                <MobileNavbar/>
-                                <OrderUser />
-                                <Footer/>
-
-                            </>
-                        }
-                    />
-                    <Route
-                        path="/seller/:name"
-                        element={
-                            <>
-                                <Header />
-                                <MobileNavbar/>
-                                <Seller />
-                                <Footer/>
-
-                            </>
-                        }
-                    />
-                    <Route
-                        path="/success"
-                        element={
-                            <main style={{overflow: 'hidden'}}>
-                                <Header />
-                                <MobileNavbar/>
-                                <AnswerOrder>
-                                    <BoxSuccessOrder/>
-                                </AnswerOrder>
-                                <FooterShelter/>
-                            </main>
-                        }
-                    />
-                    <Route
-                        path="/failure"
-                        element={
-                            <main style={{overflow: 'hidden'}}>
-                                <Header />
-                                <MobileNavbar/>
-                                <AnswerOrder>
-                                    <BoxFailureOrder/>
-                                </AnswerOrder>
-                                <FooterShelter/>
-                            </main>
-                        }
-                    />
-                    <Route
-                        path="/administrator"
-                        element={
-                            <>
-                                <Admin/>
-                            </>
-                        }
-                    />
-                    <Route
-                        path="/"
-                        element={
-                            <>
-                                <Header />
-                                <BoxLinkRegistration/>
-                                {windowWidth < 690 && <Search mobile={true} />}
-                                <MainPage />
-                                <Footer/>
-
-                            </>
-                        }
-                        loader={() => {
-                            console.log('accessToken 34', accessToken)
-                            if (accessToken) {
-                                return <Navigate to="/seller/main" />;
+                                </>
                             }
-                            return null;
-                        }}
-                    />
+                        />
+                        <Route
+                            path="/category/:id"
+                            element={
+                                <>
+                                    <Header/>
+                                    <Category/>
+                                    <Footer/>
+                                </>
+                            }
+                        />
+                        <Route
+                            path="/favorites"
+                            element={
+                                <>
+                                    <Header/>
+                                    <MobileNavbar/>
+                                    <Favorites/>
+                                    <Footer/>
+                                </>
+                            }
+                        />
+                        <Route
+                            path="/buy"
+                            element={
+                                <>
+                                    <Header/>
+                                    <MobileNavbar/>
+                                    <Order/>
+                                    <Footer/>
+                                </>
+                            }
+                        />
+                        <Route
+                            path="/cart"
+                            element={
+                                <>
+                                    <Header/>
+                                    {windowWidth < 690 && <Search mobile={true}/>}
+                                    <MobileNavbar/>
+                                    <Cart/>
+                                    <Footer/>
+                                </>
+                            }
+                        />
+                        <Route
+                            path="/search"
+                            element={
+                                <>
+                                    <Header/>
+                                    <SearchPage/>
+                                </>
+                            }
+                        />
+                        <Route
+                            path="/faq"
+                            element={
+                                <>
+                                    <Header/>
+                                    <MobileNavbar/>
+                                    <Faq/>
+                                    <Footer/>
+                                </>
+                            }
+                        />
+                        <Route
+                            path="/orders"
+                            element={
+                                <>
+                                    <Header/>
+                                    <MobileNavbar/>
+                                    <OrdersList/>
+                                    <Footer/>
+                                </>
+                            }
+                        />
+                        <Route
+                            path="/order/:id"
+                            element={
+                                <>
+                                    <Header/>
+                                    <MobileNavbar/>
+                                    <OrderUser/>
+                                    <Footer/>
+
+                                </>
+                            }
+                        />
+                        <Route
+                            path="/seller/:name"
+                            element={
+                                <>
+                                    <Header/>
+                                    <MobileNavbar/>
+                                    <Seller/>
+                                    <Footer/>
+
+                                </>
+                            }
+                        />
+                        <Route
+                            path="/success"
+                            element={
+                                <main style={{overflow: 'hidden'}}>
+                                    <Header/>
+                                    <MobileNavbar/>
+                                    <AnswerOrder>
+                                        <BoxSuccessOrder/>
+                                    </AnswerOrder>
+                                    <FooterShelter/>
+                                </main>
+                            }
+                        />
+                        <Route
+                            path="/failure"
+                            element={
+                                <main style={{overflow: 'hidden'}}>
+                                    <Header/>
+                                    <MobileNavbar/>
+                                    <AnswerOrder>
+                                        <BoxFailureOrder/>
+                                    </AnswerOrder>
+                                    <FooterShelter/>
+                                </main>
+                            }
+                        />
+                        <Route
+                            path="/administrator"
+                            element={
+                                <>
+                                    <Admin/>
+                                </>
+                            }
+                        />
+                        <Route
+                            path="/"
+                            element={
+                                <>
+                                    <Header/>
+                                    <BoxLinkRegistration/>
+                                    {windowWidth < 690 && <Search mobile={true}/>}
+                                    <MainPage/>
+                                    <Footer/>
+
+                                </>
+                            }
+                            loader={() => {
+                                console.log('accessToken 34', accessToken)
+                                if (accessToken) {
+                                    return <Navigate to="/seller/main"/>;
+                                }
+                                return null;
+                            }}
+                        />
+                    </>}
+
                 </Routes>
             </BrowserRouter>
             <Popup/>

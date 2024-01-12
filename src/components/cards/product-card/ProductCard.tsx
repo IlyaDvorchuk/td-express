@@ -1,7 +1,7 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import './product-card.scss'
 import '../../../styles/elements/buttons.scss'
-import {IProductCard} from "../../../models/IProductCard";
+import {IProductCardRes} from "../../../models/IProductCard";
 import {Link} from "react-router-dom";
 import {UserService} from "../../../services/UserService";
 import {useAppDispatch, useAppSelector} from "../../../hooks/redux";
@@ -10,7 +10,7 @@ import {PopupEnum} from "../../../models/enums";
 import {isObjectEmpty} from "../../../utils/isObjectEmpty";
 
 interface IProductCardProps {
-    card: IProductCard,
+    card: IProductCardRes,
     isFavoriteCard?: boolean
 }
 
@@ -20,6 +20,12 @@ const ProductCard = ({card, isFavoriteCard = false}: IProductCardProps) => {
     const {user, } = useAppSelector(state => state.userReducer)
     const [isFavorite, setIsFavorite] = useState(isFavoriteCard)
 
+    useEffect(() => {
+        if (card?.isFavorite) {
+            setIsFavorite(true)
+        }
+    }, [card?.isFavorite])
+
     const onClickCard = () => {
         window.scrollTo({top: 60, behavior: 'smooth'})
     }
@@ -28,20 +34,29 @@ const ProductCard = ({card, isFavoriteCard = false}: IProductCardProps) => {
         event.stopPropagation();
         console.log('user', user)
         if (isObjectEmpty(user)) {
-            console.log('brus')
             dispatch(setPopup(PopupEnum.ADD_FAVORITE_NOT_USER))
         }
         const response = await UserService.addToFavorites(card._id)
-        if (response?.status === 201) {
+        if (response?.status === 200) {
             console.log('response', response)
-            setIsFavorite(true)
             dispatch(setPopup(PopupEnum.ADD_FAVORITE))
         }
+        setIsFavorite(true)
+
+    }
+
+    const onRemoveFavorites = async (event: React.MouseEvent<HTMLDivElement>) => {
+        event.stopPropagation();
+        if (!isObjectEmpty(user)) {
+            await UserService.deleteFavorites(card._id)
+        }
+        setIsFavorite(false)
     }
 
     return (
         <div className={'card'}>
-            <div className={'card__favorites'} onClick={onAddFavorites}>
+            <div className={'card__favorites'}
+                 onClick={(e) => isFavorite ? onRemoveFavorites(e) : onAddFavorites(e)}>
                 {!isFavorite ?
                     <img
                         src="/images/svg/favorite-button-add.svg"

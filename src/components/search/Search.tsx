@@ -18,6 +18,7 @@ const Search = ({mobile = false}: {mobile?: boolean}) => {
     // const [searchQuery, setSearchQuery]= useState('')
     const [timeoutId, setTimeoutId] = useState<NodeJS.Timeout | null>(null);
     const inputRef = useRef<HTMLInputElement>(null);
+    const {user} = useAppSelector(state => state.userReducer)
 
     useEffect(() => {
         if (inputRef.current && mobile && query) {
@@ -42,7 +43,8 @@ const Search = ({mobile = false}: {mobile?: boolean}) => {
                         page: 1,
                         limit: 100,
                         minPrice: currentMinPrice,
-                        maxPrice: currentMaxPrice
+                        maxPrice: currentMaxPrice,
+                        userId: user?._id
                     } as IFilterSearchParams
                     if (colors && colors.length > 0) {
                         params.colors = colors
@@ -72,7 +74,8 @@ const Search = ({mobile = false}: {mobile?: boolean}) => {
                     page: 1,
                     limit: 100,
                     minPrice: 0,
-                    maxPrice: Infinity
+                    maxPrice: Infinity,
+                    userId: user?._id
                 } as IFilterSearchParams
                 dispatch(fetchSearch(params));
             }

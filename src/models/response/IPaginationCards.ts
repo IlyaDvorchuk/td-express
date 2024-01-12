@@ -1,9 +1,9 @@
-import {IProductCard} from "../IProductCard";
+import {IProductCardRes} from "../IProductCard";
 
 export interface IPaginationCards {
     currentPage: string,
     totalPages: number,
-    productCards: IProductCard[],
+    productCards: IProductCardRes[],
     minPriceRange: number,
     maxPriceRange: number,
 }

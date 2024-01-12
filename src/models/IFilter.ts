@@ -3,7 +3,8 @@ export interface IFilterParams {
     limit: number;
     minPrice?: number;
     maxPrice?: number;
-    colors?: string[]
+    colors?: string[],
+    userId?: string
 }
 
 export interface IFilterCategoriesParams extends IFilterParams{

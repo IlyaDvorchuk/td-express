@@ -1,5 +1,5 @@
 import React, {useEffect, useMemo, useState} from 'react';
-import {IProductCard} from "../../../models/IProductCard";
+import {IProductCardRes} from "../../../models/IProductCard";
 import {GoodsService} from "../../../services/GoodsService";
 import {useParams} from "react-router-dom";
 import ProductCard from "../../cards/product-card/ProductCard";
@@ -23,10 +23,11 @@ const CategoryCards = ({ id, title, limit, isFilter = false }: CategoryCardsProp
     const {
         currentMinPrice, currentMaxPrice, isChange, colors, isReset
     } = useAppSelector(state => state.filterReducer)
-    const [categoryCards, setCategoryCards] = useState<IProductCard[]>([]);
+    const [categoryCards, setCategoryCards] = useState<IProductCardRes[]>([]);
     const [page, setPage] = useState(1);
     const [prevParamsId, setPrevParamsId] = useState<string | undefined>(paramsId);
     const dispatch = useAppDispatch()
+    const {user} = useAppSelector(state => state.userReducer)
 
     useEffect(() => {
         return () => {
@@ -57,6 +58,7 @@ const CategoryCards = ({ id, title, limit, isFilter = false }: CategoryCardsProp
                     limit: limit,
                     minPrice: currentMin,
                     maxPrice: currentMax,
+                    userId: user?._id
                 };
 
                 if (Array.isArray(colors) && isInputChange) {

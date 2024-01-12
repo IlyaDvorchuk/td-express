@@ -1,7 +1,7 @@
-import {IProductCard} from "./IProductCard";
+import {IProductCardRes} from "./IProductCard";
 
 export interface ISearch {
-    cards: IProductCard[],
+    cards: IProductCardRes[],
     isLoading: boolean,
     error: string,
     query: string

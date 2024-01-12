@@ -106,9 +106,13 @@ export const getUser = () => async (dispatch: AppDispatch) => {
     try {
         const response = await UserService.getUser()
         dispatch(userSlice.actions.setUser(response.data))
+        dispatch(userSlice.actions.setIsLoaded(true))
+
+
     } catch (e: any) {
         console.log('e getUser', e)
         dispatch(userSlice.actions.loginFetchingError(e.message))
+        dispatch(userSlice.actions.setIsLoaded(true))
     }
 }
 

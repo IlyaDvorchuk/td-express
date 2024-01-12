@@ -1,6 +1,6 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {ISearch} from "../../../models/ISearch";
-import {IProductCard} from "../../../models/IProductCard";
+import {IProductCardRes} from "../../../models/IProductCard";
 
 const initialState: ISearch = {
     cards: [],
@@ -16,7 +16,7 @@ export const searchSlice = createSlice({
         searchFetching(state) {
             state.isLoading = true
         },
-        searchFetchingSuccess(state, action: PayloadAction<IProductCard[]>) {
+        searchFetchingSuccess(state, action: PayloadAction<IProductCardRes[]>) {
             state.isLoading = false
             state.error = ''
             state.cards = action.payload

@@ -1,17 +1,19 @@
 import TitleCards from "../../title-cards/TitleCards";
 import React, {useMemo, useState} from "react";
 import {GoodsService} from "../../../services/GoodsService";
-import {IProductCard} from "../../../models/IProductCard";
+import {IProductCardRes} from "../../../models/IProductCard";
 import ProductCard from "../../cards/product-card/ProductCard";
 import WrapperCard from "../../wrappers/wrapper-card/WrapperCard";
+import {useAppSelector} from "../../../hooks/redux";
 
 const NewCards = ({limit}: {limit: number}) => {
-    const [newCards, setNewCards] = useState<IProductCard[]>([]);
+    const [newCards, setNewCards] = useState<IProductCardRes[]>([]);
     const [page, setPage] = useState(1);
+    const {user} = useAppSelector(state => state.userReducer)
 
     const fetchNewCards = async (pageReq: number) => {
         try {
-            const response = await GoodsService.getNewGoods(pageReq, limit);
+            const response = await GoodsService.getNewGoods(pageReq, limit, user?._id);
             setNewCards(prevCards => [...prevCards, ...response.data.productCards]);
         } catch (error) {
             console.log('Ошибка при получении карточек товаров:', error);

@@ -19,6 +19,10 @@ export class UserService {
         return $api.get<boolean>(`users/addToFavorite/${goodId}`)
     }
 
+    static deleteFavorites(goodId: string): Promise<AxiosResponse<boolean>> {
+        return $api.delete<boolean>(`users/removeFromFavorite/${goodId}`)
+    }
+
     static getFavorites(): Promise<AxiosResponse<IProductCardRes[]>> {
         return $api.get<IProductCardRes[]>(`users/getFavorites/`)
     }

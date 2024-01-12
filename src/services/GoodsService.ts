@@ -7,46 +7,52 @@ import {IShelterForGood} from "../models/response/IShelter";
 import {IFilterCategoriesParams, IFilterSearchParams, IFilterSellerParams} from "../models/IFilter";
 
 export class GoodsService {
-    static async getNewGoods(page: number, limit: number): Promise<AxiosResponse<IPaginationCards>> {
+    static async getNewGoods(page: number, limit: number, userId: string): Promise<AxiosResponse<IPaginationCards>> {
         return axios.get<IPaginationCards>(`${API_URL}product-cards/new`, {
             params: {
                 page,
-                limit
+                limit,
+                userId
             }
         })
     }
 
-    static async getHotGoods(page: number, limit: number): Promise<AxiosResponse<IPaginationCards>> {
+    static async getHotGoods(page: number, limit: number, userId: string): Promise<AxiosResponse<IPaginationCards>> {
         return axios.get<IPaginationCards>(`${API_URL}product-cards/hot-offers`, {
             params: {
                 page,
-                limit
+                limit,
+                userId
             }
         })
     }
 
     static async getSellerCards(params: IFilterSellerParams): Promise<AxiosResponse<IPaginationCards>> {
-        const { name, page, limit, minPrice, maxPrice, colors } = params;
+        const { name, page, limit, minPrice, maxPrice, colors, userId } = params;
         return axios.get<IPaginationCards>(`${API_URL}shelters/seller-cards/${name}`, {
             params: {
                 page,
                 limit,
                 minPrice,
                 maxPrice,
-                colors
+                colors,
+                userId
             }
         })
     }
 
     static async getCategoryGoods(params: IFilterCategoriesParams): Promise<AxiosResponse<IPaginationCards>> {
-        const { category, page, limit, minPrice, maxPrice, colors } = params;
+        const {
+            category, page, limit, minPrice, maxPrice, colors, userId
+        } = params;
         return axios.get<IPaginationCards>(`${API_URL}product-cards/category/${category}`, {
             params: {
                 page,
                 limit,
                 minPrice,
                 maxPrice,
-                colors
+                colors,
+                userId
             }
         })
     }
@@ -56,7 +62,7 @@ export class GoodsService {
     }
 
     static async getSearchGoods(params: IFilterSearchParams): Promise<AxiosResponse<IPaginationCards>> {
-        const { query, page, limit, minPrice, maxPrice, colors } = params;
+        const { query, page, limit, minPrice, maxPrice, colors, userId } = params;
         return axios.get<IPaginationCards>(`${API_URL}product-cards/search/`, {
             params: {
                 query,
@@ -64,7 +70,8 @@ export class GoodsService {
                 limit,
                 minPrice,
                 maxPrice,
-                colors
+                colors,
+                userId
             }
         })
     }

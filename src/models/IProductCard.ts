@@ -68,6 +68,7 @@ export interface IProductCardRes extends IProductCard {
     currentType?: ITypeRes,
     deliveryCities: IDeliveryCity[],
     marketDelivery?: string
+    isFavorite?: boolean
 }
 
 export interface IProductCardShelter extends IProductCardRes {

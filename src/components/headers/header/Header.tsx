@@ -14,7 +14,6 @@ import FavoritesSvg from "../../svg/FavoritesSvg";
 import ShoppingSvg from "../../svg/ShoppingSvg";
 import {getAccessTokenUser} from "../../../utils/tokens";
 import {isObjectEmpty} from "../../../utils/isObjectEmpty";
-import {getUser} from "../../../store/reducers/user/UserCreators";
 import UserTools from "../../tools/user-tools/UserTools";
 import {fetchCategories} from "../../../store/reducers/categories/CategoriesCreators";
 
@@ -41,13 +40,6 @@ const Header = () => {
             window.removeEventListener('resize', handleResize);
         };
     }, []);
-
-    useEffect(() => {
-        if ((localStorage.getItem('access_token_user') !== null) && isObjectEmpty(user)) {
-            console.log('localStorage.getItem(\'access_token_user\')', localStorage.getItem('access_token_user'))
-            dispatch(getUser())
-        }
-    }, [dispatch, user])
 
     useEffect(() => {
         dispatch(fetchCategories())

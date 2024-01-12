@@ -1,17 +1,18 @@
 import React, {useMemo, useState} from 'react';
 import TitleCards from "../../title-cards/TitleCards";
 import WrapperCard from "../../wrappers/wrapper-card/WrapperCard";
-import {IProductCard} from "../../../models/IProductCard";
+import {IProductCardRes} from "../../../models/IProductCard";
 import {GoodsService} from "../../../services/GoodsService";
 import ProductCard from "../../cards/product-card/ProductCard";
+import {useAppSelector} from "../../../hooks/redux";
 
 const HotCards = ({limit}: {limit: number}) => {
-    const [hotCards, setHotCards] = useState<IProductCard[]>([]);
+    const [hotCards, setHotCards] = useState<IProductCardRes[]>([]);
     const [page, setPage] = useState(1);
-
+    const {user} = useAppSelector(state => state.userReducer)
     const fetchHotCards = async (pageReq: number) => {
         try {
-            const response = await GoodsService.getHotGoods(pageReq, limit);
+            const response = await GoodsService.getHotGoods(pageReq, limit, user?._id);
             setHotCards(prevCards => [...prevCards, ...response.data.productCards]);
         } catch (error) {
             console.log('Ошибка при получении карточек товаров:', error);

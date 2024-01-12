@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import './seller-cards.scss'
 import WrapperCard from "../../wrappers/wrapper-card/WrapperCard";
-import {IProductCard} from "../../../models/IProductCard";
+import {IProductCardRes} from "../../../models/IProductCard";
 import {useParams} from "react-router-dom";
 import ProductCard from "../../cards/product-card/ProductCard";
 import {filterSlice} from "../../../store/reducers/filter/FilterSlice";
@@ -14,10 +14,11 @@ const SellerCards = () => {
     const { name } = useParams();
     const [page, setPage] = useState(1);
     const [isInputChange, setIsInputChange] = useState(false)
-    const [sellerCards, setSellerCards] = useState<IProductCard[]>([])
+    const [sellerCards, setSellerCards] = useState<IProductCardRes[]>([])
     const {
         currentMinPrice, currentMaxPrice, isChange, colors, isReset
     } = useAppSelector(state => state.filterReducer)
+    const {user} = useAppSelector(state => state.userReducer)
 
     const fetchSellerCards = async (isChange?: boolean) => {
         if (name) {
@@ -35,6 +36,7 @@ const SellerCards = () => {
                     limit: 32,
                     minPrice: currentMin,
                     maxPrice: currentMax,
+                    userId: user?._id
                 };
                 if (Array.isArray(colors) && isChange) {
                     params.colors = colors
