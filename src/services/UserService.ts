@@ -1,6 +1,6 @@
 import axios, {AxiosResponse} from "axios";
 import {IUser} from "../models/response/IUser";
-import $api, {API_URL} from "../http";
+import $api, {$apiShelter, API_URL} from "../http";
 import {IProductCardRes} from "../models/IProductCard";
 import {ICartReq} from "../models/ICart";
 import {ICartRes} from "../models/response/ICartRes";
@@ -9,6 +9,7 @@ import {INotification} from "../models/INotification";
 import {OrderEnum} from "../models/enums";
 import {ISellerByUser} from "../models/response/ISellerByUser";
 import {IComment, ICommentRes} from "../models/IComment";
+import {IDeliveryCityCart} from "../models/IDeliveryCity";
 
 export class UserService {
     static async fetchUser(): Promise<AxiosResponse<IUser[]>> {
@@ -87,5 +88,11 @@ export class UserService {
 
     static getCommentsByProduct(productId: string): Promise<AxiosResponse<ICommentRes[]>> {
         return $api.get<ICommentRes[]>(`${API_URL}reviews/${productId}`)
+    }
+
+    static getDeliveryCart(
+        idShelters: string[]
+    ): Promise<AxiosResponse<IDeliveryCityCart | string>> {
+        return $apiShelter.get(`delivery/cart/${JSON.stringify(idShelters)}`)
     }
 }

@@ -91,18 +91,29 @@ const BoxCart = () => {
     }
 
 
-    const onBuy = () => {
-        // dispatch(createStoreOrder({
-        //     cards: [
-        //         {
-        //             card,
-        //             currentType,
-        //             count
-        //         }
-        //     ],
-        //     deliveryCities,
-        //     marketDelivery: shelter?.marketDelivery
-        // }))
+    const onBuy = async () => {
+        if (dedicatedCart.length === 0) return
+        const cards = dedicatedCart.map(item => {
+            let currentType = null
+            if (item.card.typeQuantity) {
+                currentType = item.card.typeQuantity.find(type => type._id === item.typeId)
+            }
+            return {
+                card: item.card,
+                currentType,
+                count: +item.quantity
+            }
+        })
+        const sellerIds = [...new Set(dedicatedCart.map(item => item.card.shelterId))];
+
+        const response = await UserService.getDeliveryCart(sellerIds)
+
+        if (typeof response.data === "string") return
+        dispatch(createStoreOrder({
+            cards,
+            deliveryCities: response.data.cities,
+            marketDelivery: response.data.rate
+        }))
 
         navigate(`/buy`)
     }

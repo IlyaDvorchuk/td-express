@@ -20,6 +20,24 @@ const CartCard = ({cart, isChecked, onCheckboxChange, deleteCart, setChangeCount
     const [count, setCount] = useState(cart.quantity);
     const timeoutRef = useRef<number | null>(null); // Устанавливаем тип для useRef
     const windowWidth = useWindowWidth();
+    const [maxCount, setMaxCount] = useState(Infinity)
+
+
+    useEffect(() => {
+        if (cart.card.typeQuantity) {
+            const currentType = cart.card.typeQuantity.find(type => type._id === cart.typeId)
+            if (currentType) {
+                setMaxCount(currentType.quantity)
+            }
+        }
+    }, [cart])
+
+
+    useEffect(() => {
+        if (count > maxCount) {
+            setCount(maxCount)
+        }
+    }, [count, maxCount])
 
     useEffect(() => {
         if (timeoutRef.current !== null) {
@@ -57,7 +75,7 @@ const CartCard = ({cart, isChecked, onCheckboxChange, deleteCart, setChangeCount
     const onSetCount = (operator: '+' | '-') => {
         setChangeCount(prev => ++prev)
         if (operator === '+') {
-            // if (count >= quantity) return
+            if (count > maxCount) return
             cart.quantity = count + 1
 
             setCount(count + 1)

@@ -1,4 +1,4 @@
-import {IPrice} from "../IProductCard";
+import {IPrice, IProductCardRes} from "../IProductCard";
 
 export interface ICartRes {
     color?: string;
@@ -13,4 +13,5 @@ export interface ICartRes {
     // totalPrice: number;
     // isFavorite: boolean;
     size?: string;
+    card: IProductCardRes
 }
