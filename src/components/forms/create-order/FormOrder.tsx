@@ -240,8 +240,8 @@ const FormOrder = () => {
             { name: 'MerchantLogin', value: '000209' },
             { name: 'nivid', value: id },
             { name: 'istest', value: '0' },
-            // { name: 'RequestSum', value: `${finalPrice * 100}` },
-            { name: 'RequestSum', value: `5` },
+            { name: 'RequestSum', value: `${finalPrice * 100}` },
+            // { name: 'RequestSum', value: `5` },
             { name: 'RequestCurrCode', value: '000' },
             { name: 'Desc', value: `Оплата заказа №${id.split(' ')[1]}, ${productNames}` },
         ];

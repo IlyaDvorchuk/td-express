@@ -6,8 +6,14 @@ import {ICartRes} from "../../../models/response/ICartRes";
 import CartCard from "../../cards/cart-card/CartCard";
 import Checkbox from "../../checkbox/Checkbox";
 import {useWindowWidth} from "../../../hooks/useWindowWidth";
+import {useNavigate} from "react-router-dom";
+import {useAppDispatch} from "../../../hooks/redux";
+import {orderSlice} from "../../../store/reducers/OrderSlice";
 
 const BoxCart = () => {
+    const navigate = useNavigate()
+    const dispatch = useAppDispatch()
+    const {createStoreOrder} = orderSlice.actions
     const [goodsCart, setGoodCart] = useState<ICartRes[]>([])
     const [isAllChecked, setIsAllChecked] = useState(false)
     const [dedicatedCart, setDedicatedCart] = useState<ICartRes[]>([])
@@ -85,7 +91,21 @@ const BoxCart = () => {
     }
 
 
+    const onBuy = () => {
+        // dispatch(createStoreOrder({
+        //     cards: [
+        //         {
+        //             card,
+        //             currentType,
+        //             count
+        //         }
+        //     ],
+        //     deliveryCities,
+        //     marketDelivery: shelter?.marketDelivery
+        // }))
 
+        navigate(`/buy`)
+    }
 
     return (
         <div className={'cart'}>
@@ -142,7 +162,7 @@ const BoxCart = () => {
                         </span>
                         <span>{priseDiscount.toString()} RUP</span>
                     </div>
-                    <button className={'button button_not-active cart-ordering__buttons'}>Перейти к оформлению</button>
+                    <button className={'button button_not-active cart-ordering__buttons'} onClick={onBuy}>Перейти к оформлению</button>
                 </div>
             </div>
 

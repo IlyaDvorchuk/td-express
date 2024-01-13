@@ -1,7 +1,6 @@
 import React, {useEffect, useRef, useState} from 'react';
 import './cart-card.scss'
 import {ICartRes} from "../../../models/response/ICartRes";
-import {API_URL} from "../../../http";
 import Checkbox from "../../checkbox/Checkbox";
 import {Link} from "react-router-dom";
 import CountGood from "../../countGood/CountGood";
@@ -80,7 +79,7 @@ const CartCard = ({cart, isChecked, onCheckboxChange, deleteCart, setChangeCount
                 <Checkbox sizes={windowWidth > 450 ? 36 : 16} isChecked={isChecked} onChange={handleCheckboxChange}/>
             </div>
             <Link to={`/card/${cart.productId}`} className={'cart-card__image'}>
-                <img src={`${API_URL}${cart.mainPhoto}`} alt=""/>
+                <img src={`https://api.td-market.md/${cart.mainPhoto}`} alt=""/>
             </Link>
             <div className={'cart-card__inf'}>
                 <div className={'cart-card__prices cart-card__prices-mobile'}>

@@ -15,6 +15,11 @@
   transition: all .5s cubic-bezier(.47,-0.4,.69,1.31);
   line-height: 100%;
 
+  @media screen and (max-width: 600px) {
+    bottom: 63px;
+
+  }
+
   &.active {
     right: 20px;
   }
