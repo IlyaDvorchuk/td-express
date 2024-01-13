@@ -15,7 +15,6 @@ type TCity = {
 
 const FormOrder = () => {
     const navigate = useNavigate()
-
     const {user} = useAppSelector(state => state.userReducer)
     const orderStore = useAppSelector(state => state.orderReducer)
     const [selectedDelivery, setSelectedDelivery] = useState<string | null>(null);
@@ -258,9 +257,14 @@ const FormOrder = () => {
 
         console.log('form', form);
         document.body.appendChild(form);
-        // form.submit();
-        // dispatch(createOrder(order, card?.activeSize))
-        navigate('/success')
+
+        if (
+            data.delivery === 'pickup' && data?.paymentMethod === 'cash'
+        ) {
+            navigate('/success')
+        } else {
+            form.submit();
+        }
     };
 
     const isDoorstepDelivery = watch('delivery');
@@ -462,7 +466,7 @@ const FormOrder = () => {
                         </div>
                     </div>}
                 </div>
-                <div>
+                <div className={'order-payment'}>
                     <div className={'cart-ordering'}>
                         <h4 className={'order__subtitle'}>Ваш заказ</h4>
                         <div className={'cart-ordering__price'}>
