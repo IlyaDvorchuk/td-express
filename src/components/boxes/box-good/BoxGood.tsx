@@ -74,14 +74,14 @@ const BoxGood = ({card} : {card: IProductCardRes}) => {
 
     const {quantity, typeId, currentType} = useMemo(() => {
         if (activeColor && activeSize && card.typeQuantity && card.typeQuantity?.length > 0) {
-            const type = card.typeQuantity?.find(item => item.color?.name === activeColor && item.size === activeSize) as ITypeRes
+            const type = card.typeQuantity?.filter(item => item).find(item => item.color?.name === activeColor && item.size === activeSize) as ITypeRes
             return {
                 quantity: type?.quantity || 0,
                 typeId: type?._id || '',
                 currentType: type
         }
         } else if (activeSize && card.typeQuantity && card.typeQuantity?.length > 0) {
-            const type = card.typeQuantity?.find(item => item.size === activeSize) as ITypeRes
+            const type = card.typeQuantity?.filter(item => item).find(item => item.size === activeSize) as ITypeRes
             return {
                 quantity: type?.quantity || 0,
                 typeId: type?._id || '',
