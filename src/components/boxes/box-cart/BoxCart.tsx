@@ -109,12 +109,13 @@ const BoxCart = () => {
         const response = await UserService.getDeliveryCart(sellerIds)
 
         if (typeof response.data === "string") return
-        dispatch(createStoreOrder({
+        const storeOrder = {
             cards,
             deliveryCities: response.data.cities,
             marketDelivery: response.data.rate
-        }))
-
+        }
+        dispatch(createStoreOrder(storeOrder))
+        sessionStorage.setItem('form-order', JSON.stringify(storeOrder))
         navigate(`/buy`)
     }
 

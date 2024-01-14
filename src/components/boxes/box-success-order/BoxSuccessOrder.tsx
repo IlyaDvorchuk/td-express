@@ -1,12 +1,11 @@
 import React, {useEffect, useState} from 'react';
 import './box-success-order.scss'
-import {Link, useLocation} from "react-router-dom";
+import {Link} from "react-router-dom";
 import {IOrder} from "../../../models/IOrder";
 import {useAppDispatch} from "../../../hooks/redux";
 import {createOrder} from "../../../store/reducers/user/UserCreators";
 
 const BoxSuccessOrder = () => {
-    const location = useLocation();
     const dispatch = useAppDispatch()
     const [idOrder, setIdOrder] = useState('0')
 
@@ -38,6 +37,7 @@ const BoxSuccessOrder = () => {
             // В этом случае, данные были изменены, следует обработать это соответствующим образом.
         // }
         localStorage.removeItem('signature')
+        sessionStorage.removeItem('form-order')
 
     }, [])
 

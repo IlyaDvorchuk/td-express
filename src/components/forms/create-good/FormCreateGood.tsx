@@ -208,7 +208,7 @@ const FormCreateGood = ({card} : {card: IProductCardRes | null}) => {
                     weight: Number(data.weight)
                 },
                 deliveryPoints: points,
-                typeQuantity: quantitySizes,
+                typeQuantity: quantitySizes.filter(type => type),
                 nameShelter: shelter.name,
                 colors: imageColorsWithBase64
             } as IProductCard

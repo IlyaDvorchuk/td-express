@@ -39,7 +39,7 @@ const CreateGoodSizes = ({ options, selectedOptions, setSelectedOptions, cardQua
 
     useEffect(() => {
         if (cardQuantity) {
-            setSelectedOptions(cardQuantity.map(type => type.size))
+            setSelectedOptions(cardQuantity.filter(type => type).map(type => type.size))
         }
     }, [cardQuantity])
 

@@ -8,6 +8,7 @@ import {useNavigate} from "react-router-dom";
 import {createIdOrder} from "../../../utils/formatDate";
 import CryptoJS from 'crypto-js';
 import {EXPRESS_POINTS} from "../../../constants";
+import useSetOrder from "../../../hooks/set-order";
 
 type TCity = {
     value: string; label: string; price: string
@@ -16,7 +17,7 @@ type TCity = {
 const FormOrder = () => {
     const navigate = useNavigate()
     const {user} = useAppSelector(state => state.userReducer)
-    const orderStore = useAppSelector(state => state.orderReducer)
+    const orderStore = useSetOrder()
     const [selectedDelivery, setSelectedDelivery] = useState<string | null>(null);
     const [selectedPayment, setSelectedPayment] = useState<string | null>(null);
     const [city, setCity] = useState<TCity | null>(null)

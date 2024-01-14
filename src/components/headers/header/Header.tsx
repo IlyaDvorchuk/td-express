@@ -54,7 +54,7 @@ const Header = () => {
                     <Geolocation/>
                     <div className={'header__links'}>
                         <Link to="/faq">Часто задаваемые вопросы</Link>
-                        <Link className={'header__registry'} to={'/registration'}>Продавайте на td-market</Link>
+                        <Link className={'header__registry'} to={'/registration'}>Продавайте на td-market / Войти</Link>
                     </div>
                 </div>
                 <div className={'header__row-2'}>

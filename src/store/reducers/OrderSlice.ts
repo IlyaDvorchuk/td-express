@@ -2,7 +2,7 @@ import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {IProductCardRes, ITypeRes} from "../../models/IProductCard";
 import {IDeliveryCity} from "../../models/IDeliveryCity";
 
-interface IOrderSlice {
+export interface IOrderSlice {
     cards: {
         card: IProductCardRes,
         currentType: ITypeRes | null | undefined,

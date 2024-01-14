@@ -1,8 +1,12 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import './box-failure-order.scss'
 import {Link} from "react-router-dom";
 
 const BoxFailureOrder = () => {
+    useEffect(() => {
+        sessionStorage.removeItem('form-order')
+    }, [])
+
     return (
         <div className={'order-failure'}>
             <h2 className={'order-failure__title'}>Ошибка оплаты</h2>

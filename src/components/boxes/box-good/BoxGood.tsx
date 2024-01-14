@@ -48,15 +48,14 @@ const BoxGood = ({card} : {card: IProductCardRes}) => {
     const [isNewCard, setIsNewCard] = useState(true)
     const windowWidth = useWindowWidth()
     const swiperRef = useRef() as any;
+    const [deliveryCities, setDeliveryCities] = useState<IDeliveryCity[]>([])
+    const [isFavorite, setIsFavorite] = useState(false)
 
     useEffect(() => {
         if (card?.isFavorite) {
             setIsFavorite(true)
         }
     }, [card?.isFavorite])
-
-    const [deliveryCities, setDeliveryCities] = useState<IDeliveryCity[]>([])
-    const [isFavorite, setIsFavorite] = useState(false)
 
     useEffect(() => {
 
@@ -262,7 +261,7 @@ const BoxGood = ({card} : {card: IProductCardRes}) => {
     const onBuy = async () => {
         // const response = await UserService.setBank()
         // console.log('response', response)
-        dispatch(createStoreOrder({
+        const storeOrder = {
             cards: [
                 {
                     card,
@@ -272,8 +271,9 @@ const BoxGood = ({card} : {card: IProductCardRes}) => {
             ],
             deliveryCities,
             marketDelivery: shelter?.marketDelivery
-        }))
-
+        }
+        dispatch(createStoreOrder(storeOrder))
+        sessionStorage.setItem('form-order', JSON.stringify(storeOrder))
         navigate(`/buy`)
     }
 

@@ -47,13 +47,13 @@ const CreateGoodQuantity = ({sizes, inputValues,  setInputValues, cardQuantity, 
         }
         const newInputValues = inputValues.map((currentInputValue, index) => {
             const type = combinedTypes[index]; // Соответствующий элемент в types
-            console.log('inputValues', inputValues)
             // В этой логике вы можете обновить quantity или другие свойства inputValues
-            return {
-                size: type.size,
-                quantity: currentInputValue.quantity,
-                color: type.color,
-            };
+                return {
+                    size: type?.size,
+                    quantity: currentInputValue.quantity,
+                    color: type?.color,
+                };
+
         });
         setInputValues(newInputValues);
         return combinedTypes;

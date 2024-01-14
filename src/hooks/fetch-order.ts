@@ -1,7 +1,5 @@
 import { useEffect, useState } from "react";
 import { useLocation, useParams } from "react-router-dom";
-import {IProductCardRes} from "../models/IProductCard";
-import {GoodsService} from "../services/GoodsService";
 import {IOrderRes} from "../models/IOrder";
 import {UserService} from "../services/UserService";
 
@@ -26,7 +24,6 @@ const useFetchOrder = (): IOrderRes | null => {
 
         fetchCard();
     }, [id, location.state]);
-    console.log('order', order)
     return order;
 };
 
