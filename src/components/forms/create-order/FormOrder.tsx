@@ -9,6 +9,9 @@ import {createIdOrder} from "../../../utils/formatDate";
 import CryptoJS from 'crypto-js';
 import {EXPRESS_POINTS} from "../../../constants";
 import useSetOrder from "../../../hooks/set-order";
+import {UserService} from "../../../services/UserService";
+import {IDeliveryPoint2} from "../../../models/IDeliveryPoint";
+import DeliveryPoint from "../../delivery-point/DeliveryPoint";
 
 type TCity = {
     value: string; label: string; price: string
@@ -22,10 +25,21 @@ const FormOrder = () => {
     const [selectedPayment, setSelectedPayment] = useState<string | null>(null);
     const [city, setCity] = useState<TCity | null>(null)
     const [isActiveButton, setIsActiveButton] = useState<boolean>(false)
+    const [deliveryPoints, setDeliveryPoints] = useState<IDeliveryPoint2[]>([])
+    const [checkedBoxes, setCheckedBoxes] = useState<boolean[]>([]);
 
     useEffect(() => {
-        console.log('order', orderStore)
-    }, [orderStore])
+        const getCard = async () => {
+            const card = orderStore.cards[0]?.card
+            if (!card) return
+            if (card.deliveryPoints && card.shelterId) {
+                const response = await UserService.getDeliveryPointsSeller(card.shelterId, card.deliveryPoints[0])
+                setDeliveryPoints(response.data)
+            }
+        }
+
+        getCard()
+    }, [orderStore.cards[0]?.card.deliveryPoints])
 
     const deliveryCities = useMemo(() => {
         if (selectedDelivery === 'express') {
@@ -184,10 +198,13 @@ const FormOrder = () => {
         //     setErrorCity(true)
         //     return
         // }
+
         if (!orderStore.marketDelivery
             && !isActiveButton
         ) return
         const id = createIdOrder();
+        const point = deliveryPoints[checkedBoxes.findIndex(box => box)]
+        if (data.delivery === 'pickup' && !point) return;
 
         const orderTypes = orderStore.cards.map(card => {
             return {
@@ -231,6 +248,10 @@ const FormOrder = () => {
             }
         }
 
+        if (data.delivery === 'pickup') {
+            order.pointId = point._id
+        }
+
         const productNames = order.orderTypes.map(orderType => orderType.goodName).join(', ');
         localStorage.setItem('id-order', id.split(' ')[1])
         const form = document.createElement('form');
@@ -256,7 +277,6 @@ const FormOrder = () => {
         localStorage.setItem('SignatureValue', JSON.stringify({...order}))
         form.appendChild(createHiddenInput('SignatureValue', CryptoJS.MD5(signature).toString()));
 
-        console.log('form', form);
         document.body.appendChild(form);
 
         if (
@@ -269,6 +289,7 @@ const FormOrder = () => {
     };
 
     const isDoorstepDelivery = watch('delivery');
+    const isPaymentMethod = watch('paymentMethod');
 
     const streetValidation = register('street', {
         required: isDoorstepDelivery === 'doorstep' ? 'Улица обязательна' : false,
@@ -277,6 +298,12 @@ const FormOrder = () => {
         required: isDoorstepDelivery === 'doorstep' ? 'Дом обязателен' : false,
     });
 
+    const handleCheckboxChange = (index: number) => (checked: boolean) => {
+        const falseBox = checkedBoxes.map(item => false)
+        const newCheckedBoxes = [...falseBox];
+        newCheckedBoxes[index] = checked;
+        setCheckedBoxes(newCheckedBoxes);
+    };
 
 
     return (
@@ -329,13 +356,15 @@ const FormOrder = () => {
                             <p className={`wrapper-radio__text ${selectedDelivery === 'doorstep' ? 'selected' : ''}`}>Доставка до двери</p>
                         </div>
                     </div>
-                    <div>
-                        <label htmlFor="order-city" className={`label order__label_up`}>Выберите {selectedDelivery === 'express' ? 'место' : 'город'} доставки</label>
+                    {selectedDelivery !== 'pickup' && <div>
+                        <label
+                               className={`label order__label_up`}>Выберите {selectedDelivery === 'express' ? 'место' : 'город'} доставки</label>
                         <Controller
                             name="city" // Укажите имя поля, которое будет использоваться в react-hook-form
                             control={control} // Передайте объект control из useForm
-                            render={({ field }) => (
+                            render={({field}) => (
                                 <Select
+                                    key={field.name}
                                     className={`order__cities ${selectedDelivery === 'express' ? 'large' : ''}`}
                                     id={'order-city'}
                                     classNamePrefix={'select'}
@@ -347,8 +376,19 @@ const FormOrder = () => {
                                 />
                             )}
                         />
-                    </div>
-
+                    </div>}
+                    {selectedDelivery === 'pickup' &&
+                        <div className={'order__inputs'}>
+                            <label className={'label order__label_title'}
+                                   htmlFor="street">Выберите пункт выдачи товара:
+                            </label>
+                            {
+                                deliveryPoints.map((point, index) => (
+                                    <DeliveryPoint key={index} point={point} index={index} handleCheckboxChange={handleCheckboxChange} checkedBoxes={checkedBoxes}/>
+                                ))
+                            }
+                        </div>
+                    }
                     {selectedDelivery === 'doorstep' && <div className={'order__inputs'}>
                         <h4 className={'order__subtitle'}>Адрес доставки</h4>
                         <div className={'order__inputs-container'}>
@@ -491,6 +531,11 @@ const FormOrder = () => {
                                     {city?.price || 0} RUP
                                 </span>
                             </>
+                            }
+                            {
+                                isPaymentMethod === 'cash' && <p className={'cart-ordering__warning'}>
+                                    Оплата наличными при получении
+                                </p>
                             }
                         </div>
                         <div className={'cart-ordering__finish order__finish'}>

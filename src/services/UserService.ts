@@ -1,6 +1,6 @@
 import axios, {AxiosResponse} from "axios";
 import {IUser} from "../models/response/IUser";
-import $api, {$apiShelter, API_URL} from "../http";
+import $api, {API_URL} from "../http";
 import {IProductCardRes} from "../models/IProductCard";
 import {ICartReq} from "../models/ICart";
 import {ICartRes} from "../models/response/ICartRes";
@@ -10,6 +10,7 @@ import {OrderEnum} from "../models/enums";
 import {ISellerByUser} from "../models/response/ISellerByUser";
 import {IComment, ICommentRes} from "../models/IComment";
 import {IDeliveryCityCart} from "../models/IDeliveryCity";
+import {IDeliveryPoint2} from "../models/IDeliveryPoint";
 
 export class UserService {
     static async fetchUser(): Promise<AxiosResponse<IUser[]>> {
@@ -93,6 +94,17 @@ export class UserService {
     static getDeliveryCart(
         idShelters: string[]
     ): Promise<AxiosResponse<IDeliveryCityCart | string>> {
-        return $apiShelter.get(`delivery/cart/${JSON.stringify(idShelters)}`)
+        return $api.get(`delivery/cart/${JSON.stringify(idShelters)}`)
+    }
+
+    static getDeliveryPointsSeller(
+        idShelter: string,
+        pointIds: string
+    ): Promise<AxiosResponse<IDeliveryPoint2[]>> {
+        return axios.get(`${API_URL}shelters/delivery-points-user/${idShelter}`, {
+            params: {
+                pointIds: pointIds
+            }
+        })
     }
 }

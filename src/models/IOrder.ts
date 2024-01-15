@@ -38,6 +38,7 @@ export interface IOrder {
         deliveryPrice: number
     }
     isTdMarket: boolean
+    pointId?: string
 }
 
 export interface IOrderRes extends IOrder {

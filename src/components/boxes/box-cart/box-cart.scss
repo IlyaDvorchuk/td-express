@@ -151,6 +151,12 @@
     }
   }
 
+  &__warning {
+    color: $errorColor;
+    text-align: center;
+    width: 100%;
+  }
+
   &__finish {
     margin: 27px 0 24px;
     display: flex;

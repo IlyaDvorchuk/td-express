@@ -45,6 +45,11 @@
         color: $errorColor;
       }
     }
+
+    &_title {
+      display: block;
+      margin-bottom: 16px;
+    }
   }
 
   & .wrapper-radio {

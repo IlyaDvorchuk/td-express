@@ -32,6 +32,9 @@ const BoxSubscription = () => {
             <h2 className={'subscription__title'}>
                 Выбор тарифов для продавца
             </h2>
+            <div className={'shelter-warning subscription__warning'}>
+                Если вы используете тариф DBS (Delivery by Seller),  вам необходимо позвонить покупателю для уточнения сроков доставки. Если же ваш тариф FBS (fullfilment by Seller), маркетплейс сам позвонит покупателю и все у него уточнит.
+            </div>
             <div className={'subscription__wrapper'}>
                 <div className={`subscription__card ${currentRate === 'self-delivery' ? 'selected' : ''}`}>
                     <h3 className={'subscription__subtitle'}>

@@ -1,6 +1,6 @@
-export const SIZES_CLOTHES_ID = ['648b5b94a6bbee602f3f0f97', '648b5f94d935cd57a56b2fd7', '648b5fdcd935cd57a56b2fd9'];
+export const SIZES_CLOTHES_ID = ['648b5b94a6bbee602f3f0f97', '648b5f94d935cd57a56b2fd7'];
 export const SIZES_CLOTHES_KIND_ID = '648b5fdcd935cd57a56b2fd9';
-export const SIZES_SHOE_ID = ['648b6004d935cd57a56b2fdb', '648b6015d935cd57a56b2fdd', '648b6031d935cd57a56b2fdf'];
+export const SIZES_SHOE_ID = ['648b6004d935cd57a56b2fdb', '648b6015d935cd57a56b2fdd'];
 export const SIZES_SHOE_KIND_ID = '648b6031d935cd57a56b2fdf';
 export const SIZES_ID = [...SIZES_CLOTHES_ID, ...SIZES_SHOE_ID]
 

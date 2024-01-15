@@ -6,8 +6,16 @@
   margin-bottom: 40px;
 
   & &__title {
-    margin-bottom: 47px;
+    margin-bottom: 18px;
     font-size: $subTitleSize;
+  }
+
+  & &__warning {
+    margin-bottom: 54px;
+
+    @media screen and (max-width: 600px){
+      margin-bottom: 30px;
+    }
   }
 
   & &__wrapper {

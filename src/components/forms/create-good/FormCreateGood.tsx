@@ -17,7 +17,7 @@ import {createProductCard, updateProductCard} from "../../../store/reducers/shel
 import {Link, useNavigate} from "react-router-dom";
 import {
     SIZES_CLOTHES,
-    SIZES_CLOTHES_ID, SIZES_CLOTHES_KIND,
+    SIZES_CLOTHES_ID, SIZES_CLOTHES_KIND, SIZES_CLOTHES_KIND_ID,
     SIZES_ID,
     SIZES_SHOE,
     SIZES_SHOE_ID, SIZES_SHOE_KIND,
@@ -226,7 +226,23 @@ const FormCreateGood = ({card} : {card: IProductCardRes | null}) => {
 
 
     const isTypesClothes = useMemo(() => {
-        return parentSelectedCategory && SIZES_ID.includes(parentSelectedCategory?._id)
+        return parentSelectedCategory && [...SIZES_ID, ...SIZES_SHOE_ID, SIZES_SHOE_KIND_ID, SIZES_CLOTHES_KIND_ID].includes(parentSelectedCategory?._id)
+    }, [parentSelectedCategory])
+
+
+    const sizes = useMemo(() => {
+        const  id = parentSelectedCategory?._id
+        if (!id) return []
+        if (SIZES_CLOTHES_ID.includes(id)) {
+            return SIZES_CLOTHES
+        } else if (SIZES_SHOE_ID.includes(id)) {
+            return SIZES_SHOE
+        } else if (SIZES_SHOE_KIND_ID === id) {
+            console.log('kind')
+            return SIZES_SHOE_KIND
+        } else return SIZES_CLOTHES_KIND
+
+
     }, [parentSelectedCategory])
 
     return (
@@ -255,14 +271,7 @@ const FormCreateGood = ({card} : {card: IProductCardRes | null}) => {
                         <>
                             <hr className={'create__divider'}/>
                             <CreateGoodSizes
-                                options={
-                                SIZES_CLOTHES_ID.includes(parentSelectedCategory?._id) ?
-                                    SIZES_CLOTHES
-                                    : SIZES_SHOE_ID.includes(parentSelectedCategory?._id) ?
-                                        SIZES_SHOE
-                                        : SIZES_SHOE_KIND_ID === parentSelectedCategory?._id ?
-                                        SIZES_SHOE_KIND : SIZES_CLOTHES_KIND
-                                }
+                                options={sizes}
                                 selectedOptions={selectedSizes}
                                 setSelectedOptions={setSelectedSizes}
                                 cardQuantity={card?.typeQuantity ? card.typeQuantity : null}
