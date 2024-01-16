@@ -35,7 +35,7 @@ const ProductCard = ({card, isFavoriteCard = false}: IProductCardProps) => {
         if (isObjectEmpty(user)) {
             dispatch(setPopup(PopupEnum.ADD_FAVORITE_NOT_USER))
         }
-        const response = await UserService.addToFavorites(card._id)
+        const response = await UserService.addToFavorites(card._id, card.shelterId)
         if (response?.status === 200) {
             console.log('response', response)
             dispatch(setPopup(PopupEnum.ADD_FAVORITE))
@@ -47,7 +47,7 @@ const ProductCard = ({card, isFavoriteCard = false}: IProductCardProps) => {
     const onRemoveFavorites = async (event: React.MouseEvent<HTMLDivElement>) => {
         event.stopPropagation();
         if (!isObjectEmpty(user)) {
-            await UserService.deleteFavorites(card._id)
+            await UserService.deleteFavorites(card._id, card.shelterId)
         }
         setIsFavorite(false)
     }

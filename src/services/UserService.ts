@@ -17,24 +17,27 @@ export class UserService {
         return $api.post<IUser[]>('/auth/users')
     }
 
-    static addToFavorites(goodId: string): Promise<AxiosResponse<boolean>> {
-        return $api.get<boolean>(`users/addToFavorite/${goodId}`)
+    static addToFavorites(goodId: string, sellerId: string): Promise<AxiosResponse<boolean>> {
+        return $api.get<boolean>(`users/addToFavorite/${goodId}/${sellerId}`)
     }
 
-    static deleteFavorites(goodId: string): Promise<AxiosResponse<boolean>> {
-        return $api.delete<boolean>(`users/removeFromFavorite/${goodId}`)
+    static deleteFavorites(goodId: string, sellerId: string): Promise<AxiosResponse<boolean>> {
+        return $api.delete<boolean>(`users/removeFromFavorite/${goodId}/${sellerId}`)
     }
 
     static getFavorites(): Promise<AxiosResponse<IProductCardRes[]>> {
         return $api.get<IProductCardRes[]>(`users/getFavorites/`)
     }
 
-    static addToCart(cart: ICartReq): Promise<AxiosResponse<boolean>> {
-        return $api.post<boolean>(`users/addToCart`, cart)
+    static addToCart(sellerId: string, cart: ICartReq): Promise<AxiosResponse<boolean>> {
+        return $api.post<boolean>(`users/addToCart/${sellerId}`, cart)
     }
 
-    static deleteCarts(cart: string[]): Promise<AxiosResponse<boolean>> {
-        return $api.post<boolean>('users/deleteCart', {idsCart: cart});
+    static deleteCarts(cart: string[], sellers: string[]): Promise<AxiosResponse<boolean>> {
+        return $api.post<boolean>('users/deleteCart', {
+            productCardIds: cart,
+            sellerIds: sellers
+        });
     }
 
     static async getUser(): Promise<AxiosResponse<IUser>> {

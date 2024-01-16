@@ -117,11 +117,11 @@ const BoxShelterMain = () => {
                                     </div>
                                     <div className={'statistics__item'}>
                                         <span>Количество добавленных в избранное:</span>
-                                        <span>0</span>
+                                        <span>{(shelter?.countFavorite && shelter?.countFavorite > 0) ? shelter?.countFavorite : 0}</span>
                                     </div>
                                     <div className={'statistics__item'}>
                                         <span>Количество добавленных в корзину:</span>
-                                        <span>0</span>
+                                        <span>{(shelter?.countCart && shelter?.countCart > 0) ? shelter?.countCart : 0}</span>
                                     </div>
                                 </div>
                                 <div className={'good-add'} onClick={onCreateGood}>

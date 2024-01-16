@@ -76,7 +76,6 @@ const FormRegistrationShop = ({shelter}: {shelter: IShelterRes | null}) => {
     }
 
     const onSubmit: SubmitHandler<IShelterShop> = (data) => {
-        console.log('hey btus')
 
         const shelter = localStorage.getItem('shelter');
         const shelterData = localStorage.getItem('shelter-data');
@@ -101,7 +100,10 @@ const FormRegistrationShop = ({shelter}: {shelter: IShelterRes | null}) => {
                     {
                         ...JSON.parse(shelter),
                         shelterData: JSON.parse(shelterData),
-                        shop: data,
+                        shop: {
+                            nameMarket: data.nameMarket.trim(),
+                            description: data.description
+                        },
                         deliveryPoints: updateDeliveryPoints
                     },
                     imageShop

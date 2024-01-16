@@ -67,7 +67,9 @@ const BoxCart = () => {
         if (!dedicatedCart.length) return
         try {
             console.log('dedicatedCart', dedicatedCart.map(cart => cart.typeId))
-            const response = await UserService.deleteCarts(dedicatedCart.map(cart => cart.typeId))
+            const response = await UserService.deleteCarts(
+                dedicatedCart.map(cart => cart.typeId), dedicatedCart.map(cart => cart.card.shelterId)
+            )
             if (response.data) {
                 setGoodCart(carts => carts.filter(cartItem => !dedicatedCart.some(dedicatedItem => dedicatedItem.typeId === cartItem.typeId)));
                 setDedicatedCart([])
@@ -77,10 +79,10 @@ const BoxCart = () => {
         }
     }
 
-    const deleteCart = async (id: string, productId: string) => {
+    const deleteCart = async (id: string, productId: string, sellerId: string) => {
         try {
             console.log('[id]', [id])
-            const response = await UserService.deleteCarts([id])
+            const response = await UserService.deleteCarts([id], [sellerId])
             if (response.data) {
                 setGoodCart(carts => carts.filter(cartItem => (id + productId) !== (cartItem.typeId + cartItem.productId)));
                 setDedicatedCart(carts => carts.filter(cartItem => (id + productId) !== (cartItem.typeId + cartItem.productId)))

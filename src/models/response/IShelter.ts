@@ -28,6 +28,8 @@ export interface IShelterRes {
     deliveryPoints: IDeliveryPoint2[],
     isVerified: boolean,
     createdAt: Date,
+    countCart?: number,
+    countFavorite?: number,
     rate: 'td-delivery' | 'self-delivery'
 }
 

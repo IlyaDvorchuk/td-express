@@ -2,15 +2,19 @@ import React from 'react';
 import './user-tools-mobile.scss'
 import '../../../styles/elements/tools.scss'
 import {useAppDispatch, useAppSelector} from "../../../hooks/redux";
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import {userSlice} from "../../../store/reducers/user/UserSlice";
 
 const UserToolsMobile = ({isPressed}: {isPressed: boolean}) => {
+    const navigation = useNavigate();
     const dispatch = useAppDispatch()
     const {user} = useAppSelector(state => state.userReducer)
 
     const onLogout = () => {
         dispatch(userSlice.actions.removeAccessToken())
+        window.location.reload()
+        navigation('/')
+
     }
 
     return (

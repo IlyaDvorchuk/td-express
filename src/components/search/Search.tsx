@@ -18,13 +18,15 @@ const Search = ({mobile = false}: {mobile?: boolean}) => {
     // const [searchQuery, setSearchQuery]= useState('')
     const [timeoutId, setTimeoutId] = useState<NodeJS.Timeout | null>(null);
     const inputRef = useRef<HTMLInputElement>(null);
-    const {user} = useAppSelector(state => state.userReducer)
+    const {user, isUserModal} = useAppSelector(state => state.userReducer)
+
 
     useEffect(() => {
         if (inputRef.current && mobile && query) {
             inputRef.current.focus(); // Устанавливаем фокус на инпуте
         }
     }, []);
+
 
     useEffect(() => {
         if (isChange) {
@@ -107,12 +109,14 @@ const Search = ({mobile = false}: {mobile?: boolean}) => {
                 <img src="/images/svg/search.svg" alt={'Найти товар'}/>
             </button>
             <input
+
                 className={'search-input'}
                 ref={inputRef}
                 placeholder={'Я ищу...'}
                 onChange={(e) => onChangeSearch(e.target.value)}
                 value={query}
                 onKeyDown={handleKeyDown}
+                disabled={isUserModal}
             />
 
         </div>

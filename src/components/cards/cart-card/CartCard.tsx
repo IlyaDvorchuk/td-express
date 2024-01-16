@@ -15,7 +15,7 @@ interface IProps {
     cart: ICartRes,
     isChecked: boolean
     onCheckboxChange:  (cart: ICartRes, isChecked: boolean) => void,
-    deleteCart: (id: string, productId: string) => void,
+    deleteCart: (id: string, productId: string, sellerId: string) => void,
     setChangeCount:  React.Dispatch<React.SetStateAction<number>>,
 }
 
@@ -105,7 +105,7 @@ const CartCard = ({cart, isChecked, onCheckboxChange, deleteCart, setChangeCount
         if (isObjectEmpty(user)) {
             dispatch(setPopup(PopupEnum.ADD_FAVORITE_NOT_USER))
         }
-        const response = await UserService.addToFavorites(cart.card._id)
+        const response = await UserService.addToFavorites(cart.card._id, cart.card.shelterId)
         if (response?.status === 200) {
             console.log('response', response)
             dispatch(setPopup(PopupEnum.ADD_FAVORITE))
@@ -118,7 +118,7 @@ const CartCard = ({cart, isChecked, onCheckboxChange, deleteCart, setChangeCount
     const onRemoveFavorites = async (event: React.MouseEvent<SVGSVGElement | HTMLDivElement>) => {
         event.stopPropagation();
         if (!isObjectEmpty(user)) {
-            await UserService.deleteFavorites(cart.card._id)
+            await UserService.deleteFavorites(cart.card._id, cart.card.shelterId)
         }
         setIsFavorite(false)
     }
@@ -161,7 +161,7 @@ const CartCard = ({cart, isChecked, onCheckboxChange, deleteCart, setChangeCount
                                 <p className={'cart-card__favorite'} onClick={onRemoveFavorites}>В избранном</p>
                             }
 
-                        <p onClick={() => deleteCart(cart.typeId, cart.productId)}>Удалить</p>
+                        <p onClick={() => deleteCart(cart.typeId, cart.productId, cart.card.shelterId)}>Удалить</p>
                     </> :
                         <>
                             {<p onClick={!isFavorite ? onAddFavorites : onRemoveFavorites} className={'cart-card__favorite cart-card__mobile-button'}>
@@ -169,7 +169,7 @@ const CartCard = ({cart, isChecked, onCheckboxChange, deleteCart, setChangeCount
                                     <img src="/images/svg/cart/cart-not-favorite.svg" alt="В избранном"/>
                                 }
                             </p>}
-                            <p onClick={() => deleteCart(cart.typeId, cart.productId)} className={'cart-card__mobile-button'}>
+                            <p onClick={() => deleteCart(cart.typeId, cart.productId, cart.card.shelterId)} className={'cart-card__mobile-button'}>
                                 <img src='/images/svg/cart/cart-remove.svg' alt={'Удалить'}/>
                             </p>
                         </>

@@ -213,7 +213,7 @@ const BoxGood = ({card} : {card: IProductCardRes}) => {
         if (isObjectEmpty(user)) {
             dispatch(setPopup(PopupEnum.ADD_FAVORITE_NOT_USER))
         }
-        const response = await UserService.addToFavorites(card._id)
+        const response = await UserService.addToFavorites(card._id, card.shelterId)
         if (response?.status === 200) {
             console.log('response', response)
             dispatch(setPopup(PopupEnum.ADD_FAVORITE))
@@ -225,18 +225,20 @@ const BoxGood = ({card} : {card: IProductCardRes}) => {
     const onRemoveFavorites = async (event: React.MouseEvent<SVGSVGElement>) => {
         event.stopPropagation();
         if (!isObjectEmpty(user)) {
-            await UserService.deleteFavorites(card._id)
+            await UserService.deleteFavorites(card._id, card.shelterId)
         }
         setIsFavorite(false)
     }
 
     const addToCart = async () => {
         if (count > quantity) return
+        if (!shelter?.id) return
+
         if (user) {
             dispatch(setPopup( PopupEnum.ADD_CART_NOT_USER))
         }
         try {
-            const response = await UserService.addToCart({
+            const response = await UserService.addToCart(shelter?.id, {
                 productId: card._id,
                 quantity: count,
                 size: activeSize,
