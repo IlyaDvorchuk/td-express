@@ -14,9 +14,9 @@
   &.little {
     @include square(50px);
     min-width: 50px;
+
     font-size: $subTitleSize;
   }
-
   &.big {
     @include square(88px);
     min-width: 88px;

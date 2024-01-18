@@ -4,6 +4,7 @@ import {useAppSelector} from "../../../hooks/redux";
 import {UserService} from "../../../services/UserService";
 import {ICommentRes} from "../../../models/IComment";
 import {formatDateOnRussian} from "../../../utils/formatDate";
+import {useWindowWidth} from "../../../hooks/useWindowWidth";
 
 interface IProps {
     productId: string
@@ -14,12 +15,12 @@ const BoxReviews = ({productId}: IProps) => {
     const [isFocused, setIsFocused] = useState(false);
     const [textValue, setTextValue] = useState('Напишите свой вопрос...');
     const [comments, setComments] = useState<ICommentRes[]>([])
+    const windowWidth = useWindowWidth();
 
     useEffect(() => {
         const fetchComments = async () => {
             try {
                 const response = await UserService.getCommentsByProduct(productId);
-                console.log('response', response)
                 setComments(response.data.reverse())
             } catch (error) {
                 console.log('Ошибка при получении комментариев:', error);
@@ -50,12 +51,13 @@ const BoxReviews = ({productId}: IProps) => {
 
     const onCreateComment: React.MouseEventHandler<HTMLButtonElement> = async (e) => {
         e.preventDefault();
+        if (textValue === 'Напишите свой вопрос...') return
         if (textValue.length < 4) return
-        await UserService.createComment({
-            text: textValue,
-            productId,
-            userName: user.firstName + ' ' + user.secondName
-        })
+        // await UserService.createComment({
+        //     text: textValue,
+        //     productId,
+        //     userName: user.firstName + ' ' + user.secondName
+        // })
         setTextValue('')
     }
 
@@ -93,7 +95,7 @@ const BoxReviews = ({productId}: IProps) => {
                 {comments.map(comment => (
                     <div key={comment._id} className={'comment'}>
                         <div
-                            className={'user-icon big'}
+                            className={`user-icon ${windowWidth > 500 ? 'big' : 'little'}`}
                         >
                             <span>
                                 {`${comment.userName?.split(' ')[0][0].toUpperCase()}`}
