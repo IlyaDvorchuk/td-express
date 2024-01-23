@@ -19,9 +19,8 @@ const MobileNavbar = () => {
     const [isPressedMenu, setIsPressedMenu] = useState(false)
     const [isPressedTools, setIsPressedTools] = useState(false)
 
-
-    useEffect(() => {
-        switch (location.pathname) {
+    const changeLocation = (pathname: string) => {
+        switch (pathname) {
             case '/':
                 setActiveLink('home');
                 break;
@@ -34,6 +33,10 @@ const MobileNavbar = () => {
             default:
                 setActiveLink('')
         }
+    }
+
+    useEffect(() => {
+        changeLocation(location.pathname)
     }, [location.pathname])
 
     useEffect(() => {
@@ -41,6 +44,11 @@ const MobileNavbar = () => {
     }, [activeLink]);
 
     const handleLinkClick = (to: string) => {
+        if (isPressedTools && to === 'user') {
+            setIsPressedTools(false)
+            changeLocation(location.pathname)
+            return
+        }
         setIsPressedMenu(to === 'categories')
         setIsPressedTools(to === 'user')
         setActiveLink(to);

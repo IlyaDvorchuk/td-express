@@ -38,9 +38,8 @@ const BoxSeller = () => {
                     {seller && seller?.countGoods > 5 && `${seller.countGoods} товаров`}
                 </p>
             </div>
-            <p className={'box-seller__description'}>
-                {seller?.shop.description}
-            </p>
+            {seller?.shop.description && <p className={'box-seller__description'}
+                dangerouslySetInnerHTML={{__html: seller?.shop.description.replace(/\n/g, '<br>')}}/>}
         </div>
     );
 };

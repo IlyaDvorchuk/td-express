@@ -152,7 +152,6 @@ const BoxShelterGoods = () => {
         window.scrollTo({ top: 0, behavior: 'smooth' });
         setCurrentPage(page);
     };
-
     return (
         <div className={'goods'}>
             <div className={'goods__header'}>

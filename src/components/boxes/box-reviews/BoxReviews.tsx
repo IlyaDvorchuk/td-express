@@ -53,11 +53,11 @@ const BoxReviews = ({productId}: IProps) => {
         e.preventDefault();
         if (textValue === 'Напишите свой вопрос...') return
         if (textValue.length < 4) return
-        // await UserService.createComment({
-        //     text: textValue,
-        //     productId,
-        //     userName: user.firstName + ' ' + user.secondName
-        // })
+        await UserService.createComment({
+            text: textValue,
+            productId,
+            userName: user.firstName + ' ' + user.secondName
+        })
         setTextValue('')
     }
 
@@ -74,6 +74,10 @@ const BoxReviews = ({productId}: IProps) => {
             onChange={handleChange}
             disabled={!user?._id}
         />
+                {/*<SimpleMdeReact*/}
+                {/*    className={`mde`}*/}
+                {/*    placeholder="Добавьте описание вашему товару"*/}
+                {/*/>*/}
                 <button
                     onClick={onCreateComment}
                     className={
@@ -112,9 +116,7 @@ const BoxReviews = ({productId}: IProps) => {
                             <div className={'comment__date'}>
                                 {formatDateOnRussian(comment.createdAt)}
                             </div>
-                            <p className={'comment__text'}>
-                                {comment.text}
-                            </p>
+                            <p className={'comment__text'} dangerouslySetInnerHTML={{ __html: comment.text.replace(/\n/g, '<br>') }} />
                         </div>
                     </div>
                 ))}

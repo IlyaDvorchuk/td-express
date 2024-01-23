@@ -6,6 +6,7 @@ export interface IPaginationCards {
     productCards: IProductCardRes[],
     minPriceRange: number,
     maxPriceRange: number,
+    totalCount: number
 }
 
 export interface IRangePrice {

@@ -26,6 +26,7 @@ const CategoryCards = ({ id, title, limit, isFilter = false }: CategoryCardsProp
     const [categoryCards, setCategoryCards] = useState<IProductCardRes[]>([]);
     const [page, setPage] = useState(1);
     const [prevParamsId, setPrevParamsId] = useState<string | undefined>(paramsId);
+    const [totalCount, setTotalCount] = useState<number>(0);
     const dispatch = useAppDispatch()
     const {user} = useAppSelector(state => state.userReducer)
 
@@ -70,8 +71,10 @@ const CategoryCards = ({ id, title, limit, isFilter = false }: CategoryCardsProp
                 );
                 if (prevParamsId !== paramsId || isInputChange) {
                     setCategoryCards(response.data.productCards); // Заменяем categoryCards новыми данными
+                    setTotalCount(response.data.totalCount)
                 } else {
                     setCategoryCards(prevCards => [...prevCards, ...response.data.productCards]); // Добавляем новые карточки
+                    setTotalCount(response.data.totalCount)
                 }
                 if (isFilter && response.data.productCards.length > 0 && !isInputChange) {
                     dispatch(filterSlice.actions.setRange({
@@ -80,6 +83,7 @@ const CategoryCards = ({ id, title, limit, isFilter = false }: CategoryCardsProp
                     }))
                     dispatch(filterSlice.actions.setCurrentMaxPrice(response.data.maxPriceRange))
                     dispatch(filterSlice.actions.setCurrentMinPrice(response.data.minPriceRange))
+                    setTotalCount(response.data.totalCount)
                 } else if (!isInputChange) {
                     dispatch(filterSlice.actions.setRange({
                         maxPriceRange: Infinity,
@@ -88,6 +92,7 @@ const CategoryCards = ({ id, title, limit, isFilter = false }: CategoryCardsProp
                     dispatch(filterSlice.actions.setCurrentMaxPrice(Infinity))
                     dispatch(filterSlice.actions.setCurrentMinPrice(0))
                     dispatch(filterSlice.actions.setColors([]))
+                    setTotalCount(response.data.totalCount)
                 }
             }
             dispatch(filterSlice.actions.setResetFalse())
@@ -118,7 +123,15 @@ const CategoryCards = ({ id, title, limit, isFilter = false }: CategoryCardsProp
     return (
         <div>
             {title && <TitleCards text={title}/>}
-            <WrapperCard cardsLength={categoryCards.length} handleButtonClick={handleButtonClick} limit={limit}>
+            <WrapperCard
+                cardsLength={categoryCards.length}
+                handleButtonClick={handleButtonClick} limit={limit}
+                pagination={{
+                    currentPage: page,
+                    totalItems: totalCount,
+                    cardsPerPage: limit
+                }}
+            >
                 {categoryCards.length > 0 && categoryCards.map((card, index) => <ProductCard card={card} key={index} />)}
                 {categoryCards.length === 0 && !id && <BoxNotFoundCategory/>}
             </WrapperCard>

@@ -111,6 +111,12 @@ const FormCreateGood = ({card} : {card: IProductCardRes | null}) => {
         }
     },  [dispatch, isCreateGoodCard, navigation, submitButton])
 
+    useEffect(() => {
+        if (description.length > 0) {
+            setDescriptionError(false)
+        }
+    }, [description])
+
     const onClickSubmit = (button: string) => {
         if (!parentSelectedCategory) {
             setCategoriesErrors(prevState => ({...prevState, category: true}))
@@ -121,6 +127,7 @@ const FormCreateGood = ({card} : {card: IProductCardRes | null}) => {
         if (!parentSelectedType) {
             setCategoriesErrors(prevState => ({...prevState, type: true}))
         }
+        console.log('descri[tion', description)
         if (!description) {
             setDescriptionError(true)
         }

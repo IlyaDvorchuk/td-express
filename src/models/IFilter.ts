@@ -4,7 +4,8 @@ export interface IFilterParams {
     minPrice?: number;
     maxPrice?: number;
     colors?: string[],
-    userId?: string
+    userId?: string,
+
 }
 
 export interface IFilterCategoriesParams extends IFilterParams{
