@@ -257,7 +257,6 @@ const FormOrder = () => {
             order.pointId = point._id
         }
 
-        const productNames = order.orderTypes.map(orderType => orderType.goodName).join(', ');
         localStorage.setItem('id-order', id.split(' ')[1])
         const form = document.createElement('form');
         form.method = 'POST';
@@ -270,13 +269,12 @@ const FormOrder = () => {
             { name: 'RequestSum', value: `${finalPrice * 100}` },
             // { name: 'RequestSum', value: `5` },
             { name: 'RequestCurrCode', value: '000' },
-            { name: 'Desc', value: `Оплата заказа №${id.split(' ')[1]}, ${productNames}` },
+            { name: 'Desc', value: `Оплата заказа №${id.split('_')[1]}` },
         ];
 
         parameters.forEach(({ name, value }) => {
             form.appendChild(createHiddenInput(name, value));
         });
-
 
         const signature = `000209:${id}:0:${parameters[3].value}:000:${parameters[5].value}:HBmWYiyiwWrCsYlsD6Qk`;
         localStorage.setItem('SignatureValue', JSON.stringify({...order}))

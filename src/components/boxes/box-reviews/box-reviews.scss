@@ -2,6 +2,10 @@
 @import "src/styles/mixins";
 
 .reviews {
+  
+  @media screen and (max-width: 520px) {
+    padding: 0 5px;
+  }
   & &__not-registration {
     font-size: $littleSize;
     color: $text4Color;
@@ -42,9 +46,16 @@
   display: flex;
   gap: 20px;
 
+  @media screen and (max-width: 520px) {
+    gap: 10px;
+  }
 
   & &__inf {
     margin-top: 10px;
+
+    @media screen and (max-width: 520px) {
+      margin-bottom: 5px;
+    }
   }
 
   & h4 {
@@ -63,9 +74,17 @@
     font-size: $mediumLittleSize;
     color: $text4Color;
     margin-bottom: 40px;
+
+    @media screen and (max-width: 520px) {
+      margin-bottom: 10px;
+    }
   }
   & &__text {
     font-size: $bigMediumSize;
     color: $title2Color;
+
+    @media screen and (max-width: 520px) {
+      font-size: $mediumMediumSize;
+    }
   }
 }
