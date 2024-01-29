@@ -218,6 +218,11 @@ const FormOrder = () => {
             }
         })
 
+        let isMarketDelivery = false
+        if (data.delivery === 'doorstep') {
+            isMarketDelivery = orderStore?.marketDelivery !== 'self-delivery'
+        }
+
         const order = {
             orderId: id,
             orderTypes: orderTypes,
@@ -233,7 +238,7 @@ const FormOrder = () => {
                 phone: data.phone,
             },
             city: city?.value || '',
-            isTdMarket: orderStore?.marketDelivery !== 'self-delivery'
+            isTdMarket: isMarketDelivery
         } as IOrder
 
         if (data.delivery === 'doorstep') {
