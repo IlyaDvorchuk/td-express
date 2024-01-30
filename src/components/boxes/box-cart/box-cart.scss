@@ -112,7 +112,6 @@
 
 .cart-ordering {
   width: 413px;
-  height: 293px;
   border: 1.5px solid $borderColor;
   border-radius: 15px;
   padding: 31px 50px 22px;
@@ -130,6 +129,10 @@
     width: 100%;
     height: auto;
     border-bottom: 1.5px solid $borderColor;
+  }
+
+  &.max-height {
+    height: 293px;
   }
 
   &__order {
@@ -152,13 +155,18 @@
   }
 
   &__warning {
+    font-size: $littleMediumSize;
     color: $errorColor;
     text-align: center;
     width: 100%;
+
+    &.margin {
+      margin-bottom: 10px;
+    }
   }
 
   &__finish {
-    margin: 27px 0 24px;
+    margin: 10px 0 24px;
     display: flex;
     justify-content: space-between;
     font-weight: 800;

@@ -308,6 +308,9 @@ const FormOrder = () => {
         setCheckedBoxes(newCheckedBoxes);
     };
 
+    useEffect(() => {
+        console.log('user', user)
+    }, [user])
 
     return (
         <form className={'order'} onSubmit={handleSubmit(onSubmit)}>
@@ -535,12 +538,20 @@ const FormOrder = () => {
                                 </span>
                             </>
                             }
-                            {
-                                isPaymentMethod === 'cash' && <p className={'cart-ordering__warning'}>
-                                    Оплата наличными при получении
-                                </p>
-                            }
                         </div>
+                            <div>
+                                {
+                                    isPaymentMethod === 'cash' &&
+                                    <p className={'cart-ordering__warning margin'}>
+                                        Оплата наличными при получении
+                                    </p>
+                                }
+                                {!user?._id && <p className={'cart-ordering__warning'}>
+                                    Советуем зарегистрироваться, что бы Вы могли отслеживать статус товара в своём
+                                    аккаунте.
+                                </p>}
+                            </div>
+
                         <div className={'cart-ordering__finish order__finish'}>
                         <span>
                             Итого

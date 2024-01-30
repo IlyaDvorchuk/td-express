@@ -156,7 +156,7 @@ const BoxCart = () => {
                         />
                     ))}
                 </div>
-                <div className={'cart-ordering'}>
+                <div className={'cart-ordering max-height'}>
                     <p className={'cart-ordering__order'}>Ваш заказ</p>
                     <div className={'cart-ordering__price'}>
                         <span>
