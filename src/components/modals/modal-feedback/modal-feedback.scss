@@ -1,0 +1,56 @@
+@import "src/styles/constants";
+@import "src/styles/mixins";
+
+
+
+.feedback {
+  background: $backgroundColor;
+  position: fixed;
+  top: calc(50% - 257px);
+  left: calc(50% - 295px);
+  padding: 40px 48px 24px;
+  border-radius: 24px;
+  z-index: 999;
+
+  & &__cancel {
+    position: absolute;
+    top: 24px;
+    right: 24px;
+    cursor: pointer;
+  }
+
+  & h2 {
+    font-family: 'Nunito Sans', sans-serif;
+    color: $titleColor;
+    font-size: $subTitleSize;
+    margin-bottom: 12px;
+  }
+
+  & &__rate {
+    margin-bottom: 24px;
+  }
+
+  & p {
+    margin-bottom: 9px;
+    color: $text2Color;
+    @include flex(flex-start, center, 8px);
+    font-size: $littleMediumSize;
+  }
+
+  & &__textarea {
+    margin-bottom: 32px;
+    margin-left: 28px;
+    width: 400px;
+    height: 120px;
+    padding: 12px 16px;
+    border: 1px solid $title3Color;
+    border-radius: 12px;
+    font-family: 'Open Sans', sans-serif;
+    font-size: $mediumLittleSize;
+  }
+
+  & &__button {
+    margin: auto;
+    max-width: 179px;
+  }
+}

@@ -14,6 +14,7 @@ const initialState = {
     error: '',
     isHoverTools: false,
     accessToken: getAccessTokenUser(),
+    isFeedbackModal: false,
     popup: PopupEnum.DEFAULT as PopupEnum
 }
 
@@ -77,6 +78,9 @@ export const userSlice = createSlice({
         },
         setIsLoaded: (state, action: PayloadAction<boolean>) => {
             state.isLoaded = action.payload
+        },
+        setIsFeedbackModal: (state, action: PayloadAction<boolean>) => {
+            state.isFeedbackModal = action.payload
         },
     }
 })
