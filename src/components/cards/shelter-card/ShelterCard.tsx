@@ -32,7 +32,7 @@ const ShelterCard = ({card, onDelete, selectedStatus}: IProps) => {
     const [status, setStatus] = useState<StatusEnum>(StatusEnum.DEFAULT)
 
     const countGood = useMemo(() => {
-        if (card.typeQuantity) {
+        if (card.typeQuantity && card.typeQuantity.length > 0) {
             return card.typeQuantity.filter(item => item).reduce((acc, item) => acc + Number(item?.quantity), 0);
         } else {
             return card.pricesAndQuantity.quantity

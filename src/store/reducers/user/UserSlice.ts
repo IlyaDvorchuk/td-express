@@ -14,7 +14,7 @@ const initialState = {
     error: '',
     isHoverTools: false,
     accessToken: getAccessTokenUser(),
-    isFeedbackModal: false,
+    isFeedbackModal: true,
     popup: PopupEnum.DEFAULT as PopupEnum
 }
 

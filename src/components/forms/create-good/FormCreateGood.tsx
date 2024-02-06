@@ -29,6 +29,7 @@ import {shelterSlice} from "../../../store/reducers/shelter/ShelterSlice";
 import CreateGoodColors from "./create-good-colors/CreateGoodColors";
 import {ColorImage, IColor} from "../../../models/IColor";
 import {fileToBase64} from "../../../utils/fileToBase64";
+import CreateGoodSex from "./create-good-sex/CreateGoodSex";
 
 const FormCreateGood = ({card} : {card: IProductCardRes | null}) => {
     const navigation = useNavigate()
@@ -60,6 +61,7 @@ const FormCreateGood = ({card} : {card: IProductCardRes | null}) => {
         additional: false
     })
     const [sizesError, setSizesError] = useState(false)
+    const [sex, setSex] = useState('')
 
 
     useEffect(() => {
@@ -73,12 +75,23 @@ const FormCreateGood = ({card} : {card: IProductCardRes | null}) => {
             if (card?.additionalInformation?.seasons) {
                 setSeasons(card?.additionalInformation?.seasons)
             }
-
-            methods.reset({
+            if (card.additionalInformation?.sex) {
+                setSex(card.additionalInformation?.sex)
+            }
+             methods.reset({
                 name: card.information.name,
                 material: card?.additionalInformation?.material,
                 recommendations: card?.additionalInformation?.recommendations,
                 seasons: card?.additionalInformation?.seasons,
+                 accessoriesColor: card?.additionalInformation?.accessoriesColor,
+                 pockets: card?.additionalInformation?.pockets,
+                 liningMaterial: card?.additionalInformation?.liningMaterial,
+                 brand: card?.additionalInformation?.brand,
+                 claspType: card?.additionalInformation?.claspType,
+                 countryOfOrigin: card?.additionalInformation?.countryOfOrigin,
+                 decorativeElements: card?.additionalInformation?.decorativeElements,
+                 numberOfBranches: card?.additionalInformation?.numberOfBranches,
+                 upperMaterial: card?.additionalInformation?.upperMaterial,
                 price: card.pricesAndQuantity.price.toString(),
                 priceDiscount: card.pricesAndQuantity.priceBeforeDiscount.toString(),
                 length: card.dimensions.length,
@@ -137,14 +150,25 @@ const FormCreateGood = ({card} : {card: IProductCardRes | null}) => {
         setSubmitButton(button)
     }
 
-    const onSubmit = async (data: any) => {
+    const typeGood = useMemo(() => {
+        if (!parentSelectedCategory) {
+            return ''
+        }
+        if (parentSelectedCategory.name === 'Аксессуары') {
+            if (!parentSelectedSubCategory) return ''
+            if (parentSelectedSubCategory.name === 'Кошельки и картхолдеры') {
+                return 'wallets'
+            } else return 'bags'
+        } else return 'clothes'
+    }, [parentSelectedCategory, parentSelectedSubCategory])
 
+    const onSubmit = async (data: any) => {
+        console.log('parentSelectedSubCategory', parentSelectedSubCategory)
         if ((!generalImage && !card?.mainPhoto)
             || additionalImages.length === 0
             || !parentSelectedCategory
             || !parentSelectedSubCategory
             || !parentSelectedType
-            || quantitySizes.length === 0
             || !description
         ) {
             window.scrollTo({top: 0, behavior: 'smooth'})
@@ -195,6 +219,16 @@ const FormCreateGood = ({card} : {card: IProductCardRes | null}) => {
                     material: data.material,
                     recommendations: data.recommendations,
                     seasons: seasons,
+                    sex,
+                    accessoriesColor: data.accessoriesColor,
+                    pockets: data.pockets,
+                    liningMaterial: data.liningMaterial,
+                    brand: data.brand,
+                    claspType: data.claspType,
+                    countryOfOrigin: data.countryOfOrigin,
+                    decorativeElements: data.decorativeElements,
+                    numberOfBranches: data.numberOfBranches,
+                    upperMaterial: data.upperMaterial
                 },
                 pricesAndQuantity: {
                     price: Number(data.price),
@@ -279,15 +313,28 @@ const FormCreateGood = ({card} : {card: IProductCardRes | null}) => {
                                 setSeasons={setSeasons}
                                 sizesError={sizesError}
                             />
-                            <hr className={'create__divider'}/>
-                            <CreateGoodColors
-                                selectedColors={selectedColors}
-                                setSelectedColors={setSelectedColors}
-                                typesCard={card?.typeQuantity}
-                            />
+
                         </>
                     )
                 }
+                {
+                    parentSelectedCategory && !isTypesClothes && (
+                        <>
+                            <hr className={'create__divider'}/>
+                            <CreateGoodSex
+                                sex={sex}
+                                setSex={setSex}
+                            />
+
+                        </>
+                    )
+                }
+                <hr className={'create__divider'}/>
+                <CreateGoodColors
+                    selectedColors={selectedColors}
+                    setSelectedColors={setSelectedColors}
+                    typesCard={card?.typeQuantity}
+                />
                 <hr className={'create__divider'}/>
                 <CreateGoodPhotos
                     generalImage={generalImage}
@@ -301,11 +348,13 @@ const FormCreateGood = ({card} : {card: IProductCardRes | null}) => {
                     photosErrors={photosErrors}
 
                 />
-                <hr className={'create__divider'}/>
-                <CreateGoodAdditional/>
+                {typeGood && <>
+                    <hr className={'create__divider'}/>
+                    <CreateGoodAdditional type={typeGood}/>
+                </>}
                 <hr className={'create__divider'}/>
                 <CreateGoodPrice isClothes={isTypesClothes} card={card}/>
-                {parentSelectedCategory && isTypesClothes && (
+                {parentSelectedCategory && (
                     <>
                         <hr className={'create__divider'}/>
                         <CreateGoodQuantity

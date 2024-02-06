@@ -1,4 +1,5 @@
 @import "src/styles/constants";
+@import "src/styles/mixins";
 
 .description {
   &__block {
@@ -11,6 +12,13 @@
   &__input {
     width: 100%;
     max-width: 847px;
+  }
+
+  & .brand {
+    margin-top: 8px;
+    @include flex(flex-start, center, 0);
+    font-size: $littleSize;
+    color: $text4Color;
   }
 }
 
