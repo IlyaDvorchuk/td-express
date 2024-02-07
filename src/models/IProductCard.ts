@@ -34,6 +34,17 @@ export interface IProductCard {
         material?: string,
         recommendations?: string,
         seasons?: string[]
+        pockets?: string
+        accessoriesColor?: string,
+        brand?: string,
+        claspType?: string,
+        countryOfOrigin?: string,
+        decorativeElements?: string,
+        liningMaterial?: string,
+        numberOfBranches?: string,
+        quantityInStock?: string,
+        upperMaterial?: string,
+        sex?: string
     },
     pricesAndQuantity: IPrice,
     dimensions: {

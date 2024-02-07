@@ -1,0 +1,115 @@
+@import "src/styles/constants";
+@import "src/styles/mixins";
+
+
+
+.feedback {
+  background: $backgroundColor;
+  position: fixed;
+  top: calc(50% - 257px);
+  left: calc(50% - 295px);
+  padding: 40px 48px 24px;
+  border-radius: 24px;
+  z-index: 999;
+
+  @media screen and (max-width: 600px) {
+    width: 490px;
+    left: calc(50% - 245px);
+    padding: 20px 24px 12px;
+  }
+
+  @media screen and (max-width: 500px) {
+    width: 400px;
+    left: calc(50% - 200px);
+  }
+
+  @media screen and (max-width: 410px) {
+    width: 95%;
+    left: 2.5%;
+  }
+
+  & &__cancel {
+    position: absolute;
+    top: 24px;
+    right: 24px;
+    cursor: pointer;
+  }
+
+  & h2 {
+    font-family: 'Nunito Sans', sans-serif;
+    color: $titleColor;
+    font-size: $subTitleSize;
+    margin-bottom: 12px;
+
+    @media screen and (max-width: 500px) {
+      font-size: $bigMediumSize;
+    }
+
+    @media screen and (max-width: 410px) {
+      width: 95%;
+    }
+
+    @media screen and (max-width: 370px) {
+      font-size: $mediumMediumSize;
+      margin-bottom: 6px;
+    }
+  }
+
+  & &__rate {
+    margin-bottom: 24px;
+
+    @media screen and (max-width: 600px) {
+      margin-bottom: 12px;
+    }
+
+    @media screen and (max-width: 370px) {
+      font-size: $mediumMediumSize;
+    }
+  }
+
+  & p {
+    margin-bottom: 9px;
+    color: $text2Color;
+    @include flex(flex-start, center, 8px);
+    font-size: $littleMediumSize;
+
+    @media screen and (max-width: 500px) {
+      gap: 0;
+      font-size: $littleSize;
+    }
+
+    @media screen and (max-width: 400px) {
+      gap: 4px;
+    }
+  }
+
+  & &__textarea {
+    margin-bottom: 32px;
+    margin-left: 28px;
+    width: 400px;
+    height: 120px;
+    padding: 12px 16px;
+    border: 1px solid $title3Color;
+    border-radius: 12px;
+    font-family: 'Open Sans', sans-serif;
+    font-size: $mediumLittleSize;
+
+    @media screen and (max-width: 600px) {
+      margin-bottom: 16px;
+    }
+
+    @media screen and (max-width: 500px) {
+      margin-left: 0;
+      width: 100%;
+    }
+
+    @media screen and (max-width: 425px) {
+      margin-bottom: 8px;
+    }
+  }
+
+  & &__button {
+    margin: auto;
+    max-width: 179px;
+  }
+}

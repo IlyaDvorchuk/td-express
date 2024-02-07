@@ -16,12 +16,14 @@ import {getAccessTokenUser} from "../../../utils/tokens";
 import {isObjectEmpty} from "../../../utils/isObjectEmpty";
 import UserTools from "../../tools/user-tools/UserTools";
 import {fetchCategories} from "../../../store/reducers/categories/CategoriesCreators";
+import ModalFeedback from "../../modals/modal-feedback/ModalFeedback";
+import Cover from "../../cover/Cover";
 
 
 
 const Header = () => {
     const dispatch = useAppDispatch()
-    const {isUserModal, user} = useAppSelector(state => state.userReducer)
+    const {isUserModal, user, isFeedbackModal} = useAppSelector(state => state.userReducer)
     const {changeIsUserModal} = userSlice.actions
     const {categories} = useAppSelector(state => state.categoriesReducer)
     const [windowWidth, setWindowWidth] = useState(window.innerWidth);
@@ -89,6 +91,11 @@ const Header = () => {
                     ))}
                 </div>
             </Container>
+            {isFeedbackModal && <>
+                <ModalFeedback/>
+                <Cover callback={() => {
+                }}/>
+            </>}
         </header>
     );
 }

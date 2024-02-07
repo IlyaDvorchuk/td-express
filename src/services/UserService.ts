@@ -11,6 +11,7 @@ import {ISellerByUser} from "../models/response/ISellerByUser";
 import {IComment, ICommentRes} from "../models/IComment";
 import {IDeliveryCityCart} from "../models/IDeliveryCity";
 import {IDeliveryPoint2} from "../models/IDeliveryPoint";
+import {IFeedback} from "../models/IFeedback";
 
 export class UserService {
     static async fetchUser(): Promise<AxiosResponse<IUser[]>> {
@@ -92,6 +93,10 @@ export class UserService {
 
     static getCommentsByProduct(productId: string): Promise<AxiosResponse<ICommentRes[]>> {
         return $api.get<ICommentRes[]>(`${API_URL}reviews/${productId}`)
+    }
+
+    static createFeedback(feedback: IFeedback): Promise<AxiosResponse<ISellerByUser>> {
+        return $api.post<ISellerByUser>(`${API_URL}feedback`, feedback)
     }
 
     static getDeliveryCart(

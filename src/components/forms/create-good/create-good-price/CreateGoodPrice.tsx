@@ -68,7 +68,7 @@ const CreateGoodPrice = ({isClothes, card}: IProps) => {
                 </div>
                 {!isClothes && <div className="description__block">
                     <label className="label" htmlFor="quantityInStock">
-                        Количество на складе (единиц в наличии)
+                        Количество на складе (единиц в наличии)*
                     </label>
                     <input
                         id="quantityInStock"

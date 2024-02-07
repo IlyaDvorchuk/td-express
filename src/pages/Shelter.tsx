@@ -16,7 +16,10 @@ const Shelter = () => {
     const accessToken = useAppSelector((state) => state.shelterReducer.accessToken);
 
     useEffect(() => {
-        // console.log('shelter isObjectEmpty', shelter)
+        if (!localStorage.getItem('isFeedback')) {
+            localStorage.setItem('isFeedback', 'isFeedback')
+        }
+
         if ((localStorage.getItem('access_token_shelter') !== null) && isObjectEmpty(shelter)) {
             dispatch(getShelter())
         }

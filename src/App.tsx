@@ -52,11 +52,17 @@ function App() {
     const accessToken = useAppSelector((state) => state.shelterReducer.accessToken);
     const dispatch = useAppDispatch();
     const {setLogoutSuccess} = shelterSlice.actions
-    const {setIsLoaded} = userSlice.actions
+    const {setIsLoaded, setIsFeedbackModal} = userSlice.actions
     const windowWidth = useWindowWidth();
     const {user, isLoaded} = useAppSelector(state => state.userReducer)
 
     useEffect(() => {
+        if (!localStorage.getItem('isFeedback')) {
+            setTimeout(() => {
+                dispatch(setIsFeedbackModal(true))
+                localStorage.setItem('isFeedback', 'isFeedback')
+            }, 90000)
+        }
 
         if ((localStorage.getItem('access_token_user') !== null) && isObjectEmpty(user)) {
             dispatch(getUser())
@@ -66,6 +72,7 @@ function App() {
         }
 
     }, [])
+
 
     useEffect(() => {
         const token = getAccessTokenShelter();
