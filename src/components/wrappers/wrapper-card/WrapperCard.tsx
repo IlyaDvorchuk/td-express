@@ -12,7 +12,7 @@ interface IWRapperCard {
         currentPage: number,
         totalItems: number,
         cardsPerPage: number
-    }
+    } | null
 }
 
 const WrapperCard = ({ children, cardsLength, handleButtonClick, limit, pagination }: IWRapperCard) => {

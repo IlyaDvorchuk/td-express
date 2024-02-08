@@ -38,8 +38,9 @@ const CreateGoodSizes = ({ options, selectedOptions, setSelectedOptions, cardQua
     };
 
     useEffect(() => {
-        if (cardQuantity) {
-            setSelectedOptions(cardQuantity.filter(type => type).map(type => type.size))
+        if (cardQuantity && cardQuantity[0]?.size) {
+            // @ts-ignore
+            setSelectedOptions(cardQuantity.filter(type => type?.size).map(type => type.size))
         }
     }, [cardQuantity])
 

@@ -146,7 +146,7 @@ const BoxGood = ({card} : {card: IProductCardRes}) => {
     }, [card.shelterId])
 
     useEffect(() => {
-        if (activeSize === '' && cardTypes?.sizes.length > 0) {
+        if (activeSize === '' && cardTypes?.sizes[0] && cardTypes?.sizes.length > 0) {
             setActiveSize(cardTypes?.sizes[0])
         }
     }, [cardTypes?.sizes, activeSize])
@@ -161,8 +161,8 @@ const BoxGood = ({card} : {card: IProductCardRes}) => {
                         sizes: sizesColor
                     }
                 })
-                if (sizesColor.includes(activeSize)) return
-                setActiveSize(sizesColor[0])
+                if (sizesColor.includes(activeSize) || !sizesColor[0]) return
+                setActiveSize(sizesColor[0] )
             }
         }
     }, [activeColor])
@@ -199,7 +199,8 @@ const BoxGood = ({card} : {card: IProductCardRes}) => {
     //     }
     // };
 
-    const onSetSize = (size: string) => {
+    const onSetSize = (size: string | undefined) => {
+        if (!size) return
         setActiveSize(size)
         // setQuantity(size.quantity)
     }

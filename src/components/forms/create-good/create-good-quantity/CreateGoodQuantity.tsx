@@ -6,12 +6,12 @@ import {IColor, ISelectedColor} from "../../../../models/IColor";
 interface Props {
     sizes: string[],
     selectedColors: ISelectedColor[],
-    inputValues: IType[],
     setInputValues: Dispatch<SetStateAction<IType[]>>;
     cardQuantity: IType[] | null
+    isTypeClothes: boolean | null
 }
 
-const CreateGoodQuantity = ({sizes, inputValues,  setInputValues, cardQuantity, selectedColors}: Props) => {
+const CreateGoodQuantity = ({sizes, setInputValues, cardQuantity, selectedColors, isTypeClothes}: Props) => {
 
     useEffect(() => {
         if (cardQuantity) {
@@ -20,44 +20,59 @@ const CreateGoodQuantity = ({sizes, inputValues,  setInputValues, cardQuantity, 
     }, [])
 
     const types = useMemo(() => {
-        if (!sizes) return [];
 
+        if (isTypeClothes) {
+            if (!sizes) return [];
 
-        if (!selectedColors || selectedColors.length === 0) {
-            return sizes.map(size => ({ size, color: null }));
-        }
-
-        const combinedTypes: any[] = [];
-
-        const uniqueSizes = [...new Set(sizes)];
-
-
-        for (const size of uniqueSizes) {
-            for (const colorObj of selectedColors) {
-                combinedTypes.push({
-                    size,
-                    color: {
-                        color: colorObj.color,
-                        name: colorObj.name,
-                        _id: colorObj._id,
-                        image: colorObj?.image
-                    } || null, // Здесь вы можете использовать значение по умолчанию
-                });
+            if (!selectedColors || selectedColors.length === 0) {
+                return sizes.map(size => ({ size, color: null }));
             }
-        }
-        const newInputValues = inputValues.map((currentInputValue, index) => {
-            const type = combinedTypes[index]; // Соответствующий элемент в types
-            // В этой логике вы можете обновить quantity или другие свойства inputValues
-                return {
-                    size: type?.size,
-                    quantity: currentInputValue.quantity,
-                    color: type?.color,
-                };
 
-        });
-        setInputValues(newInputValues);
-        return combinedTypes;
-    }, [ sizes, selectedColors]);
+            const combinedTypes: any[] = [];
+
+            const uniqueSizes = [...new Set(sizes)];
+
+
+            for (const size of uniqueSizes) {
+                for (const colorObj of selectedColors) {
+                    combinedTypes.push({
+                        size,
+                        color: {
+                            color: colorObj.color,
+                            name: colorObj.name,
+                            _id: colorObj._id,
+                            image: colorObj?.image
+                        } || null, // Здесь вы можете использовать значение по умолчанию
+                    });
+                }
+            }
+
+            setInputValues(combinedTypes);
+            return combinedTypes;
+        } else {
+
+            if (selectedColors.length === 0) {
+                return [
+                    {}
+                ]
+            }
+            const combinedTypes: any[] = [];
+                for (const colorObj of selectedColors) {
+                    combinedTypes.push({
+                        color: {
+                            color: colorObj.color,
+                            name: colorObj.name,
+                            _id: colorObj._id,
+                            image: colorObj?.image
+                        } || null, // Здесь вы можете использовать значение по умолчанию
+                    });
+                }
+
+            setInputValues(combinedTypes);
+            return combinedTypes;
+        }
+
+    }, [ sizes, selectedColors, isTypeClothes]);
 
     const handleChange = (event: ChangeEvent<HTMLInputElement>, type: { size: string; color: IColor | null; } | IType, index: number) => {
         const newValue = event.target.value;
@@ -77,8 +92,9 @@ const CreateGoodQuantity = ({sizes, inputValues,  setInputValues, cardQuantity, 
 
 
     useEffect(() => {
-        console.log('selectedColors', selectedColors)
-    }, [selectedColors])
+
+        console.log('types', types)
+    }, [types])
 
     return (
         <div>
@@ -89,13 +105,17 @@ const CreateGoodQuantity = ({sizes, inputValues,  setInputValues, cardQuantity, 
                 {types.map((item, index) => (
                     <div key={index} className={'quantity'}>
                         <div className={'quantities__size'}>
-                            Размер: <b>{item.size}</b>
+                            {item?.size && <>
+                                <span>Размер:</span> <b>{item.size}</b>
+                            </>}
+
                             {item?.color && (
                                 <>
-                                    , Цвет: <b>{item.color.name}</b>
+                                {item?.size &&<span>, </span>} Цвет: <b>{item.color.name}</b>
                                 </>
                             )}
-                            *
+                            {(item?.size || item?.color) && <span>*</span>}
+
                         </div>
                         <div>
                             <label htmlFor={`input-${index}`} className={'label'}>

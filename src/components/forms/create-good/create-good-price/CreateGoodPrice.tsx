@@ -1,4 +1,4 @@
-import {ChangeEvent, useEffect, useState} from 'react';
+import {ChangeEvent, useState} from 'react';
 import './create-good-price.scss'
 import { useFormContext } from 'react-hook-form';
 import {IProductCard} from "../../../../models/IProductCard";
@@ -9,20 +9,10 @@ interface IProps {
     card: IProductCard | null
 }
 
-const CreateGoodPrice = ({isClothes, card}: IProps) => {
+const CreateGoodPrice = ({card}: IProps) => {
     const [priceValue, setPriceValue] = useState('')
     const [priceDiscountValue, setPriceDiscountValue] = useState('')
-    const [quantityInStockValue, setQuantityInStockValue] = useState('')
     const { register, formState: { errors } } = useFormContext();
-
-    useEffect(() => {
-        if (card) {
-            setPriceValue(card.pricesAndQuantity.price.toString())
-            if (card.pricesAndQuantity.priceBeforeDiscount) {
-                setPriceDiscountValue(card.pricesAndQuantity.priceBeforeDiscount.toString())
-            }
-        }
-    }, [card]);
 
     const validationInput = (e: ChangeEvent<HTMLInputElement>, input: string) => {
         const validInput = ValidateNumberInput.getValidInput(e.target.value)
@@ -31,8 +21,6 @@ const CreateGoodPrice = ({isClothes, card}: IProps) => {
             setPriceValue(inputValue)
         } else if (input === 'priceDiscount') {
             setPriceDiscountValue(inputValue)
-        } else if (input === 'quantityInStock') {
-            setQuantityInStockValue(inputValue)
         }
     }
 
@@ -66,19 +54,6 @@ const CreateGoodPrice = ({isClothes, card}: IProps) => {
                         onChange={(e) => validationInput(e, 'priceDiscount')}
                     />
                 </div>
-                {!isClothes && <div className="description__block">
-                    <label className="label" htmlFor="quantityInStock">
-                        Количество на складе (единиц в наличии)*
-                    </label>
-                    <input
-                        id="quantityInStock"
-                        className="modalInput description__input good-price__input"
-                        defaultValue={card ? card.pricesAndQuantity.quantity : ''}
-                        {...register('quantityInStock')}
-                        value={quantityInStockValue}
-                        onChange={(e) => validationInput(e, 'quantityInStock')}
-                    />
-                </div>}
             </div>
         </>
     );

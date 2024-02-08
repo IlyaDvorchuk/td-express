@@ -16,9 +16,10 @@ interface CategoryCardsProps {
     title?: string;
     limit: number;
     isFilter?: boolean
+    isPagination?: boolean
 }
 
-const CategoryCards = ({ id, title, limit, isFilter = false }: CategoryCardsProps) => {
+const CategoryCards = ({ id, title, limit, isFilter = false, isPagination = false }: CategoryCardsProps) => {
     const { id: paramsId } = useParams();
     const {
         currentMinPrice, currentMaxPrice, isChange, colors, isReset
@@ -126,11 +127,11 @@ const CategoryCards = ({ id, title, limit, isFilter = false }: CategoryCardsProp
             <WrapperCard
                 cardsLength={categoryCards.length}
                 handleButtonClick={handleButtonClick} limit={limit}
-                pagination={{
+                pagination={isPagination ? {
                     currentPage: page,
                     totalItems: totalCount,
                     cardsPerPage: limit
-                }}
+                } : null}
             >
                 {categoryCards.length > 0 && categoryCards.map((card, index) => <ProductCard card={card} key={index} />)}
                 {categoryCards.length === 0 && !id && <BoxNotFoundCategory/>}

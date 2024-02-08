@@ -170,7 +170,6 @@ const FormCreateGood = ({card} : {card: IProductCardRes | null}) => {
     }, [parentSelectedCategory, parentSelectedSubCategory])
 
     const onSubmit = async (data: any) => {
-        console.log('parentSelectedSubCategory', parentSelectedSubCategory)
         if ((!generalImage && !card?.mainPhoto)
             || additionalImages.length === 0
             || !parentSelectedCategory
@@ -279,7 +278,6 @@ const FormCreateGood = ({card} : {card: IProductCardRes | null}) => {
         } else if (SIZES_SHOE_ID.includes(id)) {
             return SIZES_SHOE
         } else if (SIZES_SHOE_KIND_ID === id) {
-            console.log('kind')
             return SIZES_SHOE_KIND
         } else return SIZES_CLOTHES_KIND
 
@@ -366,10 +364,10 @@ const FormCreateGood = ({card} : {card: IProductCardRes | null}) => {
                         <hr className={'create__divider'}/>
                         <CreateGoodQuantity
                             sizes={selectedSizes}
-                            inputValues={quantitySizes}
                             setInputValues={setQuantitySizes}
                             cardQuantity={card?.typeQuantity ? card.typeQuantity : null}
                             selectedColors={selectedColors}
+                            isTypeClothes={isTypesClothes}
                         />
                     </>
                 )}
