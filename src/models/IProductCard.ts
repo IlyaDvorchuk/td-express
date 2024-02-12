@@ -70,11 +70,6 @@ export interface IProductCardRes extends IProductCard {
     updatedAt: string,
     shelterId: string,
     isReject: boolean,
-    colors?: ({
-        image: string,
-        name: string,
-        color: string,
-    })[] | []
     typeQuantity?: ITypeRes[],
     currentType?: ITypeRes,
     deliveryCities: IDeliveryCity[],

@@ -12,5 +12,14 @@ export interface ISelectedColor extends IColor {
 export type ColorImage = {
     image: File | string | undefined,
     name: string,
-    color?: string
+    color?: string,
+    dialColor?: {
+        name?: string,
+        color?: string,
+    }
+
+}
+
+export interface IWatchColor {
+    strapColor: IColor | null, dialColor: IColor | null
 }

@@ -27,7 +27,7 @@ import CreateGoodSizes from "./create-good-sizes/CreateGoodSizes";
 import CreateGoodQuantity from "./create-good-quantity/CreateGoodQuantity";
 import {shelterSlice} from "../../../store/reducers/shelter/ShelterSlice";
 import CreateGoodColors from "./create-good-colors/CreateGoodColors";
-import {ColorImage, IColor} from "../../../models/IColor";
+import {ColorImage, IColor, IWatchColor} from "../../../models/IColor";
 import {fileToBase64} from "../../../utils/fileToBase64";
 import CreateGoodSex from "./create-good-sex/CreateGoodSex";
 
@@ -62,6 +62,12 @@ const FormCreateGood = ({card} : {card: IProductCardRes | null}) => {
     })
     const [sizesError, setSizesError] = useState(false)
     const [sex, setSex] = useState('')
+    const [watchColors, setWatchColors] = useState<IWatchColor[]>([
+        {
+            strapColor: null,
+            dialColor: null
+        }
+    ])
 
 
     useEffect(() => {
@@ -165,8 +171,10 @@ const FormCreateGood = ({card} : {card: IProductCardRes | null}) => {
             if (!parentSelectedSubCategory) return ''
             if (parentSelectedSubCategory.name === 'Кошельки и картхолдеры') {
                 return 'wallets'
-            } else return 'bags'
-        } else return 'clothes'
+            } else if (parentSelectedSubCategory?.name === 'Часы') {
+                return 'watch'
+            }  else return 'bags'
+        }return 'clothes'
     }, [parentSelectedCategory, parentSelectedSubCategory])
 
     const onSubmit = async (data: any) => {
@@ -179,7 +187,7 @@ const FormCreateGood = ({card} : {card: IProductCardRes | null}) => {
         ) {
             window.scrollTo({top: 0, behavior: 'smooth'})
             return
-        };
+        }
 
         try {
             const points = Object.keys(data)
@@ -284,6 +292,10 @@ const FormCreateGood = ({card} : {card: IProductCardRes | null}) => {
 
     }, [parentSelectedCategory])
 
+    useEffect(() => {
+        console.log('typeGood', typeGood)
+    }, [typeGood])
+
     return (
         <FormProvider {...methods}>
             <form className={'create'} onSubmit={methods.handleSubmit(onSubmit)}>
@@ -339,6 +351,9 @@ const FormCreateGood = ({card} : {card: IProductCardRes | null}) => {
                     selectedColors={selectedColors}
                     setSelectedColors={setSelectedColors}
                     typesCard={card?.typeQuantity}
+                    isWatch={typeGood === 'watch'}
+                    watchColors={watchColors}
+                    setWatchColors={setWatchColors}
                 />
                 <hr className={'create__divider'}/>
                 <CreateGoodPhotos
@@ -351,7 +366,8 @@ const FormCreateGood = ({card} : {card: IProductCardRes | null}) => {
                     colorImages={colorImages}
                     setColorImages={setColorImages}
                     photosErrors={photosErrors}
-
+                    selectedWatchColors={watchColors}
+                    isWatch={typeGood === 'watch'}
                 />
                 {typeGood && <>
                     <hr className={'create__divider'}/>

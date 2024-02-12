@@ -1,13 +1,11 @@
 import { useFormContext } from 'react-hook-form';
-import {useEffect, useState} from "react";
 
 interface IProps {
-    type: 'clothes'| "wallets" | "bags"
+    type: 'clothes'| "wallets" | "bags" | 'watch'
 }
 
 const CreateGoodAdditional = ({type}: IProps) => {
     const { register } = useFormContext();
-    const [isNotChecked, setIsNotChecked] = useState(false)
 
     // const material = watch('material');
     // const recommendations = watch('recommendations');
@@ -15,12 +13,6 @@ const CreateGoodAdditional = ({type}: IProps) => {
     // useEffect(() => {
     //     // Действия, которые необходимо выполнить при изменении значений полей
     // }, [material, recommendations]);
-
-    useEffect(() => {
-        if (isNotChecked) {
-
-        }
-    }, [isNotChecked])
 
     // const onChecked = () => {
     //     setIsNotChecked(!isNotChecked)

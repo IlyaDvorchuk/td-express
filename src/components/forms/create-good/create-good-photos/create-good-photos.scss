@@ -12,8 +12,6 @@
     font-weight: 400;
     font-size: $bigMediumSize;
     margin-bottom: 8px;
-
-
   }
 
   & .annotation {
@@ -28,24 +26,9 @@
     width: min-content;
   }
 
-  & .select-color {
-    margin-bottom: 12px;
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    padding: 8px 12px 8px;
-    min-width: 165px;
-    border: 1.5px solid $additionalColor;
-    border-radius: 15px;
-  }
-
-  & .color-example {
-    @extend %color-example
-  }
-
-  & .color-text {
-    font-size: $littleMediumSize;
-    color: $text2Color;
+  & .photo-header {
+    @include flex();
+    gap: 21px;
   }
 }
 
@@ -119,6 +102,32 @@
   display: flex;
   flex-wrap: wrap;
   gap: 12px;
-
-
 }
+
+.select-color {
+  margin-bottom: 12px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px 8px;
+  min-width: 165px;
+  border: 1.5px solid $additionalColor;
+  border-radius: 15px;
+
+  & &__add {
+    font-family: 'Nunito Sans', sans-serif;
+    font-size: 12.6px;
+    color: $additionalColor;
+    margin-left: 17px;
+    cursor: pointer;
+  }
+}
+.color-example {
+  @extend %color-example;
+}
+
+.color-text {
+  font-size: $littleMediumSize;
+  color: $text2Color;
+}
+

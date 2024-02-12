@@ -11,7 +11,26 @@
     max-width: 224px;
   }
 
+  & &__header {
+    @include flex(space-between, center)
+  }
 
+  & &__subtitle {
+    margin-left: 10px;
+    margin-bottom: 12px;
+    font-weight: 400;
+    font-size: $littleMediumSize;
+    color: $text4Color;
+  }
+
+  & &__cancel {
+    cursor: pointer;
+  }
+
+  & &__watch-color {
+    @include flex();
+    gap: 21px;
+  }
 
   & &__modal {
     max-height: 76vh;
