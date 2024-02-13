@@ -284,6 +284,10 @@ const BoxGood = ({card} : {card: IProductCardRes}) => {
         setActiveColor(str)
     }
 
+    useEffect(() => {
+        console.log('cardTypes', cardTypes)
+    }, [cardTypes])
+
     return (
         <div className={'good'}>
             {card.categories.category?.name && <div className={'good__categories'}>
@@ -411,7 +415,7 @@ const BoxGood = ({card} : {card: IProductCardRes}) => {
                         {/*</div>*/}
 
                     </div>}
-                    {cardTypes.sizes && <div className={'good-information__sizes'}>
+                    {cardTypes.sizes && cardTypes.sizes.filter(type => type).length > 0 && <div className={'good-information__sizes'}>
                         <p className={'good-information__subtitle'}>Размер: {activeSize}</p>
                         <div className={'sizes'}>
                             {cardTypes.sizes.map((size, index) => (

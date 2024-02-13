@@ -62,6 +62,69 @@ const BoxGoodInformation = ({card} : {card: IProductCard}) => {
                         <span className={'good-additional__border'}/>
                         <span className={'good-additional__value'}>{card.additionalInformation?.recommendations}</span>
                     </div>}
+                    {card.additionalInformation?.brand && <div className={'good-additional__p'}>
+                        <span className={'good-additional__name'}>
+                            Бренд
+                        </span>
+                        <span className={'good-additional__border'}/>
+                        <span className={'good-additional__value'}>{card.additionalInformation?.brand}</span>
+                    </div>}
+                    {card.additionalInformation?.upperMaterial && <div className={'good-additional__p'}>
+                        <span className={'good-additional__name'}>
+                            Материал верха
+                        </span>
+                        <span className={'good-additional__border'}/>
+                        <span className={'good-additional__value'}>{card.additionalInformation?.upperMaterial}</span>
+                    </div>}
+                    {card.additionalInformation?.liningMaterial && <div className={'good-additional__p'}>
+                        <span className={'good-additional__name'}>
+                            Материал подкладки
+                        </span>
+                        <span className={'good-additional__border'}/>
+                        <span className={'good-additional__value'}>{card.additionalInformation?.liningMaterial}</span>
+                    </div>}
+                    {card.additionalInformation?.accessoriesColor && <div className={'good-additional__p'}>
+                        <span className={'good-additional__name'}>
+                            Цвет фурнитуры
+                        </span>
+                        <span className={'good-additional__border'}/>
+                        <span className={'good-additional__value'}>{card.additionalInformation?.accessoriesColor}</span>
+                    </div>}
+                    {card.additionalInformation?.claspType && <div className={'good-additional__p'}>
+                        <span className={'good-additional__name'}>
+                            Вид застежки
+                        </span>
+                        <span className={'good-additional__border'}/>
+                        <span className={'good-additional__value'}>{card.additionalInformation?.claspType}</span>
+                    </div>}
+                    {card.additionalInformation?.numberOfBranches && <div className={'good-additional__p'}>
+                        <span className={'good-additional__name'}>
+                            Количество отделений
+                        </span>
+                        <span className={'good-additional__border'}/>
+                        <span className={'good-additional__value'}>{card.additionalInformation?.numberOfBranches}</span>
+                    </div>}
+                    {card.additionalInformation?.pockets && <div className={'good-additional__p'}>
+                        <span className={'good-additional__name'}>
+                            Карманы
+                        </span>
+                        <span className={'good-additional__border'}/>
+                        <span className={'good-additional__value'}>{card.additionalInformation?.pockets}</span>
+                    </div>}
+                    {card.additionalInformation?.decorativeElements && <div className={'good-additional__p'}>
+                        <span className={'good-additional__name'}>
+                            Декоративные элементы
+                        </span>
+                        <span className={'good-additional__border'}/>
+                        <span className={'good-additional__value'}>{card.additionalInformation?.decorativeElements}</span>
+                    </div>}
+                    {card.additionalInformation?.countryOfOrigin && <div className={'good-additional__p'}>
+                        <span className={'good-additional__name'}>
+                            Страна производства
+                        </span>
+                        <span className={'good-additional__border'}/>
+                        <span className={'good-additional__value'}>{card.additionalInformation?.countryOfOrigin}</span>
+                    </div>}
                 </div>
             }
             {activeTab === 2 && <BoxReviews productId={card._id}/>}
