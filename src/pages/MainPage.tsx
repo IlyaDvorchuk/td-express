@@ -28,7 +28,7 @@ const MainPage = () => {
                 <HotCards limit={12}/>
                 <NewCards limit={12}/>
                 {/*<SpeciallyCards/>*/}
-                {categories.filter(category => category.name !== 'Аксессуары').filter(category => category.productCards.length > 0).map(category => (
+                {categories.filter(category => category.productCards.length > 0).map(category => (
 
                     <>
                         {category.productCards.length > 0 &&

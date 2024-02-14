@@ -86,7 +86,7 @@ const Header = () => {
                     {isUserModal && (windowWidth > 690) && !getAccessTokenUser() && <ModalLogin/>}
                 </div>
                 <div className={'header__row-3'}>
-                    {categories.filter(category => category.name !== 'Аксессуары').map((category) => (
+                    {categories.map((category) => (
                         <Link key={category.name} to={`/category/${category._id}`}>{category.name}</Link>
                     ))}
                 </div>

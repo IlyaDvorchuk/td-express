@@ -54,7 +54,7 @@ const Menu = () => {
             <div className={`menu ${isPressed && 'active'}`}>
                 <div className={'main-categories'}>
                     {
-                        categories.filter(category => category.name !== 'Аксессуары').map((categ, index) => (
+                        categories.map((categ, index) => (
                             <Link
                                 to={`/category/${categ._id}`}
                                 onMouseEnter={() => onSelectCategory(index)}
