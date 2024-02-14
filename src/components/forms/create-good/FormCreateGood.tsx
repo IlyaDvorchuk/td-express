@@ -13,7 +13,6 @@ import {ICategory, ISection, ISubcategory} from "../../../models/ICategories";
 import {useForm, FormProvider} from "react-hook-form";
 import {useAppDispatch, useAppSelector} from "../../../hooks/redux";
 import {IProductCard, IProductCardRes, IType} from "../../../models/IProductCard";
-import {createProductCard, updateProductCard} from "../../../store/reducers/shelter/ShelterCreator";
 import {Link, useNavigate} from "react-router-dom";
 import {
     SIZES_CLOTHES,
@@ -69,6 +68,9 @@ const FormCreateGood = ({card} : {card: IProductCardRes | null}) => {
         }
     ])
 
+    useEffect(() => {
+        console.log('quantitySizes', quantitySizes)
+    }, [quantitySizes])
 
     useEffect(() => {
         if (card) {
@@ -209,7 +211,7 @@ const FormCreateGood = ({card} : {card: IProductCardRes | null}) => {
                     }
                 })
             );
-
+            console.log('quantitySizes', quantitySizes)
             const good = {
                 categories: {
                     category: {
@@ -261,11 +263,11 @@ const FormCreateGood = ({card} : {card: IProductCardRes | null}) => {
                 colors: imageColorsWithBase64
             } as IProductCard
             if (card) {
-                dispatch(updateProductCard(good, card._id, generalImage || card.mainPhoto, additionalImages ? additionalImages : []))
+                // dispatch(updateProductCard(good, card._id, generalImage || card.mainPhoto, additionalImages ? additionalImages : []))
                 return
             }
             // @ts-ignore
-            dispatch(createProductCard(good, generalImage, additionalImages ? additionalImages : [], imageColorsWithBase64))
+            // dispatch(createProductCard(good, generalImage, additionalImages ? additionalImages : [], imageColorsWithBase64))
 
         } catch (error) {
             console.error('Error create good:', error);
@@ -380,6 +382,7 @@ const FormCreateGood = ({card} : {card: IProductCardRes | null}) => {
                         <hr className={'create__divider'}/>
                         <CreateGoodQuantity
                             sizes={selectedSizes}
+                            inputValues={quantitySizes}
                             setInputValues={setQuantitySizes}
                             cardQuantity={card?.typeQuantity ? card.typeQuantity : null}
                             selectedColors={selectedColors}

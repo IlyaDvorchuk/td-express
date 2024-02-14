@@ -6,12 +6,13 @@ import {IColor, ISelectedColor} from "../../../../models/IColor";
 interface Props {
     sizes: string[],
     selectedColors: ISelectedColor[],
+    inputValues: IType[];
     setInputValues: Dispatch<SetStateAction<IType[]>>;
     cardQuantity: IType[] | null
     isTypeClothes: boolean | null
 }
 
-const CreateGoodQuantity = ({sizes, setInputValues, cardQuantity, selectedColors, isTypeClothes}: Props) => {
+const CreateGoodQuantity = ({sizes, inputValues, setInputValues, cardQuantity, selectedColors, isTypeClothes}: Props) => {
 
     useEffect(() => {
         if (cardQuantity) {
@@ -20,8 +21,8 @@ const CreateGoodQuantity = ({sizes, setInputValues, cardQuantity, selectedColors
     }, [])
 
     const types = useMemo(() => {
-
         if (isTypeClothes) {
+
             if (!sizes) return [];
 
             if (!selectedColors || selectedColors.length === 0) {
@@ -31,7 +32,6 @@ const CreateGoodQuantity = ({sizes, setInputValues, cardQuantity, selectedColors
             const combinedTypes: any[] = [];
 
             const uniqueSizes = [...new Set(sizes)];
-
 
             for (const size of uniqueSizes) {
                 for (const colorObj of selectedColors) {
@@ -46,7 +46,12 @@ const CreateGoodQuantity = ({sizes, setInputValues, cardQuantity, selectedColors
                     });
                 }
             }
-
+            for (let i = 0; i < combinedTypes.length; i++) {
+                const input = inputValues.find(input => input.size === combinedTypes[i].size && input.color?.name === combinedTypes[i].color?.name)
+                if (input) {
+                    combinedTypes[i].quantity = input.quantity
+                }
+            }
             setInputValues(combinedTypes);
             return combinedTypes;
         } else {
@@ -67,12 +72,17 @@ const CreateGoodQuantity = ({sizes, setInputValues, cardQuantity, selectedColors
                         } || null, // Здесь вы можете использовать значение по умолчанию
                     });
                 }
-
+            for (let i = 0; i < combinedTypes.length; i++) {
+                const input = inputValues.find(input => input.color?.name === combinedTypes[i].color?.name)
+                if (input) {
+                    combinedTypes[i].quantity = input.quantity
+                }
+            }
             setInputValues(combinedTypes);
             return combinedTypes;
         }
 
-    }, [ sizes, selectedColors, isTypeClothes]);
+    }, [cardQuantity, sizes, selectedColors, isTypeClothes]);
 
     const handleChange = (event: ChangeEvent<HTMLInputElement>, type: { size: string; color: IColor | null; } | IType, index: number) => {
         const newValue = event.target.value;
@@ -90,19 +100,13 @@ const CreateGoodQuantity = ({sizes, setInputValues, cardQuantity, selectedColors
         }
     }
 
-
-    useEffect(() => {
-
-        console.log('types', types)
-    }, [types])
-
     return (
         <div>
             <h3 className="subtitle">
                 Наличие товара на складе
             </h3>
             <div className={'quantities'}>
-                {types.map((item, index) => (
+                {types && types.map((item, index) => (
                     <div key={index} className={'quantity'}>
                         <div className={'quantities__size'}>
                             {item?.size && <>

@@ -1,4 +1,4 @@
-import {ChangeEvent, useState} from 'react';
+import {ChangeEvent, useEffect, useState} from 'react';
 import './create-good-price.scss'
 import { useFormContext } from 'react-hook-form';
 import {IProductCard} from "../../../../models/IProductCard";
@@ -13,6 +13,15 @@ const CreateGoodPrice = ({card}: IProps) => {
     const [priceValue, setPriceValue] = useState('')
     const [priceDiscountValue, setPriceDiscountValue] = useState('')
     const { register, formState: { errors } } = useFormContext();
+
+    useEffect(() => {
+        if (card) {
+            setPriceValue(card.pricesAndQuantity.price.toString())
+            if (card.pricesAndQuantity?.priceBeforeDiscount) {
+                setPriceDiscountValue(card.pricesAndQuantity?.priceBeforeDiscount.toString())
+            }
+        }
+    }, [card])
 
     const validationInput = (e: ChangeEvent<HTMLInputElement>, input: string) => {
         const validInput = ValidateNumberInput.getValidInput(e.target.value)
@@ -35,7 +44,6 @@ const CreateGoodPrice = ({card}: IProps) => {
                     <input
                         id="price"
                         className={`modalInput description__input good-price__input  ${errors.name ? 'error' : ''}`}
-                        defaultValue={card ? card.pricesAndQuantity.price : ''}
                         {...register('price', { required: 'Введите название товара' })}
                         value={priceValue}
                         onChange={(e) => validationInput(e, 'price')}
@@ -48,7 +56,6 @@ const CreateGoodPrice = ({card}: IProps) => {
                     <input
                         id="priceDiscount"
                         className="modalInput description__input good-price__input"
-                        defaultValue={card ? card.pricesAndQuantity.priceBeforeDiscount : ''}
                         {...register('priceDiscount')}
                         value={priceDiscountValue}
                         onChange={(e) => validationInput(e, 'priceDiscount')}
