@@ -29,6 +29,7 @@ import CreateGoodColors from "./create-good-colors/CreateGoodColors";
 import {ColorImage, IColor, IWatchColor} from "../../../models/IColor";
 import {fileToBase64} from "../../../utils/fileToBase64";
 import CreateGoodSex from "./create-good-sex/CreateGoodSex";
+import {createProductCard, updateProductCard} from "../../../store/reducers/shelter/ShelterCreator";
 
 const FormCreateGood = ({card} : {card: IProductCardRes | null}) => {
     const navigation = useNavigate()
@@ -68,9 +69,9 @@ const FormCreateGood = ({card} : {card: IProductCardRes | null}) => {
         }
     ])
 
-    useEffect(() => {
-        console.log('quantitySizes', quantitySizes)
-    }, [quantitySizes])
+    // useEffect(() => {
+    //     console.log('quantitySizes', quantitySizes)
+    // }, [quantitySizes])
 
     useEffect(() => {
         if (card) {
@@ -263,11 +264,11 @@ const FormCreateGood = ({card} : {card: IProductCardRes | null}) => {
                 colors: imageColorsWithBase64
             } as IProductCard
             if (card) {
-                // dispatch(updateProductCard(good, card._id, generalImage || card.mainPhoto, additionalImages ? additionalImages : []))
+                dispatch(updateProductCard(good, card._id, generalImage || card.mainPhoto, additionalImages ? additionalImages : []))
                 return
             }
-            // @ts-ignore
-            // dispatch(createProductCard(good, generalImage, additionalImages ? additionalImages : [], imageColorsWithBase64))
+            //@ts-ignore
+            dispatch(createProductCard(good, generalImage, additionalImages ? additionalImages : [], imageColorsWithBase64))
 
         } catch (error) {
             console.error('Error create good:', error);

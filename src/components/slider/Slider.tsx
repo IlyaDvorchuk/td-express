@@ -37,6 +37,11 @@ const Slider = () => {
                 }}
             >
                 <SwiperSlide className={'slider__item'}>
+                    <Link to={'category/648b5f94d935cd57a56b2fd7'}>
+                        <img src="/images/slider/men-23.png" alt=""/>
+                    </Link>
+                </SwiperSlide>
+                <SwiperSlide className={'slider__item'}>
                     <img src="/images/slider/slider-main.png" alt=""/>
                 </SwiperSlide>
                 <SwiperSlide className={'slider__item'}>
